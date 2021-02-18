@@ -1,0 +1,39 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Baraka"
+        xmlns:UserControls="clr-namespace:Baraka.Theme.UserControls"
+        xmlns:Player="clr-namespace:Baraka.Theme.UserControls.Player"
+        x:Class="Baraka.MainWindow"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        MouseMove="Window_MouseMove"
+        Title="Baraka"
+        Height="800"
+        Width="1200">
+
+    <DockPanel LastChildFill="True">
+        <!-- Top Grid -->
+        <Grid DockPanel.Dock="Top" x:Name="TopGrid" Background="{StaticResource DarkBrush}" VerticalAlignment="Top" Height="70">
+            <Canvas x:Name="CloseFormCanvas" Width="24" Height="24" HorizontalAlignment="Right" Margin="0,0,30,0" MouseEnter="CloseFormCanvas_MouseEnter" MouseLeave="CloseFormCanvas_MouseLeave" Background="{StaticResource DarkBrush}" PreviewMouseUp="CloseFormCanvas_PreviewMouseUp" >
+                <Path x:Name="CloseFormPath" Data="{Binding Data, Source={StaticResource Cross}}" Stretch="Fill" Fill="#FFDEDEDE" >
+                    <Path.Effect>
+                        <DropShadowEffect ShadowDepth="2" Opacity="0.3"/>
+                    </Path.Effect>
+                </Path>
+            </Canvas>
+        </Grid>
+
+        <!-- Form content -->
+        <Grid x:Name="MainGrid" DockPanel.Dock="Bottom" Background="{DynamicResource LightBrush}">
+            <UserControls:BarakaTextBox HorizontalAlignment="Left" Height="59.334" Margin="732.05,19.328,0,0" VerticalAlignment="Top" Width="429.499"/>
+            <Player:BarakaPlayer HorizontalAlignment="Left" Height="396.667" Margin="291,334.5,0,-1.167" VerticalAlignment="Top" Width="665.667"/>
+            <UserControls:BarakaScrollBar HorizontalAlignment="Left" Height="422.5" VerticalAlignment="Top" Width="100"/>
+
+            <!--<UserControls:BarakaPlayer Height="321" VerticalAlignment="Top" Width="Auto" Margin="336.5,409,284,0"/>-->
+        </Grid>
+    </DockPanel>
+</Window>

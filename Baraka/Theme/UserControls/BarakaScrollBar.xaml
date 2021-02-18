@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="Baraka.Theme.UserControls.BarakaScrollBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Baraka.Theme.UserControls"
+             mc:Ignorable="d" Width="36.029" SizeChanged="UserControl_SizeChanged" MouseMove="UserControl_MouseMove" MouseUp="UserControl_MouseUp" Height="199.168" MouseLeave="UserControl_MouseLeave" Loaded="UserControl_Loaded">
+    <Grid d:IsEffectDisabled="True">
+        <!-- Background -->
+        <Rectangle x:Name="BackgroundRect" Fill="#FFB6B6B5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RadiusY="15.333" RadiusX="15.333" Grid.RowSpan="2" PreviewMouseLeftButtonDown="BackgroundRect_PreviewMouseLeftButtonDown"/>
+
+
+        <!-- Thumb -->
+        <Grid x:Name="ScrollGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Margin="0,4">
+            <Grid x:Name="ThumbGrid" Height="62.5" MouseDown="ThumbGrid_MouseDown" Panel.ZIndex="1" Margin="0" Cursor="Hand" VerticalAlignment="Center">
+                <Grid.Effect>
+                    <DropShadowEffect ShadowDepth="3" Opacity="0.1" BlurRadius="3"/>
+                </Grid.Effect>
+                <Rectangle x:Name="ThumbRect" Fill="#FFEEEEEE" Margin="5,0" Stroke="Black" StrokeThickness="0" RadiusY="10" RadiusX="10" />
+                <StackPanel x:Name="ThumbLinesStackPanel" HorizontalAlignment="Stretch" Margin="10,0" VerticalAlignment="Center">
+                    <Path Data="M10,29.666667 L37.196,31.666667" Fill="#FFB4B2B2" Height="2" Margin="0,0,0,4" Stretch="Fill" StrokeThickness="2" VerticalAlignment="Center" Stroke="#FFB0B0B0" HorizontalAlignment="Stretch" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                    <Path Data="M10,29.666667 L37.196,31.666667" Fill="#FFB4B2B2" Height="2" Margin="0,0,0,4" Stretch="Fill" StrokeThickness="2" VerticalAlignment="Center" Stroke="#FFB0B0B0" HorizontalAlignment="Stretch" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                    <Path Data="M10,29.666667 L37.196,31.666667" Fill="#FFB4B2B2" Height="2" Margin="0,0,0,4" Stretch="Fill" StrokeThickness="2" Stroke="#FFB0B0B0" VerticalAlignment="Center" HorizontalAlignment="Stretch" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                </StackPanel>
+            </Grid>
+            <Path x:Name="ExactMiddle" Data="M1,172" Fill="#FFB6B6B5" HorizontalAlignment="Left" Height="0" Margin="0" Stretch="Fill" VerticalAlignment="Center" Width="0"/>
+        </Grid>
+
+    </Grid>
+</UserControl>

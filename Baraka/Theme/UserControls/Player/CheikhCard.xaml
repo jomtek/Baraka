@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="Baraka.Theme.UserControls.Player.CheikhCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Baraka.Theme.UserControls.Player"
+             mc:Ignorable="d" d:DesignWidth="800" Width="142" Height="198.25" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave" PreviewMouseLeftButtonUp="UserControl_PreviewMouseLeftButtonUp">
+    <Grid>
+        <Grid.Effect>
+            <DropShadowEffect x:Name="GeneralDropShadow" Opacity="0.2" Direction="260" ShadowDepth="3" BlurRadius="10" RenderingBias="Quality"/>
+        </Grid.Effect>
+        <Rectangle x:Name="BackgroundRect" Fill="White" Stroke="Black" RadiusY="12" RadiusX="12" StrokeThickness="0"/>
+        <StackPanel>
+            <Rectangle x:Name="PhotoRect" Height="133.25" RadiusY="12" RadiusX="12" StrokeThickness="0" Stroke="White" Margin="0" VerticalAlignment="Top" Cursor="Hand">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/Baraka;component/Images/Cheikh/alafasy.png" Stretch="UniformToFill"/>
+                </Rectangle.Fill>
+                <Rectangle.Effect>
+                    <DropShadowEffect x:Name="PhotoDropShadow" Direction="260" ShadowDepth="2" BlurRadius="10" RenderingBias="Quality" Opacity="0.35"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Path x:Name="SeparatorPath" Data="M17.5,110.5 L107,110.5" Fill="Gray" HorizontalAlignment="Center" Stretch="Fill" Stroke="#FFACACAC" VerticalAlignment="Top" Width="93.455" StrokeThickness="1.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Margin="0,8,0,0"/>
+            <TextBlock x:Name="FirstNameTB" Text="Mishary bin Rashid" VerticalAlignment="Top" Margin="0,6,0,0" FontFamily="Montserrat" FontStretch="SemiCondensed" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="LastNameTB" Text="Alafasy" VerticalAlignment="Top" Margin="0" FontFamily="Montserrat" FontStretch="SemiCondensed" HorizontalAlignment="Center" FontWeight="Bold" FontSize="17"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

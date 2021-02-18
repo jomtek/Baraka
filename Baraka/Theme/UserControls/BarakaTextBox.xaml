@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="Baraka.Theme.UserControls.BarakaTextBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Baraka.Theme.UserControls"
+             mc:Ignorable="d" Height="52.545" Width="521.525">
+    <UserControl.Resources>
+        <Storyboard x:Key="OnLoaded1"/>
+    </UserControl.Resources>
+    <Border CornerRadius="15" Background="White" BorderThickness="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="20" Opacity="0.4"/>
+        </Border.Effect>
+        <Grid Focusable="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="45" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox x:Name="TextBoxComponent" Grid.Column="0" HorizontalAlignment="Stretch" Height="23" TextWrapping="Wrap" Text="rechercher..." VerticalAlignment="Center" Margin="9,11.272,0.695,8.273" Padding="0,0,10,0" Background="{x:Null}" FontFamily="/Baraka;component/Fonts/#Poppins" FontSize="15" BorderThickness="0" HorizontalScrollBarVisibility="Auto" GotFocus="TextBoxComponent_GotFocus" LostFocus="TextBoxComponent_LostFocus" Foreground="Black" Opacity="0.65"/>
+            <Image x:Name="ImageComponent" Grid.Column="1" HorizontalAlignment="Right" Height="Auto" Source="/Baraka;component/Images/search_icon.png" Width="30" Margin="0,0,12.03,0" IsMouseDirectlyOverChanged="ImageComponent_IsMouseDirectlyOverChanged" >
+                <Image.OpacityMask>
+                    <ImageBrush ImageSource="/Baraka;component/Images/Logo/squared.png"/>
+                </Image.OpacityMask>
+            </Image>
+        </Grid>
+    </Border>
+</UserControl>
