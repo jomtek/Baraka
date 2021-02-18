@@ -30,8 +30,8 @@
         <!-- Form content -->
         <Grid x:Name="MainGrid" DockPanel.Dock="Bottom" Background="{DynamicResource LightBrush}">
             <UserControls:BarakaTextBox HorizontalAlignment="Left" Height="59.334" Margin="732.05,19.328,0,0" VerticalAlignment="Top" Width="429.499"/>
-            <Player:BarakaPlayer HorizontalAlignment="Left" Height="396.667" Margin="291,334.5,0,-1.167" VerticalAlignment="Top" Width="665.667"/>
             <UserControls:BarakaScrollBar HorizontalAlignment="Left" Height="422.5" VerticalAlignment="Top" Width="100"/>
+            <Player:BarakaPlayer HorizontalAlignment="Left" VerticalAlignment="Top" Margin="246,290.5,0,-1.5"/>
 
             <!--<UserControls:BarakaPlayer Height="321" VerticalAlignment="Top" Width="Auto" Margin="336.5,409,284,0"/>-->
         </Grid>

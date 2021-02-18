@@ -54,6 +54,8 @@ namespace Baraka.Theme.UserControls.Player
         public BarakaPlayer()
         {
             InitializeComponent();
+            ((Storyboard)this.Resources["PlayerCloseStory"]).Begin();
+            ((Storyboard)this.Resources["PlayerCloseStory"]).SkipToFill();
         }
 
         #region Controller Controls

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Baraka.Theme.UserControls"
              xmlns:local1="clr-namespace:Baraka.Theme.UserControls.Player" x:Name="userControl" x:Class="Baraka.Theme.UserControls.Player.BarakaPlayer"
-             mc:Ignorable="d" Height="400" Width="665">
+             mc:Ignorable="d" Height="441" Width="743">
     <UserControl.Resources>
         <Style x:Key="Play" TargetType="{x:Type Path}">
             <Setter Property="Data" Value="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" />
@@ -53,14 +53,11 @@
                 <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="{x:Static KernelType.Gaussian}"/>
             </ObjectAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="border">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="274"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="271"/>
             </DoubleAnimationUsingKeyFrames>
             <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.ClipToBounds)" Storyboard.TargetName="userControl">
                 <DiscreteBooleanKeyFrame KeyTime="0:0:0.3" Value="True"/>
             </BooleanAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Opacity)" Storyboard.TargetName="grid">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-            </DoubleAnimationUsingKeyFrames>
         </Storyboard>
 
         <Storyboard x:Key="PlayerOpenStory" RepeatBehavior="1x" AutoReverse="False">
@@ -99,9 +96,6 @@
             <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.ClipToBounds)" Storyboard.TargetName="userControl">
                 <DiscreteBooleanKeyFrame KeyTime="0:0:0.3" Value="False"/>
             </BooleanAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Opacity)" Storyboard.TargetName="grid">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-            </DoubleAnimationUsingKeyFrames>
         </Storyboard>
 
         <Storyboard x:Key="TabSwitchStory">
@@ -111,12 +105,12 @@
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
+    <UserControl.Effect>
+        <DropShadowEffect Direction="45" Opacity="0.25" ShadowDepth="8" BlurRadius="30" RenderingBias="Quality"/>
+    </UserControl.Effect>
 
-    <Grid x:Name="grid">
-        <Grid.Effect>
-            <DropShadowEffect Direction="45" Opacity="0.3" ShadowDepth="7" BlurRadius="20" RenderingBias="Quality"/>
-        </Grid.Effect>
-        
+    <Grid x:Name="grid" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="99*"/>
@@ -138,7 +132,7 @@
                 <Grid.Effect>
                     <BlurEffect Radius="0"/>
                 </Grid.Effect>
-                
+
                 <Grid.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -147,7 +141,7 @@
                         <TranslateTransform/>
                     </TransformGroup>
                 </Grid.RenderTransform>
-                
+
                 <ScrollViewer
                     x:Name="DisplaySV"
                     HorizontalAlignment="Left"
@@ -157,7 +151,7 @@
                     Margin="76,20,0,0"
                     VerticalScrollBarVisibility="Hidden"
                     HorizontalContentAlignment="Stretch"/>
-                
+
                 <local:BarakaScrollBar
                     x:Name="MainSB"
                     HorizontalAlignment="Right"
@@ -199,12 +193,12 @@
                 </Path.RenderTransform>
             </Path>
 
-            <Grid x:Name="PlayerControlsGrid" Height="120" Margin="0,5,0,0" VerticalAlignment="Bottom">
+            <Grid x:Name="PlayerControlsGrid" Height="120" Margin="0,5,0,-7" VerticalAlignment="Bottom">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="210*"/>
                     <ColumnDefinition Width="454*"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <local1:BarakaProgressBar
                     x:Name="MainPB" 
                     Height="22"
@@ -217,7 +211,7 @@
                         <DropShadowEffect Opacity="0.15" ShadowDepth="2" BlurRadius="2"/>
                     </local1:BarakaProgressBar.Effect>
                 </local1:BarakaProgressBar>
-                
+
                 <StackPanel Orientation="Horizontal" Margin="56.5,3,267.5,0" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Column="1">
                     <Canvas x:Name="BackwardBTN" Height="30" Width="30" Cursor="Hand" ToolTip="Cliquez pour jouer la sourate précédente" IsEnabled="False">
                         <Path Height="30" Width="30" Style="{StaticResource Backward}" Stretch="Fill" Fill="Black" ToolTip="" IsEnabled="False" Opacity="0.4" />
@@ -229,7 +223,7 @@
                         <Path Height="30" Width="30" Style="{StaticResource Forward}" Stretch="Fill" Fill="Black" />
                     </Canvas>
                 </StackPanel>
-                
+
                 <Grid Height="25" Margin="0,72,100,22" VerticalAlignment="Center" Grid.ColumnSpan="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="323*" />
@@ -240,9 +234,9 @@
                     <TextBlock x:Name="CheikhTB" Grid.Column="0" Text="Maher Al Mueaqly" HorizontalAlignment="Right" FontFamily="Montserrat" FontSize="20" FontWeight="ExtraBlack" Cursor="Hand" PreviewMouseLeftButtonDown="CheikhTB_PreviewMouseLeftButtonDown" Margin="0" Width="323" FlowDirection="RightToLeft" />
                     <TextBlock x:Name="SurahTB" Grid.Column="2" HorizontalAlignment="Left" FontFamily="Montserrat" FontSize="20" FontWeight="ExtraBlack" TextDecorations="{x:Null}" Cursor="Hand" Text="Al-Fatiha" PreviewMouseLeftButtonDown="SurahTB_PreviewMouseLeftButtonDown" Width="232" />
                 </Grid>
-                
+
                 <TextBlock x:Name="TimeRemainingTB" HorizontalAlignment="Right" TextWrapping="Wrap" Text="-0:28" VerticalAlignment="Top" Margin="0,43,59,0" FontFamily="/Baraka;component/Fonts/#Poppins" FontSize="13" Foreground="#FFB1AEAE" Grid.Column="1"/>
-                
+
                 <Rectangle
                     x:Name="LoopBTN"
                     HorizontalAlignment="Right"
