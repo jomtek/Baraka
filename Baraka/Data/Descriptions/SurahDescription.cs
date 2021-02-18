@@ -4,15 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Baraka.Data
+namespace Baraka.Data.Descriptions
 {
+    [Serializable]
     public class SurahDescription
     {
-        public int SurahNumber { get; private set; }
-        public int NumberOfVerses { get; private set; }
-        public string PhoneticName { get; private set; }
-        public string TranslatedName { get; private set; } // todo: globalization
-        public SurahRevelationType RevelationType { get; private set; }
+        public int SurahNumber { get;  set; }
+        public int NumberOfVerses { get; set; }
+        public string PhoneticName { get; set; }
+        public string TranslatedName { get; set; } // todo: globalization
+        public SurahRevelationType RevelationType { get; set; }
+
+        public SurahDescription()
+        {
+            SurahNumber = 1;
+            NumberOfVerses = 7;
+            PhoneticName = "Prologue";
+            TranslatedName = "Al Fatiha";
+            RevelationType = SurahRevelationType.M;
+        }
 
         public SurahDescription(
             int num,

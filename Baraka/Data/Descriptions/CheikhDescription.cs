@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace Baraka.Data
+namespace Baraka.Data.Descriptions
 {
     public class CheikhDescription
     {

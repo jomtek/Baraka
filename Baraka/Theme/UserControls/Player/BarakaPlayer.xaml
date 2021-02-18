@@ -62,6 +62,7 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+
         <Storyboard x:Key="PlayerOpenStory" RepeatBehavior="1x" AutoReverse="False">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="SelectorGrid">
                 <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
@@ -102,6 +103,7 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+
         <Storyboard x:Key="TabSwitchStory">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="path">
                 <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="445"/>
@@ -110,16 +112,11 @@
         </Storyboard>
     </UserControl.Resources>
 
-    <UserControl.Triggers>
-        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-            <BeginStoryboard Storyboard="{StaticResource TabSwitchStory}"/>
-        </EventTrigger>
-    </UserControl.Triggers>
-
     <Grid x:Name="grid">
         <Grid.Effect>
             <DropShadowEffect Direction="45" Opacity="0.3" ShadowDepth="7" BlurRadius="20" RenderingBias="Quality"/>
         </Grid.Effect>
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="99*"/>
@@ -141,6 +138,7 @@
                 <Grid.Effect>
                     <BlurEffect Radius="0"/>
                 </Grid.Effect>
+                
                 <Grid.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -149,14 +147,48 @@
                         <TranslateTransform/>
                     </TransformGroup>
                 </Grid.RenderTransform>
-                <ScrollViewer x:Name="DisplaySV" HorizontalAlignment="Left" Height="247" VerticalAlignment="Top" Width="500" Margin="76,20,0,0" VerticalScrollBarVisibility="Hidden" HorizontalContentAlignment="Stretch"/>
-                <local:BarakaScrollBar x:Name="MainSB" HorizontalAlignment="Right" Height="285.666" VerticalAlignment="Top" Width="40" Margin="0,19.994,11,-32.327" TargetValue="2" Accuracy="VAGUE" OnScroll="MainSB_OnScroll">
+                
+                <ScrollViewer
+                    x:Name="DisplaySV"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Height="247"
+                    Width="500"
+                    Margin="76,20,0,0"
+                    VerticalScrollBarVisibility="Hidden"
+                    HorizontalContentAlignment="Stretch"/>
+                
+                <local:BarakaScrollBar
+                    x:Name="MainSB"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Height="286"
+                    Width="40"
+                    Margin="0,19.994,11,-32.327"
+                    TargetValue="2"
+                    Accuracy="VAGUE"
+                    OnScroll="MainSB_OnScroll">
+
                     <local:BarakaScrollBar.Effect>
                         <DropShadowEffect Opacity="0.1" ShadowDepth="2"/>
                     </local:BarakaScrollBar.Effect>
                 </local:BarakaScrollBar>
             </Grid>
-            <Path x:Name="path" Data="M50.666667,246.66667 L514,246" Fill="#FFF4F4F5" Height="5" Stretch="Fill" Stroke="#FFC7C5C5" VerticalAlignment="Top" Width="489.668" StrokeThickness="5" StrokeStartLineCap="Round" StrokeEndLineCap="Round" RenderTransformOrigin="0.5,0.5" Margin="0,0,15,5">
+
+            <Path
+                x:Name="path"
+                Data="M50.666667,246.66667 L514,246"
+                Fill="#FFF4F4F5"
+                Stroke="#FFC7C5C5"
+                StrokeThickness="5"
+                Height="5"
+                Width="490"
+                Stretch="Fill"
+                VerticalAlignment="Top" 
+                StrokeStartLineCap="Round"
+                StrokeEndLineCap="Round"
+                RenderTransformOrigin="0.5,0.5"
+                Margin="0,0,15,5">
                 <Path.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -167,16 +199,25 @@
                 </Path.RenderTransform>
             </Path>
 
-            <Grid x:Name="PlayerControlsGrid" Height="119.334" Margin="0,5,0,0" VerticalAlignment="Bottom">
+            <Grid x:Name="PlayerControlsGrid" Height="120" Margin="0,5,0,0" VerticalAlignment="Bottom">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="211*"/>
+                    <ColumnDefinition Width="210*"/>
                     <ColumnDefinition Width="454*"/>
                 </Grid.ColumnDefinitions>
-                <local1:BarakaProgressBar x:Name="MainPB" Height="21.818" Margin="75,41.016,100,0" VerticalAlignment="Top" Width="Auto" ToolTip="Il reste x minutes avant la fin de la récitation" Grid.ColumnSpan="2">
+                
+                <local1:BarakaProgressBar
+                    x:Name="MainPB" 
+                    Height="22"
+                    Width="Auto"
+                    Margin="75,41,100,0"
+                    VerticalAlignment="Top"
+                    ToolTip="Il reste (x) minutes avant la fin de la récitation"
+                    Grid.ColumnSpan="2">
                     <local1:BarakaProgressBar.Effect>
                         <DropShadowEffect Opacity="0.15" ShadowDepth="2" BlurRadius="2"/>
                     </local1:BarakaProgressBar.Effect>
                 </local1:BarakaProgressBar>
+                
                 <StackPanel Orientation="Horizontal" Margin="56.5,3,267.5,0" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Column="1">
                     <Canvas x:Name="BackwardBTN" Height="30" Width="30" Cursor="Hand" ToolTip="Cliquez pour jouer la sourate précédente" IsEnabled="False">
                         <Path Height="30" Width="30" Style="{StaticResource Backward}" Stretch="Fill" Fill="Black" ToolTip="" IsEnabled="False" Opacity="0.4" />
@@ -188,7 +229,8 @@
                         <Path Height="30" Width="30" Style="{StaticResource Forward}" Stretch="Fill" Fill="Black" />
                     </Canvas>
                 </StackPanel>
-                <Grid Height="24.666" Margin="0,72.334,100,22.334" VerticalAlignment="Center" Grid.ColumnSpan="2">
+                
+                <Grid Height="25" Margin="0,72,100,22" VerticalAlignment="Center" Grid.ColumnSpan="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="323*" />
                         <ColumnDefinition Width="10" />
@@ -198,8 +240,24 @@
                     <TextBlock x:Name="CheikhTB" Grid.Column="0" Text="Maher Al Mueaqly" HorizontalAlignment="Right" FontFamily="Montserrat" FontSize="20" FontWeight="ExtraBlack" Cursor="Hand" PreviewMouseLeftButtonDown="CheikhTB_PreviewMouseLeftButtonDown" Margin="0" Width="323" FlowDirection="RightToLeft" />
                     <TextBlock x:Name="SurahTB" Grid.Column="2" HorizontalAlignment="Left" FontFamily="Montserrat" FontSize="20" FontWeight="ExtraBlack" TextDecorations="{x:Null}" Cursor="Hand" Text="Al-Fatiha" PreviewMouseLeftButtonDown="SurahTB_PreviewMouseLeftButtonDown" Width="232" />
                 </Grid>
+                
                 <TextBlock x:Name="TimeRemainingTB" HorizontalAlignment="Right" TextWrapping="Wrap" Text="-0:28" VerticalAlignment="Top" Margin="0,43,59,0" FontFamily="/Baraka;component/Fonts/#Poppins" FontSize="13" Foreground="#FFB1AEAE" Grid.Column="1"/>
-                <Rectangle x:Name="LoopBTN" HorizontalAlignment="Right" Height="20" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Stroke="#FFC7C5C5" StrokeThickness="0" VerticalAlignment="Bottom" Width="16" Margin="0,0,65,33" ToolTip="Cliquez pour activer ou désactiver la lecture en boucle" Cursor="Hand" PreviewMouseLeftButtonDown="LoopBTN_PreviewMouseLeftButtonDown" Grid.Column="1">
+                
+                <Rectangle
+                    x:Name="LoopBTN"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Height="20"
+                    Width="16"
+                    Stroke="#FFC7C5C5"
+                    StrokeThickness="0" 
+                    StrokeStartLineCap="Round"
+                    StrokeEndLineCap="Round"
+                    Margin="0,0,65,33"
+                    ToolTip="Cliquez pour activer ou désactiver la lecture en boucle"
+                    PreviewMouseLeftButtonDown="LoopBTN_PreviewMouseLeftButtonDown"
+                    Cursor="Hand"
+                    Grid.Column="1">
                     <Rectangle.Effect>
                         <DropShadowEffect Opacity="0.15" ShadowDepth="4"/>
                     </Rectangle.Effect>

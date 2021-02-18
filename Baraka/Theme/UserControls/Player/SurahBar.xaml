@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Baraka.Theme.UserControls.Player"
-             mc:Ignorable="d" Height="52.5" Width="500">
+             mc:Ignorable="d" Height="52.5" Width="500" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave">
     <UserControl.Resources>
         <Style x:Key="PlayPath" TargetType="{x:Type Path}">
             <Setter Property="Data" Value="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"/>
@@ -28,7 +28,7 @@
                 <Path x:Name="InfoPath" Style="{StaticResource Info}" Stretch="Fill" Width="20" Height="20" Fill="#FFBFBFBF" ToolTip="" Margin="0" />
             </Canvas>
             <TextBlock x:Name="SurahNameTB" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="5,12,0,0" FontFamily="Roboto" FontSize="18" VerticalAlignment="Top" TextDecorations="{x:Null}" Text="Al Fatiha" FontWeight="Bold"/>
-            <TextBlock x:Name="TranslatedNameTB" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="8,15,0,0" FontFamily="Alef" VerticalAlignment="Top" TextDecorations="{x:Null}" FontSize="16" Foreground="#FF939393" Text="L'ouverture"/>
+            <TextBlock x:Name="TranslatedNameTB" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="8,15,0,0" FontFamily="Alef" VerticalAlignment="Top" TextDecorations="{x:Null}" FontSize="16" Foreground="#FF939393" Text="Prologue"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,17.5,0">
@@ -43,6 +43,6 @@
             </Canvas>
         </StackPanel>
 
-        <Path Data="M0,50 L500,52.5" Fill="#FFC7C5C5" Height="1.5" Stretch="Fill" VerticalAlignment="Bottom" StrokeThickness="1.5" Stroke="#FFBDBDBD" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Margin="5,0"/>
+        <Path x:Name="BottomSplitterPath" Data="M0,50 L500,52.5" Height="2.5" Stretch="Fill" VerticalAlignment="Bottom" StrokeThickness="2.5" Stroke="LightGray" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Margin="5,0"/>
     </Grid>
 </UserControl>

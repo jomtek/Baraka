@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Baraka.Data.Descriptions;
 
 namespace Baraka.Theme.UserControls.Player
 {
@@ -20,17 +21,17 @@ namespace Baraka.Theme.UserControls.Player
     /// </summary>
     public partial class CheikhCard : UserControl
     {
-        private Data.CheikhDescription _cheikh;
+        private CheikhDescription _cheikh;
         private BarakaPlayer _parentPlayer;
 
         #region Settings
-        public Data.CheikhDescription Cheikh
+        public CheikhDescription Cheikh
         {
             get { return _cheikh; }
         }
         #endregion
 
-        public CheikhCard(Data.CheikhDescription cheikh, BarakaPlayer parent)
+        public CheikhCard(CheikhDescription cheikh, BarakaPlayer parent)
         {
             InitializeComponent();
             _cheikh = cheikh;
@@ -46,6 +47,25 @@ namespace Baraka.Theme.UserControls.Player
             PhotoRect.Fill = new ImageBrush(_cheikh.Photo);
         }
 
+        private void UserControl_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Select();
+            _parentPlayer.ChangeSelectedCheikh(this);
+        }
+
+        public void Select()
+        {
+            SeparatorPath.Stroke = (SolidColorBrush)App.Current.Resources["MediumBrush"];
+            SeparatorPath.StrokeThickness = 4.5;
+            Height = 205;
+        }
+        public void Unselect()
+        {
+            SeparatorPath.Stroke = Brushes.Gray;
+            SeparatorPath.StrokeThickness = 1.5;
+            Height = 198.25;
+        }
+
         #region UI Reactivity
         private void UserControl_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -59,21 +79,5 @@ namespace Baraka.Theme.UserControls.Player
             PhotoDropShadow.ShadowDepth = 2;
         }
         #endregion
-
-        private void UserControl_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            SeparatorPath.Stroke = (SolidColorBrush)App.Current.Resources["MediumBrush"];
-            SeparatorPath.StrokeThickness = 4.5;
-            Height = 205;
-
-            _parentPlayer.ChangeSelectedCheikh(this);
-        }
-
-        public void Unselect()
-        {
-            SeparatorPath.Stroke = Brushes.Gray;
-            SeparatorPath.StrokeThickness = 1.5;
-            Height = 198.25;
-        }
     }
 }

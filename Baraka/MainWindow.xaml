@@ -13,7 +13,7 @@
         MouseMove="Window_MouseMove"
         Title="Baraka"
         Height="800"
-        Width="1200">
+        Width="1200" Initialized="Window_Initialized">
 
     <DockPanel LastChildFill="True">
         <!-- Top Grid -->

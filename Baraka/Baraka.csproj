@@ -55,9 +55,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Data\CheikhDescription.cs" />
-    <Compile Include="Data\SurahDescription.cs" />
-    <Compile Include="Data\SurahRevelationType.cs" />
+    <Compile Include="Data\Descriptions\CheikhDescription.cs" />
+    <Compile Include="Data\LoadedData.cs" />
+    <Compile Include="Data\SerializationUtils.cs" />
+    <Compile Include="Data\Descriptions\SurahDescription.cs" />
+    <Compile Include="Data\Descriptions\SurahRevelationType.cs" />
+    <Compile Include="Data\Surah\SurahVersion.cs" />
+    <Compile Include="StartupWindow.xaml.cs">
+      <DependentUpon>StartupWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Theme\UserControls\Player\BarakaPlayer.xaml.cs">
       <DependentUpon>BarakaPlayer.xaml</DependentUpon>
     </Compile>
@@ -77,6 +83,10 @@
       <DependentUpon>SurahBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Theme\UserControls\ScrollAccuracyMode.cs" />
+    <Page Include="StartupWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Theme\Styles\Scroll.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

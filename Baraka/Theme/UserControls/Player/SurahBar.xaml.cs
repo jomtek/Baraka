@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Baraka.Data.Descriptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,17 +21,17 @@ namespace Baraka.Theme.UserControls.Player
     /// </summary>
     public partial class SurahBar : UserControl
     {
-        private Data.SurahDescription _surah;
+        private SurahDescription _surah;
         private BarakaPlayer _parentPlayer;
 
         #region Settings
-        public Data.SurahDescription Surah
+        public SurahDescription Surah
         {
             get { return _surah; }
         }
         #endregion
 
-        public SurahBar(Data.SurahDescription surah, BarakaPlayer parent)
+        public SurahBar(SurahDescription surah, BarakaPlayer parent)
         {
             InitializeComponent();
             _surah = surah;
@@ -48,10 +49,14 @@ namespace Baraka.Theme.UserControls.Player
 
         private void StreamBTN_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            StreamBtnPath.Fill = Brushes.DarkGoldenrod;
+            Select();
             _parentPlayer.ChangeSelectedSurah(this);
         }
 
+        public void Select()
+        {
+            StreamBtnPath.Fill = Brushes.DarkGoldenrod;
+        }
         public void Unselect()
         {
             StreamBtnPath.Fill = Brushes.Black;
@@ -62,13 +67,25 @@ namespace Baraka.Theme.UserControls.Player
         {
             switch (_surah.RevelationType)
             {
-                case Data.SurahRevelationType.M:
+                case SurahRevelationType.M:
                     return "mecquoise (La Mecque)";
-                case Data.SurahRevelationType.H:
+                case SurahRevelationType.H:
                     return "médinoise (Médine)";
                 default:
                     return "mecquoise ou médinoise";
             }
+        }
+        #endregion
+
+        #region UI Reactivity
+        private void UserControl_MouseEnter(object sender, MouseEventArgs e)
+        {
+            BottomSplitterPath.Stroke = (SolidColorBrush)App.Current.Resources["MediumBrush"];
+        }
+
+        private void UserControl_MouseLeave(object sender, MouseEventArgs e)
+        {
+            BottomSplitterPath.Stroke = Brushes.LightGray;
         }
         #endregion
     }
