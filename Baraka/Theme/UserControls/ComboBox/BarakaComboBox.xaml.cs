@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Baraka
+namespace Baraka.Theme.UserControls.ComboBox
 {
     /// <summary>
-    /// Logique d'interaction pour StartupForm.xaml
+    /// Logique d'interaction pour BarakaComboBox.xaml
     /// </summary>
-    public partial class StartupForm : Window
+    public partial class BarakaComboBox : UserControl
     {
-        public StartupForm()
+        public BarakaComboBox()
         {
             InitializeComponent();
         }

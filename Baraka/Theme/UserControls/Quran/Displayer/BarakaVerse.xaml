@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="Baraka.Theme.UserControls.Quran.Displayer.BarakaVerse"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran"
+             mc:Ignorable="d" Width="650">
+    <Grid>
+        <Rectangle Fill="White" StrokeThickness="5.5" RadiusY="17.167" RadiusX="17.167"/>
+        <StackPanel Margin="0,0,0,15">
+            <TextBox x:Name="ArabicTB"
+                Text="وَإِذَا رَأَيْتَ ثَمَّ رَأَيْتَ نَعِيمًا وَمُلْكًا كَبِيرًا"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Right"
+                HorizontalContentAlignment="Right"
+                BorderThickness="0"
+                TextWrapping="Wrap"
+                IsReadOnly="True"
+                FontFamily="/Baraka;component/Fonts/#Al Qalam Quran"
+                Margin="0,10,12,0"
+                FontSize="31"
+                Width="627.5" />
+            <TextBox x:Name="PhoneticTB"
+                Text="Wa-itha raayta thamma raayta na'eeman wamulkan kabeeran"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                BorderThickness="0"
+                TextWrapping="Wrap"
+                IsReadOnly="True"
+                FontFamily="/Baraka;component/Fonts/#Poppins"
+                Margin="12,15,0,0"
+                FontSize="17"
+                Width="627.5" Foreground="#FF6E6E6E" Visibility="Collapsed" />
+            <TextBox x:Name="TranslatedTB"
+                Text="Et quand tu regarderas là-bas, tu verras un délice et un vaste royaume."
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                BorderThickness="0"
+                TextWrapping="Wrap"
+                IsReadOnly="True"
+                FontFamily="/Baraka;component/Fonts/#Poppins"
+                Margin="12,15,0,0"
+                FontSize="17.5"
+                Width="627.5" />
+        </StackPanel>
+    </Grid>
+</UserControl>

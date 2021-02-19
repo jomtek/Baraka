@@ -52,7 +52,7 @@ namespace Baraka
             CloseFormPath.Fill = Brushes.White;
         }
 
-        private void CloseFormCanvas_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        private void CloseFormCanvas_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Environment.Exit(0);
         }
@@ -75,8 +75,22 @@ namespace Baraka
                 });
             }
             Data.SerializationUtils.Serialize(SerializationData, "quran.ser");*/
+        }
 
-            LoadedData.SurahList = SerializationUtils.Deserialize<Dictionary<SurahDescription, Data.Surah.SurahVersion[]>>("quran.ser");
+        private void MainSurahDisplayer_OnPlanetClick(object sender, EventArgs e)
+        {
+            WindowBlurEffect.Radius = 4;
+
+            var myInstance = new QuranTranslationsManagerWindow();
+            myInstance.Owner = this;
+            myInstance.ShowDialog();
+
+            WindowBlurEffect.Radius = 0;
+        }
+
+        private void BarakaPlayer_OnSurahChanged(object sender, EventArgs e)
+        {
+            MainSurahDisplayer.LoadSurah(Player.SelectedSurah);
         }
     }
 }

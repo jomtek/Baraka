@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Baraka.Theme.UserControls.Player
+namespace Baraka.Theme.UserControls.Quran.Player
 {
     /// <summary>
     /// Logique d'interaction pour SurahBar.xaml
@@ -47,10 +47,27 @@ namespace Baraka.Theme.UserControls.Player
             InfoPath.ToolTip = $"Contient {_surah.NumberOfVerses} versets\nRévélation {DetermineRevelationType()}";
         }
 
-        private void StreamBTN_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private async void StreamBTN_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            Select();
+            SetLoading(true);
+            await Task.Delay(5);
             _parentPlayer.ChangeSelectedSurah(this);
+            Select();
+            SetLoading(false);
+        }
+
+        public void SetLoading(bool state)
+        {
+            if (state)
+            {
+                PlayControlsSP.Visibility = Visibility.Hidden;
+                LoadingTB.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                PlayControlsSP.Visibility = Visibility.Visible;
+                LoadingTB.Visibility = Visibility.Hidden;
+            }
         }
 
         public void Select()

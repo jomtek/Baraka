@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="Baraka.Theme.UserControls.ComboBox.BarakaComboBoxElement"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Baraka.Theme.UserControls.ComboBox"
+             mc:Ignorable="d" Height="17.51" Width="150" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave">
+    <Grid Background="White">
+        <Path x:Name="SideBarPath" Data="M0,0 L0,94.843" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Fill" Stroke="LightGray" Width="4" StrokeThickness="4" StrokeStartLineCap="Square" StrokeEndLineCap="Square"/>
+        <Viewbox Margin="0" VerticalAlignment="Center">
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Ceci est un élément" VerticalAlignment="Center" FontSize="15" Margin="10,0,100,0" FontFamily="Arial"/>
+        </Viewbox>
+    </Grid>
+</UserControl>

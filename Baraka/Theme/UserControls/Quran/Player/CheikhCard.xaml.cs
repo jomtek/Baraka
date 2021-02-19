@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Baraka.Data.Descriptions;
 
-namespace Baraka.Theme.UserControls.Player
+namespace Baraka.Theme.UserControls.Quran.Player
 {
     /// <summary>
     /// Logique d'interaction pour CheikhCard.xaml

@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Baraka"
         xmlns:UserControls="clr-namespace:Baraka.Theme.UserControls"
-        xmlns:Player="clr-namespace:Baraka.Theme.UserControls.Player"
+        xmlns:Player="clr-namespace:Baraka.Theme.UserControls.Quran.Player"
+        xmlns:Displayer="clr-namespace:Baraka.Theme.UserControls.Quran.Displayer"
         x:Class="Baraka.MainWindow"
         mc:Ignorable="d"
         WindowStyle="None"
@@ -14,24 +15,23 @@
         Title="Baraka"
         Height="800"
         Width="1200" Initialized="Window_Initialized">
+    <Window.Effect>
+        <BlurEffect x:Name="WindowBlurEffect" Radius="0" RenderingBias="Quality"/>
+    </Window.Effect>
 
     <DockPanel LastChildFill="True">
         <!-- Top Grid -->
         <Grid DockPanel.Dock="Top" x:Name="TopGrid" Background="{StaticResource DarkBrush}" VerticalAlignment="Top" Height="70">
-            <Canvas x:Name="CloseFormCanvas" Width="24" Height="24" HorizontalAlignment="Right" Margin="0,0,30,0" MouseEnter="CloseFormCanvas_MouseEnter" MouseLeave="CloseFormCanvas_MouseLeave" Background="{StaticResource DarkBrush}" PreviewMouseUp="CloseFormCanvas_PreviewMouseUp" >
-                <Path x:Name="CloseFormPath" Data="{Binding Data, Source={StaticResource Cross}}" Stretch="Fill" Fill="#FFDEDEDE" >
-                    <Path.Effect>
-                        <DropShadowEffect ShadowDepth="2" Opacity="0.3"/>
-                    </Path.Effect>
-                </Path>
+            <Canvas x:Name="CloseFormCanvas" Width="24" Height="24" HorizontalAlignment="Right" Margin="0,0,30,0" MouseEnter="CloseFormCanvas_MouseEnter" MouseLeave="CloseFormCanvas_MouseLeave" Background="{StaticResource DarkBrush}" VerticalAlignment="Center" PreviewMouseLeftButtonUp="CloseFormCanvas_PreviewMouseLeftButtonUp" >
+                <Path x:Name="CloseFormPath" Data="{Binding Data, Source={StaticResource Cross}}" Stretch="Fill" Fill="#FFDEDEDE" />
             </Canvas>
         </Grid>
 
         <!-- Form content -->
         <Grid x:Name="MainGrid" DockPanel.Dock="Bottom" Background="{DynamicResource LightBrush}">
-            <UserControls:BarakaTextBox HorizontalAlignment="Left" Height="59.334" Margin="732.05,19.328,0,0" VerticalAlignment="Top" Width="429.499"/>
-            <UserControls:BarakaScrollBar HorizontalAlignment="Left" Height="422.5" VerticalAlignment="Top" Width="100"/>
-            <Player:BarakaPlayer HorizontalAlignment="Left" VerticalAlignment="Top" Margin="246,290.5,0,-1.5"/>
+            <UserControls:BarakaTextBox HorizontalAlignment="Left" Height="59.334" Margin="732.05,19.328,0,0" VerticalAlignment="Top" Width="429.499" Visibility="Collapsed" d:IsHidden="True"/>
+            <Displayer:BarakaSurahDisplayer x:Name="MainSurahDisplayer" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="116,49.5,0,0" OnPlanetClick="MainSurahDisplayer_OnPlanetClick"/>
+            <Player:BarakaPlayer x:Name="Player" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="246,290.5,0,-1.5" OnSurahChanged="BarakaPlayer_OnSurahChanged"/>
 
             <!--<UserControls:BarakaPlayer Height="321" VerticalAlignment="Top" Width="Auto" Margin="336.5,409,284,0"/>-->
         </Grid>

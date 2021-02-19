@@ -1,0 +1,12 @@
+﻿<UserControl x:Class="Baraka.Theme.UserControls.BarakaMysteriousProgressBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Baraka.Theme.UserControls"
+             mc:Ignorable="d" Height="32.769" Width="345.242" SizeChanged="UserControl_SizeChanged">
+    <Grid>
+        <Rectangle x:Name="BackgroundRect" Fill="{DynamicResource DarkBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RadiusY="15.361" RadiusX="15.361" />
+        <Rectangle x:Name="ProgressRect" VerticalAlignment="Stretch" RadiusY="13.825" RadiusX="13.825" Margin="1,0,0,5" Fill="{DynamicResource MediumBrush}" Width="35" HorizontalAlignment="Left"/>
+    </Grid>
+</UserControl>

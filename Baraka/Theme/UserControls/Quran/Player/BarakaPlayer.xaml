@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Baraka.Theme.UserControls"
-             xmlns:local1="clr-namespace:Baraka.Theme.UserControls.Player" x:Name="userControl" x:Class="Baraka.Theme.UserControls.Player.BarakaPlayer"
+             xmlns:local1="clr-namespace:Baraka.Theme.UserControls.Quran.Player" x:Name="userControl"
+            x:Class="Baraka.Theme.UserControls.Quran.Player.BarakaPlayer"
              mc:Ignorable="d" Height="441" Width="743">
     <UserControl.Resources>
         <Style x:Key="Play" TargetType="{x:Type Path}">
@@ -232,7 +233,7 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock x:Name="CheikhTB" Grid.Column="0" Text="Maher Al Mueaqly" HorizontalAlignment="Right" FontFamily="Montserrat" FontSize="20" FontWeight="ExtraBlack" Cursor="Hand" PreviewMouseLeftButtonDown="CheikhTB_PreviewMouseLeftButtonDown" Margin="0" Width="323" FlowDirection="RightToLeft" />
-                    <TextBlock x:Name="SurahTB" Grid.Column="2" HorizontalAlignment="Left" FontFamily="Montserrat" FontSize="20" FontWeight="ExtraBlack" TextDecorations="{x:Null}" Cursor="Hand" Text="Al-Fatiha" PreviewMouseLeftButtonDown="SurahTB_PreviewMouseLeftButtonDown" Width="232" />
+                    <TextBlock x:Name="SurahTB" Grid.Column="2" HorizontalAlignment="Left" FontFamily="Montserrat" FontSize="22" FontWeight="ExtraBlack" TextDecorations="{x:Null}" Cursor="Hand" Text="Al-Fatiha" PreviewMouseLeftButtonDown="SurahTB_PreviewMouseLeftButtonDown" Width="232" />
                 </Grid>
 
                 <TextBlock x:Name="TimeRemainingTB" HorizontalAlignment="Right" TextWrapping="Wrap" Text="-0:28" VerticalAlignment="Top" Margin="0,43,59,0" FontFamily="/Baraka;component/Fonts/#Poppins" FontSize="13" Foreground="#FFB1AEAE" Grid.Column="1"/>

@@ -1,0 +1,18 @@
+﻿<UserControl
+             x:Class="Baraka.Theme.UserControls.Quran.Displayer.BarakaSurahDisplayer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Displayer"
+             xmlns:UserControls="clr-namespace:Baraka.Theme.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" Width="873" Height="520">
+    <Grid Margin="0,0,-26,0" Width="873">
+        <local:BarakaBookmark HorizontalAlignment="Left" Height="285.333" VerticalAlignment="Top" Width="65.5" Margin="0" OnPlanetClick="BarakaBookmark_OnPlanetClick"/>
+        <ScrollViewer x:Name="VersesSV" HorizontalAlignment="Left" Height="520" VerticalAlignment="Top" Width="657" Margin="160,0,0,0" VerticalScrollBarVisibility="Hidden">
+            <StackPanel x:Name="VersesSP"/>
+        </ScrollViewer>
+        <UserControls:BarakaScrollBar x:Name="MainSB" Margin="0,0,5,0" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="44" Height="520" OnScroll="MainSB_OnScroll"/>
+    </Grid>
+</UserControl>

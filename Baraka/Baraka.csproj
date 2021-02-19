@@ -61,13 +61,40 @@
     <Compile Include="Data\Descriptions\SurahDescription.cs" />
     <Compile Include="Data\Descriptions\SurahRevelationType.cs" />
     <Compile Include="Data\Surah\SurahVersion.cs" />
-    <Compile Include="StartupWindow.xaml.cs">
-      <DependentUpon>StartupWindow.xaml</DependentUpon>
+    <Compile Include="QuranTranslationsManagerWindow.xaml.cs">
+      <DependentUpon>QuranTranslationsManagerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Player\BarakaPlayer.xaml.cs">
+    <Compile Include="Theme\UserControls\BarakaCheckBox.xaml.cs">
+      <DependentUpon>BarakaCheckBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Theme\UserControls\ComboBox\BarakaComboBox.xaml.cs">
+      <DependentUpon>BarakaComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Theme\UserControls\Quran\Displayer\BarakaBookmark.xaml.cs">
+      <DependentUpon>BarakaBookmark.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Theme\UserControls\ComboBox\BarakaComboBoxElement.xaml.cs">
+      <DependentUpon>BarakaComboBoxElement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Theme\UserControls\Quran\Displayer\BarakaSurahDisplayer.xaml.cs">
+      <DependentUpon>BarakaSurahDisplayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Theme\UserControls\Quran\Displayer\BarakaVerse.xaml.cs">
+      <DependentUpon>BarakaVerse.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Theme\UserControls\Quran\Displayer\BarakaVerseNumber.xaml.cs">
+      <DependentUpon>BarakaVerseNumber.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WelcomeWindow.xaml.cs">
+      <DependentUpon>WelcomeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Theme\UserControls\Quran\Player\BarakaPlayer.xaml.cs">
       <DependentUpon>BarakaPlayer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Player\BarakaProgressBar.xaml.cs">
+    <Compile Include="Theme\UserControls\BarakaMysteriousProgressBar.xaml.cs">
+      <DependentUpon>BarakaMysteriousProgressBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Theme\UserControls\Quran\Player\BarakaProgressBar.xaml.cs">
       <DependentUpon>BarakaProgressBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Theme\UserControls\BarakaScrollBar.xaml.cs">
@@ -76,14 +103,46 @@
     <Compile Include="Theme\UserControls\BarakaTextBox.xaml.cs">
       <DependentUpon>BarakaTextBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Player\CheikhCard.xaml.cs">
+    <Compile Include="Theme\UserControls\Quran\Player\CheikhCard.xaml.cs">
       <DependentUpon>CheikhCard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Player\SurahBar.xaml.cs">
+    <Compile Include="Theme\UserControls\Quran\Player\SurahBar.xaml.cs">
       <DependentUpon>SurahBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Theme\UserControls\ScrollAccuracyMode.cs" />
-    <Page Include="StartupWindow.xaml">
+    <Page Include="QuranTranslationsManagerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\UserControls\BarakaCheckBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\UserControls\ComboBox\BarakaComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\UserControls\Quran\Displayer\BarakaBookmark.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\UserControls\ComboBox\BarakaComboBoxElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\UserControls\Quran\Displayer\BarakaSurahDisplayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\UserControls\Quran\Displayer\BarakaVerse.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\UserControls\Quran\Displayer\BarakaVerseNumber.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WelcomeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -103,11 +162,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Theme\UserControls\Player\BarakaPlayer.xaml">
+    <Page Include="Theme\UserControls\Quran\Player\BarakaPlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Player\BarakaProgressBar.xaml">
+    <Page Include="Theme\UserControls\BarakaMysteriousProgressBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\UserControls\Quran\Player\BarakaProgressBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -119,11 +182,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Player\CheikhCard.xaml">
+    <Page Include="Theme\UserControls\Quran\Player\CheikhCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Player\SurahBar.xaml">
+    <Page Include="Theme\UserControls\Quran\Player\SurahBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -160,7 +223,6 @@
     <Resource Include="Images\Cheikh\soudais.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Theme\UserControls\Player\maher.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -168,6 +230,7 @@
     <Content Include="Fonts\Poppins.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Fonts\Al Qalam Quran.ttf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

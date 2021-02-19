@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="Baraka.Theme.UserControls.Player.SurahBar"
+﻿<UserControl x:Class="Baraka.Theme.UserControls.Quran.Player.SurahBar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Baraka.Theme.UserControls.Player"
+             xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Player"
              mc:Ignorable="d" Height="52.5" Width="500" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave">
     <UserControl.Resources>
         <Style x:Key="PlayPath" TargetType="{x:Type Path}">
@@ -31,7 +31,7 @@
             <TextBlock x:Name="TranslatedNameTB" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="8,15,0,0" FontFamily="Alef" VerticalAlignment="Top" TextDecorations="{x:Null}" FontSize="16" Foreground="#FF939393" Text="Prologue"/>
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,17.5,0">
+        <StackPanel x:Name="PlayControlsSP" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,17.5,0">
             <Canvas x:Name="StreamBTN" Width="28" Height="22" Cursor="Hand" Margin="0,0,12,0" PreviewMouseLeftButtonUp="StreamBTN_PreviewMouseLeftButtonUp">
                 <Path x:Name="StreamBtnPath" Style="{StaticResource CloudPath}" Stretch="Fill" Height="22" Width="28" Fill="Black" />
             </Canvas>
@@ -44,5 +44,6 @@
         </StackPanel>
 
         <Path x:Name="BottomSplitterPath" Data="M0,50 L500,52.5" Height="2.5" Stretch="Fill" VerticalAlignment="Bottom" StrokeThickness="2.5" Stroke="LightGray" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Margin="5,0"/>
+        <TextBlock x:Name="LoadingTB" HorizontalAlignment="Right" TextWrapping="Wrap" Text="chargement..." VerticalAlignment="Center" Margin="0,0,30,0" FontSize="14" FontStyle="Italic" Foreground="#FF727272" FontFamily="/Baraka;component/Fonts/#Poppins" Visibility="Hidden"/>
     </Grid>
 </UserControl>

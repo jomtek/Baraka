@@ -14,9 +14,11 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.ComponentModel;
 using Baraka.Data.Descriptions;
+using Baraka.Theme.UserControls.Quran.Player;
 
-namespace Baraka.Theme.UserControls.Player
+namespace Baraka.Theme.UserControls.Quran.Player
 {
     /// <summary>
     /// Logique d'interaction pour BarakaPlayer.xaml
@@ -35,7 +37,11 @@ namespace Baraka.Theme.UserControls.Player
         private SurahDescription _selectedSurah;
         private SurahBar _selectedSurahBar;
 
+        [Category("Baraka")]
+        public event EventHandler OnSurahChanged;
+
         #region Settings
+        [Category("Baraka")]
         public bool Playing
         {
             get { return _playing; }
@@ -45,9 +51,17 @@ namespace Baraka.Theme.UserControls.Player
                 // todo
             }
         }
+
+        [Category("Baraka")]
         public CheikhDescription SelectedCheikh
         {
             get { return _selectedCheikh; }
+        }
+
+        [Category("Baraka")]
+        public SurahDescription SelectedSurah
+        {
+            get { return _selectedSurah; }
         }
         #endregion
 
@@ -147,7 +161,6 @@ namespace Baraka.Theme.UserControls.Player
         #region Scrollbar
         private void MainSB_OnScroll(object sender, EventArgs e)
         {
-            Console.WriteLine($"on scroll: scrolled: {MainSB.Scrolled}");
             DisplaySV.ScrollToVerticalOffset(DisplaySV.ScrollableHeight * MainSB.Scrolled);
         }
         #endregion
@@ -310,6 +323,8 @@ namespace Baraka.Theme.UserControls.Player
                 _selectedSurahBar = bar;
 
                 SurahTB.Text = _selectedSurah.PhoneticName;
+
+                OnSurahChanged?.Invoke(this, EventArgs.Empty);
             }
         }
         #endregion
