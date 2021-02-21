@@ -3,10 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran"
              mc:Ignorable="d" Width="650">
     <Grid>
-        <Rectangle Fill="White" StrokeThickness="5.5" RadiusY="17.167" RadiusX="17.167"/>
+        <Rectangle Fill="White" StrokeThickness="5.5" RadiusY="3.167" RadiusX="3.167"/>
         <StackPanel Margin="0,0,0,15">
             <TextBox x:Name="ArabicTB"
                 Text="وَإِذَا رَأَيْتَ ثَمَّ رَأَيْتَ نَعِيمًا وَمُلْكًا كَبِيرًا"

@@ -24,5 +24,10 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         {
             InitializeComponent();
         }
+        public BarakaVerseNumber(int number)
+        {
+            InitializeComponent();
+            NumberTB.Text = number.ToString();
+        }
     }
 }

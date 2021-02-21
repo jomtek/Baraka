@@ -10,8 +10,11 @@
              d:DesignHeight="450" Width="873" Height="520">
     <Grid Margin="0,0,-26,0" Width="873">
         <local:BarakaBookmark HorizontalAlignment="Left" Height="285.333" VerticalAlignment="Top" Width="65.5" Margin="0" OnPlanetClick="BarakaBookmark_OnPlanetClick"/>
-        <ScrollViewer x:Name="VersesSV" HorizontalAlignment="Left" Height="520" VerticalAlignment="Top" Width="657" Margin="160,0,0,0" VerticalScrollBarVisibility="Hidden">
-            <StackPanel x:Name="VersesSP"/>
+        <ScrollViewer x:Name="VersesSV" HorizontalAlignment="Left" Height="520" VerticalAlignment="Top" Width="751.5" Margin="65.5,0,0,0" VerticalScrollBarVisibility="Hidden" PreviewMouseWheel="VersesSV_PreviewMouseWheel">
+            <Grid>
+                <StackPanel x:Name="VersesSP" HorizontalAlignment="Right" Width="657" Margin="0" />
+                <StackPanel x:Name="NumberingSP" Margin="18,0,0,0" HorizontalAlignment="Left"/>
+            </Grid>
         </ScrollViewer>
         <UserControls:BarakaScrollBar x:Name="MainSB" Margin="0,0,5,0" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="44" Height="520" OnScroll="MainSB_OnScroll"/>
     </Grid>

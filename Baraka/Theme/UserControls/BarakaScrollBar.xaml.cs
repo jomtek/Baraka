@@ -35,6 +35,11 @@ namespace Baraka.Theme.UserControls
         public double Scrolled
         {
             get { return _scrolled; }
+            set
+            {
+                _scrolled = value;
+                SetThumbY(ScrollCanvas.ActualHeight * value, true);
+            }
         }
 
         [Category("Baraka")]
@@ -47,7 +52,6 @@ namespace Baraka.Theme.UserControls
                 {
                     _targetValue = value;
                     SetThumbHeight();
-                    Reset();
                 }
             }
         }
@@ -65,7 +69,7 @@ namespace Baraka.Theme.UserControls
 
         public void SetThumbHeight()
         {
-            double defaultHeight = (ScrollGrid.ActualHeight / _targetValue);
+            double defaultHeight = (ScrollCanvas.ActualHeight / _targetValue);
             double newHeight;
 
             switch (_accuracy)
@@ -86,35 +90,38 @@ namespace Baraka.Theme.UserControls
                     throw new NotImplementedException();
             }
 
+            double scrollableHeight = ScrollCanvas.ActualHeight;
+
             // Prevent thumb from getting too small
-            if (newHeight < ScrollGrid.ActualHeight * 0.03)
+            if (newHeight < scrollableHeight * 0.03)
             {
-                newHeight = ScrollGrid.ActualHeight * 0.08;
+                newHeight = scrollableHeight * 0.08;
             }
-            else if (newHeight < ScrollGrid.ActualHeight * 0.08)
+            else if (newHeight < scrollableHeight * 0.08)
             {
-                newHeight = ScrollGrid.ActualHeight * 0.12;
+                newHeight = scrollableHeight * 0.12;
             }
 
             // Prevent thumb from getting too big
-            if (newHeight > ScrollGrid.ActualHeight * 0.9)
+            if (newHeight > scrollableHeight * 0.9)
             {
-                newHeight = ScrollGrid.ActualHeight * 0.8;
+                newHeight = scrollableHeight * 0.8;
             }
-            else if (newHeight > ScrollGrid.ActualHeight * 0.7)
+            else if (newHeight > scrollableHeight * 0.7)
             {
-                newHeight = ScrollGrid.ActualHeight * 0.6;
+                newHeight = scrollableHeight * 0.6;
             }
 
             // Overrided values
             if (_targetValue == 1)
             {
-                newHeight = ScrollGrid.ActualHeight;
+                newHeight = scrollableHeight;
             }
 
             // // //
 
             ThumbGrid.Height = newHeight;
+            ResetThumbY();
         }
         #endregion
 
@@ -123,14 +130,9 @@ namespace Baraka.Theme.UserControls
             InitializeComponent();
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        public void ResetThumbY()
         {
-            Reset();
-        }
-
-        public void Reset()
-        {
-            ChangeThumbTopMargin(-(ScrollGrid.ActualHeight - ThumbGrid.Height), true);
+            SetThumbY(0, true);
         }
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -147,27 +149,29 @@ namespace Baraka.Theme.UserControls
         }
 
         #region Manual Scroll
+        double mouseOffset = 0;
         private void ThumbGrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            // Define offset
+            if (mouseOffset == 0) mouseOffset = ComputeMouseOffset(); 
+            
             _mouseDown = true;
         }
 
         private void UserControl_MouseUp(object sender, MouseButtonEventArgs e)
         {
             _mouseDown = false;
+            mouseOffset = 0; // Reset offset
         }
 
-        private void UserControl_MouseLeave(object sender, MouseEventArgs e)
-        {
-            _mouseDown = false;
-        }
         private void UserControl_MouseMove(object sender, MouseEventArgs e)
         {
             if (_mouseDown)
             {
-                double newThumbTopMargin
-                    = ThumbGrid.Margin.Top + Mouse.GetPosition(ThumbGrid).Y - (int)(ThumbGrid.ActualHeight / 2d);
-                ChangeThumbTopMargin(newThumbTopMargin);
+                double newThumbTop
+                    = Mouse.GetPosition(ScrollCanvas).Y - mouseOffset;
+
+                SetThumbY(newThumbTop);
             }
         }
         #endregion
@@ -175,21 +179,16 @@ namespace Baraka.Theme.UserControls
         #region Click Scroll
         private void BackgroundRect_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            double mouseRelativeY
-                = Mouse.GetPosition(ExactMiddle).Y;
-
-            if (mouseRelativeY > 0)
-            {
-                ChangeThumbTopMargin(mouseRelativeY + ThumbGrid.Height);
-            }
-            else
-            {
-                ChangeThumbTopMargin(mouseRelativeY - ThumbGrid.Height);
-            }
+            SetThumbY(Canvas.GetTop(ThumbGrid) + ComputeMouseOffset());
         }
         #endregion
 
         #region UI Utils
+        private double ComputeMouseOffset()
+        {
+            return Mouse.GetPosition(ScrollCanvas).Y - Canvas.GetTop(ThumbGrid);
+        }
+
         private int DeductLeftRightMarginForThumb()
         {
             if (Width > 25)
@@ -210,40 +209,32 @@ namespace Baraka.Theme.UserControls
             }
         }
 
-        private void ChangeThumbTopMargin(double newMargin, bool reset = false)
+        private double _oldScrolled = 0;
+        private void SetThumbY(double newY, bool reset = false)
         {
-            if (!reset)
+            double maxThumbY =
+                ScrollCanvas.ActualHeight - ThumbGrid.ActualHeight;
+
+            if (newY < 0)
             {
-                if (newMargin + ThumbGrid.ActualHeight > ScrollGrid.ActualHeight)
-                {
-                    // Prevent thumb from trespassing bottom limit
-                    ChangeThumbTopMargin(ScrollGrid.ActualHeight - ThumbGrid.ActualHeight);
-                    return;
-                }
-                else if (newMargin - ThumbGrid.ActualHeight < -ScrollGrid.ActualHeight)
-                {
-                    // Prevent thumb from trespassing top limit
-                    ChangeThumbTopMargin(-(ScrollGrid.ActualHeight - ThumbGrid.ActualHeight));
-                    return;
-                }
+                SetThumbY(0);
+                return;
+            }
+            else if (newY > maxThumbY)
+            {
+                SetThumbY(maxThumbY);
+                return;
             }
 
-            ThumbGrid.Margin = new Thickness(
-                ThumbGrid.Margin.Left,
-                newMargin,
-                ThumbGrid.Margin.Right,
-                ThumbGrid.Margin.Bottom
-            );
+            Canvas.SetTop(ThumbGrid, newY);
 
-            double scrollAreaHeight = ScrollGrid.ActualHeight - ThumbGrid.ActualHeight;
-            double relativeThumbY = ThumbGrid.TransformToAncestor(ScrollGrid).Transform(new Point(0, 0)).Y;
-            _scrolled = relativeThumbY / scrollAreaHeight;
-            // todo: fix first click bug
+            _scrolled = Canvas.GetTop(ThumbGrid) / maxThumbY;
 
-            if (!reset)
+            if (!reset
+                && _scrolled != _oldScrolled) // Smooth event firings
             {
                 OnScroll?.Invoke(this, EventArgs.Empty);
-                Console.WriteLine($"onscroll invoked, scrolled: {ThumbGrid.Margin.Top}");
+                _oldScrolled = _scrolled;
             }
         }
         #endregion

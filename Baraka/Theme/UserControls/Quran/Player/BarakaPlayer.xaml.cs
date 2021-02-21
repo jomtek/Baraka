@@ -181,7 +181,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
         private void SwitchTab(int tab, bool animation = true)
         {
             DisplaySV.ScrollToTop();
-            MainSB.Reset();
+            MainSB.ResetThumbY();
 
             if (animation) ((Storyboard)this.Resources["TabSwitchStory"]).Begin();
             if (_lastTabShown == tab) return;
@@ -358,6 +358,15 @@ namespace Baraka.Theme.UserControls.Quran.Player
         }
         #endregion
 
+        #endregion
+
+        #region UI Reactivity
+        private void userControl_MouseLeave(object sender, MouseEventArgs e)
+        {
+            // Close player
+            if (_surahModification) SurahTB_PreviewMouseLeftButtonDown(null, null);
+            if (_cheikhModification) CheikhTB_PreviewMouseLeftButtonDown(null, null);
+        }
         #endregion
     }
 }

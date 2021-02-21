@@ -25,6 +25,11 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         private SurahDescription _surah;
         private int _number;
 
+        public BarakaVerse() // Design purposes
+        {
+            InitializeComponent();
+        }
+
         public BarakaVerse(SurahDescription surah, int number)
         {
             InitializeComponent();
@@ -39,6 +44,10 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             ArabicTB.Text = versions[0].Verses[_number];
             PhoneticTB.Text = versions[1].Verses[_number];
             TranslatedTB.Text = versions[2].Verses[_number];
+
+            // Measure and arrange early so that the size is known from the initialization
+            Measure(new Size(650, double.PositiveInfinity));
+            Arrange(new Rect(0, 0, 650, DesiredSize.Height));
         }
     }
 }
