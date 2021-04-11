@@ -1,19 +1,7 @@
 ﻿using Baraka.Data.Descriptions;
 using Baraka.Data.Surah;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Baraka.Theme.UserControls.Quran.Displayer
 {
@@ -25,15 +13,10 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         private SurahDescription _surah;
         private int _number;
 
-        public BarakaVerse() // Design purposes
-        {
-            InitializeComponent();
-        }
-
         public BarakaVerse(SurahDescription surah, int number)
         {
             InitializeComponent();
-        
+
             _surah = surah;
             _number = number;
         }

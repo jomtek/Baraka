@@ -6,16 +6,26 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Displayer"
              xmlns:UserControls="clr-namespace:Baraka.Theme.UserControls"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" Width="873" Height="520">
-    <Grid Margin="0,0,-26,0" Width="873">
-        <local:BarakaBookmark HorizontalAlignment="Left" Height="285.333" VerticalAlignment="Top" Width="65.5" Margin="0" OnPlanetClick="BarakaBookmark_OnPlanetClick"/>
-        <ScrollViewer x:Name="VersesSV" HorizontalAlignment="Left" Height="520" VerticalAlignment="Top" Width="751.5" Margin="65.5,0,0,0" VerticalScrollBarVisibility="Hidden" PreviewMouseWheel="VersesSV_PreviewMouseWheel">
+             mc:Ignorable="d" Height="607">
+    <Grid Margin="0">
+        <ScrollViewer x:Name="VersesSV" Margin="0" VerticalScrollBarVisibility="Hidden" PreviewMouseWheel="VersesSV_PreviewMouseWheel">
             <Grid>
-                <StackPanel x:Name="VersesSP" HorizontalAlignment="Right" Width="657" Margin="0" />
-                <StackPanel x:Name="NumberingSP" Margin="18,0,0,0" HorizontalAlignment="Left"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="65.5" />
+                    <ColumnDefinition Width="70" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Canvas Grid.Column="0" Width="65.5" HorizontalAlignment="Left">
+                    <local:BarakaBookmark x:Name="Bookmark" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Margin="0,45,0,0" />
+                </Canvas>
+                <StackPanel Grid.Column="1" x:Name="NumberingSP" HorizontalAlignment="Left" Width="60" Margin="10,0,0,0">
+                    <local:BarakaVerseNumber d:LayoutOverrides="Height"/>
+                    <local:BarakaVerseNumber Margin="0,150,0,0"/>
+                    <local:BarakaVerseNumber d:LayoutOverrides="Height" Margin="0,109,0,0"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2" x:Name="VersesSP" Margin="20,0,0,0" Width="850"  />
             </Grid>
         </ScrollViewer>
-        <UserControls:BarakaScrollBar x:Name="MainSB" Margin="0,0,5,0" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="44" Height="520" OnScroll="MainSB_OnScroll"/>
+        <UserControls:BarakaScrollBar x:Name="MainSB" Margin="0,45,-55,45" VerticalAlignment="Stretch" Height="Auto"  Width="44" OnScroll="MainSB_OnScroll" HorizontalAlignment="Right"/>
     </Grid>
 </UserControl>

@@ -1,0 +1,113 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Baraka.Forms"
+        xmlns:UserControls="clr-namespace:Baraka.Theme.UserControls" xmlns:Searcher="clr-namespace:Baraka.Theme.UserControls.Quran.Searcher" x:Class="Baraka.Forms.SearchWindow"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterOwner"
+        Title="SearchWindow" Height="825" Width="1000" Background="{x:Null}" ResizeMode="NoResize" ShowInTaskbar="False" Deactivated="Window_Deactivated">
+    <Window.Resources>
+        <Storyboard x:Key="HideFiltersStory"/>
+        <Storyboard x:Key="ShowFiltersStory">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="path">
+                <SplineThicknessKeyFrame KeyTime="0" Value="0,0,-1,0"/>
+                <SplineThicknessKeyFrame KeyTime="0:0:0.3" Value="0,20,-1,0"/>
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource HideFiltersStory}"/>
+        </EventTrigger>
+    </Window.Triggers>
+    <Border BorderThickness="0" Background="White" Padding="0" Margin="30" CornerRadius="10">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="20" Opacity="0.7"/>
+        </Border.Effect>
+        <StackPanel Margin="0">
+            <UserControls:BarakaTextBox x:Name="SearchTB" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,25,0,4" Width="500" Height="55" TextChanged="SearchTB_TextChanged" >
+                <UserControls:BarakaTextBox.Effect>
+                    <DropShadowEffect Opacity="0.25" ShadowDepth="2"/>
+                </UserControls:BarakaTextBox.Effect>
+            </UserControls:BarakaTextBox>
+            <Grid x:Name="FiltersBox" Margin="20,5,20,0" IsHitTestVisible="True" MouseEnter="FiltersBox_MouseEnter" MouseLeave="FiltersBox_MouseLeave" Background="White" Height="45">
+                <GroupBox x:Name="FiltersGB" BorderThickness="3" RenderTransformOrigin="0.5,0.5" Margin="0">
+                    <GroupBox.Header>
+                        <TextBlock TextWrapping="Wrap" Text="Filtres" FontFamily="/Baraka;component/Fonts/#Poppins" FontSize="22" FontWeight="Bold"/>
+                    </GroupBox.Header>
+                    <GroupBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </GroupBox.RenderTransform>
+                    <GroupBox.BorderBrush>
+                        <SolidColorBrush Color="{DynamicResource MediumColor}"/>
+                    </GroupBox.BorderBrush>
+                    <StackPanel Margin="0,2.5,0,0" Orientation="Horizontal">
+                        <StackPanel Width="348" Margin="20,0,0,0">
+                            <Grid Height="30">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="343*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock TextWrapping="Wrap" Text="Type de révélation" HorizontalAlignment="Left" FontSize="15" VerticalAlignment="Center" Margin="0,5.025" Grid.ColumnSpan="2"/>
+                                <ComboBox x:Name="RevelationTypeCMBB" HorizontalAlignment="Right" VerticalAlignment="Center" Width="200" Margin="0,3.855,0,2.855" FontSize="13" FontWeight="Bold" Grid.Column="1">
+                                    <ComboBoxItem Content="Peu importe" IsSelected="True" />
+                                    <ComboBoxItem Content="La Mecque (Mecquoise)" />
+                                    <ComboBoxItem Content="Médine (Héjiroise)" />
+                                </ComboBox>
+                            </Grid>
+                            <Grid Height="30">
+                                <TextBlock TextWrapping="Wrap" Text="Sourate" FontSize="15" Margin="0,5.025" VerticalAlignment="Center" Grid.ColumnSpan="4"/>
+                                <ComboBox x:Name="SurahCMBB" HorizontalAlignment="Right" VerticalAlignment="Center" Width="200" Margin="0,3.355" FontSize="13" FontWeight="Bold">
+                                    <ComboBoxItem Content="Peu importe" IsSelected="True" />
+                                </ComboBox>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Width="255" Margin="40,0,0,0">
+                            <Grid Height="30">
+                                <TextBlock TextWrapping="Wrap" Text="Langue" FontSize="15" Margin="0" VerticalAlignment="Center"/>
+                                <ComboBox x:Name="LanguageCMBB" HorizontalAlignment="Right" VerticalAlignment="Center" Width="165" Margin="0,4.02" FontSize="13" FontWeight="Bold" d:IsLocked="True">
+                                    <ComboBoxItem Content="Français" IsSelected="True" />
+                                    <ComboBoxItem Content="Arabe" />
+                                    <ComboBoxItem Content="Phonétique" />
+                                </ComboBox>
+                            </Grid>
+                            <Grid Height="30">
+                                <TextBlock TextWrapping="Wrap" Text="Édition" FontSize="15" Margin="0" VerticalAlignment="Center"/>
+                                <ComboBox x:Name="EditionCMBB" HorizontalAlignment="Right" VerticalAlignment="Center" Width="165" Margin="0,4.02" FontSize="13" FontWeight="Bold">
+                                    <ComboBoxItem Content="hamidullah" IsSelected="True" />
+                                </ComboBox>
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+            </Grid>
+            <Path x:Name="path" Data="M0,200 L803.946,199.33333" Margin="0,15,-1,0" Stretch="Fill" VerticalAlignment="Top" StrokeThickness="4" Height="4" StrokeStartLineCap="Square" StrokeEndLineCap="Square">
+                <Path.Stroke>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
+                </Path.Stroke>
+            </Path>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                <TextBlock x:Name="ResultsStatsTB" TextWrapping="Wrap" FontFamily="/Baraka;component/Fonts/#Poppins" FontSize="20" Margin="0" HorizontalAlignment="Left" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" Padding="10,0" PreviewMouseLeftButtonUp="ResultsStatsTB_PreviewMouseLeftButtonUp">
+                    <TextBlock.Background>
+                        <SolidColorBrush Color="{DynamicResource MediumColor}"/>
+                    </TextBlock.Background><Run Text="22 versets "/><Run Text="trouvés"/></TextBlock>
+                <TextBlock x:Name="ShowAllTB" TextWrapping="Wrap" Text="Voir tout" FontSize="16" FontWeight="Bold" Foreground="#FF437CB6" Margin="10,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" Cursor="Hand" Visibility="Collapsed" MouseEnter="ShowAllTB_MouseEnter" MouseLeave="ShowAllTB_MouseLeave" PreviewMouseLeftButtonUp="ShowAllTB_PreviewMouseLeftButtonUp"/>
+            </StackPanel>
+            <DockPanel LastChildFill="False" Height="447" Margin="0,20,0,0">
+                <ScrollViewer x:Name="ResultsSV" Height="447" VerticalAlignment="Top" Width="892" VerticalScrollBarVisibility="Hidden" Margin="0" PreviewMouseWheel="ResultsSV_PreviewMouseWheel">
+                    <StackPanel x:Name="ResultsSP" Margin="0"/>
+                </ScrollViewer>
+                <UserControls:BarakaScrollBar x:Name="MainSB" Height="447" VerticalAlignment="Top" OnScroll="MainSB_OnScroll"/>
+            </DockPanel>
+        </StackPanel>
+    </Border>
+</Window>

@@ -35,8 +35,48 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Registry, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Win32.Registry.4.7.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio, Version=2.0.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.2.0.0\lib\netstandard2.0\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio.Asio, Version=2.0.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.Asio.2.0.0\lib\netstandard2.0\NAudio.Asio.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.Core.2.0.0\lib\netstandard2.0\NAudio.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio.Midi, Version=2.0.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.Midi.2.0.0\lib\netstandard2.0\NAudio.Midi.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio.Wasapi, Version=2.0.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.Wasapi.2.0.0\lib\netstandard2.0\NAudio.Wasapi.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio.WinForms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.WinForms.2.0.0\lib\net472\NAudio.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio.WinMM, Version=2.0.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.WinMM.2.0.0\lib\netstandard2.0\NAudio.WinMM.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.AccessControl, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.4.7.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.4.7.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -56,25 +96,40 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\Descriptions\CheikhDescription.cs" />
+    <Compile Include="Data\Descriptions\VerseDescription.cs" />
     <Compile Include="Data\LoadedData.cs" />
     <Compile Include="Data\SerializationUtils.cs" />
     <Compile Include="Data\Descriptions\SurahDescription.cs" />
     <Compile Include="Data\Descriptions\SurahRevelationType.cs" />
     <Compile Include="Data\Surah\SurahVersion.cs" />
-    <Compile Include="QuranTranslationsManagerWindow.xaml.cs">
-      <DependentUpon>QuranTranslationsManagerWindow.xaml</DependentUpon>
+    <Compile Include="Forms\SearchWindow.xaml.cs">
+      <DependentUpon>SearchWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\BarakaCheckBox.xaml.cs">
-      <DependentUpon>BarakaCheckBox.xaml</DependentUpon>
+    <Compile Include="Forms\Settings\AppearancePage.xaml.cs">
+      <DependentUpon>AppearancePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\ComboBox\BarakaComboBox.xaml.cs">
-      <DependentUpon>BarakaComboBox.xaml</DependentUpon>
+    <Compile Include="Forms\Settings\GeneralPage.xaml.cs">
+      <DependentUpon>GeneralPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Settings\QuranPage.xaml.cs">
+      <DependentUpon>QuranPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Settings\SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Streaming\QuranStreamer.cs" />
+    <Compile Include="Streaming\StreamingUtils.cs" />
+    <Compile Include="Theme\UserControls\BarakaButton.xaml.cs">
+      <DependentUpon>BarakaButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Theme\UserControls\BarakaDashboard.xaml.cs">
+      <DependentUpon>BarakaDashboard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Theme\UserControls\Dashboard\BarakaDashboardItem.xaml.cs">
+      <DependentUpon>BarakaDashboardItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Theme\UserControls\Quran\Displayer\BarakaBookmark.xaml.cs">
       <DependentUpon>BarakaBookmark.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Theme\UserControls\ComboBox\BarakaComboBoxElement.xaml.cs">
-      <DependentUpon>BarakaComboBoxElement.xaml</DependentUpon>
     </Compile>
     <Compile Include="Theme\UserControls\Quran\Displayer\BarakaSurahDisplayer.xaml.cs">
       <DependentUpon>BarakaSurahDisplayer.xaml</DependentUpon>
@@ -85,7 +140,15 @@
     <Compile Include="Theme\UserControls\Quran\Displayer\BarakaVerseNumber.xaml.cs">
       <DependentUpon>BarakaVerseNumber.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WelcomeWindow.xaml.cs">
+    <Compile Include="Theme\UserControls\Quran\Searcher\BarakaSearchResult.xaml.cs">
+      <DependentUpon>BarakaSearchResult.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\General.cs" />
+    <Compile Include="Utils\Search\General.cs" />
+    <Compile Include="Utils\Search\RelevantSearch.cs" />
+    <Compile Include="Utils\Search\SearchResult.cs" />
+    <Compile Include="Utils\WaitCursor.cs" />
+    <Compile Include="Forms\WelcomeWindow.xaml.cs">
       <DependentUpon>WelcomeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Theme\UserControls\Quran\Player\BarakaPlayer.xaml.cs">
@@ -110,23 +173,43 @@
       <DependentUpon>SurahBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Theme\UserControls\ScrollAccuracyMode.cs" />
-    <Page Include="QuranTranslationsManagerWindow.xaml">
+    <Page Include="Forms\SearchWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\BarakaCheckBox.xaml">
+    <Page Include="Forms\Settings\AppearancePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\ComboBox\BarakaComboBox.xaml">
+    <Page Include="Forms\Settings\GeneralPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Settings\QuranPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Settings\SettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Simple Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\UserControls\BarakaButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\UserControls\BarakaDashboard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\UserControls\Dashboard\BarakaDashboardItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Theme\UserControls\Quran\Displayer\BarakaBookmark.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Theme\UserControls\ComboBox\BarakaComboBoxElement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -142,15 +225,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="WelcomeWindow.xaml">
+    <Page Include="Forms\WelcomeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\Styles\Scroll.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Forms\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -158,7 +237,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Forms\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -190,6 +269,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Theme\UserControls\Quran\Searcher\BarakaSearchResult.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -205,6 +288,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Images\Cheikh\bukhatir.png" />
+    <Resource Include="Images\Cheikh\ghamidi.png" />
+    <Resource Include="Images\Cheikh\yassin.png" />
     <Resource Include="Images\Cheikh\abdessamad.png" />
     <Resource Include="Images\player_loop_off.png" />
     <Resource Include="Images\player_loop_on.png" />
@@ -231,6 +317,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="Fonts\Al Qalam Quran.ttf" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

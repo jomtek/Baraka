@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Baraka.Streaming;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Baraka.Theme.UserControls.Quran.Displayer
 {
@@ -20,14 +11,60 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
     /// </summary>
     public partial class BarakaVerseNumber : UserControl
     {
+        private int _num;
+        private BarakaSurahDisplayer _displayer;
+
         public BarakaVerseNumber()
         {
             InitializeComponent();
         }
-        public BarakaVerseNumber(int number)
+
+        public BarakaVerseNumber(BarakaSurahDisplayer displayer, int number, bool basmala = false)
         {
             InitializeComponent();
-            NumberTB.Text = number.ToString();
+
+            _num = number;
+            _displayer = displayer;
+
+            if (!basmala)
+            {
+                NumberTB.Text = number.ToString();
+            }
+            else
+            {
+                NumberTB.Visibility = Visibility.Collapsed;
+                BasmalaEllipse.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void UserControl_MouseEnter(object sender, MouseEventArgs e)
+        {
+            PolygonPath.Stroke = Brushes.Goldenrod;
+        }
+
+        private void UserControl_MouseLeave(object sender, MouseEventArgs e)
+        {
+            PolygonPath.Stroke = Brushes.Transparent;
+        }
+
+        private void UserControl_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            _displayer.VerseNum_Click(_num);
+        }
+
+        private void Menu_MoveHere_Click(object sender, RoutedEventArgs e)
+        {
+            _displayer.VerseNum_Click(_num);
+        }
+
+        private void Menu_StartHere_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Menu_Download_Click(object sender, RoutedEventArgs e)
+        {
+            _displayer.DownloadMp3Verse(_num);
         }
     }
 }

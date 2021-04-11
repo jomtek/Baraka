@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.ComponentModel;
 
 namespace Baraka.Theme.UserControls
 {
@@ -153,8 +143,8 @@ namespace Baraka.Theme.UserControls
         private void ThumbGrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             // Define offset
-            if (mouseOffset == 0) mouseOffset = ComputeMouseOffset(); 
-            
+            if (mouseOffset == 0) mouseOffset = ComputeMouseOffset();
+
             _mouseDown = true;
         }
 
@@ -222,7 +212,7 @@ namespace Baraka.Theme.UserControls
             }
             else if (newY > maxThumbY)
             {
-                SetThumbY(maxThumbY);
+                SetThumbY(maxThumbY, reset);
                 return;
             }
 

@@ -1,0 +1,57 @@
+﻿<Window x:Class="Baraka.Forms.Settings.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Baraka.Forms"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterOwner"
+        Title="SettingsWindow" Height="825" Width="1000" Background="{x:Null}" ResizeMode="NoResize" ShowInTaskbar="False" Deactivated="Window_Deactivated">
+    <Window.Resources>
+        <Color x:Key="DashboardHoveredItemColor">#FFD7EEFF</Color>
+        <SolidColorBrush x:Key="DashboardHoveredItemBrush" Color="{StaticResource DashboardHoveredItemColor}" />
+        <Color x:Key="DashboardSelectedItemColor">#FFC2D8E8</Color>
+        <SolidColorBrush x:Key="DashboardSelectedItemBrush" Color="{StaticResource DashboardSelectedItemColor}" />
+    </Window.Resources>
+    <Border BorderThickness="0" Background="White" CornerRadius="10" Margin="30">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="20" Opacity="0.7"/>
+        </Border.Effect>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Width="220" Margin="0,20,0,0">
+                <Grid x:Name="General_MenuItem_Grid" VerticalAlignment="Top" MouseEnter="General_MenuItem_MouseEnter" MouseLeave="General_MenuItem_MouseLeave" Cursor="Hand" MouseLeftButtonUp="General_MenuItem_Grid_MouseLeftButtonUp">
+                    <Grid.Background>
+                        <SolidColorBrush Color="{DynamicResource DashboardSelectedItemColor}"/>
+                    </Grid.Background>
+                    <TextBlock TextWrapping="Wrap" Text="Général" Margin="0" HorizontalAlignment="Center" FontSize="27" FontFamily="/Baraka;component/Fonts/#Poppins">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+                </Grid>
+                <Grid x:Name="Quran_MenuItem_Grid" VerticalAlignment="Top" Margin="0,10,0,0" Background="White" MouseEnter="Quran_MenuItem_MouseEnter" MouseLeave="Quran_MenuItem_MouseLeave" Cursor="Hand" MouseLeftButtonUp="Quran_MenuItem_Grid_MouseLeftButtonUp">
+                    <TextBlock TextWrapping="Wrap" Text="Coran" HorizontalAlignment="Center" FontSize="27" FontFamily="/Baraka;component/Fonts/#Poppins" Margin="0">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+                </Grid>
+                <Grid x:Name="Appearance_MenuItem_Grid" Margin="0,10,0,0" MouseEnter="Appearance_MenuItem_MouseEnter" MouseLeave="Appearance_MenuItem_MouseLeave" Background="White" Cursor="Hand" MouseLeftButtonUp="Appearance_MenuItem_Grid_MouseLeftButtonUp">
+                    <TextBlock TextWrapping="Wrap" Text="Apparence" HorizontalAlignment="Center" FontSize="27" FontFamily="/Baraka;component/Fonts/#Poppins" Margin="0">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+                </Grid>
+            </StackPanel>
+            <Path Data="M180,0 L180,823" HorizontalAlignment="Left" Margin="0" Stretch="Fill" StrokeThickness="4" StrokeStartLineCap="Square" StrokeEndLineCap="Square" Height="825">
+                <Path.Stroke>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
+                </Path.Stroke>
+            </Path>
+            <Frame x:Name="FrameComponent" Width="710" NavigationUIVisibility="Hidden" Margin="0,3"/>
+        </StackPanel>
+    </Border>
+</Window>

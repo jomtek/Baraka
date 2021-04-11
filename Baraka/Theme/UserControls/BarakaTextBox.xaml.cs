@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Baraka.Theme.UserControls
 {
@@ -20,6 +11,23 @@ namespace Baraka.Theme.UserControls
     /// </summary>
     public partial class BarakaTextBox : UserControl
     {
+        #region Settings
+        [Category("Baraka")]
+        public string Text
+        {
+            get { return TextBoxComponent.Text; }
+            set
+            {
+                TextBoxComponent.Text = value;
+            }
+        }
+        #endregion
+
+        #region Events
+        [Category("Baraka")]
+        public event EventHandler TextChanged;
+        #endregion
+
         public BarakaTextBox()
         {
             InitializeComponent();
@@ -55,6 +63,11 @@ namespace Baraka.Theme.UserControls
                 TextBoxComponent.Text = "rechercher...";
                 TextBoxComponent.Opacity = 0.65;
             }
+        }
+
+        private void TextBoxComponent_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

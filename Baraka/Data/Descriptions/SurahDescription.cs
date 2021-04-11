@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Baraka.Data.Descriptions
 {
     [Serializable]
     public class SurahDescription
     {
-        public int SurahNumber { get;  set; }
+        public int SurahNumber { get; set; }
         public int NumberOfVerses { get; set; }
         public string PhoneticName { get; set; }
         public string TranslatedName { get; set; } // todo: globalization

@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="Baraka.Theme.UserControls.BarakaButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Baraka.Theme.UserControls"
+             mc:Ignorable="d" Height="108.916" Width="357.83" Cursor="Hand" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave" MouseDown="UserControl_MouseDown" MouseUp="UserControl_MouseUp">
+    <UserControl.Effect>
+        <DropShadowEffect x:Name="dropShadow" Opacity="0.4" BlurRadius="7"/>
+    </UserControl.Effect>
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="HoveredBrush" Color="#FF016A39" />
+        <SolidColorBrush x:Key="PressedBrush" Color="#FF016637" />
+    </UserControl.Resources>
+    <Border x:Name="border" BorderThickness="0" CornerRadius="10">
+        <Border.Background>
+            <SolidColorBrush Color="#FF01743E"/>
+        </Border.Background>
+        <Grid Margin="0">
+            <Viewbox Margin="20,0">
+                <TextBlock TextWrapping="Wrap" Text="rechercher" Margin="0,2.5,0,4">
+                    <TextBlock.Foreground>
+                        <SolidColorBrush Color="White"/>
+                    </TextBlock.Foreground>
+                </TextBlock>
+            </Viewbox>
+        </Grid>
+    </Border>
+</UserControl>

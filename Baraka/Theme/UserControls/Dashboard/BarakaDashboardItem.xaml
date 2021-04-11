@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="Baraka.Theme.UserControls.Dashboard.BarakaDashboardItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Baraka.Theme.UserControls.Dashboard"
+             mc:Ignorable="d" HorizontalAlignment="Center" Width="228" Height="54.667" Background="{DynamicResource MediumBrush}" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave">
+    <UserControl.Resources>
+        <Style x:Key="Search" TargetType="{x:Type Path}">
+            <Setter Property="Data" Value="M44.388,38.912l-8.763-8.763a2.108,2.108,0,0,0-1.494-.615H32.7A18.274,18.274,0,1,0,29.533,32.7V34.13a2.108,2.108,0,0,0,.615,1.494l8.763,8.763a2.1,2.1,0,0,0,2.98,0L44.379,41.9A2.119,2.119,0,0,0,44.388,38.912ZM18.283,29.533A11.251,11.251,0,1,1,29.533,18.283,11.244,11.244,0,0,1,18.283,29.533Z" />
+        </Style>
+        <Style x:Key="Library" TargetType="{x:Type Path}">
+            <Setter Property="Data" Value="M44.93,34.629,36.055,1.489A1.972,1.972,0,0,0,33.605.075L32.4.4a2.162,2.162,0,0,0-1.255,1.113,21.041,21.041,0,0,1-5.313,1.423A2.158,2.158,0,0,0,24.188,2.6l-1.208.323a1.934,1.934,0,0,0-.48.241V2.5A2.5,2.5,0,0,0,20,0H15a2.5,2.5,0,0,0-2.5,2.5v5h10l7.942,31.011a1.972,1.972,0,0,0,2.45,1.414L34.1,39.6a2.162,2.162,0,0,0,1.255-1.112,21.059,21.059,0,0,1,5.313-1.423,2.158,2.158,0,0,0,1.643.336l1.208-.323a1.971,1.971,0,0,0,1.413-2.449Zm-10.5-.552L27.238,7.216l4.83-1.294L39.26,32.784l-4.83,1.294ZM0,30H10V10H0ZM7.5,0h-5A2.5,2.5,0,0,0,0,2.5v5H10v-5A2.5,2.5,0,0,0,7.5,0ZM0,37.5A2.5,2.5,0,0,0,2.5,40h5A2.5,2.5,0,0,0,10,37.5v-5H0ZM12.5,30h10V10h-10Zm0,7.5A2.5,2.5,0,0,0,15,40h5a2.5,2.5,0,0,0,2.5-2.5v-5h-10Z" />
+        </Style>
+        <Style x:Key="Cog" TargetType="{x:Type Path}">
+            <Setter Property="Data" Value="M63.069,37.251,59.032,34.92a18.255,18.255,0,0,0,0-6.653l4.037-2.331a1.145,1.145,0,0,0,.521-1.327,23.6,23.6,0,0,0-5.184-8.965,1.14,1.14,0,0,0-1.4-.218l-4.037,2.331A17.886,17.886,0,0,0,47.2,14.43V9.777a1.135,1.135,0,0,0-.891-1.109,23.825,23.825,0,0,0-10.349,0,1.135,1.135,0,0,0-.891,1.109v4.663a18.45,18.45,0,0,0-5.762,3.327l-4.028-2.331a1.126,1.126,0,0,0-1.4.218A23.462,23.462,0,0,0,18.7,24.618a1.134,1.134,0,0,0,.521,1.327l4.037,2.331a18.255,18.255,0,0,0,0,6.653l-4.037,2.331a1.145,1.145,0,0,0-.521,1.327,23.6,23.6,0,0,0,5.184,8.965,1.14,1.14,0,0,0,1.4.218l4.037-2.331a17.886,17.886,0,0,0,5.762,3.327v4.663a1.135,1.135,0,0,0,.891,1.109,23.825,23.825,0,0,0,10.349,0,1.135,1.135,0,0,0,.891-1.109V48.766a18.45,18.45,0,0,0,5.762-3.327l4.037,2.331a1.126,1.126,0,0,0,1.4-.218A23.462,23.462,0,0,0,63.6,38.587,1.17,1.17,0,0,0,63.069,37.251Zm-21.93,1.924a7.582,7.582,0,1,1,7.582-7.582A7.592,7.592,0,0,1,41.139,39.175Z" />
+        </Style>
+        <Storyboard x:Key="MouseEnterStory">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="UnderlineRECT">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="170"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="UnderlineRECT">
+                <EasingColorKeyFrame KeyTime="0" Value="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.15" Value="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="MouseLeaveStory">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="UnderlineRECT">
+                <SplineDoubleKeyFrame KeyTime="0" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+
+    <UserControl.Triggers>
+    </UserControl.Triggers>
+
+    <Grid ClipToBounds="True" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="55" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Margin="0" Grid.RowSpan="2">
+
+            <Viewbox Margin="15,11,15,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock x:Name="ItemTBL" TextWrapping="Wrap" Text="Rechercher" HorizontalAlignment="Center" FontSize="30" Margin="0" Foreground="White" FontFamily="Montserrat" TextOptions.TextRenderingMode="Aliased"/>
+            </Viewbox>
+
+            <Rectangle x:Name="UnderlineRECT" Width="0" Height="2" StrokeStartLineCap="Square" StrokeEndLineCap="Round" RadiusY="1.667" RadiusX="1.667" Margin="-2,0,0,0" StrokeThickness="0.45" HorizontalAlignment="Left" >
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
+                </Rectangle.Fill>
+                <Rectangle.Effect>
+                    <DropShadowEffect Opacity="0.125" RenderingBias="Quality" ShadowDepth="2"/>
+                </Rectangle.Effect>
+            </Rectangle>
+        </StackPanel>
+        <Viewbox Grid.Column="1" Grid.RowSpan="2">
+            <Path x:Name="ItemICON" Style="{StaticResource Search}" Height="Auto" Width="Auto" Stretch="Fill" Margin="9,10,9,9">
+                <Path.Fill>
+                    <SolidColorBrush Color="White"/>
+                </Path.Fill>
+            </Path>
+        </Viewbox>
+    </Grid>
+</UserControl>

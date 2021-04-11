@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="Baraka.Theme.UserControls.Quran.Searcher.BarakaSearchResult"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Searcher"
+             mc:Ignorable="d" Width="825">
+    <StackPanel Background="White" Orientation="Horizontal">
+        <Viewbox HorizontalAlignment="Left" Height="30" VerticalAlignment="Center" Margin="15,0,0,0" Cursor="Hand" Width="90" PreviewMouseLeftButtonUp="Viewbox_PreviewMouseLeftButtonUp">
+            <TextBlock x:Name="VerseInfoTB" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="21" FontFamily="Quicksand" Text="S2. V173" MouseEnter="VerseInfoTB_MouseEnter" MouseLeave="VerseInfoTB_MouseLeave"/>
+        </Viewbox>
+        <RichTextBox x:Name="RTB"
+            Width="690"
+            Height="Auto"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center" 
+            BorderThickness="0"
+            IsReadOnly="True"
+            FontFamily="/Baraka;component/Fonts/#Poppins"
+            Margin="20,7,0,4" Background="{x:Null}" FontSize="18" SelectionChanged="RTB_SelectionChanged">
+            <FlowDocument/>
+        </RichTextBox>
+
+    </StackPanel>
+</UserControl>

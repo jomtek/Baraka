@@ -5,13 +5,28 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Displayer"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Width="60" Height="60">
+             d:DesignHeight="450" d:DesignWidth="800" Width="60" Height="60" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="UserControl_PreviewMouseLeftButtonUp">
+
+    <UserControl.Effect>
+        <DropShadowEffect Opacity="0.08"/>
+    </UserControl.Effect>
+
+    <UserControl.ContextMenu>
+        <ContextMenu Name="cm" StaysOpen="true">
+            <MenuItem Header="Se déplacer ici" Click="Menu_MoveHere_Click" />
+            <MenuItem Header="Commencer à partir d'ici" Click="Menu_StartHere_Click"/>
+            <Separator />
+            <MenuItem Header="Télécharger le verset" Click="Menu_Download_Click"/>
+        </ContextMenu>
+    </UserControl.ContextMenu>
+
     <Grid>
-        <Path
+        <Path x:Name="PolygonPath"
             Data="M28.6,9.9a14,14,0,0,1,19.8,0L67.1,28.6a14,14,0,0,1,0,19.8L48.4,67.1a14,14,0,0,1-19.8,0L9.9,48.4a14,14,0,0,1,0-19.8Z"
             Fill="White"
-            Stretch="Fill"
+            Stretch="Fill" StrokeThickness="5"
             />
         <TextBlock x:Name="NumberTB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="1" VerticalAlignment="Center" FontFamily="Montserrat" FontWeight="Bold" FontSize="21"/>
+        <Ellipse x:Name="BasmalaEllipse" Fill="#FF4CB074" HorizontalAlignment="Center" Height="22.5" VerticalAlignment="Center" Width="22.5" Visibility="Collapsed"/>
     </Grid>
 </UserControl>

@@ -3,13 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Baraka"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Baraka.App"
-             StartupUri="WelcomeWindow.xaml">
+             StartupUri="Forms\WelcomeWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Theme/Styles/Scroll.xaml" />
+                <ResourceDictionary Source="Simple Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            
             <!-- Colors and brushes -->
             <Color x:Key="DarkColor">#01743E</Color>
             <Color x:Key="MediumColor">#008145</Color>

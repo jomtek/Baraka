@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using Baraka.Data.Descriptions;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Baraka.Data.Descriptions;
 
 namespace Baraka.Theme.UserControls.Quran.Player
 {
@@ -44,7 +33,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
         {
             FirstNameTB.Text = _cheikh.FirstName;
             LastNameTB.Text = _cheikh.LastName;
-            PhotoRect.Fill = new ImageBrush(_cheikh.Photo);
+            PhotoRect.Fill = new ImageBrush(_cheikh.GetPhoto());
         }
 
         private void UserControl_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)

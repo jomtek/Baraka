@@ -1,0 +1,102 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Baraka"
+        xmlns:UserControls="clr-namespace:Baraka.Theme.UserControls"
+        xmlns:Player="clr-namespace:Baraka.Theme.UserControls.Quran.Player"
+        xmlns:Displayer="clr-namespace:Baraka.Theme.UserControls.Quran.Displayer"
+        xmlns:Dashboard="clr-namespace:Baraka.Theme.UserControls.Dashboard"
+        x:Class="Baraka.MainWindow"
+        mc:Ignorable="d"
+        Title="Baraka"
+        Height="866" Width="1500"
+        MinWidth="1210"
+        Initialized="Window_Initialized" Closing="Window_Closing" SizeChanged="Window_SizeChanged">
+    <Window.Resources>
+        <Storyboard x:Key="DashboardCloseStory">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="Dashboard">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="68"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="ElementsSP">
+                <EasingThicknessKeyFrame KeyTime="0:0:0.15" Value="-168,100,0,0"/>
+            </ThicknessAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="path">
+                <EasingColorKeyFrame KeyTime="0:0:0.25" Value="Transparent"/>
+            </ColorAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="textBlock">
+                <EasingColorKeyFrame KeyTime="0:0:0.25" Value="Transparent"/>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="DashboardOpenStory">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="Dashboard">
+                <SplineDoubleKeyFrame KeyTime="0" Value="96"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.15" Value="233.167"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="ElementsSP">
+                <SplineThicknessKeyFrame KeyTime="0" Value="-153,100,0,0"/>
+                <SplineThicknessKeyFrame KeyTime="0:0:0.15" Value="0,100,0,0"/>
+            </ThicknessAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="path">
+                <SplineColorKeyFrame KeyTime="0:0:0.15" Value="White"/>
+            </ColorAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="textBlock">
+                <SplineColorKeyFrame KeyTime="0:0:0.15" Value="White"/>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource DashboardCloseStory}"/>
+        </EventTrigger>
+    </Window.Triggers>
+    <Window.Effect>
+        <BlurEffect x:Name="WindowBlurEffect" Radius="0" RenderingBias="Quality"/>
+    </Window.Effect>
+
+    <DockPanel x:Name="dockPanel" LastChildFill="True">
+        <!-- Top Grid -->
+        <!-- Top Grid -->
+
+        <!-- Form content -->
+        <!-- Top Grid -->
+        <Grid x:Name="Dashboard" Height="Auto" VerticalAlignment="Stretch" DockPanel.Dock="Left" Width="235" RenderTransformOrigin="0.5,0.5" ClipToBounds="True" MouseEnter="Dashboard_MouseEnter" MouseLeave="Dashboard_MouseLeave">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
+            <Grid.Background>
+                <SolidColorBrush Color="{DynamicResource LightColor}"/>
+            </Grid.Background>
+            <Border BorderThickness="0" Margin="0,0,2,0" Background="{DynamicResource MediumBrush}" CornerRadius="0,50,0,0" Grid.RowSpan="2" />
+            <TextBlock x:Name="textBlock" HorizontalAlignment="Center" Margin="0,17.5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Montserrat" FontWeight="Bold" FontSize="40" Foreground="White" Width="148.92" Text="Baraka" RenderTransformOrigin="0.5,0.5">
+                <TextBlock.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </TextBlock.RenderTransform>
+            </TextBlock>
+            <Path x:Name="path" Data="M10,73.5 L263,74" HorizontalAlignment="Center" Height="5.5" Margin="18.084,70,20.083,0" Stretch="Fill" Stroke="White" StrokeThickness="5" VerticalAlignment="Top" Width="160" StrokeEndLineCap="Round" StrokeStartLineCap="Round"/>
+            <StackPanel x:Name="ElementsSP" Margin="0,100,0,0" Grid.RowSpan="2">
+                <Dashboard:BarakaDashboardItem x:Name="SearchDashboardItem" HorizontalAlignment="Left" PreviewMouseLeftButtonUp="SearchDashboardItem_PreviewMouseLeftButtonUp" Margin="0,0,4,0"/>
+                <Dashboard:BarakaDashboardItem x:Name="LibraryDashboardItem" HorizontalAlignment="Left" Margin="0,10,4,0" ItemIndex="1"/>
+                <Dashboard:BarakaDashboardItem x:Name="SettingsDashboardItem" HorizontalAlignment="Left" Margin="0,30,4,0" ItemIndex="2" PreviewMouseLeftButtonUp="SettingsDashboardItem_PreviewMouseLeftButtonUp"/>
+            </StackPanel>
+        </Grid>
+        <DockPanel x:Name="FContent" Margin="-1,0,0,0">
+            <Grid x:Name="MainGrid" VerticalAlignment="Stretch" Height="Auto"  ClipToBounds="True" Margin="0" DockPanel.Dock="Bottom" Background="{DynamicResource LightBrush}">
+                <Displayer:BarakaSurahDisplayer x:Name="MainSurahDisplayer" VerticalAlignment="Stretch" Margin="0,0,117,0" Height="Auto" VerseChanged="MainSurahDisplayer_VerseChanged" DownloadVerseRequested="MainSurahDisplayer_DownloadVerseRequested" HorizontalAlignment="Center" />
+                <Player:BarakaPlayer x:Name="Player" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="45,0,0,0" SurahChanged="BarakaPlayer_SurahChanged" VerseChanged="Player_VerseChanged" PlayingChanged="Player_PlayingChanged" SurahStartOrRestart="Player_SurahStartOrRestart" MouseEnter="Player_MouseEnter" />
+            </Grid>
+        </DockPanel>
+
+    </DockPanel>
+</Window>

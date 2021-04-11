@@ -8,17 +8,33 @@
     <UserControl.Resources>
         <Storyboard x:Key="OnLoaded1"/>
     </UserControl.Resources>
-    <Border CornerRadius="15" Background="White" BorderThickness="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <Border.Effect>
-            <DropShadowEffect BlurRadius="20" Opacity="0.4"/>
-        </Border.Effect>
+    <Border CornerRadius="10" Background="White" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0">
+        <Border.BorderBrush>
+            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.AppWorkspaceColorKey}}"/>
+        </Border.BorderBrush>
         <Grid Focusable="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="45" />
             </Grid.ColumnDefinitions>
 
-            <TextBox x:Name="TextBoxComponent" Grid.Column="0" HorizontalAlignment="Stretch" Height="23" TextWrapping="Wrap" Text="rechercher..." VerticalAlignment="Center" Margin="9,11.272,0.695,8.273" Padding="0,0,10,0" Background="{x:Null}" FontFamily="/Baraka;component/Fonts/#Poppins" FontSize="15" BorderThickness="0" HorizontalScrollBarVisibility="Auto" GotFocus="TextBoxComponent_GotFocus" LostFocus="TextBoxComponent_LostFocus" Foreground="Black" Opacity="0.65"/>
+            <TextBox
+                x:Name="TextBoxComponent"
+                Grid.Column="0"
+                HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                TextWrapping="Wrap"
+                Text="rechercher..."
+                Margin="9,0,0.695,0"
+                Padding="0,0,10,0"
+                FontFamily="/Baraka;component/Fonts/#Poppins"
+                FontSize="18"
+                BorderThickness="0"
+                Foreground="Black"
+                Opacity="0.65"
+                HorizontalScrollBarVisibility="Auto"
+                GotFocus="TextBoxComponent_GotFocus"
+                LostFocus="TextBoxComponent_LostFocus"
+                TextChanged="TextBoxComponent_TextChanged"/>
             <Image x:Name="ImageComponent" Grid.Column="1" HorizontalAlignment="Right" Height="Auto" Source="/Baraka;component/Images/search_icon.png" Width="30" Margin="0,0,12.03,0" IsMouseDirectlyOverChanged="ImageComponent_IsMouseDirectlyOverChanged" >
                 <Image.OpacityMask>
                     <ImageBrush ImageSource="/Baraka;component/Images/Logo/squared.png"/>
