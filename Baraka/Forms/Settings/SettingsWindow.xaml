@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Baraka.Forms"
         mc:Ignorable="d"
-        WindowStyle="None"
-        AllowsTransparency="True"
+        WindowStyle="ToolWindow"
+     
         WindowStartupLocation="CenterOwner"
         Title="SettingsWindow" Height="825" Width="1000" Background="{x:Null}" ResizeMode="NoResize" ShowInTaskbar="False" Deactivated="Window_Deactivated">
     <Window.Resources>

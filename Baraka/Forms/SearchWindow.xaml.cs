@@ -56,7 +56,7 @@ namespace Baraka.Forms
         {
             var query = General.PrepareQuery(SearchTB.Text);
 
-            if (General.IsQueryValid(query))
+            if (query.Length > 0)
             {
                 await ProcessQuery(query);
             }
@@ -164,27 +164,9 @@ namespace Baraka.Forms
             ShowAllTB.Visibility = Visibility.Collapsed;
         }
 
-        private void Window_Deactivated(object sender, EventArgs e)
-        {
-            if (!_exitMode)
-            {
-                this.Close();
-            }
-        }
-
         private void ResultsStatsTB_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             
-        }
-
-        private void FiltersBox_MouseEnter(object sender, MouseEventArgs e)
-        {
-            ((Storyboard)this.Resources["ShowFiltersStory"]).Begin();
-        }
-
-        private void FiltersBox_MouseLeave(object sender, MouseEventArgs e)
-        {
-            ((Storyboard)this.Resources["HideFiltersStory"]).Begin();
         }
     }
 }

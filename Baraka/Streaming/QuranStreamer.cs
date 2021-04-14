@@ -176,7 +176,7 @@ namespace Baraka.Streaming
 
                     while (_wout.PlaybackState != PlaybackState.Stopped)
                     {
-                        int milliseconds = 3;
+                        int milliseconds = 1;
 
                         // Crossfading (WIP TODO)
                         if (blockAlignedStream.TotalTime.TotalMilliseconds - blockAlignedStream.CurrentTime.TotalMilliseconds < milliseconds)

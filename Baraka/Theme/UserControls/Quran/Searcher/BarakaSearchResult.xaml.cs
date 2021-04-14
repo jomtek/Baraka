@@ -43,6 +43,11 @@ namespace Baraka.Theme.UserControls.Quran.Searcher
             HighlightTerms();
         }
 
+        private string CreatePattern(string pattern)
+        {
+            return pattern.Replace("?", @"\?");
+        }
+
         private void HighlightTerms()
         {
             foreach (string kw in _sres.Terms)
@@ -54,7 +59,12 @@ namespace Baraka.Theme.UserControls.Quran.Searcher
                     {
                         string textRun = pointer.GetTextInRun(LogicalDirection.Forward);
 
-                        MatchCollection matches = Regex.Matches(textRun, kw, RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+                        MatchCollection matches = Regex.Matches(
+                            textRun,
+                            CreatePattern(kw),
+                            RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
+                        );
+
                         foreach (Match match in matches)
                         {
                             TextPointer start = pointer.GetPositionAtOffset(match.Index);

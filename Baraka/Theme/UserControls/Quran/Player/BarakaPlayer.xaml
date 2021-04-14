@@ -63,7 +63,7 @@
     </UserControl.Effect>
 
     <Grid HorizontalAlignment="Center" Margin="30,25,30,0">
-        <Border x:Name="border" BorderBrush="Black" BorderThickness="0" CornerRadius="45,45,0,0" Background="White" Margin="0" RenderTransformOrigin="0.5,0.5" Height="102" VerticalAlignment="Bottom">
+        <Border x:Name="border" BorderBrush="Black" BorderThickness="0" CornerRadius="35,35,0,0" Background="White" Margin="0" RenderTransformOrigin="0.5,0.5" Height="102" VerticalAlignment="Bottom">
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>

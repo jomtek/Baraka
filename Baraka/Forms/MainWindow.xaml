@@ -10,58 +10,66 @@
         xmlns:Dashboard="clr-namespace:Baraka.Theme.UserControls.Dashboard"
         x:Class="Baraka.MainWindow"
         mc:Ignorable="d"
-        Title="Baraka"
+        Title="Baraka - Le logiciel de lecture coranique"
         Height="866" Width="1500"
         MinWidth="1210"
-        Initialized="Window_Initialized" Closing="Window_Closing" SizeChanged="Window_SizeChanged">
+        Initialized="Window_Initialized" Closing="Window_Closing" SizeChanged="Window_SizeChanged" Topmost="True">
     <Window.Resources>
         <Storyboard x:Key="DashboardCloseStory">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="Dashboard">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="68"/>
-            </DoubleAnimationUsingKeyFrames>
-            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="ElementsSP">
-                <EasingThicknessKeyFrame KeyTime="0:0:0.15" Value="-168,100,0,0"/>
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="Dashboard">
+                <EasingThicknessKeyFrame KeyTime="0:0:0.2" Value="-150,0,0,0"/>
             </ThicknessAnimationUsingKeyFrames>
-            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="path">
-                <EasingColorKeyFrame KeyTime="0:0:0.25" Value="Transparent"/>
-            </ColorAnimationUsingKeyFrames>
-            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="textBlock">
-                <EasingColorKeyFrame KeyTime="0:0:0.25" Value="Transparent"/>
-            </ColorAnimationUsingKeyFrames>
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="Title">
+                <EasingThicknessKeyFrame KeyTime="0:0:0.2" Value="164,17.5,0,0"/>
+            </ThicknessAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="Title">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="30"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="path">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="32"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="path">
+                <EasingThicknessKeyFrame KeyTime="0:0:0.2" Value="164,64,0,0"/>
+            </ThicknessAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="DashboardOpenStory">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="Dashboard">
-                <SplineDoubleKeyFrame KeyTime="0" Value="96"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:0.15" Value="233.167"/>
-            </DoubleAnimationUsingKeyFrames>
-            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="ElementsSP">
-                <SplineThicknessKeyFrame KeyTime="0" Value="-153,100,0,0"/>
-                <SplineThicknessKeyFrame KeyTime="0:0:0.15" Value="0,100,0,0"/>
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="Dashboard">
+                <EasingThicknessKeyFrame KeyTime="0" Value="-150,0,0,0"/>
+                <EasingThicknessKeyFrame KeyTime="0:0:0.233" Value="0"/>
             </ThicknessAnimationUsingKeyFrames>
-            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="path">
-                <SplineColorKeyFrame KeyTime="0:0:0.15" Value="White"/>
-            </ColorAnimationUsingKeyFrames>
-            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="textBlock">
-                <SplineColorKeyFrame KeyTime="0:0:0.15" Value="White"/>
-            </ColorAnimationUsingKeyFrames>
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="Title">
+                <EasingThicknessKeyFrame KeyTime="0" Value="161.5,17.5,0,0"/>
+                <EasingThicknessKeyFrame KeyTime="0:0:0.233" Value="22,17.5,0,0"/>
+            </ThicknessAnimationUsingKeyFrames>
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="path">
+                <EasingThicknessKeyFrame KeyTime="0" Value="161,64,0,0"/>
+                <EasingThicknessKeyFrame KeyTime="0:0:0.233" Value="23,64,0,0"/>
+            </ThicknessAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="Title">
+                <EasingDoubleKeyFrame KeyTime="0" Value="148.92"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="path">
+                <EasingDoubleKeyFrame KeyTime="0" Value="150"/>
+            </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Window.Resources>
     <Window.Triggers>
         <EventTrigger RoutedEvent="FrameworkElement.Loaded">
             <BeginStoryboard Storyboard="{StaticResource DashboardCloseStory}"/>
+            <BeginStoryboard Storyboard="{StaticResource DashboardOpenStory}"/>
         </EventTrigger>
     </Window.Triggers>
     <Window.Effect>
         <BlurEffect x:Name="WindowBlurEffect" Radius="0" RenderingBias="Quality"/>
     </Window.Effect>
 
-    <DockPanel x:Name="dockPanel" LastChildFill="True">
+    <DockPanel x:Name="dockPanel" LastChildFill="True" ClipToBounds="True">
         <!-- Top Grid -->
         <!-- Top Grid -->
 
         <!-- Form content -->
         <!-- Top Grid -->
-        <Grid x:Name="Dashboard" Height="Auto" VerticalAlignment="Stretch" DockPanel.Dock="Left" Width="235" RenderTransformOrigin="0.5,0.5" ClipToBounds="True" MouseEnter="Dashboard_MouseEnter" MouseLeave="Dashboard_MouseLeave">
+        <Grid x:Name="Dashboard" Height="Auto" VerticalAlignment="Stretch" DockPanel.Dock="Left" Width="210" RenderTransformOrigin="0.5,0.5" ClipToBounds="True" MouseEnter="Dashboard_MouseEnter" MouseLeave="Dashboard_MouseLeave">
             <Grid.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -73,8 +81,8 @@
             <Grid.Background>
                 <SolidColorBrush Color="{DynamicResource LightColor}"/>
             </Grid.Background>
-            <Border BorderThickness="0" Margin="0,0,2,0" Background="{DynamicResource MediumBrush}" CornerRadius="0,50,0,0" Grid.RowSpan="2" />
-            <TextBlock x:Name="textBlock" HorizontalAlignment="Center" Margin="0,17.5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Montserrat" FontWeight="Bold" FontSize="40" Foreground="White" Width="148.92" Text="Baraka" RenderTransformOrigin="0.5,0.5">
+            <Border BorderThickness="0" Margin="0,0,2,0" Background="{DynamicResource MediumBrush}" CornerRadius="0,15,0,0" Grid.RowSpan="2" />
+            <TextBlock x:Name="Title" HorizontalAlignment="Left" Margin="22,17.5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Montserrat" FontWeight="Bold" FontSize="40" Foreground="White" Width="148.92" Text="Baraka" RenderTransformOrigin="0.5,0.5" Height="48.76">
                 <TextBlock.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -84,11 +92,11 @@
                     </TransformGroup>
                 </TextBlock.RenderTransform>
             </TextBlock>
-            <Path x:Name="path" Data="M10,73.5 L263,74" HorizontalAlignment="Center" Height="5.5" Margin="18.084,70,20.083,0" Stretch="Fill" Stroke="White" StrokeThickness="5" VerticalAlignment="Top" Width="160" StrokeEndLineCap="Round" StrokeStartLineCap="Round"/>
-            <StackPanel x:Name="ElementsSP" Margin="0,100,0,0" Grid.RowSpan="2">
-                <Dashboard:BarakaDashboardItem x:Name="SearchDashboardItem" HorizontalAlignment="Left" PreviewMouseLeftButtonUp="SearchDashboardItem_PreviewMouseLeftButtonUp" Margin="0,0,4,0"/>
-                <Dashboard:BarakaDashboardItem x:Name="LibraryDashboardItem" HorizontalAlignment="Left" Margin="0,10,4,0" ItemIndex="1"/>
-                <Dashboard:BarakaDashboardItem x:Name="SettingsDashboardItem" HorizontalAlignment="Left" Margin="0,30,4,0" ItemIndex="2" PreviewMouseLeftButtonUp="SettingsDashboardItem_PreviewMouseLeftButtonUp"/>
+            <Path x:Name="path" Data="M10,74L263,74" HorizontalAlignment="Left" Height="5.5" Margin="23,64,0,0" Stretch="Fill" Stroke="White" StrokeThickness="5" VerticalAlignment="Top" Width="150" StrokeEndLineCap="Round" StrokeStartLineCap="Round"/>
+            <StackPanel x:Name="ElementsSP" Margin="0,80,0,0" Grid.RowSpan="2">
+                <Dashboard:BarakaDashboardItem x:Name="SearchDashboardItem" HorizontalAlignment="Right" Margin="0,0,2,0" ItemIndex="0" PreviewMouseLeftButtonUp="SearchDashboardItem_PreviewMouseLeftButtonUp" />
+                <Dashboard:BarakaDashboardItem x:Name="LibraryDashboardItem" HorizontalAlignment="Right" Margin="0,0,2,0" ItemIndex="1"/>
+                <Dashboard:BarakaDashboardItem x:Name="SettingsDashboardItem" HorizontalAlignment="Right" Margin="0,0,2,0" ItemIndex="2" PreviewMouseLeftButtonUp="SettingsDashboardItem_PreviewMouseLeftButtonUp"/>
             </StackPanel>
         </Grid>
         <DockPanel x:Name="FContent" Margin="-1,0,0,0">

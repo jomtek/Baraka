@@ -19,7 +19,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <Rectangle Fill="White" StrokeThickness="5.5" RadiusY="3.167" RadiusX="3.167"/>
+        <Rectangle Fill="White" StrokeThickness="5.5" RadiusY="4.781" RadiusX="4.781"/>
         <StackPanel Margin="0,0,0,15">
             <TextBox x:Name="ArabicTB"
                 Text="وَإِذَا رَأَيْتَ ثَمَّ رَأَيْتَ نَعِيمًا وَمُلْكًا كَبِيرًا"

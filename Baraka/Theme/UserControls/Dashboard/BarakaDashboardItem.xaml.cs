@@ -31,15 +31,15 @@ namespace Baraka.Theme.UserControls.Dashboard
                     // TODO: globalization
 
                     case 0: // Research
-                        ItemTBL.Text = "Rechercher";
+                        ItemTB.Text = "Rechercher";
                         ItemICON.Style = (Style)FindResource("Search");
                         break;
-                    case 1: // Library
-                        ItemTBL.Text = "Bibliothèque";
+                    case 1: // Catalog
+                        ItemTB.Text = "Catalogue";
                         ItemICON.Style = (Style)FindResource("Library");
                         break;
                     case 2: // Settings
-                        ItemTBL.Text = "Paramètres";
+                        ItemTB.Text = "Paramètres";
                         ItemICON.Style = (Style)FindResource("Cog");
                         break;
                 }
@@ -55,23 +55,19 @@ namespace Baraka.Theme.UserControls.Dashboard
 
         private void UserControl_MouseEnter(object sender, MouseEventArgs e)
         {
-            var brush = new SolidColorBrush((Color)FindResource(SystemColors.ActiveBorderColorKey));
+            var brush = (SolidColorBrush)FindResource("ActiveBrush");
             ItemICON.Fill = brush;
+            ItemTB.Foreground = brush;
 
             Cursor = Cursors.Hand;
-
-            Console.WriteLine("hellooooooooooo");
-
-            ((Storyboard)this.Resources["MouseEnterStory"]).Begin();
         }
 
         private void UserControl_MouseLeave(object sender, MouseEventArgs e)
         {
             ItemICON.Fill = Brushes.White;
+            ItemTB.Foreground = Brushes.White;
 
             Cursor = Cursors.Arrow;
-
-            ((Storyboard)this.Resources["MouseLeaveStory"]).Begin();
         }
     }
 }

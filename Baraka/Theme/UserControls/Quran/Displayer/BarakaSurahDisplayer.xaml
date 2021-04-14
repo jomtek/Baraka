@@ -26,6 +26,6 @@
                 <StackPanel Grid.Column="2" x:Name="VersesSP" Margin="20,0,0,0" Width="850"  />
             </Grid>
         </ScrollViewer>
-        <UserControls:BarakaScrollBar x:Name="MainSB" Margin="0,45,-55,45" VerticalAlignment="Stretch" Height="Auto"  Width="44" OnScroll="MainSB_OnScroll" HorizontalAlignment="Right"/>
+        <UserControls:BarakaScrollBar x:Name="MainSB" Margin="0,45,-50,45" VerticalAlignment="Stretch" Height="Auto"  Width="40" OnScroll="MainSB_OnScroll" HorizontalAlignment="Right"/>
     </Grid>
 </UserControl>

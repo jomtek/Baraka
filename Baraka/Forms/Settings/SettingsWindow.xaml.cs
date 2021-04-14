@@ -29,7 +29,7 @@ namespace Baraka.Forms.Settings
 
         private void Window_Deactivated(object sender, EventArgs e)
         {
-            this.Close();
+            //this.Close();
         }
 
         #region Dashboard
