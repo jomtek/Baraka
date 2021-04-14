@@ -11,8 +11,20 @@
         <DropShadowEffect Opacity="0.08"/>
     </UserControl.Effect>
 
+    <UserControl.Resources>
+        <ItemsPanelTemplate x:Key="MenuTPL">
+            <StackPanel Margin="-25,0,0,0" Background="White"/>
+        </ItemsPanelTemplate>
+    </UserControl.Resources>
+
     <UserControl.ContextMenu>
-        <ContextMenu Name="cm" StaysOpen="true">
+        <ContextMenu Name="cm" StaysOpen="true" FontFamily="Segoe UI" FontSize="17" FontWeight="DemiBold">
+            <ContextMenu.Style>
+                <Style TargetType="{x:Type ContextMenu}">
+                    <Setter Property="ItemsPanel" Value="{StaticResource MenuTPL}"/>
+                </Style>
+            </ContextMenu.Style>
+            
             <MenuItem Header="Se déplacer ici" Click="Menu_MoveHere_Click" />
             <MenuItem Header="Commencer à partir d'ici" Click="Menu_StartHere_Click"/>
             <Separator />
