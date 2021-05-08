@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Baraka.Forms.Settings
 {
     /// <summary>
-    /// Logique d'interaction pour QuranPage.xaml
+    /// Logique d'interaction pour ReadingPage.xaml
     /// </summary>
-    public partial class QuranPage : Page
+    public partial class ReadingPage : Page
     {
-        public QuranPage()
+        public ReadingPage()
         {
             InitializeComponent();
         }

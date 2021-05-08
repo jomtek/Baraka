@@ -11,15 +11,34 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
     /// </summary>
     public partial class BarakaVerseNumber : UserControl
     {
+        private bool _playing = false;
         private int _num;
         private BarakaSurahDisplayer _displayer;
+
+        public bool Playing
+        {
+            get { return _playing; }
+            set
+            {
+                _playing = value;
+                
+                if (value)
+                {
+                    PolygonPath.Stroke = Brushes.Goldenrod;
+                }
+                else
+                {
+                    PolygonPath.Stroke = Brushes.Transparent;
+                }
+            }
+        }
 
         public BarakaVerseNumber()
         {
             InitializeComponent();
         }
 
-        public BarakaVerseNumber(BarakaSurahDisplayer displayer, int number, bool basmala = false)
+        public BarakaVerseNumber(BarakaSurahDisplayer displayer, int number, int displayNum, bool basmala = false)
         {
             InitializeComponent();
 
@@ -28,7 +47,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
             if (!basmala)
             {
-                NumberTB.Text = number.ToString();
+                NumberTB.Text = displayNum.ToString();
             }
             else
             {
@@ -37,6 +56,12 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             }
         }
 
+        public void MarkAsSearchResult()
+        {
+            PolygonPath.Stroke = Brushes.YellowGreen;
+        }
+
+        #region Handlers
         private void UserControl_MouseEnter(object sender, MouseEventArgs e)
         {
             PolygonPath.Stroke = Brushes.Goldenrod;
@@ -44,7 +69,10 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
         private void UserControl_MouseLeave(object sender, MouseEventArgs e)
         {
-            PolygonPath.Stroke = Brushes.Transparent;
+            if (!_playing)
+            {
+                PolygonPath.Stroke = Brushes.Transparent;
+            }
         }
 
         private void UserControl_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -59,12 +87,13 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
         private void Menu_StartHere_Click(object sender, RoutedEventArgs e)
         {
-
+            _displayer.StartFromVerse(_num);
         }
 
         private void Menu_Download_Click(object sender, RoutedEventArgs e)
         {
             _displayer.DownloadMp3Verse(_num);
         }
+        #endregion
     }
 }

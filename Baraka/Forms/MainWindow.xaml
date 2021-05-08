@@ -12,8 +12,8 @@
         mc:Ignorable="d"
         Title="Baraka - Le logiciel de lecture coranique"
         Height="866" Width="1500"
-        MinWidth="1210"
-        Initialized="Window_Initialized" Closing="Window_Closing" SizeChanged="Window_SizeChanged" Topmost="True">
+        MinWidth="1210" MinHeight="800"
+        Initialized="Window_Initialized" Closing="Window_Closing" SizeChanged="Window_SizeChanged">
     <Window.Resources>
         <Storyboard x:Key="DashboardCloseStory">
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="Dashboard">
@@ -54,10 +54,6 @@
         </Storyboard>
     </Window.Resources>
     <Window.Triggers>
-        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-            <BeginStoryboard Storyboard="{StaticResource DashboardCloseStory}"/>
-            <BeginStoryboard Storyboard="{StaticResource DashboardOpenStory}"/>
-        </EventTrigger>
     </Window.Triggers>
     <Window.Effect>
         <BlurEffect x:Name="WindowBlurEffect" Radius="0" RenderingBias="Quality"/>
@@ -102,7 +98,7 @@
         <DockPanel x:Name="FContent" Margin="-1,0,0,0">
             <Grid x:Name="MainGrid" VerticalAlignment="Stretch" Height="Auto"  ClipToBounds="True" Margin="0" DockPanel.Dock="Bottom" Background="{DynamicResource LightBrush}">
                 <Displayer:BarakaSurahDisplayer x:Name="MainSurahDisplayer" VerticalAlignment="Stretch" Margin="0,0,117,0" Height="Auto" VerseChanged="MainSurahDisplayer_VerseChanged" DownloadVerseRequested="MainSurahDisplayer_DownloadVerseRequested" HorizontalAlignment="Center" />
-                <Player:BarakaPlayer x:Name="Player" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="45,0,0,0" SurahChanged="BarakaPlayer_SurahChanged" VerseChanged="Player_VerseChanged" PlayingChanged="Player_PlayingChanged" SurahStartOrRestart="Player_SurahStartOrRestart" MouseEnter="Player_MouseEnter" />
+                <Player:BarakaPlayer x:Name="Player" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="45,0,0,0" />
             </Grid>
         </DockPanel>
 

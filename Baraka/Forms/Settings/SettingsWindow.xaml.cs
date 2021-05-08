@@ -20,11 +20,20 @@ namespace Baraka.Forms.Settings
     /// </summary>
     public partial class SettingsWindow : Window
     {
-        private int _selectedItem = 0;
+        private Page[] _pages;
+
         public SettingsWindow()
         {
             InitializeComponent();
-            FrameComponent.Content = new GeneralPage();
+            
+            _pages = new Page[]
+            {
+                new GeneralPage(),
+                new AppearancePage(),
+                new ReadingPage(),
+                new SearchPage(),
+            };
+            FrameComponent.Content = _pages[0];
         }
 
         private void Window_Deactivated(object sender, EventArgs e)
@@ -33,81 +42,148 @@ namespace Baraka.Forms.Settings
         }
 
         #region Dashboard
-        private void SetSelectedItem(int selectedItem)
-        {
-            General_MenuItem_Grid.Background = Brushes.White;
-            Quran_MenuItem_Grid.Background = Brushes.White;
-            Appearance_MenuItem_Grid.Background = Brushes.White;
+        // FrameComponent.Content = new GeneralPage();
+        private int _selectedItem = 0;
 
-            switch (selectedItem)
+        private void SetSelectedItem(int item)
+        {
+            switch (item)
             {
                 case 0:
-                    General_MenuItem_Grid.Background = (SolidColorBrush)FindResource("DashboardSelectedItemBrush");
-                    FrameComponent.Content = new GeneralPage();
+                    GeneralTB.Foreground = Brushes.Gray;
+                    AppearanceTB.Foreground = Brushes.Black;
+                    ReadingTB.Foreground = Brushes.Black;
+                    ResearchTB.Foreground = Brushes.Black;
                     break;
                 case 1:
-                    Quran_MenuItem_Grid.Background = (SolidColorBrush)FindResource("DashboardSelectedItemBrush");
-                    FrameComponent.Content = new QuranPage();
+                    AppearanceTB.Foreground = Brushes.Gray;
+                    GeneralTB.Foreground = Brushes.Black;
+                    ReadingTB.Foreground = Brushes.Black;
+                    ResearchTB.Foreground = Brushes.Black;
                     break;
                 case 2:
-                    Appearance_MenuItem_Grid.Background = (SolidColorBrush)FindResource("DashboardSelectedItemBrush");
-                    FrameComponent.Content = new AppearancePage();
+                    ReadingTB.Foreground = Brushes.Gray;
+                    AppearanceTB.Foreground = Brushes.Black;
+                    GeneralTB.Foreground = Brushes.Black;
+                    ResearchTB.Foreground = Brushes.Black;
+                    break;
+                case 3:
+                    ResearchTB.Foreground = Brushes.Gray;
+                    ReadingTB.Foreground = Brushes.Black;
+                    AppearanceTB.Foreground = Brushes.Black;
+                    GeneralTB.Foreground = Brushes.Black;
                     break;
             }
 
-            _selectedItem = selectedItem;
+            _selectedItem = item;
         }
 
-        private void General_MenuItem_MouseEnter(object sender, MouseEventArgs e)
+        #region Hover Handlers
+        private void GeneralTB_MouseEnter(object sender, MouseEventArgs e)
+        {
+            GeneralTB.Foreground = Brushes.Gray;
+        }
+
+        private void GeneralTB_MouseLeave(object sender, MouseEventArgs e)
         {
             if (_selectedItem != 0)
-                General_MenuItem_Grid.Background = (SolidColorBrush)FindResource("DashboardHoveredItemBrush");
+            {
+                GeneralTB.Foreground = Brushes.Black;
+            }
         }
 
-        private void General_MenuItem_MouseLeave(object sender, MouseEventArgs e)
+        private void AppearanceTB_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (_selectedItem != 0)
-                General_MenuItem_Grid.Background = Brushes.White;
+            AppearanceTB.Foreground = Brushes.Gray;
         }
 
-        private void Quran_MenuItem_MouseEnter(object sender, MouseEventArgs e)
-        {
-            if (_selectedItem != 1)
-                Quran_MenuItem_Grid.Background = (SolidColorBrush)FindResource("DashboardHoveredItemBrush");
-        }
-
-        private void Quran_MenuItem_MouseLeave(object sender, MouseEventArgs e)
+        private void AppearanceTB_MouseLeave(object sender, MouseEventArgs e)
         {
             if (_selectedItem != 1)
-                Quran_MenuItem_Grid.Background = Brushes.White;
+            {
+                AppearanceTB.Foreground = Brushes.Black;
+            }
         }
 
-        private void Appearance_MenuItem_MouseEnter(object sender, MouseEventArgs e)
+        private void ReadingTB_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (_selectedItem != 2)
-                Appearance_MenuItem_Grid.Background = (SolidColorBrush)FindResource("DashboardHoveredItemBrush");
+            ReadingTB.Foreground = Brushes.Gray;
         }
 
-        private void Appearance_MenuItem_MouseLeave(object sender, MouseEventArgs e)
+        private void ReadingTB_MouseLeave(object sender, MouseEventArgs e)
         {
             if (_selectedItem != 2)
-                Appearance_MenuItem_Grid.Background = Brushes.White;
+            {
+                ReadingTB.Foreground = Brushes.Black;
+            }
+        }
+
+        private void ResearchTB_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ResearchTB.Foreground = Brushes.Gray;
+        }
+
+        private void ResearchTB_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (_selectedItem != 3)
+            {
+                ResearchTB.Foreground = Brushes.Black;
+            }
         }
         #endregion
 
-        private void General_MenuItem_Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        #region Click Handlers
+        private void GeneralTB_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             SetSelectedItem(0);
+            FrameComponent.Content = _pages[0];
         }
 
-        private void Quran_MenuItem_Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void AppearanceTB_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             SetSelectedItem(1);
+            FrameComponent.Content = _pages[1];
         }
 
-        private void Appearance_MenuItem_Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void ReadingTB_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             SetSelectedItem(2);
+            FrameComponent.Content = _pages[2];
+        }
+
+
+        private void ResearchTB_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            SetSelectedItem(3);
+            FrameComponent.Content = _pages[3];
+        }
+        #endregion
+        #endregion
+
+        private void CloseWindowGrid_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Close();
+        }
+
+        private void CloseWindowGrid_MouseEnter(object sender, MouseEventArgs e)
+        {
+            CloseWindowPath.Fill = Brushes.Gray;
+        }
+
+        private void CloseWindowGrid_MouseLeave(object sender, MouseEventArgs e)
+        {
+            CloseWindowPath.Fill = Brushes.Black;
+        }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void DragGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+                this.DragMove();
         }
     }
 }

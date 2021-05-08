@@ -15,9 +15,6 @@
         <Style x:Key="CloudPath" TargetType="{x:Type Path}">
             <Setter Property="Data" Value="M20.088,9.522a3.591,3.591,0,0,0-3.348-4.88,3.569,3.569,0,0,0-1.992.605A5.979,5.979,0,0,0,3.587,8.229c0,.1,0,.2.007.3A5.382,5.382,0,0,0,5.381,18.99H19.132a4.783,4.783,0,0,0,.957-9.469Z"/>
         </Style>
-        <Style x:Key="Info" TargetType="{x:Type Path}">
-            <Setter Property="Data" Value="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z" />
-        </Style>
     </UserControl.Resources>
 
     <Grid Background="White">
@@ -25,7 +22,7 @@
         <StackPanel Orientation="Horizontal">
             <TextBlock x:Name="SurahNumberTB" HorizontalAlignment="Left" TextWrapping="Wrap" FontFamily="Roboto" FontWeight="Bold" FontSize="22" VerticalAlignment="Top" Margin="5,8,0,0" Text="1."/>
             <Canvas x:Name="InfoBTN" Width="20" Height="20" Margin="45,11,0,0" VerticalAlignment="Top" ToolTip="test" Cursor="Help" >
-                <Path x:Name="InfoPath" Style="{StaticResource Info}" Stretch="Fill" Width="20" Height="20" Fill="#FFBFBFBF" ToolTip="" Margin="0" />
+                <Path x:Name="InfoPath" Style="{StaticResource Hint}" Stretch="Fill" Width="20" Height="20" Fill="#FFBFBFBF" ToolTip="" Margin="0" />
             </Canvas>
             <TextBlock x:Name="SurahNameTB" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="5,12,0,0" FontFamily="Roboto" FontSize="18" VerticalAlignment="Top" TextDecorations="{x:Null}" Text="Al Fatiha" FontWeight="Bold"/>
             <TextBlock x:Name="TranslatedNameTB" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="8,15,0,0" FontFamily="Alef" VerticalAlignment="Top" TextDecorations="{x:Null}" FontSize="16" Foreground="#FF939393" Text="Prologue"/>

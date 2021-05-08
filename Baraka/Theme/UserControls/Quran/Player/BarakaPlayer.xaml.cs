@@ -1,6 +1,7 @@
 ﻿using Baraka.Data;
 using Baraka.Data.Descriptions;
 using Baraka.Streaming;
+using Baraka.Theme.UserControls.Quran.Displayer;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -23,12 +24,13 @@ namespace Baraka.Theme.UserControls.Quran.Player
     {
         private bool _playing = false;
         private bool _loopMode = false;
+
+        // UI relative
         private bool _cheikhModification = false;
         private bool _surahModification = false;
-        private int _lastTabShown = -1;
-        private bool _isCtrlBtnSetToPlay = true;
-
+        private bool _wasCtrlBtnStylePlay = true;
         private bool _closing = false;
+        private int _lastTabShown = -1;
 
         private CheikhDescription _selectedCheikh;
         private CheikhCard _selectedCheikhCard;
@@ -36,21 +38,9 @@ namespace Baraka.Theme.UserControls.Quran.Player
         private SurahDescription _selectedSurah;
         private SurahBar _selectedSurahBar;
 
+        // Bindings
         public QuranStreamer Streamer { get; private set; }
-
-        #region Events
-        [Category("Baraka")]
-        public event EventHandler SurahChanged;
-
-        [Category("Baraka")]
-        public event EventHandler VerseChanged;
-
-        [Category("Baraka")]
-        public event EventHandler PlayingChanged;
-
-        [Category("Baraka")]
-        public event EventHandler SurahStartOrRestart;
-        #endregion
+        public BarakaSurahDisplayer Displayer { get; set; }
 
         #region Settings
         [Category("Baraka")]
@@ -60,7 +50,8 @@ namespace Baraka.Theme.UserControls.Quran.Player
             set
             {
                 _playing = value;
-                // todo
+                RefreshPlayPauseBtn();
+                // TODO
             }
         }
 
@@ -77,6 +68,55 @@ namespace Baraka.Theme.UserControls.Quran.Player
         }
         #endregion
 
+        public BarakaPlayer()
+        {
+            InitializeComponent();
+
+            _selectedSurah = LoadedData.SurahList.ElementAt(0).Key;
+            _selectedCheikh = LoadedData.CheikhList.ElementAt(3);
+
+            // Streamer config
+            Streamer = new QuranStreamer();
+
+            Streamer.VerseChanged += (object sender, EventArgs e) =>
+            {
+                if (Displayer.LoopMode)
+                {
+                    ReinitLoopmodeInfo();
+                }
+                else
+                {
+                    Displayer.BrowseToVerse(Streamer.NonRelativeVerse);
+                }
+
+                VersePB.Progress = 0;
+
+                Displayer.ChangeVerse(Streamer.NonRelativeVerse);
+            };
+
+            Streamer.FinishedSurah += (object sender, EventArgs e) =>
+            {
+                _playing = false;
+                RefreshPlayPauseBtn();
+            };
+
+            Streamer.CursorChanged += Streamer_CursorChanged;
+
+            VersePB.CursorChanged += (object sender, double e) =>
+            {
+                Streamer.Cursor = e;
+            };
+
+            // Stories
+            ((Storyboard)this.Resources["PlayerCloseStory"]).Begin();
+            ((Storyboard)this.Resources["PlayerCloseStory"]).SkipToFill();
+            ((Storyboard)this.Resources["PlayerCloseStory"]).Completed += (object sender, EventArgs e) =>
+            {
+                SelectorGrid.Visibility = Visibility.Hidden;
+                _closing = false;
+            };
+        }
+
         public void Dispose()
         {
             Streamer.Playing = false;
@@ -91,36 +131,35 @@ namespace Baraka.Theme.UserControls.Quran.Player
         {
             Streamer.Playing = playing;
             _playing = playing;
+            Displayer.Playing = Playing;
 
             RefreshPlayPauseBtn();
-
-            PlayingChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public BarakaPlayer()
+        public void ReinitLoopmodeInfo()
         {
-            InitializeComponent();
-
-            Streamer = new QuranStreamer();
-            Streamer.VerseChanged += (object sender, EventArgs e) => { VerseChanged?.Invoke(this, e); };
-            Streamer.FinishedSurah += (object sender, EventArgs e) =>
-            {
-                _playing = false;
-                RefreshPlayPauseBtn();
-            };
-
-            _selectedSurah = LoadedData.SurahList.ElementAt(0).Key;
-            _selectedCheikh = LoadedData.CheikhList.ElementAt(3);
-
-            ((Storyboard)this.Resources["PlayerCloseStory"]).Begin();
-            ((Storyboard)this.Resources["PlayerCloseStory"]).SkipToFill();
-            ((Storyboard)this.Resources["PlayerCloseStory"]).Completed += (object sender, EventArgs e) =>
-            {
-                SelectorGrid.Visibility = Visibility.Hidden;
-                _closing = false;
-            };
-
+            Streamer.StartVerse = Displayer.StartVerse;
+            Streamer.EndVerse = Displayer.EndVerse;
         }
+
+        public void ReinitLoopmode(bool activated)
+        {
+            Displayer.SetLoopMode(activated);
+            if (activated)
+            {
+                ReinitLoopmodeInfo();
+            }
+            Streamer.LoopMode = activated;
+        }
+
+        #region Cursor
+        private void Streamer_CursorChanged(object sender, double cursor)
+        {
+            //VersePB.Progress = cursor;
+            //Console.WriteLine(cursor);
+            Application.Current.Dispatcher.Invoke(new Action(() => { VersePB.Progress = cursor; }));
+        }
+        #endregion
 
         #region Controller Controls
         private void LoopBTN_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -139,6 +178,8 @@ namespace Baraka.Theme.UserControls.Quran.Player
             }
 
             _loopMode = !_loopMode;
+
+            ReinitLoopmode(_loopMode);
         }
 
         private void CheikhTB_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -201,9 +242,9 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
         private void PlayPauseBTN_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (Streamer.Verse == 0 || Streamer.Verse == 1)
+            if (Streamer.Verse == 0 || Streamer.Verse == 1) // TODO
             {
-                SurahStartOrRestart?.Invoke(this, EventArgs.Empty);
+                Displayer.ScrollToTop();
             }
 
             SetPlaying(!_playing);
@@ -214,12 +255,12 @@ namespace Baraka.Theme.UserControls.Quran.Player
             if (!_playing)
             {
                 PlayPauseBtnPath.Style = (Style)this.Resources["Play"];
-                _isCtrlBtnSetToPlay = true;
+                _wasCtrlBtnStylePlay = false;
             }
             else
             {
                 PlayPauseBtnPath.Style = (Style)this.Resources["Pause"];
-                _isCtrlBtnSetToPlay = false;
+                _wasCtrlBtnStylePlay = true;
             }
         }
 
@@ -235,11 +276,6 @@ namespace Baraka.Theme.UserControls.Quran.Player
             SetPlaying(false);
             ChangeSelectedSurah(LoadedData.SurahList.ElementAt(_selectedSurah.SurahNumber + 1 - 1).Key);
             _resetSurahDisplayer = true;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Streamer.ChangeVerse(8);
         }
         #endregion
 
@@ -259,9 +295,8 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
             if (_playing)
             {
-                _playing = false;
-                Streamer.Playing = false;
-                PlayingChanged?.Invoke(this, EventArgs.Empty);
+                SetPlaying(false);
+                RefreshPlayPauseBtn();
             }
 
             if (_resetSurahDisplayer)
@@ -284,11 +319,11 @@ namespace Baraka.Theme.UserControls.Quran.Player
             _closing = true;
             ((Storyboard)this.Resources["PlayerCloseStory"]).Begin();
 
-            if (!_isCtrlBtnSetToPlay)
+            Console.WriteLine($"_isCtrlBtnSetToPlay: {_wasCtrlBtnStylePlay}");
+
+            if (!_wasCtrlBtnStylePlay)
             {
-                _playing = true;
-                Streamer.Playing = true;
-                PlayingChanged?.Invoke(this, EventArgs.Empty);
+                SetPlaying(true);
             }
 
             PlayPauseBTN.IsEnabled = true;
@@ -475,7 +510,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
                 SurahTB.Text = _selectedSurah.PhoneticName;
 
-                SurahChanged?.Invoke(this, EventArgs.Empty);
+                Displayer.LoadSurah(SelectedSurah);
             }
         }
         #endregion
@@ -528,11 +563,6 @@ namespace Baraka.Theme.UserControls.Quran.Player
         }
         #endregion
 
-        private void DisplaySV_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            MainSB.Scrolled = DisplaySV.VerticalOffset / DisplaySV.ScrollableHeight;
-        }
-
         #region Other
         public void DownloadMp3Verse(int verseNum)
         {
@@ -547,6 +577,16 @@ namespace Baraka.Theme.UserControls.Quran.Player
                 new WebClient().DownloadFile(url, sfd.FileName);
             }
         }
+
+        private void DisplaySV_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            MainSB.Scrolled = DisplaySV.VerticalOffset / DisplaySV.ScrollableHeight;
+        }
         #endregion
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            VersePB.Progress += 0.01;
+        }
     }
 }

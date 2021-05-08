@@ -156,7 +156,8 @@ namespace Baraka.Theme.UserControls
 
         private void UserControl_MouseMove(object sender, MouseEventArgs e)
         {
-            if (_mouseDown)
+            if (_mouseDown
+                && Mouse.LeftButton == MouseButtonState.Pressed) // Prevent unexpected scrolls
             {
                 double newThumbTop
                     = Mouse.GetPosition(ScrollCanvas).Y - mouseOffset;

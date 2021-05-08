@@ -32,7 +32,7 @@
                 FontFamily="/Baraka;component/Fonts/#Al Qalam Quran"
                 Margin="12,10,12,0"
                 Height="Auto" Width="Auto"
-                FontSize="37" Visibility="Collapsed" />
+                FontSize="32" />
             <TextBox x:Name="PhoneticTB"
                 Text="Wa-itha raayta thamma raayta na'eeman wamulkan kabeeran"
                 VerticalAlignment="Top"
@@ -43,7 +43,7 @@
                 FontFamily="/Baraka;component/Fonts/#Poppins"
                 Margin="12,15,12,0"
                 Height="Auto" Width="Auto"
-                FontSize="17" Foreground="#FF6E6E6E" />
+                FontSize="17" Foreground="#FF6E6E6E" Visibility="Collapsed" />
             <TextBox x:Name="TranslatedTB"
                 Text="C'est Toi [Seul] que nous adorons, et c'est Toi [Seul] dont nous implorons secours"
                 VerticalAlignment="Top"

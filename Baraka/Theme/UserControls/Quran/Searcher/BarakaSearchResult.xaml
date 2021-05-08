@@ -4,13 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Searcher"
-             mc:Ignorable="d" Width="825">
+             mc:Ignorable="d" Width="885">
     <StackPanel Background="White" Orientation="Horizontal">
-        <Viewbox HorizontalAlignment="Left" Height="30" VerticalAlignment="Center" Margin="15,0,0,0" Cursor="Hand" Width="90" PreviewMouseLeftButtonUp="Viewbox_PreviewMouseLeftButtonUp">
-            <TextBlock x:Name="VerseInfoTB" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="21" FontFamily="Quicksand" Text="S2. V173" MouseEnter="VerseInfoTB_MouseEnter" MouseLeave="VerseInfoTB_MouseLeave"/>
-        </Viewbox>
+        <Border x:Name="VerseNumBorder" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,0,0" BorderThickness="1.5" Padding="5,1" CornerRadius="4" MouseEnter="VerseNumBorder_MouseEnter" MouseLeave="VerseNumBorder_MouseLeave" Background="White">
+            <Border.BorderBrush>
+                <SolidColorBrush Color="{DynamicResource DarkColor}"/>
+            </Border.BorderBrush>
+            <Viewbox HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0" Cursor="Hand" PreviewMouseLeftButtonUp="Viewbox_PreviewMouseLeftButtonUp">
+                <TextBlock x:Name="VerseInfoTB" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="21" FontFamily="Quicksand" Text="S2. V173"/>
+            </Viewbox>
+        </Border>
         <RichTextBox x:Name="RTB"
-            Width="690"
+            Width="750"
             Height="Auto"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center" 

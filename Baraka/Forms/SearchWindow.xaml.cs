@@ -26,33 +26,32 @@ namespace Baraka.Forms
     /// </summary>
     public partial class SearchWindow : Window
     {
-        #region Events
+        #region Custom Events
         [Category("Baraka")]
         public event EventHandler<VerseDescription> VerseClicked;
         #endregion
-
-        private bool _exitMode = false;
 
         public SearchWindow()
         {
             InitializeComponent();
         }
 
+        private void Window_Initialized(object sender, EventArgs e)
+        {
+            foreach (SurahDescription surah in LoadedData.SurahList.Keys)
+            {
+                SurahCMBB.Items.Add($"{surah.SurahNumber}. {surah.PhoneticName}");
+            }
+        }
+
+        #region Search
         public void ScrollToTop()
         {
             MainSB.ResetThumbY();
             ResultsSV.ScrollToTop();
         }
 
-        public void ResultClicked(SearchResult sres)
-        {
-            VerseClicked?.Invoke(this, new VerseDescription(sres.Surah, sres.Verse + 1));
-            //MessageBox.Show($"{sres.Verse} cliqué");
-            _exitMode = true;
-            Close();
-        }
-
-        private async void SearchTB_TextChanged(object sender, EventArgs e)
+        private async Task SendQuery()
         {
             var query = General.PrepareQuery(SearchTB.Text);
 
@@ -68,6 +67,11 @@ namespace Baraka.Forms
             }
         }
 
+        private async void SearchTB_TextChanged(object sender, EventArgs e)
+        {
+            await SendQuery();
+        }
+
         private async Task ProcessQuery(string query, bool showAll = false)
         {
             await Task.Delay(250);
@@ -80,7 +84,14 @@ namespace Baraka.Forms
             ScrollToTop();
             ResultsSP.Children.Clear();
 
-            var results = new RelevantSearch().Go(query);
+            var revelationType = new SurahRevelationType[]
+                { SurahRevelationType.MH, SurahRevelationType.H, SurahRevelationType.M }
+                [RevelationTypeCMBB.SelectedIndex];
+            var surahNum = SurahCMBB.SelectedIndex;
+
+            Console.WriteLine($"num: {surahNum} // revelation: {revelationType}");   
+
+            var results = new RelevantSearch(revelationType, surahNum).Go(query);
 
             if (results.Count > 50)
             {
@@ -123,25 +134,9 @@ namespace Baraka.Forms
 
             return;
         }
+        #endregion
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ResultsSV_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            MainSB.Scrolled = ResultsSV.VerticalOffset / ResultsSV.ScrollableHeight;
-        }
-
-        private void MainSB_OnScroll(object sender, EventArgs e)
-        {
-            if (ResultsSV.ScrollableHeight * MainSB.Scrolled > 0)
-            {
-                ResultsSV.ScrollToVerticalOffset(ResultsSV.ScrollableHeight * MainSB.Scrolled);
-            }
-        }
-
+        #region Show All Button
         private void ShowAllTB_MouseEnter(object sender, MouseEventArgs e)
         {
             ShowAllTB.Background = new SolidColorBrush(SystemColors.ControlLightColor);
@@ -163,10 +158,69 @@ namespace Baraka.Forms
 
             ShowAllTB.Visibility = Visibility.Collapsed;
         }
+        #endregion
+
+        #region Scroll
+        private void ResultsSV_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            MainSB.Scrolled = ResultsSV.VerticalOffset / ResultsSV.ScrollableHeight;
+        }
+
+        private void MainSB_OnScroll(object sender, EventArgs e)
+        {
+            if (ResultsSV.ScrollableHeight * MainSB.Scrolled > 0)
+            {
+                ResultsSV.ScrollToVerticalOffset(ResultsSV.ScrollableHeight * MainSB.Scrolled);
+            }
+        }
+        #endregion
+
+        #region UI Effects
+        private void CloseWindowGrid_MouseEnter(object sender, MouseEventArgs e)
+        {
+            CloseWindowPath.Fill = Brushes.Gray;
+        }
+
+        private void CloseWindowGrid_MouseLeave(object sender, MouseEventArgs e)
+        {
+            CloseWindowPath.Fill = Brushes.Black;
+        }
 
         private void ResultsStatsTB_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            
+
         }
+        #endregion
+
+        #region Form Drag and Close
+        private void CloseWindowGrid_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Close();
+        }
+
+        private void DragGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+                this.DragMove();
+        }
+        #endregion
+
+        #region Other
+        public void ResultClicked(SearchResult sres)
+        {
+            VerseClicked?.Invoke(this, new VerseDescription(sres.Surah, sres.Verse + 1));
+            Close();
+        }
+
+        private async void RevelationTypeCMBB_DropDownClosed(object sender, EventArgs e)
+        {
+            await SendQuery();
+        }
+
+        private async void SurahCMBB_DropDownClosed(object sender, EventArgs e)
+        {
+            await SendQuery();
+        }
+        #endregion
     }
 }

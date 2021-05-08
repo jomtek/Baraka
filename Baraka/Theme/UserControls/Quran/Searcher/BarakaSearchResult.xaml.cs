@@ -37,7 +37,7 @@ namespace Baraka.Theme.UserControls.Quran.Searcher
             VerseInfoTB.Text = $"S{sres.Surah.SurahNumber}. V{sres.Verse + 1}";
 
             // TODO
-            string fullVerse = Data.LoadedData.SurahList.ElementAt(sres.Surah.SurahNumber - 1).Value.ElementAt(2).Verses[sres.Verse];
+            string fullVerse = Data.LoadedData.SurahList.ElementAt(sres.Surah.SurahNumber - 1).Value.ElementAt(1).Verses[sres.Verse];
             RTB.Document.Blocks.Add(new Paragraph(new Run(fullVerse)));
 
             HighlightTerms();
@@ -77,7 +77,14 @@ namespace Baraka.Theme.UserControls.Quran.Searcher
                                 continue;
                             }
 
-                            selection.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.Yellow);
+                            if (selection.Text.Contains(' '))
+                            {
+                                selection.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.SandyBrown);
+                            }
+                            else
+                            {
+                                selection.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.Yellow);
+                            }
                         }
                     }
 
@@ -91,19 +98,19 @@ namespace Baraka.Theme.UserControls.Quran.Searcher
         
         }
 
-        private void VerseInfoTB_MouseEnter(object sender, MouseEventArgs e)
-        {
-            VerseInfoTB.Background = new SolidColorBrush(SystemColors.ControlLightColor);
-        }
-
-        private void VerseInfoTB_MouseLeave(object sender, MouseEventArgs e)
-        {
-            VerseInfoTB.Background = Brushes.Transparent;
-        }
-
         private void Viewbox_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             _window.ResultClicked(_sres);
+        }
+
+        private void VerseNumBorder_MouseEnter(object sender, MouseEventArgs e)
+        {
+            VerseNumBorder.Background = new SolidColorBrush(SystemColors.ControlLightColor);
+        }
+
+        private void VerseNumBorder_MouseLeave(object sender, MouseEventArgs e)
+        {
+            VerseNumBorder.Background = Brushes.White;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Baraka.Data;
+using Baraka.Data.Descriptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,23 @@ namespace Baraka.Utils.Search
 {
     public class RelevantSearch
     {
-       public List<SearchResult> Go(string search)
-       {
+        private SurahRevelationType _revelation;
+        private int _surahNum;
+
+        public RelevantSearch(SurahRevelationType revelation, int surahNum)
+        {
+            _revelation = revelation;
+            _surahNum = surahNum;
+        }
+
+        private bool KeepSurah(SurahDescription surah)
+        {
+            return (_surahNum == 0 || surah.SurahNumber == _surahNum) &&
+                   (_revelation == SurahRevelationType.MH || surah.RevelationType == _revelation);
+        }
+
+        public List<SearchResult> Go(string search)
+        {
             search = search.ToLower(); // TODO
 
             string[] keywords = search.Split(' ');
@@ -22,7 +38,12 @@ namespace Baraka.Utils.Search
             foreach (var key in LoadedData.SurahList)
             {
                 var surah = key.Key;
-                string[] verses = key.Value[2].Verses;
+                if ( !KeepSurah(surah) )
+                {
+                    continue;
+                }
+                
+                string[] verses = key.Value[1].Verses;
 
                 for (int i = 0; i < verses.Length; i++)
                 {
@@ -38,7 +59,12 @@ namespace Baraka.Utils.Search
             foreach (var key in LoadedData.SurahList)
             {
                 var surah = key.Key;
-                string[] verses = key.Value[2].Verses;
+                if (!KeepSurah(surah))
+                {
+                    continue;
+                }
+
+                string[] verses = key.Value[1].Verses;
 
                 for (int i = 0; i < verses.Length; i++)
                 {
@@ -51,6 +77,6 @@ namespace Baraka.Utils.Search
             }
 
             return results;
-       } 
+        } 
     }
 }

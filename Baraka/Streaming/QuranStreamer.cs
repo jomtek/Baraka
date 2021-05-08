@@ -8,15 +8,24 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Baraka.Streaming
 {
     public class QuranStreamer
     {
         private bool _playing = false;
+        private bool _loopMode = false;
+        private double _cursor = 0;
+
         public int Verse { get; private set; } = 1;
+        public int NonRelativeVerse { get; private set; } = 0;
+
         public SurahDescription Surah { get; set; }
         public CheikhDescription Cheikh { get; set; }
+
+        public int StartVerse { get; set; } = 0;
+        public int EndVerse { get; set; } = -1;
 
         private WaveOut _wout;
         private byte[] _nextVerseAudio;
@@ -27,6 +36,9 @@ namespace Baraka.Streaming
 
         [Category("Baraka")]
         public event EventHandler FinishedSurah;
+
+        [Category("Baraka")]
+        public event EventHandler<double> CursorChanged;
         #endregion
 
         #region Player Controls
@@ -43,8 +55,37 @@ namespace Baraka.Streaming
                 }
                 else
                 {
-                    _wout.Stop();
+                    try
+                    {
+                        _wout.Stop();
+                    } catch (NullReferenceException)
+                    {
+                        Console.WriteLine("Null reference");
+                    }
                 }
+            }
+        }
+
+        public bool LoopMode
+        {
+            get { return _loopMode; }
+            set
+            {
+                _loopMode = value;
+
+                if (value)
+                {
+                    // Set the "start verse" before setting LoopMode to true
+                    ChangeVerse(StartVerse);
+                }
+            }
+        }
+
+        public double Cursor
+        {
+            set
+            {
+                _cursor = value;
             }
         }
         #endregion
@@ -60,25 +101,41 @@ namespace Baraka.Streaming
                 Verse = 1;
             }
 
+            NonRelativeVerse = 0;
+
             Playing = false;
         }
 
-        public async void ChangeVerse(int number)
+        public async void ChangeVerse(int nonRelativeNum)
         {
-            Verse = number;
+            SetVerse(nonRelativeNum);
+            NonRelativeVerse = nonRelativeNum;
+
             if (_playing)
             {
                 Playing = false;
-                await Task.Delay(10); // Do not precipitate, wait for the stream to stop
+                await Task.Delay(50); // Do not precipitate, wait for the stream to stop
                 Playing = true;
+            }
+        }
+
+        private void SetVerse(int number)
+        {
+            if (Surah.SurahNumber != 1 && Surah.SurahNumber != 9)
+            {
+                Verse = number;
+            }
+            else
+            {
+                Verse = number + 1;
             }
         }
 
         public QuranStreamer()
         {
             // Default values
-            Surah = Data.LoadedData.SurahList.ElementAt(0).Key;
-            Cheikh = Data.LoadedData.CheikhList.ElementAt(3);
+            Surah = LoadedData.SurahList.ElementAt(0).Key;
+            Cheikh = LoadedData.CheikhList.ElementAt(3);
 
             _wout = new WaveOut(WaveCallbackInfo.FunctionCallback());
         }
@@ -125,6 +182,20 @@ namespace Baraka.Streaming
 
             while (_playing)
             {
+                if (StartVerse > EndVerse) // TODO
+                {
+                    StartVerse--;
+                    continue;
+                }
+
+                if (_loopMode && NonRelativeVerse >= EndVerse + 1)
+                {            
+                    SetVerse(StartVerse);
+                    NonRelativeVerse = StartVerse;
+                    await Task.Run(() => DownloadVerseAudio(false));
+                    continue;
+                }
+
                 VerseChanged?.Invoke(this, EventArgs.Empty);
 
                 if (Verse != Surah.NumberOfVerses)
@@ -132,25 +203,25 @@ namespace Baraka.Streaming
                     new Task(() => DownloadVerseAudio()).Start();
                 }
                 await Task.Run(PlayNextVerse);
+                Console.WriteLine($"done playing {NonRelativeVerse}");
 
                 if (_playing)
                 {
-                    if (Verse == Surah.NumberOfVerses)
+                    if (!_loopMode && NonRelativeVerse == Surah.NumberOfVerses - 1)
                     {
+
                         Reset();
                         FinishedSurah?.Invoke(this, EventArgs.Empty);
                         break;
                     }
-                }
 
-                if (_playing)
-                {
                     Verse++;
+                    NonRelativeVerse++;
                 }
             }
         }
 
-        private Task PlayNextVerse()
+        private async Task PlayNextVerse()
         {
             using (var ms = new MemoryStream())
             {
@@ -165,6 +236,7 @@ namespace Baraka.Streaming
                             new Mp3FileReader(ms))))
                 {
                     _wout.Init(blockAlignedStream);
+
                     try
                     {
                         _wout.Play();
@@ -174,20 +246,51 @@ namespace Baraka.Streaming
                         Console.WriteLine("Null reference");
                     };
 
-                    while (_wout.PlaybackState != PlaybackState.Stopped)
+               
+                    double lastCursor = 0;
+                    while (true)
                     {
-                        int milliseconds = 1;
+                        double totalMs = blockAlignedStream.TotalTime.TotalMilliseconds;
+                        double currentMs = blockAlignedStream.CurrentTime.TotalMilliseconds;
+
+                        if (_cursor != lastCursor)
+                        {
+                            // Update cursor
+                            //blockAlignedStream.CurrentTime =
+                            //    new TimeSpan(Convert.ToInt64(_cursor * blockAlignedStream.TotalTime.Ticks));
+                            //blockAlignedStream.Position
+                        }
+                        else
+                        {
+                            //_cursor = currentMs / totalMs;
+                        }
+
+                        //lastCursor = _cursor;
+                        //CursorChanged?.Invoke(this, _cursor);
 
                         // Crossfading (WIP TODO)
-                        if (blockAlignedStream.TotalTime.TotalMilliseconds - blockAlignedStream.CurrentTime.TotalMilliseconds < milliseconds)
+                        int milliseconds = 1;
+                        if (totalMs - currentMs < milliseconds)
                         {
+                            Console.WriteLine("broke total");
                             break;
                         }
+
+                        if (_wout.PlaybackState == PlaybackState.Stopped)
+                        {
+                            Console.WriteLine("broke playback");
+                            break;
+                        }
+                        //w.Stop();
+                        //Console.WriteLine($"elapsed: {w.ElapsedMilliseconds}");
+                        await Task.Delay(10);
                     }
+
+                    _cursor = 0;
                 }
             }
 
-            return Task.CompletedTask;
+            //return Task.CompletedTask;
         }
         #endregion
     }

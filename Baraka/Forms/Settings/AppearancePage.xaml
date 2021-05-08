@@ -8,8 +8,52 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AppearancePage" Width="715" Height="765">
 
-    <Grid Background="White">
-        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="25"><Run Text="Appearance"/><LineBreak/><Run/></TextBlock>
-
-    </Grid>
+    <StackPanel Background="White">
+        <CheckBox Content="Afficher l'écran d'accueil au démarrage de Baraka" Style="{DynamicResource SimpleCheckBox}" Margin="30,25,0,0" FontSize="24" Padding="7,0,0,0" ToolTip="Lancer Baraka au démarrage de l'ordinateur" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2" IsChecked="True">
+            <CheckBox.BorderBrush>
+                <SolidColorBrush Color="{DynamicResource DarkColor}"/>
+            </CheckBox.BorderBrush>
+        </CheckBox>
+        <Path Data="M224,329L353,329" HorizontalAlignment="Left" Margin="30,20,0,20" StrokeStartLineCap="Round" Stretch="Fill" StrokeEndLineCap="Round" Stroke="#FFC7C5C5" StrokeThickness="4" Width="575" Fill="Black"/>
+        <GroupBox Header="Thème du logiciel" Height="228" Margin="30,0" FontSize="24" BorderThickness="3" ClipToBounds="True">
+            <DockPanel Margin="20,20,0,20" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <Image Margin="0,0,20,0" Source="theme1.PNG"/>
+                <Image Margin="0" Source="theme1.PNG" HorizontalAlignment="Right" DockPanel.Dock="Right"/>
+            </DockPanel>
+        </GroupBox>
+        <GroupBox Header="Coran" Height="268.667" Margin="30,15,30,0" FontSize="24" BorderThickness="3" Padding="0">
+            <StackPanel>
+                <CheckBox Content="Afficher la barre de défilement" Style="{DynamicResource SimpleCheckBox}" Margin="15,10,0,0" FontSize="20" Padding="7,0,0,0" ToolTip="Lancer Baraka au démarrage de l'ordinateur" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2" IsChecked="True">
+                    <CheckBox.BorderBrush>
+                        <SolidColorBrush Color="{DynamicResource DarkColor}"/>
+                    </CheckBox.BorderBrush>
+                </CheckBox>
+                <GroupBox Header="Polices d'écriture" Margin="15,10,15,0" FontSize="20" Height="145" BorderThickness="2">
+                    <StackPanel Margin="15,10,0,10">
+                        <StackPanel Height="25" Orientation="Horizontal">
+                            <TextBlock HorizontalAlignment="Left" Margin="0" TextWrapping="Wrap" Text="Arabe" VerticalAlignment="Center" FontSize="18" FontFamily="/Baraka;component/Fonts/#Poppins"/>
+                            <Canvas x:Name="InfoBTN" Width="20" Height="20" Cursor="Help" Margin="53,0,0,0">
+                                <Path x:Name="InfoPath" Style="{StaticResource Hint}" Stretch="Fill" Width="20" Height="20" Fill="#FFBFBFBF" ToolTip="" Margin="0" />
+                            </Canvas>
+                            <Button Content="modifier" Padding="5,0" FontSize="16" FontFamily="Montserrat" Width="90.243" Margin="20,0,0,0"/>
+                        </StackPanel>
+                        <StackPanel Height="25" Orientation="Horizontal" Margin="0,7.5,0,0">
+                            <TextBlock HorizontalAlignment="Left" Margin="0,-2.26" TextWrapping="Wrap" Text="Phonétique" VerticalAlignment="Top" FontSize="18" FontFamily="/Baraka;component/Fonts/#Poppins"/>
+                            <Canvas x:Name="InfoBTN1" Width="20" Height="20" Cursor="Help" Margin="7,0,0,0">
+                                <Path x:Name="InfoPath1" Style="{StaticResource Hint}" Stretch="Fill" Width="20" Height="20" Fill="#FFBFBFBF" ToolTip="" Margin="0" />
+                            </Canvas>
+                            <Button Content="modifier" Padding="5,0" FontSize="16" FontFamily="Montserrat" Width="90.243" Margin="20,0,0,0"/>
+                        </StackPanel>
+                        <StackPanel Height="25" Orientation="Horizontal" Margin="0,7.5,0,0">
+                            <TextBlock HorizontalAlignment="Left" Margin="0" TextWrapping="Wrap" Text="Traduction" VerticalAlignment="Center" FontSize="18" FontFamily="/Baraka;component/Fonts/#Poppins"/>
+                            <Canvas x:Name="InfoBTN2" Width="20" Height="20" Cursor="Help" Margin="11,0,0,0">
+                                <Path x:Name="InfoPath2" Style="{StaticResource Hint}" Stretch="Fill" Width="20" Height="20" Fill="#FFBFBFBF" ToolTip="" Margin="0" />
+                            </Canvas>
+                            <Button Content="modifier" Padding="5,0" FontSize="16" FontFamily="Montserrat" Width="90.243" Margin="20,0,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </GroupBox>
+    </StackPanel>
 </Page>

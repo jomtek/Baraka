@@ -4,6 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" Width="60" Height="60">
+
+    <UserControl.Resources>
+        <Color x:Key="NormalMode_Fill_Color">#038B4B</Color>
+        <Color x:Key="LoopMode_Stroke_Color">#D9D544</Color>
+        <Color x:Key="LoopMode_Fill_Color">#EBE651</Color>
+        <SolidColorBrush x:Key="NormalMode_Fill_Brush" Color="{StaticResource NormalMode_Fill_Color}" />
+        <SolidColorBrush x:Key="LoopMode_Stroke_Brush" Color="{StaticResource LoopMode_Stroke_Color}" />
+        <SolidColorBrush x:Key="LoopMode_Fill_Brush" Color="{StaticResource LoopMode_Fill_Color}" />
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -11,11 +21,19 @@
         </Grid.RowDefinitions>
 
         <Grid x:Name="TopGrid" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,12" Grid.RowSpan="2">
-            <Path Data="M 70,30 L 70,10 L 40,10 L 40,30" Stroke="{StaticResource DarkBrush}" StrokeThickness="5.5" Stretch="Fill" Margin="0" Fill="#FF038B4B" />
+            <Path x:Name="TopPath" Data="M 70,30 L 70,10 L 40,10 L 40,30" StrokeThickness="5.5" Stretch="Fill" Margin="0" Fill="{StaticResource NormalMode_Fill_Brush}" >
+                <Path.Stroke>
+                    <SolidColorBrush Color="{StaticResource DarkColor}"/>
+                </Path.Stroke>
+            </Path>
         </Grid>
 
         <Grid x:Name="DownGrid" Grid.Row="1" HorizontalAlignment="Stretch" Margin="0">
-            <Path Data="M 40,10 L 40,30 L 60,10 L 80,30 L 80,10" Stroke="{StaticResource DarkBrush}" StrokeThickness="5.5" Stretch="Fill" Margin="0" Fill="#FF038B4B" />
+            <Path x:Name="DownPath" Data="M 40,10 L 40,30 L 60,10 L 80,30 L 80,10" StrokeThickness="5.5" Stretch="Fill" Margin="0" Fill="{StaticResource NormalMode_Fill_Brush}" >
+                <Path.Stroke>
+                    <SolidColorBrush Color="{StaticResource DarkColor}"/>
+                </Path.Stroke>
+            </Path>
         </Grid>
     </Grid>
 </UserControl>

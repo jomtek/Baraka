@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Baraka.Utils;
+using System.Windows.Media;
 
 namespace Baraka.Theme.UserControls.Quran.Displayer
 {
@@ -18,9 +19,15 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
     public partial class BarakaSurahDisplayer : UserControl
     {
         private bool _playing = false;
+        public bool LoopMode { get; private set; } = false;
         private List<double> _relativeBmHeights;
 
-        private SurahDescription _loadedSurah;
+        // Non relative (as always)
+        public int StartVerse { get; private set; } = 0;
+        public int EndVerse { get; private set; } = 0;
+
+        //
+        private double _firstVerseOffset;
 
         #region Settings
         public bool Playing
@@ -36,7 +43,12 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                 }
                 else
                 {
-                    Bookmark.Opacity = 0.35;
+                    Bookmark.Opacity = 0.50;
+                    
+                    foreach (BarakaVerseNumber number in NumberingSP.Children)
+                    {
+                        number.Playing = false;
+                    }
                 }
             }
         }
@@ -48,6 +60,9 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
         [Category("Baraka")]
         public event EventHandler<int> DownloadVerseRequested;
+
+        [Category("Baraka")]
+        public event EventHandler<int> LoopModeDisplayed;
         #endregion
 
         public BarakaSurahDisplayer()
@@ -62,10 +77,16 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             VersesSV.ScrollToTop();
         }
 
-        public void ScrollToVerse(int verse)
+        public void ScrollToVerse(int verse, bool searchRes = false)
         {
             BrowseToVerse(verse);
             VersesSV.ScrollToVerticalOffset(Bookmark.Height - 60);
+
+            if (searchRes)
+            {
+                var numPolygon = (BarakaVerseNumber)NumberingSP.Children[verse];
+                numPolygon.MarkAsSearchResult();
+            }
         }
 
         #region Verse numbers click
@@ -82,31 +103,54 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         }
         #endregion
 
+        #region Bookmark movement
         public void BrowseToVerse(int num)
         {
-            if (_loadedSurah.SurahNumber != 1 && _loadedSurah.SurahNumber != 9)
+            EndVerse = num;
+
+            if (StartVerse != 0 && num < StartVerse)
             {
-                Bookmark.Height = _relativeBmHeights[num];
+                StartFromVerse(num);
             }
-            else
+
+            Bookmark.Height = _relativeBmHeights[num];
+
+            if (StartVerse != 0)
             {
-                Bookmark.Height = _relativeBmHeights[num - 1];
+                Bookmark.Height -= _firstVerseOffset;
             }
 
             // Auto scroll (optional)
             //VersesSV.ScrollToVerticalOffset(Bookmark.Height - 60);
         }
 
+        public void StartFromVerse(int target)
+        {
+            StartVerse = target;
+            
+            VerseChanged?.Invoke(this, StartVerse);
+
+            Bookmark.Margin = new Thickness(0, _relativeBmHeights[target] - 12, 0, 0);
+            _firstVerseOffset = _relativeBmHeights[target] - 60;
+
+            Bookmark.Height = 60; // Default; verse number size
+
+            if (target < EndVerse)
+            {
+                BrowseToVerse(EndVerse);
+                VerseChanged?.Invoke(this, StartVerse);
+            }
+        }
+        #endregion
+
+        #region Bookmark
         private void ReinitBookmark()
         {
             _relativeBmHeights.Clear();
             Bookmark.Height = 60;
+            Bookmark.Margin = new Thickness(0, 45, 0, 0);
         }
-
-        public void WidthGo()
-        {
-            Console.WriteLine($"versessp width: {VersesSP.ActualWidth}");
-        }
+        #endregion
 
         public void LoadSurah(SurahDescription surah)
         {
@@ -117,8 +161,9 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                 VersesSP.Children.Clear();
                 NumberingSP.Children.Clear();
 
-                // Bookmark reinitialization
                 ReinitBookmark();
+
+                StartVerse = 0;
 
                 // //
 
@@ -127,14 +172,17 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                 double numIncrMargin = 0;
                 double cumulatedHeights = 60;
 
+                // Exclude Al-Fatiha and At-Tawbah
+                bool basmala = surah.SurahNumber != 1 && surah.SurahNumber != 9;
+
                 // Basmala
-                if (surah.SurahNumber != 1 && surah.SurahNumber != 9) // Exclude Al-Fatiha and At-Tawbah
+                if (basmala) 
                 {
                     var verseBox = new BarakaVerse(LoadedData.SurahList.ElementAt(0).Key, 0);
                     verseBox.Margin = new Thickness(0, 45, 0, 0);
                     verseBox.Initialize();
 
-                    var verseNum = new BarakaVerseNumber(this, 0, true);
+                    var verseNum = new BarakaVerseNumber(this, 0, -1, true);
                     verseNum.Margin = new Thickness(0, 45, 0, 0);
 
                     VersesSP.Children.Add(verseBox);
@@ -164,7 +212,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                     }
 
                     // Verse number
-                    var verseNum = new BarakaVerseNumber(this, i + 1);
+                    var verseNum = new BarakaVerseNumber(this, basmala?i+1:i, i+1);
                     verseNum.Margin = new Thickness(0, numIncrMargin, 0, 0);
 
                     if (i == 0 && (surah.SurahNumber == 1 || surah.SurahNumber == 9))
@@ -183,13 +231,21 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                     _relativeBmHeights.Add(cumulatedHeights);
                     cumulatedHeights += verseBox.ActualHeight + topMargin;
                 }
-
-                _loadedSurah = surah;
             }
 
             MainSB.TargetValue = surah.NumberOfVerses;
         }
 
+        #region Loop
+        public void SetLoopMode(bool loop)
+        {
+            LoopMode = loop;
+            Bookmark.SetLoopMode(loop);
+            LoopModeDisplayed?.Invoke(this, StartVerse);
+        }
+        #endregion
+
+        #region Handlers
         private void MainSB_OnScroll(object sender, EventArgs e)
         {
             if (VersesSV.ScrollableHeight * MainSB.Scrolled > 0)
@@ -202,5 +258,26 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         {
             MainSB.Scrolled = VersesSV.VerticalOffset / VersesSV.ScrollableHeight;
         }
+
+        // Support for external handler (Player class)
+        public void ChangeVerse(int num)
+        {
+            if (_playing)
+            {
+                foreach (BarakaVerseNumber number in NumberingSP.Children)
+                {
+                    number.Playing = false;
+                }
+
+                var numPolygon = (BarakaVerseNumber)NumberingSP.Children[num];
+                numPolygon.Playing = true;
+            }
+
+            if (!LoopMode)
+            {
+                EndVerse = num;
+            }
+        }
+        #endregion
     }
 }

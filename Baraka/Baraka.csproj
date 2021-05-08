@@ -111,8 +111,11 @@
     <Compile Include="Forms\Settings\GeneralPage.xaml.cs">
       <DependentUpon>GeneralPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Settings\QuranPage.xaml.cs">
-      <DependentUpon>QuranPage.xaml</DependentUpon>
+    <Compile Include="Forms\Settings\ReadingPage.xaml.cs">
+      <DependentUpon>ReadingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Settings\SearchPage.xaml.cs">
+      <DependentUpon>SearchPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Settings\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
@@ -140,9 +143,11 @@
     <Compile Include="Theme\UserControls\Quran\Displayer\BarakaVerseNumber.xaml.cs">
       <DependentUpon>BarakaVerseNumber.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Theme\UserControls\Quran\Player\Progress\EllipseHeightConverter.cs" />
     <Compile Include="Theme\UserControls\Quran\Searcher\BarakaSearchResult.xaml.cs">
       <DependentUpon>BarakaSearchResult.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\BorderClipConverter.cs" />
     <Compile Include="Utils\General.cs" />
     <Compile Include="Utils\Search\General.cs" />
     <Compile Include="Utils\Search\RelevantSearch.cs" />
@@ -157,7 +162,7 @@
     <Compile Include="Theme\UserControls\BarakaMysteriousProgressBar.xaml.cs">
       <DependentUpon>BarakaMysteriousProgressBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Player\BarakaProgressBar.xaml.cs">
+    <Compile Include="Theme\UserControls\Quran\Player\Progress\BarakaProgressBar.xaml.cs">
       <DependentUpon>BarakaProgressBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Theme\UserControls\BarakaScrollBar.xaml.cs">
@@ -185,7 +190,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\Settings\QuranPage.xaml">
+    <Page Include="Forms\Settings\ReadingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Settings\SearchPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -249,7 +258,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Player\BarakaProgressBar.xaml">
+    <Page Include="Theme\UserControls\Quran\Player\Progress\BarakaProgressBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -288,6 +297,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Forms\Settings\theme1.PNG" />
     <Resource Include="Images\Cheikh\bukhatir.png" />
     <Resource Include="Images\Cheikh\ghamidi.png" />
     <Resource Include="Images\Cheikh\yassin.png" />

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Baraka.Theme.UserControls"
              xmlns:local1="clr-namespace:Baraka.Theme.UserControls.Quran.Player" x:Name="userControl"
             x:Class="Baraka.Theme.UserControls.Quran.Player.BarakaPlayer"
-             mc:Ignorable="d" Height="586" Width="745" MouseLeave="userControl_MouseLeave" ClipToBounds="True">
+             mc:Ignorable="d" Height="600" Width="745" MouseLeave="userControl_MouseLeave" ClipToBounds="True">
     <UserControl.Resources>
         <Style x:Key="Play" TargetType="{x:Type Path}">
             <Setter Property="Data" Value="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" />
@@ -26,33 +26,37 @@
 
         <Storyboard x:Key="TabSwitchStory"/>
         <Storyboard x:Key="PlayerOpenStory">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="border">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="550"/>
-            </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="path">
                 <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="450"/>
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="SelectorGrid">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.35" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.233" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
             </DoubleAnimationUsingKeyFrames>
-            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="DisplaySV">
-                <EasingThicknessKeyFrame KeyTime="0" Value="50,30,0,10"/>
-            </ThicknessAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SelectorGrid">
+                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.233" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="border">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="574"/>
+            </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="PlayerCloseStory">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="border">
-                <SplineDoubleKeyFrame KeyTime="0:0:0.2" Value="550"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="102"/>
+                <EasingDoubleKeyFrame KeyTime="0" Value="574"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="130"/>
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="path">
-                <SplineDoubleKeyFrame KeyTime="0:0:0.1" Value="450"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0" Value="450"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.267" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="SelectorGrid">
-                <SplineDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:0.433" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SelectorGrid">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Visible}"/>
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.35" Value="{x:Static Visibility.Hidden}"/>
+            </ObjectAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
     <UserControl.Triggers>
@@ -63,7 +67,7 @@
     </UserControl.Effect>
 
     <Grid HorizontalAlignment="Center" Margin="30,25,30,0">
-        <Border x:Name="border" BorderBrush="Black" BorderThickness="0" CornerRadius="35,35,0,0" Background="White" Margin="0" RenderTransformOrigin="0.5,0.5" Height="102" VerticalAlignment="Bottom">
+        <Border x:Name="border" BorderBrush="Black" BorderThickness="0" CornerRadius="35,35,0,0" Background="White" Margin="0" RenderTransformOrigin="0.5,0.5" Height="130" VerticalAlignment="Bottom">
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -73,19 +77,10 @@
                 </TransformGroup>
             </Border.RenderTransform>
         </Border>
-        <Grid x:Name="SelectorGrid" RenderTransformOrigin="0.5,0.5" Margin="25,0,25,110" Height="455" VerticalAlignment="Bottom" Opacity="0" Visibility="Hidden">
+        <Grid x:Name="SelectorGrid" RenderTransformOrigin="0.5,0.5" Margin="25,0,25,130" Height="445" VerticalAlignment="Bottom">
             <Grid.Effect>
                 <BlurEffect Radius="0"/>
             </Grid.Effect>
-
-            <Grid.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Grid.RenderTransform>
 
             <ScrollViewer
                 x:Name="DisplaySV"
@@ -99,10 +94,10 @@
                 x:Name="MainSB"
                 HorizontalAlignment="Right"
                 Width="40"
-                Margin="0,15,11,0"
+                Margin="0,0,11,-45"
                 TargetValue="2"
                 Accuracy="VAGUE"
-                OnScroll="MainSB_OnScroll" Height="420">
+                OnScroll="MainSB_OnScroll" Height="445">
 
                 <local:BarakaScrollBar.Effect>
                     <DropShadowEffect Opacity="0.1" ShadowDepth="2"/>
@@ -121,7 +116,7 @@
             StrokeStartLineCap="Square"
             StrokeEndLineCap="Square"
             RenderTransformOrigin="0.5,0.5"
-                Margin="80,0,80,102" Width="0"
+                Margin="80,0,80,130" Width="50"
                 >
             <Path.RenderTransform>
                 <TransformGroup>
@@ -132,7 +127,7 @@
                 </TransformGroup>
             </Path.RenderTransform>
         </Path>
-        <Grid x:Name="PlayerControlsGrid" Margin="0" VerticalAlignment="Bottom" Height="102">
+        <Grid x:Name="PlayerControlsGrid" Margin="0" VerticalAlignment="Bottom" Height="133">
             <StackPanel Orientation="Horizontal" Margin="0,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Column="1">
                 <Grid x:Name="BackwardBTN" Cursor="Hand" ToolTip="Cliquez pour jouer la sourate précédente" IsEnabled="False" Height="30" Width="30" Background="White" Opacity="0.4" PreviewMouseLeftButtonUp="BackwardBTN_PreviewMouseLeftButtonUp">
                     <Path Style="{StaticResource Backward}" Stretch="Fill" Fill="Black" ToolTip="" IsEnabled="False" />
@@ -178,6 +173,8 @@
                     <ImageBrush ImageSource="/Baraka;component/Images/player_loop_off.png"/>
                 </Rectangle.Fill>
             </Rectangle>
+            <local1:BarakaProgressBar x:Name="VersePB" HorizontalAlignment="Center" VerticalAlignment="Top" Height="35" Margin="107.5,55,107.5,0" Width="450"/>
+            <Button Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
         </Grid>
     </Grid>
 </UserControl>

@@ -10,30 +10,20 @@
       Title="GeneralPage" Width="710" Height="759" Margin="0">
 
     <StackPanel Background="White">
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,40,0,0" Orientation="Horizontal" Width="462.18">
-            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Langue du logiciel" VerticalAlignment="Top" FontSize="28" Margin="0"/>
-            <ComboBox Width="205" Margin="30,0,0,0" FontSize="20" VerticalContentAlignment="Center" FontFamily="Montserrat">
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,40,0,0" Orientation="Horizontal">
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Langue du logiciel" VerticalAlignment="Top" FontSize="24" Margin="0"/>
+            <ComboBox Width="205" Margin="30,0,0,0" FontSize="24" VerticalContentAlignment="Center" FontFamily="Montserrat">
                 <ComboBoxItem IsSelected="True" Content="Français" />
                 <ComboBoxItem Content="العربية"/>
                 <ComboBoxItem Content="English"/>
                 <ComboBoxItem Content="Español"/>
             </ComboBox>
         </StackPanel>
-        <CheckBox Content="Lancer Baraka au démarrage" Style="{DynamicResource SimpleCheckBox}" Margin="30,25,0,0" FontSize="27" Padding="7,0,0,0" ToolTip="Lancer Baraka au démarrage de l'ordinateur" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2">
+        <CheckBox Content="Lancer Baraka au démarrage" Style="{DynamicResource SimpleCheckBox}" Margin="30,20,0,0" FontSize="24" Padding="7,0,0,0" ToolTip="Lancer Baraka au démarrage de l'ordinateur" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2">
             <CheckBox.BorderBrush>
                 <SolidColorBrush Color="{DynamicResource DarkColor}"/>
             </CheckBox.BorderBrush>
         </CheckBox>
-        <Path Data="M128,705.33333 L146,705.33333" Fill="#FFF4F4F5" Margin="0,550,20,0" Stretch="Fill" StrokeThickness="3" StrokeStartLineCap="Square" StrokeEndLineCap="Round">
-            <Path.Stroke>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
-            </Path.Stroke>
-        </Path>
-        <Button Content="Vider le cache" Margin="0,17.5,20,0" HorizontalAlignment="Right" Padding="50,5" FontSize="19" BorderThickness="0">
-            <Button.Foreground>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
-            </Button.Foreground>
-        </Button>
 
     </StackPanel>
 </Page>

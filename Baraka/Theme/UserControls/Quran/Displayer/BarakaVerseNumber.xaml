@@ -24,7 +24,7 @@
                     <Setter Property="ItemsPanel" Value="{StaticResource MenuTPL}"/>
                 </Style>
             </ContextMenu.Style>
-            
+
             <MenuItem Header="Se déplacer ici" Click="Menu_MoveHere_Click" />
             <MenuItem Header="Commencer à partir d'ici" Click="Menu_StartHere_Click"/>
             <Separator />
@@ -35,8 +35,7 @@
     <Grid>
         <Path x:Name="PolygonPath"
             Data="M28.6,9.9a14,14,0,0,1,19.8,0L67.1,28.6a14,14,0,0,1,0,19.8L48.4,67.1a14,14,0,0,1-19.8,0L9.9,48.4a14,14,0,0,1,0-19.8Z"
-            Fill="White"
-            Stretch="Fill" StrokeThickness="5"
+            Stretch="Fill" StrokeThickness="5" Fill="White"
             />
         <TextBlock x:Name="NumberTB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="1" VerticalAlignment="Center" FontFamily="Montserrat" FontWeight="Bold" FontSize="21"/>
         <Ellipse x:Name="BasmalaEllipse" Fill="#FF4CB074" HorizontalAlignment="Center" Height="22.5" VerticalAlignment="Center" Width="22.5" Visibility="Collapsed"/>

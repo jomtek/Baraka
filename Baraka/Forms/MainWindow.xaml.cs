@@ -17,44 +17,16 @@ namespace Baraka
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool _dashboardOpened = false;
-
         public MainWindow()
         {
             InitializeComponent();
+
             ((Storyboard)this.Resources["DashboardCloseStory"]).Begin();
             ((Storyboard)this.Resources["DashboardCloseStory"]).SkipToFill();
-        }
 
-        /*
-        private void Window_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed && e.GetPosition(this).Y < TopGrid.Height)
-            {
-                DragMove();
-            }
+            // Bind the displayer to the player
+            Player.Displayer = MainSurahDisplayer;
         }
-        */
-
-        /*
-        private void CloseFormCanvas_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Cursor = Cursors.Hand;
-            CloseFormPath.Fill = new SolidColorBrush(Color.FromRgb(222, 222, 222));
-        }
-
-        private void CloseFormCanvas_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Cursor = Cursors.Arrow;
-            CloseFormPath.Fill = Brushes.White;
-        }
-
-        private void CloseFormCanvas_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            Player.Dispose();
-            Environment.Exit(0);
-        }
-        */
 
         private Dictionary<SurahDescription, Data.Surah.SurahVersion[]> SerializationData =
             new Dictionary<SurahDescription, Data.Surah.SurahVersion[]>();
@@ -95,56 +67,36 @@ namespace Baraka
             Data.SerializationUtils.Serialize(tempCheikhs, "cheikh.ser");*/
         }
 
-        /*
-        private void MainSurahDisplayer_OnPlanetClick(object sender, EventArgs e)
-        {
-            WindowBlurEffect.Radius = 4;
-
-            var myInstance = new QuranTranslationsManagerWindow();
-            myInstance.Owner = this;
-            myInstance.ShowDialog();
-
-            WindowBlurEffect.Radius = 0;
-        }
-        */
-
-        private void BarakaPlayer_SurahChanged(object sender, EventArgs e)
-        {
-            MainSurahDisplayer.LoadSurah(Player.SelectedSurah);
-
-        }
-
-        private void Player_VerseChanged(object sender, EventArgs e)
-        {
-            MainSurahDisplayer.BrowseToVerse(Player.Streamer.Verse);
-        }
-
-        private void Button_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
+        #region Window events
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Player.Dispose();
             Environment.Exit(0);
         }
 
-        private void Player_PlayingChanged(object sender, EventArgs e)
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            MainSurahDisplayer.Playing = Player.Playing;
-        }
 
-        private void Player_SurahStartOrRestart(object sender, EventArgs e)
-        {
-            MainSurahDisplayer.ScrollToTop();
         }
+        #endregion
 
+        #region Displayer to Player events
         private void MainSurahDisplayer_VerseChanged(object sender, int num)
         {
+            Console.WriteLine($"verse changed to : {num}");
             Player.ChangeVerse(num);
         }
 
+        private void MainSurahDisplayer_DownloadVerseRequested(object sender, int num)
+        {
+            Player.DownloadMp3Verse(num);
+        }
+        #endregion
+
+        #region Dashboard
+        private bool _dashboardOpened = false;
+
+        #region Animation
         private void Dashboard_MouseEnter(object sender, MouseEventArgs e)
         {
             if (!_dashboardOpened)
@@ -162,22 +114,18 @@ namespace Baraka
                 _dashboardOpened = false;
             }
         }
-        private void MainSurahDisplayer_DownloadVerseRequested(object sender, int num)
-        {
-            Player.DownloadMp3Verse(num);
-        }
-
-        #region Dashboard
+        #endregion
+        #region Items
         private void SearchDashboardItem_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            WindowBlurEffect.Radius = 5;
+            WindowBlurEffect.Radius = 8;
 
             var myInstance = new SearchWindow() { Owner = this };
             myInstance.VerseClicked += (object _, VerseDescription verse) =>
             {
                 Player.ChangeSelectedSurah(verse.Surah);
                 Player.ChangeVerse(verse.Number);
-                MainSurahDisplayer.ScrollToVerse(verse.Number);
+                MainSurahDisplayer.ScrollToVerse(verse.Number, true);
                 Player.Playing = false;
             };
             myInstance.ShowDialog();
@@ -187,20 +135,11 @@ namespace Baraka
 
         private void SettingsDashboardItem_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            WindowBlurEffect.Radius = 5;
+            WindowBlurEffect.Radius = 8;
             new SettingsWindow() { Owner = this }.ShowDialog();
             WindowBlurEffect.Radius = 0;
         }
         #endregion
-
-        private void Player_MouseEnter(object sender, MouseEventArgs e)
-        {
-            MainSurahDisplayer.WidthGo();
-        }
-
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-
-        }
+        #endregion
     }
 }
