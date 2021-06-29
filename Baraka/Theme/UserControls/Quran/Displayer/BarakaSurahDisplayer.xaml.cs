@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Baraka.Utils;
 using System.Windows.Media;
+using System.Threading.Tasks;
 
 namespace Baraka.Theme.UserControls.Quran.Displayer
 {
@@ -22,7 +23,10 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         public bool LoopMode { get; private set; } = false;
         private List<double> _relativeBmHeights;
 
+        public SurahDescription Surah { get; set; }
+
         // Non relative (as always)
+        public int ActualVerse { get; private set; } = 0;
         public int StartVerse { get; private set; } = 0;
         public int EndVerse { get; private set; } = 0;
 
@@ -104,6 +108,12 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         #endregion
 
         #region Bookmark movement
+        private bool IsThereBasmala()
+        {
+            // Remove At-Tawba and Fatiha
+            return Surah.SurahNumber != 1 && Surah.SurahNumber != 9; 
+        }
+
         public void BrowseToVerse(int num)
         {
             EndVerse = num;
@@ -111,14 +121,16 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             if (StartVerse != 0 && num < StartVerse)
             {
                 StartFromVerse(num);
+                Console.WriteLine("ça tombe dedans");
             }
 
             Bookmark.Height = _relativeBmHeights[num];
-
             if (StartVerse != 0)
             {
                 Bookmark.Height -= _firstVerseOffset;
             }
+
+            ActualVerse = num;
 
             // Auto scroll (optional)
             //VersesSV.ScrollToVerticalOffset(Bookmark.Height - 60);
@@ -154,6 +166,8 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
         public void LoadSurah(SurahDescription surah)
         {
+            Surah = surah;
+
             using (new Utils.WaitCursor())
             {
                 ScrollToTop();
@@ -167,7 +181,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
                 // //
 
-                double topMargin = 3.5; // Top margin between verse-boxes
+                double topMargin = 2.5; // Space between verse-boxes
 
                 double numIncrMargin = 0;
                 double cumulatedHeights = 60;
@@ -182,7 +196,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                     verseBox.Margin = new Thickness(0, 45, 0, 0);
                     verseBox.Initialize();
 
-                    var verseNum = new BarakaVerseNumber(this, 0, -1, true);
+                    var verseNum = new BarakaVerseNumber(this, -1, -1, true);
                     verseNum.Margin = new Thickness(0, 45, 0, 0);
 
                     VersesSP.Children.Add(verseBox);
@@ -208,7 +222,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
                     if (i + 1 == surah.NumberOfVerses)
                     {
-                        verseBox.Margin = new Thickness(0, topMargin, 0, 130);
+                        verseBox.Margin = new Thickness(0, topMargin, 0, 170);
                     }
 
                     // Verse number
@@ -258,6 +272,8 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         {
             MainSB.Scrolled = VersesSV.VerticalOffset / VersesSV.ScrollableHeight;
         }
+
+
 
         // Support for external handler (Player class)
         public void ChangeVerse(int num)

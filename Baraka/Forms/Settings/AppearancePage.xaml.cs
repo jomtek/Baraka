@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Baraka.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,20 @@ namespace Baraka.Forms.Settings
         public AppearancePage()
         {
             InitializeComponent();
+            LoadSettings();
         }
+
+        #region Load and save
+        private void LoadSettings()
+        {
+            ShowWelcomeWindowCHB.IsChecked = LoadedData.Settings.ShowWelcomeWindow;
+            DisplayScrollbarCHB.IsChecked = LoadedData.Settings.DisplayScrollBar;
+        }
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            LoadedData.Settings.ShowWelcomeWindow = ShowWelcomeWindowCHB.IsChecked.GetValueOrDefault();
+            LoadedData.Settings.DisplayScrollBar = DisplayScrollbarCHB.IsChecked.GetValueOrDefault();
+        }
+        #endregion
     }
 }

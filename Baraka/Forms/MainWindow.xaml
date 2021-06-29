@@ -12,7 +12,7 @@
         mc:Ignorable="d"
         Title="Baraka - Le logiciel de lecture coranique"
         Height="866" Width="1500"
-        MinWidth="1210" MinHeight="800"
+        MinWidth="1200" MinHeight="500"
         Initialized="Window_Initialized" Closing="Window_Closing" SizeChanged="Window_SizeChanged">
     <Window.Resources>
         <Storyboard x:Key="DashboardCloseStory">
@@ -20,36 +20,33 @@
                 <EasingThicknessKeyFrame KeyTime="0:0:0.2" Value="-150,0,0,0"/>
             </ThicknessAnimationUsingKeyFrames>
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="Title">
-                <EasingThicknessKeyFrame KeyTime="0:0:0.2" Value="164,17.5,0,0"/>
+                <EasingThicknessKeyFrame KeyTime="0:0:0.2" Value="160,17.5,0,0"/>
             </ThicknessAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="Title">
                 <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="30"/>
             </DoubleAnimationUsingKeyFrames>
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="path">
+                <EasingThicknessKeyFrame KeyTime="0:0:0.2" Value="160,64,0,0"/>
+            </ThicknessAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="path">
                 <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="32"/>
             </DoubleAnimationUsingKeyFrames>
-            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="path">
-                <EasingThicknessKeyFrame KeyTime="0:0:0.2" Value="164,64,0,0"/>
-            </ThicknessAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="DashboardOpenStory">
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="Dashboard">
-                <EasingThicknessKeyFrame KeyTime="0" Value="-150,0,0,0"/>
-                <EasingThicknessKeyFrame KeyTime="0:0:0.233" Value="0"/>
-            </ThicknessAnimationUsingKeyFrames>
-            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="Title">
-                <EasingThicknessKeyFrame KeyTime="0" Value="161.5,17.5,0,0"/>
-                <EasingThicknessKeyFrame KeyTime="0:0:0.233" Value="22,17.5,0,0"/>
-            </ThicknessAnimationUsingKeyFrames>
-            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="path">
-                <EasingThicknessKeyFrame KeyTime="0" Value="161,64,0,0"/>
-                <EasingThicknessKeyFrame KeyTime="0:0:0.233" Value="23,64,0,0"/>
+                <EasingThicknessKeyFrame KeyTime="0:0:0.2" Value="0"/>
             </ThicknessAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="Title">
-                <EasingDoubleKeyFrame KeyTime="0" Value="148.92"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="148.92"/>
             </DoubleAnimationUsingKeyFrames>
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="Title">
+                <EasingThicknessKeyFrame KeyTime="0:0:0.2" Value="22,17.5,0,0"/>
+            </ThicknessAnimationUsingKeyFrames>
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="path">
+                <EasingThicknessKeyFrame KeyTime="0:0:0.2" Value="23,64,0,0"/>
+            </ThicknessAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="path">
-                <EasingDoubleKeyFrame KeyTime="0" Value="150"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="150"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Window.Resources>
@@ -59,13 +56,15 @@
         <BlurEffect x:Name="WindowBlurEffect" Radius="0" RenderingBias="Quality"/>
     </Window.Effect>
 
-    <DockPanel x:Name="dockPanel" LastChildFill="True" ClipToBounds="True">
+    <DockPanel ClipToBounds="True">
         <!-- Top Grid -->
-        <!-- Top Grid -->
-
-        <!-- Form content -->
-        <!-- Top Grid -->
-        <Grid x:Name="Dashboard" Height="Auto" VerticalAlignment="Stretch" DockPanel.Dock="Left" Width="210" RenderTransformOrigin="0.5,0.5" ClipToBounds="True" MouseEnter="Dashboard_MouseEnter" MouseLeave="Dashboard_MouseLeave">
+        <Grid x:Name="Dashboard" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5" ClipToBounds="True" MouseEnter="Dashboard_MouseEnter" MouseLeave="Dashboard_MouseLeave" HorizontalAlignment="Left" Margin="-150,0,0,0">
+            <Grid.Effect>
+                <BlurEffect Radius="0.5"/>
+            </Grid.Effect>
+            
+            
+            
             <Grid.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -74,11 +73,13 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </Grid.RenderTransform>
+                
             <Grid.Background>
                 <SolidColorBrush Color="{DynamicResource LightColor}"/>
             </Grid.Background>
-            <Border BorderThickness="0" Margin="0,0,2,0" Background="{DynamicResource MediumBrush}" CornerRadius="0,15,0,0" Grid.RowSpan="2" />
-            <TextBlock x:Name="Title" HorizontalAlignment="Left" Margin="22,17.5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Montserrat" FontWeight="Bold" FontSize="40" Foreground="White" Width="148.92" Text="Baraka" RenderTransformOrigin="0.5,0.5" Height="48.76">
+
+            <Border BorderThickness="0" Margin="0" Background="{DynamicResource MediumBrush}" CornerRadius="0,25,0,0" Grid.RowSpan="2" />
+            <TextBlock x:Name="Title" HorizontalAlignment="Left" Margin="160,17.5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Montserrat" FontWeight="Bold" FontSize="40" Foreground="White" Width="30" Text="Baraka" RenderTransformOrigin="0.5,0.5" Height="48.76">
                 <TextBlock.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -88,17 +89,24 @@
                     </TransformGroup>
                 </TextBlock.RenderTransform>
             </TextBlock>
-            <Path x:Name="path" Data="M10,74L263,74" HorizontalAlignment="Left" Height="5.5" Margin="23,64,0,0" Stretch="Fill" Stroke="White" StrokeThickness="5" VerticalAlignment="Top" Width="150" StrokeEndLineCap="Round" StrokeStartLineCap="Round"/>
-            <StackPanel x:Name="ElementsSP" Margin="0,80,0,0" Grid.RowSpan="2">
-                <Dashboard:BarakaDashboardItem x:Name="SearchDashboardItem" HorizontalAlignment="Right" Margin="0,0,2,0" ItemIndex="0" PreviewMouseLeftButtonUp="SearchDashboardItem_PreviewMouseLeftButtonUp" />
-                <Dashboard:BarakaDashboardItem x:Name="LibraryDashboardItem" HorizontalAlignment="Right" Margin="0,0,2,0" ItemIndex="1"/>
-                <Dashboard:BarakaDashboardItem x:Name="SettingsDashboardItem" HorizontalAlignment="Right" Margin="0,0,2,0" ItemIndex="2" PreviewMouseLeftButtonUp="SettingsDashboardItem_PreviewMouseLeftButtonUp"/>
+            <Path x:Name="path" Data="M10,74L263,74" HorizontalAlignment="Left" Height="5.5" Margin="160,64,0,0" Stretch="Fill" Stroke="White" StrokeThickness="5" VerticalAlignment="Top" Width="32" StrokeEndLineCap="Round" StrokeStartLineCap="Round"/>
+            <StackPanel x:Name="ElementsSP" Margin="4,80,0,0" Grid.RowSpan="2">
+                <Dashboard:BarakaDashboardItem x:Name="SearchDashboardItem" HorizontalAlignment="Right" Margin="0" ItemIndex="0" PreviewMouseLeftButtonUp="SearchDashboardItem_PreviewMouseLeftButtonUp" />
+                <Dashboard:BarakaDashboardItem x:Name="LibraryDashboardItem" HorizontalAlignment="Right" Margin="0" ItemIndex="1"/>
+                <Dashboard:BarakaDashboardItem x:Name="SettingsDashboardItem" HorizontalAlignment="Right" Margin="0" ItemIndex="2" PreviewMouseLeftButtonUp="SettingsDashboardItem_PreviewMouseLeftButtonUp"/>
             </StackPanel>
         </Grid>
+
+        <!-- Top Grid -->
         <DockPanel x:Name="FContent" Margin="-1,0,0,0">
-            <Grid x:Name="MainGrid" VerticalAlignment="Stretch" Height="Auto"  ClipToBounds="True" Margin="0" DockPanel.Dock="Bottom" Background="{DynamicResource LightBrush}">
-                <Displayer:BarakaSurahDisplayer x:Name="MainSurahDisplayer" VerticalAlignment="Stretch" Margin="0,0,117,0" Height="Auto" VerseChanged="MainSurahDisplayer_VerseChanged" DownloadVerseRequested="MainSurahDisplayer_DownloadVerseRequested" HorizontalAlignment="Center" />
-                <Player:BarakaPlayer x:Name="Player" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="45,0,0,0" />
+            <Grid x:Name="MainGrid" VerticalAlignment="Stretch" Height="Auto"  ClipToBounds="True" Margin="0" DockPanel.Dock="Bottom" Background="{DynamicResource LightBrush}" PreviewMouseWheel="MainGrid_PreviewMouseWheel">
+                <Displayer:BarakaSurahDisplayer x:Name="MainSurahDisplayer" VerticalAlignment="Stretch" Margin="0,0,127,0" Height="Auto" VerseChanged="MainSurahDisplayer_VerseChanged" DownloadVerseRequested="MainSurahDisplayer_DownloadVerseRequested" HorizontalAlignment="Center" />
+                <Player:BarakaPlayer x:Name="Player" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="35,0,0,0" />
+
+                <Grid.LayoutTransform>
+                    <ScaleTransform x:Name="ScaleTransformer" ScaleX="1" ScaleY="1" />
+                </Grid.LayoutTransform>
+
             </Grid>
         </DockPanel>
 

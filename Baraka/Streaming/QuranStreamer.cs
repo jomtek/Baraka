@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Baraka.Streaming
 {
@@ -16,7 +17,6 @@ namespace Baraka.Streaming
     {
         private bool _playing = false;
         private bool _loopMode = false;
-        private double _cursor = 0;
 
         public int Verse { get; private set; } = 1;
         public int NonRelativeVerse { get; private set; } = 0;
@@ -30,15 +30,13 @@ namespace Baraka.Streaming
         private WaveOut _wout;
         private byte[] _nextVerseAudio;
 
+
         #region Events
         [Category("Baraka")]
         public event EventHandler VerseChanged;
 
         [Category("Baraka")]
         public event EventHandler FinishedSurah;
-
-        [Category("Baraka")]
-        public event EventHandler<double> CursorChanged;
         #endregion
 
         #region Player Controls
@@ -78,14 +76,6 @@ namespace Baraka.Streaming
                     // Set the "start verse" before setting LoopMode to true
                     ChangeVerse(StartVerse);
                 }
-            }
-        }
-
-        public double Cursor
-        {
-            set
-            {
-                _cursor = value;
             }
         }
         #endregion
@@ -203,7 +193,7 @@ namespace Baraka.Streaming
                     new Task(() => DownloadVerseAudio()).Start();
                 }
                 await Task.Run(PlayNextVerse);
-                Console.WriteLine($"done playing {NonRelativeVerse}");
+                //Console.WriteLine($"done playing {NonRelativeVerse}");
 
                 if (_playing)
                 {
@@ -246,47 +236,41 @@ namespace Baraka.Streaming
                         Console.WriteLine("Null reference");
                     };
 
-               
-                    double lastCursor = 0;
+                    //double time = blockAlignedStream.TotalTime.TotalMilliseconds * percentage;
+                    //blockAlignedStream.Position =
+                    //    (long)(time * _wout.OutputWaveFormat.SampleRate * _wout.OutputWaveFormat.BitsPerSample * _wout.OutputWaveFormat.Channels / 8000.0) & ~1;
                     while (true)
                     {
+                        /*if (SeekTok.SeekRequested)
+                        { 
+                            double time = blockAlignedStream.TotalTime.TotalMilliseconds * SeekTok.Factor;
+                            blockAlignedStream.Position =
+                                (long)(time *
+                                      _wout.OutputWaveFormat.SampleRate *
+                                      _wout.OutputWaveFormat.BitsPerSample *
+                                      _wout.OutputWaveFormat.Channels / 8000.0) & ~1;
+
+                            SeekTok.SeekRequested = false;    
+                        }*/
+
                         double totalMs = blockAlignedStream.TotalTime.TotalMilliseconds;
                         double currentMs = blockAlignedStream.CurrentTime.TotalMilliseconds;
-
-                        if (_cursor != lastCursor)
-                        {
-                            // Update cursor
-                            //blockAlignedStream.CurrentTime =
-                            //    new TimeSpan(Convert.ToInt64(_cursor * blockAlignedStream.TotalTime.Ticks));
-                            //blockAlignedStream.Position
-                        }
-                        else
-                        {
-                            //_cursor = currentMs / totalMs;
-                        }
-
-                        //lastCursor = _cursor;
-                        //CursorChanged?.Invoke(this, _cursor);
+                        // _cursor = currentMs / totalMs;
 
                         // Crossfading (WIP TODO)
                         int milliseconds = 1;
                         if (totalMs - currentMs < milliseconds)
                         {
-                            Console.WriteLine("broke total");
                             break;
                         }
 
                         if (_wout.PlaybackState == PlaybackState.Stopped)
                         {
-                            Console.WriteLine("broke playback");
                             break;
                         }
-                        //w.Stop();
-                        //Console.WriteLine($"elapsed: {w.ElapsedMilliseconds}");
+
                         await Task.Delay(10);
                     }
-
-                    _cursor = 0;
                 }
             }
 

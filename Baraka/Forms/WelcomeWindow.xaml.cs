@@ -20,7 +20,7 @@ namespace Baraka
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            await Task.Delay(600);
+            await Task.Delay(1500);
 
             TitleTB.Margin = new Thickness(0, 43, 0, 0);
             MainPB.Visibility = Visibility.Visible;
@@ -34,7 +34,10 @@ namespace Baraka
                 SerializationUtils.Deserialize<Dictionary<SurahDescription, Data.Surah.SurahVersion[]>>("quran.ser");
             LoadedData.CheikhList =
                 SerializationUtils.Deserialize<CheikhDescription[]>("cheikh.ser");
+            LoadedData.Settings = new MySettings("settings.ser");
+
             MainPB.Progress = 100;
+            
 
             //  // Finish
             Hide();

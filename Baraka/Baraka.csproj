@@ -98,6 +98,7 @@
     <Compile Include="Data\Descriptions\CheikhDescription.cs" />
     <Compile Include="Data\Descriptions\VerseDescription.cs" />
     <Compile Include="Data\LoadedData.cs" />
+    <Compile Include="Data\MySettings.cs" />
     <Compile Include="Data\SerializationUtils.cs" />
     <Compile Include="Data\Descriptions\SurahDescription.cs" />
     <Compile Include="Data\Descriptions\SurahRevelationType.cs" />
@@ -120,7 +121,9 @@
     <Compile Include="Forms\Settings\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Globalization\Language.cs" />
     <Compile Include="Streaming\QuranStreamer.cs" />
+    <Compile Include="Streaming\SeekToken.cs" />
     <Compile Include="Streaming\StreamingUtils.cs" />
     <Compile Include="Theme\UserControls\BarakaButton.xaml.cs">
       <DependentUpon>BarakaButton.xaml</DependentUpon>
@@ -297,28 +300,26 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Resource Include="Forms\Settings\theme1.PNG" />
-    <Resource Include="Images\Cheikh\bukhatir.png" />
-    <Resource Include="Images\Cheikh\ghamidi.png" />
-    <Resource Include="Images\Cheikh\yassin.png" />
+    <Resource Include="Images\Cheikh\basfar.png" />
+    <Resource Include="Images\Cheikh\budair.png" />
+    <Resource Include="Images\Cheikh\hussary.png" />
+    <Resource Include="Images\Cheikh\jaber.png" />
+    <Resource Include="Images\Cheikh\matroud.png" />
+    <Resource Include="Images\Cheikh\rifai.png" />
+    <Resource Include="Images\Cheikh\suwaid.png" />
+    <Resource Include="Images\Cheikh\abbad.png" />
     <Resource Include="Images\Cheikh\abdessamad.png" />
+    <Resource Include="Images\Cheikh\alafasy.png" />
+    <Resource Include="Images\Cheikh\bukhatir.png" />
+    <Resource Include="Images\Cheikh\dosari.png" />
+    <Resource Include="Images\Cheikh\ghamidi.png" />
+    <Resource Include="Images\Cheikh\maher.png" />
+    <Resource Include="Images\Cheikh\minshawi.png" />
+    <Resource Include="Images\Cheikh\shuraim.png" />
+    <Resource Include="Images\Cheikh\soudais.png" />
+    <Resource Include="Images\Cheikh\yassin.png" />
     <Resource Include="Images\player_loop_off.png" />
     <Resource Include="Images\player_loop_on.png" />
-    <Resource Include="Images\Cheikh\alafasy.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\Cheikh\dosari.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\Cheikh\maher.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\Cheikh\shuraim.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\Cheikh\soudais.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

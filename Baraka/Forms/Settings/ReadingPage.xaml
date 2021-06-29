@@ -4,58 +4,85 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Baraka.Forms.Settings"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="ReadingPage" Width="715" Height="765">
+      mc:Ignorable="d" d:DesignWidth="800"
+      Title="ReadingPage" Width="Auto" Unloaded="Page_Unloaded">
 
     <StackPanel Background="White">
+        <!-- Startup -->
         <GroupBox Header="Démarrage" Height="145" Margin="30,25,30,0" FontSize="24" BorderThickness="3" ClipToBounds="True">
-            <StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                    <TextBlock TextWrapping="Wrap" Text="Sourate par défaut" FontSize="20" Margin="15,0,0,0" VerticalAlignment="Center"/>
-                    <ComboBox Margin="20,0,0,0" FontFamily="Montserrat" FontSize="20" Width="425">
-                        <ComboBoxItem IsSelected="True">Al Fatiha</ComboBoxItem>
-                        <ComboBoxItem IsSelected="False">Al Baqarah</ComboBoxItem>
-                        <ComboBoxItem IsSelected="False">Imran</ComboBoxItem>
-                    </ComboBox>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Margin="15,10,0,0">
+                    <TextBlock TextWrapping="Wrap" Text="Sourate par défaut" FontSize="20" Margin="0" VerticalAlignment="Center"/>
+                    <TextBlock TextWrapping="Wrap" Text="Récitateur par défaut" FontSize="20" Margin="0,10,0,0" VerticalAlignment="Center"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                    <TextBlock TextWrapping="Wrap" Text="Cheikh par défaut" FontSize="20" Margin="15,0,0,0" VerticalAlignment="Center"/>
-                    <ComboBox Margin="27.5,0,0,0" Width="425" FontFamily="Montserrat" FontSize="20">
-                        <ComboBoxItem IsSelected="True" Content="Maher Al-Mueaqly"/>
-                        <ComboBoxItem IsSelected="False" Content="Saad Al-Ghamadi"/>
-                        <ComboBoxItem IsSelected="False" Content="Abdulbasset Abdessamad"/>
-                    </ComboBox>
+                <StackPanel Margin="20,10,0,0" Width="350">
+                    <ComboBox x:Name="DefaultSurahCMBB" Margin="0" FontFamily="Montserrat" FontSize="20"/>
+                    <ComboBox x:Name="DefaultCheikhCMBB" Margin="0,10,0,0" FontFamily="Montserrat" FontSize="20"/>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Confort" Height="135" Margin="30,15,30,0" FontSize="24" BorderThickness="3" ClipToBounds="True">
+
+        <!-- Comfort -->
+        <GroupBox Header="Confort" Margin="30,15,30,0" FontSize="24" BorderThickness="3" ClipToBounds="True">
             <StackPanel>
-                <CheckBox Content="Défiler automatiquement le Coran" Style="{DynamicResource SimpleCheckBox}" Margin="15,10,0,0" FontSize="20" Padding="7,0,0,0" ToolTip="Lancer Baraka au démarrage de l'ordinateur" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2">
+                <CheckBox x:Name="AutoScrollCHB" Content="Défiler automatiquement le Coran" Style="{DynamicResource SimpleCheckBox}" Margin="15,10,0,0" FontSize="20" Padding="7,0,0,0" ToolTip="Lancer Baraka au démarrage de l'ordinateur" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2">
                     <CheckBox.BorderBrush>
                         <SolidColorBrush Color="{DynamicResource DarkColor}"/>
                     </CheckBox.BorderBrush>
                 </CheckBox>
-                <CheckBox Content="Revenir à la dernière lecture lors du démarrage" Style="{DynamicResource SimpleCheckBox}" Margin="15,10,0,0" FontSize="20" Padding="7,0,0,0" ToolTip="Lancer Baraka au démarrage de l'ordinateur" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2">
+                <CheckBox x:Name="AutoNextCHB" Content="Passer automatiquement à la prochaine sourate" Style="{DynamicResource SimpleCheckBox}" Margin="15,10,0,0" FontSize="20" Padding="7,0,0,0" ToolTip="Lancer Baraka au démarrage de l'ordinateur" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2">
+                    <CheckBox.BorderBrush>
+                        <SolidColorBrush Color="{DynamicResource DarkColor}"/>
+                    </CheckBox.BorderBrush>
+                </CheckBox>
+                <CheckBox x:Name="AutoReloadCHB" Content="Revenir à la dernière lecture lors du démarrage" Style="{DynamicResource SimpleCheckBox}" Margin="15,10,0,10" FontSize="20" Padding="7,0,0,0" ToolTip="Lancer Baraka au démarrage de l'ordinateur" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2" IsChecked="True">
                     <CheckBox.BorderBrush>
                         <SolidColorBrush Color="{DynamicResource DarkColor}"/>
                     </CheckBox.BorderBrush>
                 </CheckBox>
             </StackPanel>
         </GroupBox>
-        <Button Content="Gérer les éditions" HorizontalAlignment="Left" Padding="25,8" FontSize="25" FontFamily="Montserrat" Margin="32,25,0,0" Foreground="White" BorderBrush="{x:Null}" BorderThickness="0" Cursor="Hand">
-            <Button.Background>
-                <SolidColorBrush Color="{DynamicResource LightColor}"/>
-            </Button.Background>
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="Red"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
+
+        <!-- Languages -->
+        <GroupBox Header="Langues" Margin="30,15,30,0" FontSize="24" BorderThickness="3" ClipToBounds="True">
+            <StackPanel>
+                <CheckBox x:Name="ArabicVersionCHB" Content="Arabe" Style="{DynamicResource SimpleCheckBox}"
+                          Margin="15,10,0,0" FontSize="22" Padding="7,0,0,0" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2"
+                          IsChecked="True">
+                    <CheckBox.BorderBrush>
+                        <SolidColorBrush Color="{DynamicResource DarkColor}"/>
+                    </CheckBox.BorderBrush>
+                </CheckBox>
+
+                <CheckBox x:Name="PhoneticVersionCHB" Content="Phonétique" Style="{DynamicResource SimpleCheckBox}"
+                          Margin="15,10,0,0" FontSize="22" Padding="7,0,0,0" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2"
+                          IsChecked="False">
+                    <CheckBox.BorderBrush>
+                        <SolidColorBrush Color="{DynamicResource DarkColor}"/>
+                    </CheckBox.BorderBrush>
+                </CheckBox>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <CheckBox x:Name="TranslatedVersionCHB" Content="Traduction" Style="{DynamicResource SimpleCheckBox}"
+                          Margin="15,10,0,10" FontSize="22" Padding="7,0,0,0" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2"
+                          IsChecked="True">
+                        <CheckBox.BorderBrush>
+                            <SolidColorBrush Color="{DynamicResource DarkColor}"/>
+                        </CheckBox.BorderBrush>
+                    </CheckBox>
+
+                    <Button x:Name="ManageEditionsBTN" Content="Gérer les éditions" HorizontalAlignment="Left" FontSize="18" FontFamily="Montserrat" Foreground="White" BorderThickness="1" Cursor="Hand"
+                            Margin="40,5,0,0" Height="35" Padding="25,1"
+                            IsEnabled="{Binding ElementName=TranslatedVersionCHB, Path=IsChecked}">
+                        <Button.BorderBrush>
+                            <SolidColorBrush Color="{DynamicResource LightColor}"/>
+                        </Button.BorderBrush>
+                        <Button.Background>
+                            <SolidColorBrush Color="{DynamicResource DarkColor}"/>
+                        </Button.Background>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
     </StackPanel>
 </Page>

@@ -2,24 +2,24 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:Baraka.Forms.Settings"
       xmlns:UserControls="clr-namespace:Baraka.Theme.UserControls" x:Class="Baraka.Forms.Settings.GeneralPage"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="GeneralPage" Width="710" Height="759" Margin="0">
+      Title="GeneralPage" Width="Auto" Height="Auto" Unloaded="Page_Unloaded">
 
     <StackPanel Background="White">
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,40,0,0" Orientation="Horizontal">
             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Langue du logiciel" VerticalAlignment="Top" FontSize="24" Margin="0"/>
-            <ComboBox Width="205" Margin="30,0,0,0" FontSize="24" VerticalContentAlignment="Center" FontFamily="Montserrat">
-                <ComboBoxItem IsSelected="True" Content="Français" />
-                <ComboBoxItem Content="العربية"/>
-                <ComboBoxItem Content="English"/>
-                <ComboBoxItem Content="Español"/>
+            <ComboBox x:Name="LanguageCMBB" Width="205" Margin="30,0,0,0" FontSize="24" VerticalContentAlignment="Center" FontFamily="Montserrat">
+                <ComboBoxItem x:Name="FrenchItem"  Content="Français" />
+                <ComboBoxItem x:Name="ArabicItem"  Content="العربية" />
+                <ComboBoxItem x:Name="EnglishItem" Content="English"  />
+                <ComboBoxItem x:Name="SpanishItem" Content="Español"  />
             </ComboBox>
         </StackPanel>
-        <CheckBox Content="Lancer Baraka au démarrage" Style="{DynamicResource SimpleCheckBox}" Margin="30,20,0,0" FontSize="24" Padding="7,0,0,0" ToolTip="Lancer Baraka au démarrage de l'ordinateur" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2">
+        <CheckBox x:Name="LaunchOnStartupCHB" Content="Lancer Baraka au démarrage de la session Windows" Style="{DynamicResource SimpleCheckBox}" Margin="30,20,0,0" FontSize="24" Padding="7,0,0,0" ToolTip="Lancer Baraka au démarrage de l'ordinateur" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2">
             <CheckBox.BorderBrush>
                 <SolidColorBrush Color="{DynamicResource DarkColor}"/>
             </CheckBox.BorderBrush>

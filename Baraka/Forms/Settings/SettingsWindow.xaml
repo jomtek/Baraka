@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Baraka.Forms"
         mc:Ignorable="d"
-        WindowStyle="None"
-        AllowsTransparency="True"
         WindowStartupLocation="CenterOwner"
-        Title="SettingsWindow" Height="825" Width="1000" Background="{x:Null}" ResizeMode="NoResize" ShowInTaskbar="False" Deactivated="Window_Deactivated" MouseLeftButtonDown="Window_MouseLeftButtonDown">
+        Title="SettingsWindow" Background="White" ShowInTaskbar="False" Deactivated="Window_Deactivated" MouseLeftButtonDown="Window_MouseLeftButtonDown" Loaded="Window_Loaded"
+        Width="900" Height="700"
+        MinWidth="900" MinHeight="250">
 
     <Window.Resources>
         <Color x:Key="DashboardHoveredItemColor">#FFD7EEFF</Color>
@@ -17,26 +17,19 @@
         <SolidColorBrush x:Key="DashboardSelectedItemBrush" Color="{StaticResource DashboardSelectedItemColor}" />
     </Window.Resources>
 
-    <Border Background="White" CornerRadius="10" Margin="30">
-        <Border.Effect>
-            <DropShadowEffect BlurRadius="20" Opacity="0.7"/>
-        </Border.Effect>
-        <Grid>
-            <StackPanel Orientation="Horizontal" Margin="0">
-                <Border BorderThickness="0" Background="#FFEBEBEB" CornerRadius="10" Width="190">
-                    <StackPanel Margin="0,25,0,0">
-                        <TextBlock x:Name="GeneralTB" TextWrapping="Wrap" Text="Général" Margin="20,0,0,0" HorizontalAlignment="Left" FontSize="25" FontFamily="Montserrat" Foreground="Gray" FontWeight="Medium" MouseEnter="GeneralTB_MouseEnter" MouseLeave="GeneralTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="GeneralTB_PreviewMouseLeftButtonUp"/>
-                        <TextBlock x:Name="AppearanceTB" TextWrapping="Wrap" Text="Apparence" HorizontalAlignment="Left" FontSize="25" FontFamily="Montserrat" Margin="20,10,0,0" Foreground="Black" FontWeight="Medium" MouseEnter="AppearanceTB_MouseEnter" MouseLeave="AppearanceTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="AppearanceTB_PreviewMouseLeftButtonUp"/>
-                        <TextBlock x:Name="ReadingTB" TextWrapping="Wrap" Text="Lecture" HorizontalAlignment="Left" FontSize="25" FontFamily="Montserrat" Margin="20,10,0,0" Foreground="Black" FontWeight="Medium" MouseEnter="ReadingTB_MouseEnter" MouseLeave="ReadingTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="ReadingTB_PreviewMouseLeftButtonUp"/>
-                        <TextBlock x:Name="ResearchTB" TextWrapping="Wrap" Text="Recherche" HorizontalAlignment="Left" FontSize="25" FontFamily="Montserrat" Margin="20,10,0,0" Foreground="Black" FontWeight="Medium" MouseEnter="ResearchTB_MouseEnter" MouseLeave="ResearchTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="ResearchTB_PreviewMouseLeftButtonUp"/>
-                    </StackPanel>
-                </Border>
-                <Frame x:Name="FrameComponent" Width="710" NavigationUIVisibility="Hidden" Margin="0,3"/>
-            </StackPanel>
-            <Grid x:Name="CloseWindowGrid" HorizontalAlignment="Right" Height="19" VerticalAlignment="Top" Width="19" Margin="0,11,13,0" MouseEnter="CloseWindowGrid_MouseEnter" MouseLeave="CloseWindowGrid_MouseLeave" Background="White" PreviewMouseLeftButtonUp="CloseWindowGrid_PreviewMouseLeftButtonUp">
-                <Path x:Name="CloseWindowPath" Data="{Binding Data, Source={StaticResource Cross}}" Stretch="Fill" IsEnabled="False" Fill="Black" />
-            </Grid>
-            <Grid x:Name="DragGrid" Height="25" VerticalAlignment="Top" Margin="0,0,45,0" MouseLeftButtonDown="DragGrid_MouseLeftButtonDown" Background="#00000000"/>
-        </Grid>
-    </Border>
+    <Grid Margin="0">
+        <StackPanel Orientation="Horizontal" Margin="0">
+            <Border BorderThickness="0" Background="#FFEBEBEB" CornerRadius="10" Width="190">
+                <StackPanel Margin="0,25,0,0">
+                    <TextBlock x:Name="GeneralTB" TextWrapping="Wrap" Text="Général" Margin="20,0,0,0" HorizontalAlignment="Left" FontSize="25" FontFamily="Montserrat" Foreground="Gray" FontWeight="Medium" MouseEnter="GeneralTB_MouseEnter" MouseLeave="GeneralTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="GeneralTB_PreviewMouseLeftButtonUp"/>
+                    <TextBlock x:Name="AppearanceTB" TextWrapping="Wrap" Text="Apparence" HorizontalAlignment="Left" FontSize="25" FontFamily="Montserrat" Margin="20,10,0,0" Foreground="Black" FontWeight="Medium" MouseEnter="AppearanceTB_MouseEnter" MouseLeave="AppearanceTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="AppearanceTB_PreviewMouseLeftButtonUp"/>
+                    <TextBlock x:Name="ReadingTB" TextWrapping="Wrap" Text="Lecture" HorizontalAlignment="Left" FontSize="25" FontFamily="Montserrat" Margin="20,10,0,0" Foreground="Black" FontWeight="Medium" MouseEnter="ReadingTB_MouseEnter" MouseLeave="ReadingTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="ReadingTB_PreviewMouseLeftButtonUp"/>
+                    <TextBlock x:Name="ResearchTB" TextWrapping="Wrap" Text="Recherche" HorizontalAlignment="Left" FontSize="25" FontFamily="Montserrat" Margin="20,10,0,0" Foreground="Black" FontWeight="Medium" MouseEnter="ResearchTB_MouseEnter" MouseLeave="ResearchTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="ResearchTB_PreviewMouseLeftButtonUp"/>
+                </StackPanel>
+            </Border>
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <Frame x:Name="FrameComponent" NavigationUIVisibility="Hidden" Background="Black"/>
+            </ScrollViewer>
+        </StackPanel>
+    </Grid>
 </Window>

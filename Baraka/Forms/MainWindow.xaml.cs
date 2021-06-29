@@ -3,10 +3,13 @@ using Baraka.Forms;
 using Baraka.Forms.Settings;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 
 // todo remove
 
@@ -17,6 +20,8 @@ namespace Baraka
     /// </summary>
     public partial class MainWindow : Window
     {
+        private double _mainGridScale = 1;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -50,8 +55,8 @@ namespace Baraka
                 });
             }
             Data.SerializationUtils.Serialize(SerializationData, "qurannew.ser");*/
-
-            /*
+            
+            
             var tempCheikhs = new CheikhDescription[]
             {
                 new CheikhDescription("Mishary bin Rashid", "Alafasy", "https://everyayah.com/data/Alafasy_128kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/alafasy.png"))),
@@ -60,11 +65,25 @@ namespace Baraka
                 new CheikhDescription("Saad", "Al-Ghamidi", "https://everyayah.com/data/Ghamadi_40kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/ghamidi.png"))),
                 new CheikhDescription("Saleh", "Bukhatir", "https://everyayah.com/data/Salaah_AbdulRahman_Bukhatir_128kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/bukhatir.png"))),
                 new CheikhDescription("Yasser", "Al-Dosari", "https://everyayah.com/data/Yasser_Ad-Dussary_128kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/dosari.png"))),
+                new CheikhDescription("Muhammad Siddiq", "Minshawi مجود", "https://everyayah.com/data/Minshawy_Mujawwad_192kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/minshawi.png"))),
+                new CheikhDescription("Muhammad Siddiq", "Minshawi مرتل", "https://everyayah.com/data/Minshawy_Murattal_128kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/minshawi.png"))),
+                new CheikhDescription("Abdul Basit", "Abdessamad مجود", "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/abdessamad.png"))),
+                new CheikhDescription("Abdul Basit", "Abdessamad مرتل", "https://everyayah.com/data/Abdul_Basit_Murattal_192kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/abdessamad.png"))),
                 new CheikhDescription("Saoud", "Shuraim", "https://everyayah.com/data/Saood_ash-Shuraym_128kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/shuraim.png"))),
+                new CheikhDescription("Fares", "Abbad", "https://everyayah.com/data/Fares_Abbad_64kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/abbad.png"))),
+                new CheikhDescription("Ali", "Jaber", "https://everyayah.com/data/Ali_Jaber_64kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/jaber.png"))),
+                new CheikhDescription("Mahmoud Khalil", "Al-Hussary", "https://everyayah.com/data/Husary_128kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/hussary.png"))),
+                new CheikhDescription("Mahmoud Khalil", "Al-Hussary مجود", "https://everyayah.com/data/Husary_128kbps_Mujawwad", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/hussary.png"))),
+                new CheikhDescription("Abdullah", "Basfar", "https://everyayah.com/data/Abdullah_Basfar_192kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/basfar.png"))),
+                new CheikhDescription("Salah", "Al-Budair", "https://everyayah.com/data/Salah_Al_Budair_128kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/budair.png"))),
+                new CheikhDescription("Hani", "Rifai", "https://everyayah.com/data/Hani_Rifai_192kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/rifai.png"))),
+                new CheikhDescription("Abdallah", "Matroud", "https://everyayah.com/data/Abdullah_Matroud_128kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/matroud.png"))),
+                new CheikhDescription("Ayman", "Suwaid", "https://everyayah.com/data/Ayman_Sowaid_64kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/suwaid.png"))),
                 new CheikhDescription("Sahl", "Yassin", "https://everyayah.com/data/Sahl_Yassin_128kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/yassin.png"))),
             };
 
-            Data.SerializationUtils.Serialize(tempCheikhs, "cheikh.ser");*/
+            Data.SerializationUtils.Serialize(tempCheikhs, "cheikh_new.ser");
+        
         }
 
         #region Window events
@@ -125,7 +144,10 @@ namespace Baraka
             {
                 Player.ChangeSelectedSurah(verse.Surah);
                 Player.ChangeVerse(verse.Number);
+
+                MainSurahDisplayer.BrowseToVerse(verse.Number);
                 MainSurahDisplayer.ScrollToVerse(verse.Number, true);
+                
                 Player.Playing = false;
             };
             myInstance.ShowDialog();
@@ -140,6 +162,41 @@ namespace Baraka
             WindowBlurEffect.Radius = 0;
         }
         #endregion
+
+        #endregion
+
+        #region Zoom
+        private void EditScale(double change)
+        {
+            var final = _mainGridScale + change;
+
+            if (final > 0.9 && final < 1.2)
+            {
+                _mainGridScale += change;
+            }
+        }
+        private void ApplyScale()
+        {
+            ScaleTransformer.ScaleX = _mainGridScale;
+            ScaleTransformer.ScaleY = _mainGridScale;
+        }
+
+        private void MainGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (Keyboard.Modifiers != ModifierKeys.Control)
+                return;
+
+            if (e.Delta > 0)
+            {
+                EditScale(0.025);
+            }
+            else if (e.Delta < 0)
+            {
+                EditScale(-0.025);
+            }
+
+            ApplyScale();
+        }
         #endregion
     }
 }

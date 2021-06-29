@@ -89,7 +89,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
                     Displayer.BrowseToVerse(Streamer.NonRelativeVerse);
                 }
 
-                VersePB.Progress = 0;
+                //VersePB.Progress = 0;
 
                 Displayer.ChangeVerse(Streamer.NonRelativeVerse);
             };
@@ -100,12 +100,10 @@ namespace Baraka.Theme.UserControls.Quran.Player
                 RefreshPlayPauseBtn();
             };
 
-            Streamer.CursorChanged += Streamer_CursorChanged;
-
-            VersePB.CursorChanged += (object sender, double e) =>
+            /*VersePB.CursorChanged += (object sender, double e) =>
             {
                 Streamer.Cursor = e;
-            };
+            };*/
 
             // Stories
             ((Storyboard)this.Resources["PlayerCloseStory"]).Begin();
@@ -151,15 +149,6 @@ namespace Baraka.Theme.UserControls.Quran.Player
             }
             Streamer.LoopMode = activated;
         }
-
-        #region Cursor
-        private void Streamer_CursorChanged(object sender, double cursor)
-        {
-            //VersePB.Progress = cursor;
-            //Console.WriteLine(cursor);
-            Application.Current.Dispatcher.Invoke(new Action(() => { VersePB.Progress = cursor; }));
-        }
-        #endregion
 
         #region Controller Controls
         private void LoopBTN_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -567,7 +556,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
         public void DownloadMp3Verse(int verseNum)
         {
             var sfd = new SaveFileDialog();
-            sfd.Title = $"Enregistrez le verset {verseNum} de cette sourate";
+            sfd.Title = $"Enregistrer le verset {verseNum} de cette sourate";
             sfd.Filter = "Fichier MP3|*.mp3";
             sfd.FileName = $"{_selectedCheikh.LastName.Replace(" ", "").ToLower()}_{_selectedSurah.SurahNumber}_{verseNum}";
 
@@ -586,7 +575,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            VersePB.Progress += 0.01;
+            //VersePB.Progress += 0.01;
         }
     }
 }

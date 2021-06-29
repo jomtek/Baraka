@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Baraka.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,15 @@ namespace Baraka.Forms.Settings
         public GeneralPage()
         {
             InitializeComponent();
+
+            LaunchOnStartupCHB.IsChecked = LoadedData.Settings.Startup;
+            LanguageCMBB.SelectedIndex = (int)LoadedData.Settings.Language;
+        }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            LoadedData.Settings.Startup = LaunchOnStartupCHB.IsChecked.GetValueOrDefault();
+            LoadedData.Settings.Language = (Globalization.Language)LanguageCMBB.SelectedIndex;
         }
     }
 }

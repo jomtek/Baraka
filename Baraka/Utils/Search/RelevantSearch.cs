@@ -43,7 +43,7 @@ namespace Baraka.Utils.Search
                     continue;
                 }
                 
-                string[] verses = key.Value[1].Verses;
+                string[] verses = key.Value[2].Verses;
 
                 for (int i = 0; i < verses.Length; i++)
                 {
@@ -64,7 +64,7 @@ namespace Baraka.Utils.Search
                     continue;
                 }
 
-                string[] verses = key.Value[1].Verses;
+                string[] verses = key.Value[2].Verses;
 
                 for (int i = 0; i < verses.Length; i++)
                 {

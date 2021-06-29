@@ -165,16 +165,6 @@ namespace Baraka.Forms.Settings
             Close();
         }
 
-        private void CloseWindowGrid_MouseEnter(object sender, MouseEventArgs e)
-        {
-            CloseWindowPath.Fill = Brushes.Gray;
-        }
-
-        private void CloseWindowGrid_MouseLeave(object sender, MouseEventArgs e)
-        {
-            CloseWindowPath.Fill = Brushes.Black;
-        }
-
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
@@ -184,6 +174,11 @@ namespace Baraka.Forms.Settings
         {
             if (Mouse.LeftButton == MouseButtonState.Pressed)
                 this.DragMove();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+           
         }
     }
 }
