@@ -116,7 +116,6 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             if (StartVerse != 0 && num < StartVerse)
             {
                 StartFromVerse(num);
-                Console.WriteLine("ça tombe dedans");
             }
 
             Bookmark.Height = _relativeBmHeights[num];
@@ -257,6 +256,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         #region Handlers
         private void MainSB_OnScroll(object sender, EventArgs e)
         {
+            if (Keyboard.Modifiers == ModifierKeys.Control) return;
             if (VersesSV.ScrollableHeight * MainSB.Scrolled > 0)
             {
                 VersesSV.ScrollToVerticalOffset(VersesSV.ScrollableHeight * MainSB.Scrolled);
@@ -265,7 +265,11 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
         private void VersesSV_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (Keyboard.Modifiers == ModifierKeys.Control) return;
+            if (Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                e.Handled = true;
+                return;
+            }
             MainSB.Scrolled = VersesSV.VerticalOffset / VersesSV.ScrollableHeight;
         }
 

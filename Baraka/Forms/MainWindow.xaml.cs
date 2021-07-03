@@ -95,7 +95,8 @@ namespace Baraka
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            
+            SetMinWidth();
+            ApplyScale(true);
         }
         #endregion
 
@@ -166,6 +167,15 @@ namespace Baraka
         #endregion
 
         #region Zoom
+        private double GetDisplayerWidth()
+        {
+            return MainSurahDisplayer.ActualWidth * ScaleTransformer.ScaleX;
+        }
+        private void SetMinWidth() // Set minimum width
+        {
+            MinWidth = GetDisplayerWidth() + Dashboard.ActualWidth + 50;
+        }
+
         private void EditScale(double change)
         {
             var final = _mainGridScale + change;
@@ -175,10 +185,22 @@ namespace Baraka
                 _mainGridScale += change;
             }
         }
-        private void ApplyScale()
+
+        // TODO
+        private void ApplyScale(bool recursive = false)
         {
-            ScaleTransformer.ScaleX = _mainGridScale;
-            ScaleTransformer.ScaleY = _mainGridScale;
+            if (GetDisplayerWidth() + 50 + Dashboard.ActualWidth < ActualWidth)
+            {
+                ScaleTransformer.ScaleX = _mainGridScale;
+                ScaleTransformer.ScaleY = _mainGridScale;
+            }
+            else
+            {
+                EditScale(-0.025);
+                ScaleTransformer.ScaleX = _mainGridScale;
+                ScaleTransformer.ScaleY = _mainGridScale;
+                if (recursive) ApplyScale(true);
+            }
         }
 
         private void MainGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -196,11 +218,7 @@ namespace Baraka
             }
 
             ApplyScale();
-
-            // Set minimum width
-            var displayerWidth = MainSurahDisplayer.ActualWidth * ScaleTransformer.ScaleX;
-            MinWidth = displayerWidth + Dashboard.ActualWidth + 50;
-            Console.WriteLine(MainSurahDisplayer.ActualWidth * ScaleTransformer.ScaleX);
+            SetMinWidth();
         }
         #endregion
     }
