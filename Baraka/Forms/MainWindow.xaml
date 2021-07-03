@@ -12,17 +12,17 @@
         mc:Ignorable="d"
         Title="Baraka - Le logiciel de lecture coranique"
         Height="866" Width="1500"
-        MinWidth="1200" MinHeight="500"
+        MinWidth="200" MinHeight="500"
         Initialized="Window_Initialized" Closing="Window_Closing" SizeChanged="Window_SizeChanged">
     <Window.Resources>
         <Storyboard x:Key="DashboardCloseStory">
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="Dashboard">
                 <EasingThicknessKeyFrame KeyTime="0:0:0.2" Value="-150,0,0,0"/>
             </ThicknessAnimationUsingKeyFrames>
-            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="Title">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="TitleTB">
                 <EasingThicknessKeyFrame KeyTime="0:0:0.2" Value="160,17.5,0,0"/>
             </ThicknessAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="Title">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="TitleTB">
                 <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="30"/>
             </DoubleAnimationUsingKeyFrames>
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="path">
@@ -36,10 +36,10 @@
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="Dashboard">
                 <EasingThicknessKeyFrame KeyTime="0:0:0.2" Value="0"/>
             </ThicknessAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="Title">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="TitleTB">
                 <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="148.92"/>
             </DoubleAnimationUsingKeyFrames>
-            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="Title">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="TitleTB">
                 <EasingThicknessKeyFrame KeyTime="0:0:0.2" Value="22,17.5,0,0"/>
             </ThicknessAnimationUsingKeyFrames>
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="path">
@@ -58,13 +58,15 @@
 
     <DockPanel ClipToBounds="True">
         <!-- Top Grid -->
+
+        <!-- Top Grid -->
         <Grid x:Name="Dashboard" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5" ClipToBounds="True" MouseEnter="Dashboard_MouseEnter" MouseLeave="Dashboard_MouseLeave" HorizontalAlignment="Left" Margin="-150,0,0,0">
             <Grid.Effect>
                 <BlurEffect Radius="0.5"/>
             </Grid.Effect>
-            
-            
-            
+
+
+
             <Grid.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -73,13 +75,13 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </Grid.RenderTransform>
-                
+
             <Grid.Background>
                 <SolidColorBrush Color="{DynamicResource LightColor}"/>
             </Grid.Background>
 
             <Border BorderThickness="0" Margin="0" Background="{DynamicResource MediumBrush}" CornerRadius="0,25,0,0" Grid.RowSpan="2" />
-            <TextBlock x:Name="Title" HorizontalAlignment="Left" Margin="160,17.5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Montserrat" FontWeight="Bold" FontSize="40" Foreground="White" Width="30" Text="Baraka" RenderTransformOrigin="0.5,0.5" Height="48.76">
+            <TextBlock x:Name="TitleTB" HorizontalAlignment="Left" Margin="160,17.5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Montserrat" FontWeight="Bold" FontSize="40" Foreground="White" Width="30" Text="Baraka" RenderTransformOrigin="0.5,0.5" Height="48.76">
                 <TextBlock.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -100,12 +102,13 @@
         <!-- Top Grid -->
         <DockPanel x:Name="FContent" Margin="-1,0,0,0">
             <Grid x:Name="MainGrid" VerticalAlignment="Stretch" Height="Auto"  ClipToBounds="True" Margin="0" DockPanel.Dock="Bottom" Background="{DynamicResource LightBrush}" PreviewMouseWheel="MainGrid_PreviewMouseWheel">
-                <Displayer:BarakaSurahDisplayer x:Name="MainSurahDisplayer" VerticalAlignment="Stretch" Margin="0,0,127,0" Height="Auto" VerseChanged="MainSurahDisplayer_VerseChanged" DownloadVerseRequested="MainSurahDisplayer_DownloadVerseRequested" HorizontalAlignment="Center" />
-                <Player:BarakaPlayer x:Name="Player" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="35,0,0,0" />
 
                 <Grid.LayoutTransform>
                     <ScaleTransform x:Name="ScaleTransformer" ScaleX="1" ScaleY="1" />
                 </Grid.LayoutTransform>
+
+                <Displayer:BarakaSurahDisplayer x:Name="MainSurahDisplayer" VerticalAlignment="Stretch" Margin="0,0,127,0" Height="Auto" VerseChanged="MainSurahDisplayer_VerseChanged" DownloadVerseRequested="MainSurahDisplayer_DownloadVerseRequested" HorizontalAlignment="Center" />
+                <Player:BarakaPlayer x:Name="Player" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="35,0,0,0" />
 
             </Grid>
         </DockPanel>

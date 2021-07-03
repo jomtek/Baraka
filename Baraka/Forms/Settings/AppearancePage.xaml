@@ -17,8 +17,8 @@
         <Path Data="M224,329L353,329" HorizontalAlignment="Left" Margin="30,20,0,20" StrokeStartLineCap="Round" Stretch="Fill" StrokeEndLineCap="Round" Stroke="#FFC7C5C5" StrokeThickness="4" Width="575" Fill="Black"/>
         <GroupBox Header="Thème du logiciel (à venir)" Height="228" Margin="30,0" FontSize="24" BorderThickness="3" ClipToBounds="True" Opacity="0.5" IsEnabled="False">
             <DockPanel Margin="20,20,0,20" HorizontalAlignment="Left" VerticalAlignment="Center">
-                <Image Margin="0,0,20,0" Source="theme1.PNG"/>
-                <Image Margin="0" Source="theme1.PNG" HorizontalAlignment="Right" DockPanel.Dock="Right"/>
+                <!-- <Image Margin="0,0,20,0" Source="theme1.PNG"/> -->
+                <!-- <Image Margin="0" Source="theme1.PNG" HorizontalAlignment="Right" DockPanel.Dock="Right"/> -->
             </DockPanel>
         </GroupBox>
         <GroupBox Header="Coran" Height="268.667" Margin="30,15,30,0" FontSize="24" BorderThickness="3" Padding="0">

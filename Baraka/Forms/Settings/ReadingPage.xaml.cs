@@ -60,5 +60,9 @@ namespace Baraka.Forms.Settings
         }
         #endregion
 
+        private void ManageEditionsBTN_Click(object sender, RoutedEventArgs e)
+        {
+            new Forms.QuranEditionsManagerWindow() { Owner = (Window)Parent }.ShowDialog();
+        }
     }
 }

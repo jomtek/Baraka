@@ -95,19 +95,20 @@ namespace Baraka
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-
+            
         }
         #endregion
 
         #region Displayer to Player events
         private void MainSurahDisplayer_VerseChanged(object sender, int num)
         {
-            Console.WriteLine($"verse changed to : {num}");
+            // TODO : is this function used
             Player.ChangeVerse(num);
         }
 
         private void MainSurahDisplayer_DownloadVerseRequested(object sender, int num)
         {
+
             Player.DownloadMp3Verse(num);
         }
         #endregion
@@ -162,7 +163,6 @@ namespace Baraka
             WindowBlurEffect.Radius = 0;
         }
         #endregion
-
         #endregion
 
         #region Zoom
@@ -170,7 +170,7 @@ namespace Baraka
         {
             var final = _mainGridScale + change;
 
-            if (final > 0.9 && final < 1.2)
+            if (final > 0.8 && final < 1.5)
             {
                 _mainGridScale += change;
             }
@@ -196,6 +196,11 @@ namespace Baraka
             }
 
             ApplyScale();
+
+            // Set minimum width
+            var displayerWidth = MainSurahDisplayer.ActualWidth * ScaleTransformer.ScaleX;
+            MinWidth = displayerWidth + Dashboard.ActualWidth + 50;
+            Console.WriteLine(MainSurahDisplayer.ActualWidth * ScaleTransformer.ScaleX);
         }
         #endregion
     }

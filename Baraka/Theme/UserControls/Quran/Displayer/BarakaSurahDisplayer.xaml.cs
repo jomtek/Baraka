@@ -108,11 +108,6 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         #endregion
 
         #region Bookmark movement
-        private bool IsThereBasmala()
-        {
-            // Remove At-Tawba and Fatiha
-            return Surah.SurahNumber != 1 && Surah.SurahNumber != 9; 
-        }
 
         public void BrowseToVerse(int num)
         {
@@ -270,9 +265,9 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
         private void VersesSV_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
+            if (Keyboard.Modifiers == ModifierKeys.Control) return;
             MainSB.Scrolled = VersesSV.VerticalOffset / VersesSV.ScrollableHeight;
         }
-
 
 
         // Support for external handler (Player class)

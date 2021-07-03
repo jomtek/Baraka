@@ -197,9 +197,18 @@ namespace Baraka.Streaming
 
                 if (_playing)
                 {
-                    if (!_loopMode && NonRelativeVerse == Surah.NumberOfVerses - 1)
+                    int currentVerse;
+                    if (Utils.General.CheckIfBasmala(Surah))
                     {
+                        currentVerse = NonRelativeVerse - 1;
+                    }
+                    else
+                    {
+                        currentVerse = NonRelativeVerse;
+                    }
 
+                    if (!_loopMode && currentVerse == Surah.NumberOfVerses - 1)
+                    {
                         Reset();
                         FinishedSurah?.Invoke(this, EventArgs.Empty);
                         break;
