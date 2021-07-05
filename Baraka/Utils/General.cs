@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 
@@ -27,6 +28,19 @@ namespace Baraka.Utils
         {
             var point = System.Windows.Forms.Control.MousePosition;
             return new Point(point.X, point.Y);
+        }
+
+        public static double GetFullScrollableHeight(ScrollViewer sv)
+        {
+            double oldVerticalOffset = sv.VerticalOffset;
+            double scrollableHeight = 0;
+
+            sv.ScrollToVerticalOffset(0);
+            scrollableHeight = sv.ScrollableHeight;
+
+            sv.ScrollToVerticalOffset(oldVerticalOffset);
+
+            return scrollableHeight;
         }
         #endregion
 

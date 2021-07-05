@@ -96,6 +96,21 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=4.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.4.1.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=4.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.4.1.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=4.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.4.1.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=4.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.4.1.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=4.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.4.1.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -156,11 +171,11 @@
     <Compile Include="Theme\UserControls\Quran\Displayer\BarakaVerseNumber.xaml.cs">
       <DependentUpon>BarakaVerseNumber.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Player\Progress\EllipseHeightConverter.cs" />
     <Compile Include="Theme\UserControls\Quran\Searcher\BarakaSearchResult.xaml.cs">
       <DependentUpon>BarakaSearchResult.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\BorderClipConverter.cs" />
+    <Compile Include="Utils\Emergency.cs" />
     <Compile Include="Utils\General.cs" />
     <Compile Include="Utils\Search\General.cs" />
     <Compile Include="Utils\Search\RelevantSearch.cs" />
@@ -174,9 +189,6 @@
     </Compile>
     <Compile Include="Theme\UserControls\BarakaMysteriousProgressBar.xaml.cs">
       <DependentUpon>BarakaMysteriousProgressBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Theme\UserControls\Quran\Player\Progress\BarakaProgressBar.xaml.cs">
-      <DependentUpon>BarakaProgressBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Theme\UserControls\BarakaScrollBar.xaml.cs">
       <DependentUpon>BarakaScrollBar.xaml</DependentUpon>
@@ -274,10 +286,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Player\Progress\BarakaProgressBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Theme\UserControls\BarakaScrollBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -358,4 +366,10 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="AfterBuild">
+    <ItemGroup>
+      <MoveToLibFolder Include="$(OutputPath)*.dll ; $(OutputPath)*.pdb ; $(OutputPath)*.xml" />
+    </ItemGroup>
+    <Move SourceFiles="@(MoveToLibFolder)" DestinationFolder="$(OutputPath)lib" OverwriteReadOnlyFiles="true" />
+  </Target>
 </Project>

@@ -29,6 +29,7 @@ namespace Baraka.Data
         public bool AutoScrollQuran { get; set; } = false;
         public bool AutoNextSurah { get; set; } = false;
         public bool AutoReloadLastSurah { get; set; } = true;
+        public string OutputDeviceGuid { get; set; } = "010000000-0000-0000-0000-000000000000"; // Default output
 
         #endregion
 

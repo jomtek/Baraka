@@ -8,5 +8,6 @@ namespace Baraka.Data
         public static Dictionary<SurahDescription, Surah.SurahVersion[]> SurahList;
         public static CheikhDescription[] CheikhList;
         public static MySettings Settings;
+        public static List<int> Bookmarks;
     }
 }

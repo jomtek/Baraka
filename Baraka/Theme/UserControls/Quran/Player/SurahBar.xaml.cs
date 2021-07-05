@@ -1,4 +1,6 @@
-﻿using Baraka.Data.Descriptions;
+﻿using Baraka.Data;
+using Baraka.Data.Descriptions;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -36,6 +38,22 @@ namespace Baraka.Theme.UserControls.Quran.Player
             SurahNameTB.Text = _surah.PhoneticName.ToString();
             TranslatedNameTB.Text = _surah.TranslatedName.ToString();
             InfoPath.ToolTip = $"Contient {_surah.NumberOfVerses} versets\nRévélation {DetermineRevelationType()}";
+
+            RefreshProgress();
+        }
+
+        public void RefreshProgress()
+        {
+            int bookmark = LoadedData.Bookmarks[_surah.SurahNumber - 1];
+            int progress = (int)Math.Round(((double)bookmark / (_surah.NumberOfVerses - 1)) * 100);
+            if (progress == 0)
+            {
+                ProgressTB.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                ProgressTB.Text = $"{progress}%";
+            }
         }
 
         private async void StreamBTN_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)

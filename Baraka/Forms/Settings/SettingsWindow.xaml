@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
         Title="SettingsWindow" Background="White" ShowInTaskbar="False" Deactivated="Window_Deactivated" MouseLeftButtonDown="Window_MouseLeftButtonDown" Loaded="Window_Loaded"
-        Width="900" Height="700"
-        MinWidth="900" MinHeight="250">
+        Width="950" Height="800"
+        MinWidth="250" MinHeight="250">
 
     <Window.Resources>
         <Color x:Key="DashboardHoveredItemColor">#FFD7EEFF</Color>
@@ -17,19 +17,25 @@
         <SolidColorBrush x:Key="DashboardSelectedItemBrush" Color="{StaticResource DashboardSelectedItemColor}" />
     </Window.Resources>
 
-    <Grid Margin="0">
-        <StackPanel Orientation="Horizontal" Margin="0">
+    <Grid x:Name="ContainerGrid" Margin="0">
+        <DockPanel>
             <Border BorderThickness="0" Background="#FFEBEBEB" CornerRadius="10" Width="190">
-                <StackPanel Margin="0,25,0,0">
-                    <TextBlock x:Name="GeneralTB" TextWrapping="Wrap" Text="Général" Margin="20,0,0,0" HorizontalAlignment="Left" FontSize="25" FontFamily="Montserrat" Foreground="Gray" FontWeight="Medium" MouseEnter="GeneralTB_MouseEnter" MouseLeave="GeneralTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="GeneralTB_PreviewMouseLeftButtonUp"/>
-                    <TextBlock x:Name="AppearanceTB" TextWrapping="Wrap" Text="Apparence" HorizontalAlignment="Left" FontSize="25" FontFamily="Montserrat" Margin="20,10,0,0" Foreground="Black" FontWeight="Medium" MouseEnter="AppearanceTB_MouseEnter" MouseLeave="AppearanceTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="AppearanceTB_PreviewMouseLeftButtonUp"/>
-                    <TextBlock x:Name="ReadingTB" TextWrapping="Wrap" Text="Lecture" HorizontalAlignment="Left" FontSize="25" FontFamily="Montserrat" Margin="20,10,0,0" Foreground="Black" FontWeight="Medium" MouseEnter="ReadingTB_MouseEnter" MouseLeave="ReadingTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="ReadingTB_PreviewMouseLeftButtonUp"/>
-                    <TextBlock x:Name="ResearchTB" TextWrapping="Wrap" Text="Recherche" HorizontalAlignment="Left" FontSize="25" FontFamily="Montserrat" Margin="20,10,0,0" Foreground="Black" FontWeight="Medium" MouseEnter="ResearchTB_MouseEnter" MouseLeave="ResearchTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="ResearchTB_PreviewMouseLeftButtonUp"/>
-                </StackPanel>
+                <DockPanel LastChildFill="False" Margin="0">
+                    <StackPanel Margin="0,25,0,0" Width="190" DockPanel.Dock="Top">
+                        <TextBlock x:Name="GeneralTB" TextWrapping="Wrap" Text="Général" Margin="20,0,0,0" HorizontalAlignment="Left" FontSize="25" FontFamily="Montserrat" Foreground="Gray" FontWeight="Medium" MouseEnter="GeneralTB_MouseEnter" MouseLeave="GeneralTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="GeneralTB_PreviewMouseLeftButtonUp"/>
+                        <TextBlock x:Name="AppearanceTB" TextWrapping="Wrap" Text="Apparence" HorizontalAlignment="Left" FontSize="25" FontFamily="Montserrat" Margin="20,10,0,0" Foreground="Black" FontWeight="Medium" MouseEnter="AppearanceTB_MouseEnter" MouseLeave="AppearanceTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="AppearanceTB_PreviewMouseLeftButtonUp"/>
+                        <TextBlock x:Name="ReadingTB" TextWrapping="Wrap" Text="Lecture" HorizontalAlignment="Left" FontSize="25" FontFamily="Montserrat" Margin="20,10,0,0" Foreground="Black" FontWeight="Medium" MouseEnter="ReadingTB_MouseEnter" MouseLeave="ReadingTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="ReadingTB_PreviewMouseLeftButtonUp"/>
+                        <TextBlock x:Name="ResearchTB" TextWrapping="Wrap" Text="Recherche" HorizontalAlignment="Left" FontSize="25" FontFamily="Montserrat" Margin="20,10,0,0" Foreground="Black" FontWeight="Medium" MouseEnter="ResearchTB_MouseEnter" MouseLeave="ResearchTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="ResearchTB_PreviewMouseLeftButtonUp"/>
+                    </StackPanel>
+                    <TextBlock x:Name="ResearchTB_Copy" TextWrapping="Wrap" Text="Aide" HorizontalAlignment="Left" FontSize="25" FontFamily="Montserrat" Margin="0,10,0,0" Foreground="Black" FontWeight="Medium" MouseEnter="ResearchTB_MouseEnter" MouseLeave="ResearchTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="ResearchTB_PreviewMouseLeftButtonUp" DockPanel.Dock="Bottom"/>
+                </DockPanel>
             </Border>
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <Frame x:Name="FrameComponent" NavigationUIVisibility="Hidden" Background="Black"/>
-            </ScrollViewer>
-        </StackPanel>
+            <Grid x:Name="PageContainerGrid">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible" Margin="0" HorizontalAlignment="Left" Width="{Binding ActualWidth, ElementName=PageContainerGrid}" VerticalAlignment="Top" Height="{Binding ActualHeight, ElementName=PageContainerGrid}">
+                    <!--{Binding ActualHeight, ElementName=ContainerGrid}">-->
+                    <Frame x:Name="FrameComponent" NavigationUIVisibility="Hidden" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                </ScrollViewer>
+            </Grid>
+        </DockPanel>
     </Grid>
 </Window>

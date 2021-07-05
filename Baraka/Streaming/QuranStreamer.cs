@@ -30,7 +30,6 @@ namespace Baraka.Streaming
         private WaveOut _wout;
         private byte[] _nextVerseAudio;
 
-
         #region Events
         [Category("Baraka")]
         public event EventHandler VerseChanged;
@@ -56,7 +55,8 @@ namespace Baraka.Streaming
                     try
                     {
                         _wout.Stop();
-                    } catch (NullReferenceException)
+                    }
+                    catch (NullReferenceException)
                     {
                         Console.WriteLine("Null reference");
                     }
@@ -80,6 +80,16 @@ namespace Baraka.Streaming
         }
         #endregion
 
+        public QuranStreamer()
+        {
+            // Default values
+            Surah = LoadedData.SurahList.ElementAt(0).Key;
+            Cheikh = LoadedData.CheikhList.ElementAt(3);
+
+            _wout = new WaveOut(WaveCallbackInfo.FunctionCallback());
+        }
+
+        #region Cursor Management
         public void Reset()
         {
             if (Surah.SurahNumber != 1 && Surah.SurahNumber != 9)
@@ -120,15 +130,7 @@ namespace Baraka.Streaming
                 Verse = number + 1;
             }
         }
-
-        public QuranStreamer()
-        {
-            // Default values
-            Surah = LoadedData.SurahList.ElementAt(0).Key;
-            Cheikh = LoadedData.CheikhList.ElementAt(3);
-
-            _wout = new WaveOut(WaveCallbackInfo.FunctionCallback());
-        }
+        #endregion
 
         #region Core
         private string GetCurrentCheikhBasmala()
@@ -150,16 +152,29 @@ namespace Baraka.Streaming
                     url = StreamingUtils.GenerateVerseUrl(Cheikh, Surah, next ? Verse + 1 : Verse);
                 }
 
-                using (Stream stream = WebRequest.Create(url)
-                    .GetResponse().GetResponseStream())
+                try
                 {
-                    byte[] buffer = new byte[32768];
-                    int read;
+                    // Init request
+                    var request = WebRequest.Create(url);
+                    request.Timeout = 5000;
 
-                    while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
+                    // Read response
+                    using (Stream stream = request.GetResponse().GetResponseStream())
                     {
-                        ms.Write(buffer, 0, read);
+                        byte[] buffer = new byte[32768];
+                        int read;
+
+                        while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            ms.Write(buffer, 0, read);
+                        }
                     }
+                }
+                catch (WebException ex)
+                {
+                    Playing = false;
+                    Utils.Emergency.ShowExMessage(ex);
+                    return;
                 }
 
                 _nextVerseAudio = ms.ToArray();
@@ -188,12 +203,21 @@ namespace Baraka.Streaming
 
                 VerseChanged?.Invoke(this, EventArgs.Empty);
 
+                var prepareNextAudioTask =
+                    new Task(() => DownloadVerseAudio());
+                
                 if (Verse != Surah.NumberOfVerses)
                 {
-                    new Task(() => DownloadVerseAudio()).Start();
+                    prepareNextAudioTask.Start();
                 }
+
                 await Task.Run(PlayNextVerse);
-                //Console.WriteLine($"done playing {NonRelativeVerse}");
+
+                if (prepareNextAudioTask.Status == TaskStatus.Running)
+                {
+                    using (new Utils.WaitCursor())
+                        prepareNextAudioTask.Wait();
+                }
 
                 if (_playing)
                 {

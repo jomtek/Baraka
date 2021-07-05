@@ -75,89 +75,6 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             _relativeBmHeights = new List<double>();
         }
 
-        public void ScrollToTop()
-        {
-            MainSB.ResetThumbY();
-            VersesSV.ScrollToTop();
-        }
-
-        public void ScrollToVerse(int verse, bool searchRes = false)
-        {
-            BrowseToVerse(verse);
-            VersesSV.ScrollToVerticalOffset(Bookmark.Height - 60);
-
-            if (searchRes)
-            {
-                var numPolygon = (BarakaVerseNumber)NumberingSP.Children[verse];
-                numPolygon.MarkAsSearchResult();
-            }
-        }
-
-        #region Verse numbers click
-        public void VerseNum_Click(int num)
-        {
-            VerseChanged?.Invoke(this, num);
-            BrowseToVerse(num);
-        }
-
-        //temp
-        public void DownloadMp3Verse(int verseNum)
-        {
-            DownloadVerseRequested?.Invoke(this, verseNum);
-        }
-        #endregion
-
-        #region Bookmark movement
-
-        public void BrowseToVerse(int num)
-        {
-            EndVerse = num;
-
-            if (StartVerse != 0 && num < StartVerse)
-            {
-                StartFromVerse(num);
-            }
-
-            Bookmark.Height = _relativeBmHeights[num];
-            if (StartVerse != 0)
-            {
-                Bookmark.Height -= _firstVerseOffset;
-            }
-
-            ActualVerse = num;
-
-            // Auto scroll (optional)
-            //VersesSV.ScrollToVerticalOffset(Bookmark.Height - 60);
-        }
-
-        public void StartFromVerse(int target)
-        {
-            StartVerse = target;
-            
-            VerseChanged?.Invoke(this, StartVerse);
-
-            Bookmark.Margin = new Thickness(0, _relativeBmHeights[target] - 12, 0, 0);
-            _firstVerseOffset = _relativeBmHeights[target] - 60;
-
-            Bookmark.Height = 60; // Default; verse number size
-
-            if (target < EndVerse)
-            {
-                BrowseToVerse(EndVerse);
-                VerseChanged?.Invoke(this, StartVerse);
-            }
-        }
-        #endregion
-
-        #region Bookmark
-        private void ReinitBookmark()
-        {
-            _relativeBmHeights.Clear();
-            Bookmark.Height = 60;
-            Bookmark.Margin = new Thickness(0, 45, 0, 0);
-        }
-        #endregion
-
         public void LoadSurah(SurahDescription surah)
         {
             Surah = surah;
@@ -184,7 +101,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                 bool basmala = surah.SurahNumber != 1 && surah.SurahNumber != 9;
 
                 // Basmala
-                if (basmala) 
+                if (basmala)
                 {
                     var verseBox = new BarakaVerse(LoadedData.SurahList.ElementAt(0).Key, 0);
                     verseBox.Margin = new Thickness(0, 45, 0, 0);
@@ -220,7 +137,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                     }
 
                     // Verse number
-                    var verseNum = new BarakaVerseNumber(this, basmala?i+1:i, i+1);
+                    var verseNum = new BarakaVerseNumber(this, basmala ? i + 1 : i, i + 1);
                     verseNum.Margin = new Thickness(0, numIncrMargin, 0, 0);
 
                     if (i == 0 && (surah.SurahNumber == 1 || surah.SurahNumber == 9))
@@ -242,16 +159,45 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             }
 
             MainSB.TargetValue = surah.NumberOfVerses;
+
+            LoadLastBookmark();
         }
 
-        #region Loop
-        public void SetLoopMode(bool loop)
+        #region VerseNum Menu
+        public void VerseNum_Click(int num)
         {
-            LoopMode = loop;
-            Bookmark.SetLoopMode(loop);
-            LoopModeDisplayed?.Invoke(this, StartVerse);
+            VerseChanged?.Invoke(this, num);
+            BrowseToVerse(num);
+        }
+
+        // TODO: temp
+        public void DownloadMp3Verse(int verseNum)
+        {
+            DownloadVerseRequested?.Invoke(this, verseNum);
         }
         #endregion
+
+        #region Scroll
+        public void ScrollToTop()
+        {
+            MainSB.ResetThumbY();
+            VersesSV.ScrollToTop();
+        }
+
+        public void ScrollToVerse(int verse, bool searchRes = false)
+        {
+            BrowseToVerse(verse);
+
+            double newVerticalOffset = Bookmark.Height - 60;
+            VersesSV.ScrollToVerticalOffset(newVerticalOffset);
+            // TODO: MainSB.Scrolled = newVerticalOffset / VersesSV.ScrollableHeight;
+
+            if (searchRes)
+            {
+                var numPolygon = (BarakaVerseNumber)NumberingSP.Children[verse];
+                numPolygon.MarkAsSearchResult();
+            }
+        }
 
         #region Handlers
         private void MainSB_OnScroll(object sender, EventArgs e)
@@ -270,11 +216,93 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                 e.Handled = true;
                 return;
             }
-            MainSB.Scrolled = VersesSV.VerticalOffset / VersesSV.ScrollableHeight;
+            else
+            {
+                // Cannot use this anywhere
+                MainSB.Scrolled = VersesSV.VerticalOffset / VersesSV.ScrollableHeight;
+            }
+        }
+        #endregion
+        #endregion
+
+        #region Bookmark        
+        #region General
+        private void ReinitBookmark()
+        {
+            _relativeBmHeights.Clear();
+            Bookmark.Height = 60;
+            Bookmark.Margin = new Thickness(0, 45, 0, 0);
         }
 
+        private void LoadLastBookmark()
+        {
+            int bookmark =
+                LoadedData.Bookmarks[Surah.SurahNumber - 1];
+            VerseChanged?.Invoke(this, bookmark);
+            ScrollToVerse(bookmark);
+        }
+        #endregion
 
-        // Support for external handler (Player class)
+        #region Movement
+        public void BrowseToVerse(int num)
+        {
+            EndVerse = num;
+
+            if (StartVerse != 0 && num < StartVerse)
+            {
+                StartFromVerse(num);
+            }
+
+            if (num == -1) // Basmala support
+            {
+                Bookmark.Height = _relativeBmHeights[Math.Abs(num)];
+            }
+            else
+            {
+                Bookmark.Height = _relativeBmHeights[num];
+            }
+
+            if (StartVerse != 0)
+            {
+                Bookmark.Height -= _firstVerseOffset;
+            }
+
+            ActualVerse = num;
+
+            // Save bookmark
+            LoadedData.Bookmarks[Surah.SurahNumber - 1] = num;
+        }
+
+        public void StartFromVerse(int target)
+        {
+            StartVerse = target;
+
+            VerseChanged?.Invoke(this, StartVerse);
+
+            Bookmark.Margin = new Thickness(0, _relativeBmHeights[target] - 12, 0, 0);
+            _firstVerseOffset = _relativeBmHeights[target] - 60;
+
+            Bookmark.Height = 60; // Default; verse number size
+
+            if (target < EndVerse)
+            {
+                BrowseToVerse(EndVerse);
+                VerseChanged?.Invoke(this, StartVerse);
+            }
+        }
+        #endregion
+        #endregion
+
+        #region Loop Mode
+        public void SetLoopMode(bool loop)
+        {
+            LoopMode = loop;
+            Bookmark.SetLoopMode(loop);
+            LoopModeDisplayed?.Invoke(this, StartVerse);
+        }
+        #endregion
+
+        #region External Events
         public void ChangeVerse(int num)
         {
             if (_playing)

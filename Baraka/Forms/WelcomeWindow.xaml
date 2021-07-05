@@ -11,12 +11,12 @@
         mc:Ignorable="d"
         Title="StartupForm" Height="390" Width="608" Loaded="Window_Loaded">
     <StackPanel Background="{DynamicResource MediumBrush}">
-        <TextBlock x:Name="TitleTB" TextWrapping="Wrap" Text="baraka" HorizontalAlignment="Center" Margin="0,90,0,0" FontSize="110" FontFamily="Montserrat" Foreground="White">
+        <TextBlock x:Name="TitleTB" TextWrapping="Wrap" Text="baraka" HorizontalAlignment="Center" Margin="0,70,0,0" FontSize="115" FontFamily="/Baraka;component/Fonts/#Al Qalam Quran" Foreground="White">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="100" Opacity="0.4"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,-10,0,0" FontSize="28" FontFamily="SimSun" Foreground="#FFC3C3C3"><Run Text="le logiciel de savoir "/><Run Text="coranique"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,-55,0,0" FontSize="28" FontFamily="SimSun" Foreground="#FFC3C3C3"><Run Text="le logiciel de savoir "/><Run Text="coranique"/></TextBlock>
         <usercontrols:BarakaMysteriousProgressBar x:Name="MainPB" Margin="54,30,54,0" Height="49.769" Width="500" Visibility="Hidden"/>
         <TextBlock x:Name="ProgressionTB" TextWrapping="Wrap" Text="préparation 0%" HorizontalAlignment="Right" Margin="0,1,54,0" FontFamily="Malgun Gothic" FontSize="22.5" Foreground="#FFD1D1D1" Visibility="Hidden"/>
         <DockPanel LastChildFill="False" Margin="0,-15,0,0">

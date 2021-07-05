@@ -31,10 +31,13 @@ namespace Baraka
             // // Loading
             // Deserialize data
             LoadedData.SurahList =
-                SerializationUtils.Deserialize<Dictionary<SurahDescription, Data.Surah.SurahVersion[]>>("quran.ser");
+                SerializationUtils.Deserialize<Dictionary<SurahDescription, Data.Surah.SurahVersion[]>>("data/quran.ser");
             LoadedData.CheikhList =
-                SerializationUtils.Deserialize<CheikhDescription[]>("cheikh.ser");
-            LoadedData.Settings = new MySettings("settings.ser");
+                SerializationUtils.Deserialize<CheikhDescription[]>("data/cheikh.ser");
+            LoadedData.Settings =
+                new MySettings("data/settings.ser");
+            LoadedData.Bookmarks =
+                SerializationUtils.Deserialize<List<int>>("data/bookmarks.ser");
 
             MainPB.Progress = 100;
             

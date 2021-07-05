@@ -3,12 +3,14 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:qc="http://QuickConverter.CodePlex.com/"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:Baraka.Forms.Settings"
       mc:Ignorable="d" d:DesignWidth="800"
-      Title="ReadingPage" Width="700" Unloaded="Page_Unloaded">
+      Width="Auto"
+      Title="ReadingPage" Unloaded="Page_Unloaded">
 
-    <StackPanel Background="White">
+    <StackPanel Background="White" Margin="0">
         <!-- Startup -->
         <GroupBox Header="Démarrage" Height="145" Margin="30,25,30,0" FontSize="24" BorderThickness="3" ClipToBounds="True"
                   IsEnabled="{qc:Binding '!$P', P={Binding ElementName=AutoReloadCHB, Path=IsChecked}}"
@@ -39,11 +41,23 @@
                         <SolidColorBrush Color="{DynamicResource DarkColor}"/>
                     </CheckBox.BorderBrush>
                 </CheckBox>
-                <CheckBox x:Name="AutoReloadCHB" Content="Revenir à la dernière lecture lors du démarrage" Style="{DynamicResource SimpleCheckBox}" Margin="15,10,0,10" FontSize="20" Padding="7,0,0,0" ToolTip="Lancer Baraka au démarrage de l'ordinateur" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2" IsChecked="True">
+                <CheckBox x:Name="AutoReloadCHB" Content="Reprendre les derniers paramètres de lecture au démarrage" Style="{DynamicResource SimpleCheckBox}" Margin="15,10,0,10" FontSize="20" Padding="7,0,0,0" ToolTip="Lancer Baraka au démarrage de l'ordinateur" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2" IsChecked="True">
                     <CheckBox.BorderBrush>
                         <SolidColorBrush Color="{DynamicResource DarkColor}"/>
                     </CheckBox.BorderBrush>
                 </CheckBox>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Audio" Margin="30,15,30,0" FontSize="24" BorderThickness="3" ClipToBounds="True">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Margin="15,10,0,10">
+                    <TextBlock TextWrapping="Wrap" Text="Valeur du cross-fading (ms)" FontSize="20"/>
+                    <TextBlock TextWrapping="Wrap" Text="Périphérique de sortie" FontSize="20" Margin="0,20,0,0"/>
+                </StackPanel>
+                <StackPanel Margin="20,10,15,10">
+                    <xctk:IntegerUpDown x:Name="test" Margin="0" Maximum="1000" Minimum="0" Increment="10" DefaultValue="10" BorderThickness="1.5" VerticalAlignment="Top" DisplayDefaultValueOnEmptyText="True" BorderBrush="#FFABADB3" Background="White" Width="120" HorizontalAlignment="Left"/>
+                    <ComboBox x:Name="OutputDeviceCMBB" Width="350" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="18"/>
+                </StackPanel>
             </StackPanel>
         </GroupBox>
 

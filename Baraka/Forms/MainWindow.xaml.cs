@@ -1,4 +1,5 @@
-﻿using Baraka.Data.Descriptions;
+﻿using Baraka.Data;
+using Baraka.Data.Descriptions;
 using Baraka.Forms;
 using Baraka.Forms.Settings;
 using System;
@@ -82,14 +83,17 @@ namespace Baraka
                 new CheikhDescription("Sahl", "Yassin", "https://everyayah.com/data/Sahl_Yassin_128kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/yassin.png"))),
             };
 
-            Data.SerializationUtils.Serialize(tempCheikhs, "cheikh_new.ser");
+            SerializationUtils.Serialize(tempCheikhs, "cheikh_new.ser");
         
         }
 
+        #region Events
         #region Window events
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Player.Dispose();
+            SerializationUtils.Serialize(LoadedData.Bookmarks, "data/bookmarks.ser");
+            
             Environment.Exit(0);
         }
 
@@ -100,7 +104,7 @@ namespace Baraka
         }
         #endregion
 
-        #region Displayer to Player events
+        #region Displayer to Player
         private void MainSurahDisplayer_VerseChanged(object sender, int num)
         {
             // TODO : is this function used
@@ -109,9 +113,10 @@ namespace Baraka
 
         private void MainSurahDisplayer_DownloadVerseRequested(object sender, int num)
         {
-
             Player.DownloadMp3Verse(num);
         }
+        #endregion
+
         #endregion
 
         #region Dashboard
@@ -221,5 +226,6 @@ namespace Baraka
             SetMinWidth();
         }
         #endregion
+
     }
 }

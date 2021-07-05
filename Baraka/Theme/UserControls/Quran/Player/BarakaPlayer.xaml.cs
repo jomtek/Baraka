@@ -278,6 +278,8 @@ namespace Baraka.Theme.UserControls.Quran.Player
         #region Scrollviewer Display
         private bool _resetSurahDisplayer = false;
 
+        // tab parameter: 0 => Cheikh selector
+        //                1 => Surah selector
         private void OpenPlayer(int tab)
         {
             if (_closing) return;
@@ -353,7 +355,8 @@ namespace Baraka.Theme.UserControls.Quran.Player
         #region Cheikh Selector
         private void ShowCheikhSelector()
         {
-            MainSB.TargetValue = (int)Math.Ceiling(LoadedData.CheikhList.Length / 3d); // todo: change
+            MainSB.TargetValue = (int)Math.Ceiling(LoadedData.CheikhList.Length / 3d);
+            MainSB.Accuracy = ScrollAccuracyMode.ACCURATE;
 
             var panel = new StackPanel();
             panel.HorizontalAlignment = HorizontalAlignment.Stretch;
@@ -508,6 +511,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
         private void ShowSurahSelector()
         {
             MainSB.TargetValue = (int)Math.Ceiling(114 / (LoadedData.CheikhList.Length / 3d));
+            MainSB.Accuracy = ScrollAccuracyMode.VAGUE;
 
             var panel = new StackPanel();
             panel.HorizontalAlignment = HorizontalAlignment.Stretch;

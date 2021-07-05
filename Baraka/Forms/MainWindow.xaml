@@ -14,6 +14,7 @@
         Height="866" Width="1500"
         MinWidth="200" MinHeight="500"
         Initialized="Window_Initialized" Closing="Window_Closing" SizeChanged="Window_SizeChanged">
+    
     <Window.Resources>
         <Storyboard x:Key="DashboardCloseStory">
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="Dashboard">
@@ -50,22 +51,21 @@
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Window.Resources>
+    
     <Window.Triggers>
     </Window.Triggers>
+    
     <Window.Effect>
         <BlurEffect x:Name="WindowBlurEffect" Radius="0" RenderingBias="Quality"/>
     </Window.Effect>
 
     <DockPanel ClipToBounds="True">
-        <!-- Top Grid -->
 
-        <!-- Top Grid -->
+        <!-- Dashboard -->
         <Grid x:Name="Dashboard" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5" ClipToBounds="True" MouseEnter="Dashboard_MouseEnter" MouseLeave="Dashboard_MouseLeave" HorizontalAlignment="Left" Margin="-150,0,0,0">
             <Grid.Effect>
                 <BlurEffect Radius="0.5"/>
             </Grid.Effect>
-
-
 
             <Grid.RenderTransform>
                 <TransformGroup>
@@ -99,18 +99,35 @@
             </StackPanel>
         </Grid>
 
-        <!-- Top Grid -->
+        
+        <!-- Content -->
         <DockPanel x:Name="FContent" Margin="-1,0,0,0">
-            <Grid x:Name="MainGrid" VerticalAlignment="Stretch" Height="Auto"  ClipToBounds="True" Margin="0" DockPanel.Dock="Bottom" Background="{DynamicResource LightBrush}" PreviewMouseWheel="MainGrid_PreviewMouseWheel">
+            
+            <Grid x:Name="MainGrid"
+                  VerticalAlignment="Stretch"
+                  Height="Auto" 
+                  ClipToBounds="True"
+                  DockPanel.Dock="Bottom"
+                  Background="{DynamicResource LightBrush}"
+                  PreviewMouseWheel="MainGrid_PreviewMouseWheel">
 
                 <Grid.LayoutTransform>
                     <ScaleTransform x:Name="ScaleTransformer" ScaleX="1" ScaleY="1" />
                 </Grid.LayoutTransform>
 
-                <Displayer:BarakaSurahDisplayer x:Name="MainSurahDisplayer" VerticalAlignment="Stretch" Margin="0,0,127,0" Height="Auto" VerseChanged="MainSurahDisplayer_VerseChanged" DownloadVerseRequested="MainSurahDisplayer_DownloadVerseRequested" HorizontalAlignment="Center" />
-                <Player:BarakaPlayer x:Name="Player" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="35,0,0,0" />
+                <Displayer:BarakaSurahDisplayer x:Name="MainSurahDisplayer"
+                                                VerticalAlignment="Stretch" HorizontalAlignment="Center"
+                                                Margin="0,0,127,0"
+                                                Height="Auto"
+                                                VerseChanged="MainSurahDisplayer_VerseChanged"
+                                                DownloadVerseRequested="MainSurahDisplayer_DownloadVerseRequested" />
+                
+                <Player:BarakaPlayer x:Name="Player"
+                                     VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                                     Margin="35,0,0,0" />
 
             </Grid>
+            
         </DockPanel>
 
     </DockPanel>

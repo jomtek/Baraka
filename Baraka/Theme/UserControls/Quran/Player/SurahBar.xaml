@@ -21,21 +21,22 @@
 
         <StackPanel Orientation="Horizontal">
             <TextBlock x:Name="SurahNumberTB" HorizontalAlignment="Left" TextWrapping="Wrap" FontFamily="Roboto" FontWeight="Bold" FontSize="22" VerticalAlignment="Top" Margin="5,8,0,0" Text="1."/>
-            <Canvas x:Name="InfoBTN" Width="20" Height="20" Margin="45,11,0,0" VerticalAlignment="Top" ToolTip="test" Cursor="Help" >
+            <Canvas x:Name="InfoBTN" Width="20" Height="20" Margin="15,11,0,0" VerticalAlignment="Top" ToolTip="test" Cursor="Help" >
                 <Path x:Name="InfoPath" Style="{StaticResource Hint}" Stretch="Fill" Width="20" Height="20" Fill="#FFBFBFBF" ToolTip="" Margin="0" />
             </Canvas>
             <TextBlock x:Name="SurahNameTB" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="5,12,0,0" FontFamily="Roboto" FontSize="18" VerticalAlignment="Top" TextDecorations="{x:Null}" Text="Al Fatiha" FontWeight="Bold"/>
-            <TextBlock x:Name="TranslatedNameTB" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="8,15,0,0" FontFamily="Alef" VerticalAlignment="Top" TextDecorations="{x:Null}" FontSize="16" Foreground="#FF939393" Text="Prologue"/>
+            <TextBlock x:Name="TranslatedNameTB" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="7,14,0,0" FontFamily="Alef" VerticalAlignment="Top" TextDecorations="{x:Null}" FontSize="15" Foreground="#FF939393" Text="Prologue"/>
         </StackPanel>
 
         <StackPanel x:Name="PlayControlsSP" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,17.5,0">
-            <Canvas x:Name="StreamBTN" Width="28" Height="22" Cursor="Hand" Margin="0,0,12,0" PreviewMouseLeftButtonUp="StreamBTN_PreviewMouseLeftButtonUp">
-                <Path x:Name="StreamBtnPath" Style="{StaticResource CloudPath}" Stretch="Fill" Height="22" Width="28" Fill="Black" ToolTip="Cliquez pour streamer la récitation" />
+            <TextBlock x:Name="ProgressTB" HorizontalAlignment="Right" TextWrapping="Wrap" Margin="0,0,10,0" FontFamily="Arial" VerticalAlignment="Center" TextDecorations="{x:Null}" FontSize="18" Foreground="Black" Background="WhiteSmoke" FontStretch="Expanded" Padding="5,2"><Run Text="8"/><Run Text="0%"/></TextBlock>
+            <Canvas x:Name="StreamBTN" Width="28" Height="22" Cursor="Hand" Margin="0,0,12,0" PreviewMouseLeftButtonUp="StreamBTN_PreviewMouseLeftButtonUp" ToolTip="Cliquez pour écouter la récitation en streaming" Background="White">
+                <Path x:Name="StreamBtnPath" Style="{StaticResource CloudPath}" Stretch="Fill" Height="22" Width="28" Fill="Black" />
             </Canvas>
-            <Canvas x:Name="DownloadBTN" Width="20" Height="22" Cursor="Hand" Margin="0,0,5,0">
-                <Path Style="{StaticResource DownloadPath}" Stretch="Fill" Width="20" Height="22" Fill="#B1AEAE" ToolTip="Cliquez pour télécharger la récitation" />
+            <Canvas x:Name="DownloadBTN" Width="20" Height="22" Cursor="Hand" Margin="0,0,5,0" ToolTip="incoming..." Background="White">
+                <Path Style="{StaticResource DownloadPath}" Stretch="Fill" Width="20" Height="22" Fill="#B1AEAE"/>
             </Canvas>
-            <Canvas x:Name="PlayBTN" Width="20" Height="22" Cursor="Hand" ToolTip="Cliquez pour jouer la récitation hors-connexion">
+            <Canvas x:Name="PlayBTN" Width="20" Height="22" Cursor="Hand" ToolTip="incoming..." Background="White">
                 <Path Style="{StaticResource PlayPath}" Stretch="Fill" Width="20" Height="22" Fill="#B1AEAE" />
             </Canvas>
         </StackPanel>

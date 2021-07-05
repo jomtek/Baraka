@@ -6,7 +6,7 @@ using System.Windows.Controls;
 namespace Baraka.Theme.UserControls
 {
     /// <summary>
-    /// Logique d'interaction pour BarakaProgressBar.xaml
+    /// Logique d'interaction pour BarakaMysteriousProgressBar.xaml
     /// </summary>
     public partial class BarakaMysteriousProgressBar : UserControl
     {

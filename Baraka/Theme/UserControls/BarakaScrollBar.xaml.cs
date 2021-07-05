@@ -27,6 +27,12 @@ namespace Baraka.Theme.UserControls
             get { return _scrolled; }
             set
             {
+                if (value > 1)
+                {
+                    Scrolled = 1;
+                    return;
+                }
+
                 _scrolled = value;
                 SetThumbY(ScrollCanvas.ActualHeight * value, true);
             }

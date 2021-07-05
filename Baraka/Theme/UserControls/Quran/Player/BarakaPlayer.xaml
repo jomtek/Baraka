@@ -26,7 +26,7 @@
 
         <Storyboard x:Key="TabSwitchStory"/>
         <Storyboard x:Key="PlayerOpenStory">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="path">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="BeautifulSeparator">
                 <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="450"/>
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="SelectorGrid">
@@ -46,7 +46,7 @@
                 <EasingDoubleKeyFrame KeyTime="0" Value="574"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="108"/>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="path">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="BeautifulSeparator">
                 <EasingDoubleKeyFrame KeyTime="0" Value="450"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.267" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
@@ -95,8 +95,7 @@
                 HorizontalAlignment="Right"
                 Width="40"
                 Margin="0,0,11,-45"
-                TargetValue="2"
-                Accuracy="VAGUE"
+                TargetValue="4"
                 OnScroll="MainSB_OnScroll" Height="445">
 
                 <local:BarakaScrollBar.Effect>
@@ -105,7 +104,7 @@
             </local:BarakaScrollBar>
         </Grid>
         <Path
-            x:Name="path"
+            x:Name="BeautifulSeparator"
             Data="M50.666667,246.66667 L514,246"
             Fill="#FFF4F4F5"
             Stroke="#FFC7C5C5"
@@ -113,8 +112,8 @@
             Height="6"
             Stretch="Fill"
             VerticalAlignment="Bottom" 
-            StrokeStartLineCap="Square"
-            StrokeEndLineCap="Square"
+            StrokeStartLineCap="Round"
+            StrokeEndLineCap="Round"
             RenderTransformOrigin="0.5,0.5"
                 Margin="80,0,80,105" Width="50"
                 >

@@ -1,5 +1,6 @@
 ﻿using Baraka.Data;
 using Baraka.Data.Descriptions;
+using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,14 +34,34 @@ namespace Baraka.Forms.Settings
             {
                 DefaultSurahCMBB.Items.Add($"{surah.SurahNumber}. {surah.PhoneticName}");
             }
-
             foreach (CheikhDescription cheikh in Data.LoadedData.CheikhList)
             {
                 DefaultCheikhCMBB.Items.Add(cheikh.ToString());
             }
+            LoadOutputDevices();
         }
 
         #region Load and save
+        private void LoadOutputDevices()
+        {
+            for (int i = 0; i < DirectSoundOut.Devices.Count(); i++)
+            {
+                DirectSoundDeviceInfo dev = DirectSoundOut.Devices.ElementAt(i);
+
+                OutputDeviceCMBB.Items.Add(dev.Description);
+
+                if (dev.Guid.ToString() == LoadedData.Settings.OutputDeviceGuid)
+                {
+                    OutputDeviceCMBB.SelectedIndex = i;
+                }
+            }
+
+            if (OutputDeviceCMBB.SelectedIndex == -1)
+            {
+                LoadedData.Settings.OutputDeviceGuid = DirectSoundOut.Devices.ElementAt(0).Guid.ToString();
+                OutputDeviceCMBB.SelectedIndex = 0;
+            }
+        }
         private void LoadSettings()
         {
             DefaultSurahCMBB.SelectedIndex = LoadedData.Settings.DefaultSurahIndex;
@@ -57,6 +78,7 @@ namespace Baraka.Forms.Settings
             LoadedData.Settings.AutoScrollQuran = AutoScrollCHB.IsChecked.GetValueOrDefault();
             LoadedData.Settings.AutoNextSurah = AutoNextCHB.IsChecked.GetValueOrDefault();
             LoadedData.Settings.AutoReloadLastSurah = AutoReloadCHB.IsChecked.GetValueOrDefault();
+            LoadedData.Settings.OutputDeviceGuid = DirectSoundOut.Devices.ElementAt(OutputDeviceCMBB.SelectedIndex).Guid.ToString();
         }
         #endregion
 
