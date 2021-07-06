@@ -43,6 +43,7 @@ namespace Baraka.Utils.Search
                     continue;
                 }
                 
+                /* CHANGED
                 string[] verses = key.Value[2].Verses;
 
                 for (int i = 0; i < verses.Length; i++)
@@ -53,6 +54,7 @@ namespace Baraka.Utils.Search
                         founds.Add((surah.SurahNumber, i));
                     }
                 }
+                */
             }
 
             // Second try, match keywords in any order
@@ -64,6 +66,9 @@ namespace Baraka.Utils.Search
                     continue;
                 }
 
+                //return;
+                /*
+
                 string[] verses = key.Value[2].Verses;
 
                 for (int i = 0; i < verses.Length; i++)
@@ -74,6 +79,7 @@ namespace Baraka.Utils.Search
                         results.Add(new SearchResult(key.Key, i, keywords));
                     }
                 }
+                */
             }
 
             return results;

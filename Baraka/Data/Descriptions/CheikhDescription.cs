@@ -13,6 +13,18 @@ namespace Baraka.Data.Descriptions
 
         private byte[] _photo;
 
+        public CheikhDescription(
+            string firstName,
+            string lastName,
+            string streamingUrl, 
+            BitmapImage photo)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            StreamingUrl = streamingUrl;
+            _photo = ConvertToBytes(photo);
+        }
+
         private byte[] ConvertToBytes(BitmapImage bitmapImage)
         {
             byte[] data;
@@ -37,14 +49,6 @@ namespace Baraka.Data.Descriptions
                 image.EndInit();
                 return image;
             }
-        }
-
-        public CheikhDescription(string firstName, string lastName, string streamingUrl, BitmapImage photo)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-            StreamingUrl = streamingUrl;
-            _photo = ConvertToBytes(photo);
         }
 
         public override string ToString()

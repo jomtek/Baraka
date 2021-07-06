@@ -84,7 +84,7 @@ namespace Baraka.Forms.Settings
 
         private void ManageEditionsBTN_Click(object sender, RoutedEventArgs e)
         {
-            new Forms.QuranEditionsManagerWindow() { Owner = (Window)Parent }.ShowDialog();
+            new Forms.QuranTranslationsManagerWindow() { Owner = (Window)Parent }.ShowDialog();
         }
     }
 }

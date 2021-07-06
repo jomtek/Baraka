@@ -1,4 +1,5 @@
-﻿using Baraka.Globalization;
+﻿using Baraka.Data.Surah;
+using Baraka.Globalization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Baraka.Data
 
         // With temporary (debug) default values
 
-        #region Settings
+        #region Values
         // General
         public bool Startup { get; set; } = false;
         public Language Language { get; set; } = Language.FRENCH;
@@ -31,6 +32,8 @@ namespace Baraka.Data
         public bool AutoReloadLastSurah { get; set; } = true;
         public string OutputDeviceGuid { get; set; } = "010000000-0000-0000-0000-000000000000"; // Default output
 
+        // Translations
+        public SurahVersionConfig SurahVersionConfig = new SurahVersionConfig(true, true, LoadedData.TranslationsList[14], null, null);
         #endregion
 
 

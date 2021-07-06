@@ -46,10 +46,10 @@
                     TextWrapping="Wrap"
                     IsReadOnly="True"
                     FontFamily="/Baraka;component/Fonts/#Poppins"
-                    Margin="12,15,12,0"
+                    Margin="12,15,12,5"
                     Height="Auto" Width="Auto"
                     FontSize="17" Foreground="#FF6E6E6E" />
-            <TextBox x:Name="TranslatedTB"
+            <TextBox x:Name="Translation1TB"
                     Text="C'est Toi [Seul] que nous adorons, et c'est Toi [Seul] dont nous implorons secours"
                     VerticalAlignment="Top"
                     HorizontalAlignment="Left"
@@ -57,9 +57,31 @@
                     TextWrapping="Wrap"
                     IsReadOnly="True"
                     FontFamily="/Baraka;component/Fonts/#Poppins"
-                    Margin="12,15"
+                    Margin="12,5"
                     Height="Auto" Width="Auto"
-                    FontSize="17.5" Background="{x:Null}" />
+                    FontSize="17.5" Background="{x:Null}" Visibility="Collapsed" />
+            <TextBox x:Name="Translation2TB"
+                Text="C'est Toi [Seul] que nous adorons, et c'est Toi [Seul] dont nous implorons secours"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                BorderThickness="0"
+                TextWrapping="Wrap"
+                IsReadOnly="True"
+                FontFamily="/Baraka;component/Fonts/#Poppins"
+                Margin="12,5,0,5"
+                Height="Auto" Width="Auto"
+                FontSize="17.5" Background="{x:Null}" Visibility="Collapsed" />
+            <TextBox x:Name="Translation3TB"
+                Text="C'est Toi [Seul] que nous adorons, et c'est Toi [Seul] dont nous implorons secours"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                BorderThickness="0"
+                TextWrapping="Wrap"
+                IsReadOnly="True"
+                FontFamily="/Baraka;component/Fonts/#Poppins"
+                Margin="12,5,0,5"
+                Height="Auto" Width="Auto"
+                FontSize="17.5" Background="{x:Null}" Visibility="Collapsed" />
         </StackPanel>
     </Grid>
 </UserControl>

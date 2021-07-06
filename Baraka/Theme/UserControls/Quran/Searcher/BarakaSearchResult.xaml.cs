@@ -36,9 +36,9 @@ namespace Baraka.Theme.UserControls.Quran.Searcher
             // Load verse info
             VerseInfoTB.Text = $"S{sres.Surah.SurahNumber}. V{sres.Verse + 1}";
 
-            // TODO
-            string fullVerse = Data.LoadedData.SurahList.ElementAt(sres.Surah.SurahNumber - 1).Value.ElementAt(2).Verses[sres.Verse];
-            RTB.Document.Blocks.Add(new Paragraph(new Run(fullVerse)));
+            // TODO CHANGED
+            //string fullVerse = Data.LoadedData.SurahList.ElementAt(sres.Surah.SurahNumber - 1).Value.ElementAt(2).Verses[sres.Verse];
+            //RTB.Document.Blocks.Add(new Paragraph(new Run(fullVerse)));
 
             HighlightTerms();
         }

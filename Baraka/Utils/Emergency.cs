@@ -20,7 +20,7 @@ namespace Baraka.Utils
                     sb.AppendLine($"Message: {wex.Message}");
                     sb.AppendLine();
                     sb.AppendLine($"- Veuillez vérifier votre connexion internet");
-                    sb.AppendLine($"- Si le problème persiste, contactez-nous : TODO");
+                    sb.AppendLine($"- Si le problème persiste, contactez-nous (Paramètres -> Aide)");
 
 
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>

@@ -11,15 +11,6 @@ namespace Baraka.Data.Descriptions
         public string TranslatedName { get; set; } // todo: globalization
         public SurahRevelationType RevelationType { get; set; }
 
-        public SurahDescription()
-        {
-            SurahNumber = 1;
-            NumberOfVerses = 7;
-            PhoneticName = "Prologue";
-            TranslatedName = "Al Fatiha";
-            RevelationType = SurahRevelationType.M;
-        }
-
         public SurahDescription(
             int num,
             int versesCount,

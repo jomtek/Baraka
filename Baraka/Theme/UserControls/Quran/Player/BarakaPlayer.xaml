@@ -59,9 +59,10 @@
             </ObjectAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
+    
     <UserControl.Triggers>
-
     </UserControl.Triggers>
+    
     <UserControl.Effect>
         <DropShadowEffect Direction="45" Opacity="0.45" ShadowDepth="8" BlurRadius="40" RenderingBias="Quality"/>
     </UserControl.Effect>

@@ -1,10 +1,12 @@
 ﻿using Baraka.Data;
 using Baraka.Data.Descriptions;
+using Baraka.Data.Surah;
 using Baraka.Forms;
 using Baraka.Forms.Settings;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -34,30 +36,14 @@ namespace Baraka
             Player.Displayer = MainSurahDisplayer;
         }
 
-        private Dictionary<SurahDescription, Data.Surah.SurahVersion[]> SerializationData =
-            new Dictionary<SurahDescription, Data.Surah.SurahVersion[]>();
+        private Dictionary<SurahDescription, List<SurahVersion>> SerializationData =
+            new Dictionary<SurahDescription, List<SurahVersion>>();
 
         private void Window_Initialized(object sender, EventArgs e)
         {
-            /*string translationPath = @"C:\Users\jomtek360\Documents\Baraka\quran-translated-main";
-            foreach (var elem in LoadedData.SurahList)
-            {
-                var desc = elem.Key;
-                var surahNum = desc.SurahNumber;
-                var arVersion = File.ReadAllLines($@"{translationPath}\arabic_uthmani\{surahNum}");
-                var phVersion = File.ReadAllLines($@"{translationPath}\phonetic\{surahNum}");
-                var frVersion = File.ReadAllLines($@"{translationPath}\french_hamidullah\{surahNum}");
+           
 
-                SerializationData.Add(desc, new Data.Surah.SurahVersion[]
-                {
-                    new Data.Surah.SurahVersion("arabic", "uthmani", arVersion),
-                    new Data.Surah.SurahVersion("phonetic", "", phVersion),
-                    new Data.Surah.SurahVersion("french", "hamidullah", frVersion),
-                });
-            }
-            Data.SerializationUtils.Serialize(SerializationData, "qurannew.ser");*/
-            
-            
+            /*
             var tempCheikhs = new CheikhDescription[]
             {
                 new CheikhDescription("Mishary bin Rashid", "Alafasy", "https://everyayah.com/data/Alafasy_128kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/alafasy.png"))),
@@ -84,7 +70,21 @@ namespace Baraka
             };
 
             SerializationUtils.Serialize(tempCheikhs, "cheikh_new.ser");
-        
+            */
+
+            /*
+            var tempTranslations = new List<TranslationDescription>();
+
+            foreach (var line in System.IO.File.ReadAllLines("translations.txt"))
+            {
+                string[] info = line.Split('_');
+                var translation = new TranslationDescription(info[0], info[1], info[2], info[3], info[4], new BitmapImage(new Uri($@"pack://application:,,,/Baraka;component/Images/Flags/{info[0]}.png")));
+                tempTranslations.Add(translation);
+            }
+
+            SerializationUtils.Serialize(tempTranslations.ToArray(), "translations_new.ser");
+            */
+
         }
 
         #region Events
@@ -92,7 +92,7 @@ namespace Baraka
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Player.Dispose();
-            SerializationUtils.Serialize(LoadedData.Bookmarks, "data/bookmarks.ser");
+            SerializationUtils.Serialize(LoadedData.Bookmarks, "bookmarks.ser");
             
             Environment.Exit(0);
         }

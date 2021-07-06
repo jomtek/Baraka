@@ -1,0 +1,27 @@
+﻿<Window x:Class="Baraka.Forms.QuranTranslationsManagerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Baraka.Forms"
+        xmlns:test="clr-namespace:Baraka.Theme.UserControls.Quran.TranslationsManager"
+        mc:Ignorable="d"
+        Title="Gérer les traductions (sources: Tanzil Project)" 
+        Height="700" Width="900" Closing="Window_Closing">
+    
+    <Window.Resources>
+    </Window.Resources>
+   
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+            <ScrollViewer x:Name="SelectedTranslationsSV" DockPanel.Dock="Top" Height="210">
+                <StackPanel x:Name="SelectedTranslationsSP">
+                </StackPanel>
+            </ScrollViewer>
+            <Path Data="M33.25,54.5 L43.5,54.5" Fill="#FFF4F4F5" StrokeStartLineCap="Square" Stretch="Fill" StrokeEndLineCap="Square" Stroke="#FFC7C5C5" StrokeThickness="20" Margin="0" DockPanel.Dock="Bottom"/>
+        </DockPanel>
+        <ScrollViewer DockPanel.Dock="Bottom" Background="WhiteSmoke" Margin="0">
+            <StackPanel x:Name="AllTranslationsSP" />
+        </ScrollViewer>
+    </DockPanel>
+</Window>

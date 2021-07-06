@@ -118,6 +118,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\Descriptions\CheikhDescription.cs" />
+    <Compile Include="Data\Descriptions\TranslationDescription.cs" />
     <Compile Include="Data\Descriptions\VerseDescription.cs" />
     <Compile Include="Data\LoadedData.cs" />
     <Compile Include="Data\MySettings.cs" />
@@ -125,8 +126,10 @@
     <Compile Include="Data\Descriptions\SurahDescription.cs" />
     <Compile Include="Data\Descriptions\SurahRevelationType.cs" />
     <Compile Include="Data\Surah\SurahVersion.cs" />
-    <Compile Include="Forms\QuranEditionsManagerWindow.xaml.cs">
-      <DependentUpon>QuranEditionsManagerWindow.xaml</DependentUpon>
+    <Compile Include="Data\Surah\SurahVersionConfig.cs" />
+    <Compile Include="Data\TanzilTranslationParser.cs" />
+    <Compile Include="Forms\QuranTranslationsManagerWindow.xaml.cs">
+      <DependentUpon>QuranTranslationsManagerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\SearchWindow.xaml.cs">
       <DependentUpon>SearchWindow.xaml</DependentUpon>
@@ -174,6 +177,9 @@
     <Compile Include="Theme\UserControls\Quran\Searcher\BarakaSearchResult.xaml.cs">
       <DependentUpon>BarakaSearchResult.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Theme\UserControls\Quran\TranslationsManager\TranslationBar.xaml.cs">
+      <DependentUpon>TranslationBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\BorderClipConverter.cs" />
     <Compile Include="Utils\Emergency.cs" />
     <Compile Include="Utils\General.cs" />
@@ -203,7 +209,7 @@
       <DependentUpon>SurahBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Theme\UserControls\ScrollAccuracyMode.cs" />
-    <Page Include="Forms\QuranEditionsManagerWindow.xaml">
+    <Page Include="Forms\QuranTranslationsManagerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\SearchWindow.xaml">
@@ -306,6 +312,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Theme\UserControls\Quran\TranslationsManager\TranslationBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -321,6 +330,46 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Images\Flags\af.png" />
+    <Resource Include="Images\Flags\al.png" />
+    <Resource Include="Images\Flags\az.png" />
+    <Resource Include="Images\Flags\ba.png" />
+    <Resource Include="Images\Flags\bd.png" />
+    <Resource Include="Images\Flags\bg.png" />
+    <Resource Include="Images\Flags\cn.png" />
+    <Resource Include="Images\Flags\cz.png" />
+    <Resource Include="Images\Flags\de.png" />
+    <Resource Include="Images\Flags\dz.png" />
+    <Resource Include="Images\Flags\es.png" />
+    <Resource Include="Images\Flags\et.png" />
+    <Resource Include="Images\Flags\fr.png" />
+    <Resource Include="Images\Flags\id.png" />
+    <Resource Include="Images\Flags\in.png" />
+    <Resource Include="Images\Flags\iq.png" />
+    <Resource Include="Images\Flags\ir.png" />
+    <Resource Include="Images\Flags\it.png" />
+    <Resource Include="Images\Flags\jp.png" />
+    <Resource Include="Images\Flags\ke.png" />
+    <Resource Include="Images\Flags\kr.png" />
+    <Resource Include="Images\Flags\mv.png" />
+    <Resource Include="Images\Flags\my.png" />
+    <Resource Include="Images\Flags\ng.png" />
+    <Resource Include="Images\Flags\nl.png" />
+    <Resource Include="Images\Flags\no.png" />
+    <Resource Include="Images\Flags\pk.png" />
+    <Resource Include="Images\Flags\pl.png" />
+    <Resource Include="Images\Flags\pt.png" />
+    <Resource Include="Images\Flags\ro.png" />
+    <Resource Include="Images\Flags\ru.png" />
+    <Resource Include="Images\Flags\sa.png" />
+    <Resource Include="Images\Flags\se.png" />
+    <Resource Include="Images\Flags\so.png" />
+    <Resource Include="Images\Flags\th.png" />
+    <Resource Include="Images\Flags\tj.png" />
+    <Resource Include="Images\Flags\tr.png" />
+    <Resource Include="Images\Flags\tw.png" />
+    <Resource Include="Images\Flags\us.png" />
+    <Resource Include="Images\Flags\uz.png" />
     <Resource Include="Images\Cheikh\basfar.png" />
     <Resource Include="Images\Cheikh\budair.png" />
     <Resource Include="Images\Cheikh\hussary.png" />
