@@ -33,6 +33,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             }
         }
 
+        // Debug
         public BarakaVerseNumber()
         {
             InitializeComponent();
@@ -79,7 +80,9 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         {
             _displayer.VerseNum_Click(_num);
         }
+        #endregion
 
+        #region ContextMenu
         private void Menu_MoveHere_Click(object sender, RoutedEventArgs e)
         {
             _displayer.VerseNum_Click(_num);
@@ -92,7 +95,12 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
         private void Menu_Download_Click(object sender, RoutedEventArgs e)
         {
-            _displayer.DownloadMp3Verse(_num);
+            _displayer.DownloadRecitation(_num, _num);
+        }
+
+        private void Menu_CopyVerse_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO
         }
         #endregion
     }

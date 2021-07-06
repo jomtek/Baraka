@@ -268,10 +268,15 @@ namespace Baraka.Theme.UserControls.Quran.Player
         }
         #endregion
 
-        #region Scrollbar
+        #region Scroll
         private void MainSB_OnScroll(object sender, EventArgs e)
         {
             DisplaySV.ScrollToVerticalOffset(DisplaySV.ScrollableHeight * MainSB.Scrolled);
+        }
+
+        private void DisplaySV_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            MainSB.Scrolled = DisplaySV.VerticalOffset / DisplaySV.ScrollableHeight;
         }
         #endregion
 
@@ -556,30 +561,96 @@ namespace Baraka.Theme.UserControls.Quran.Player
         }
         #endregion
 
-        #region Other
-        public void DownloadMp3Verse(int verseNum)
+        #region Download
+        public void DownloadOneVerse(int verseNum)
         {
             var sfd = new SaveFileDialog();
-            sfd.Title = $"Enregistrer le verset {verseNum} de cette sourate";
             sfd.Filter = "Fichier MP3|*.mp3";
-            sfd.FileName = $"{_selectedCheikh.LastName.Replace(" ", "").ToLower()}_{_selectedSurah.SurahNumber}_{verseNum}";
+
+            if (Utils.General.CheckIfBasmala(SelectedSurah))
+            {
+                sfd.Title = $"Enregistrer le verset [{verseNum}] de cette sourate";
+                sfd.FileName = $"{_selectedCheikh.LastName.Replace(" ", "").ToLower()}_{_selectedSurah.SurahNumber}_{verseNum}";
+            }
+            else
+            {
+                sfd.Title = $"Enregistrer le verset [{verseNum+1}] de cette sourate";
+                sfd.FileName = $"{_selectedCheikh.LastName.Replace(" ", "").ToLower()}_{_selectedSurah.SurahNumber}_{verseNum+1}";
+            }
 
             if (sfd.ShowDialog() == true)
             {
                 string url = StreamingUtils.GenerateVerseUrl(_selectedCheikh, _selectedSurah, verseNum);
-                new WebClient().DownloadFile(url, sfd.FileName);
+
+                using (var wc = new WebClient())
+                {
+                    try
+                    {
+                        using (new Utils.WaitCursor())
+                            wc.DownloadFile(url, sfd.FileName);
+                    }
+                    catch (WebException ex)
+                    {
+                        Utils.Emergency.ShowExMessage(ex);
+                        return;
+                    }
+                }
+
+                MessageBox.Show(
+                    $"Le verset a été téléchargé avec succès\n{sfd.FileName}",
+                    "Baraka",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information
+                );
             }
         }
 
-        private void DisplaySV_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        public void DownloadManyVerses(int begin, int end)
         {
-            MainSB.Scrolled = DisplaySV.VerticalOffset / DisplaySV.ScrollableHeight;
+            var sfd = new SaveFileDialog();
+            sfd.Filter = "Fichier MP3|*.mp3";
+
+            if (!Utils.General.CheckIfBasmala(SelectedSurah))
+            {
+                begin++;
+                end++;
+            }
+
+            sfd.Title = $"Enregistrer en un seul fichier les versets [{begin} à {end}] de cette sourate";
+            sfd.FileName = $"{_selectedCheikh.LastName.Replace(" ", "").ToLower()}_{_selectedSurah.SurahNumber}_{begin}-{end}";
+
+            if (sfd.ShowDialog() == true)
+            {
+                var parts = new List<byte[]>();
+                    
+                using (var wc = new WebClient())
+                {
+                    for (int i = begin; i < end+1; i++)
+                    {
+                        string url = StreamingUtils.GenerateVerseUrl(_selectedCheikh, _selectedSurah, i);
+                        Console.WriteLine($"{i}");
+                        try
+                        {
+                            using (new Utils.WaitCursor())
+                                parts.Add(wc.DownloadData(url));
+                        }
+                        catch (WebException ex)
+                        {
+                            Utils.Emergency.ShowExMessage(ex);
+                            return;
+                        }
+                    }
+                }
+
+                Utils.Audio.Combine(parts, sfd.FileName);
+                MessageBox.Show(
+                    $"Les versets ont été téléchargés avec succès\n{sfd.FileName}",
+                    "Baraka",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information
+                );
+            }
         }
         #endregion
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            //VersePB.Progress += 0.01;
-        }
     }
 }

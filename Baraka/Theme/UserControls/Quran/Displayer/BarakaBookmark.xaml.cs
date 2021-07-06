@@ -8,6 +8,8 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
     /// </summary>
     public partial class BarakaBookmark : UserControl
     {
+        public BarakaSurahDisplayer Displayer { get; set; }
+
         public BarakaBookmark()
         {
             InitializeComponent();
@@ -30,5 +32,18 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                 DownPath.Fill = (SolidColorBrush)FindResource("NormalMode_Fill_Brush");
             }
         }
+
+        #region ContextMenu
+        private void Menu_Download_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+            Displayer.DownloadRecitation();
+        }
+
+        private void Menu_CopyVerses_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
+        #endregion
     }
 }

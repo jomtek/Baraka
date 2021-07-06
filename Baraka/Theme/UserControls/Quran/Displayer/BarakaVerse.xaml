@@ -25,7 +25,7 @@
         </Grid.OpacityMask>
 
         <Border x:Name="Border1" BorderBrush="Black" BorderThickness="0" ClipToBounds="True" Margin="0" Background="White" CornerRadius="10" />
-        <StackPanel Background="White" Height="Auto" Margin="0">
+        <StackPanel Background="White" Height="Auto" Margin="0,0,0,10">
             <TextBox x:Name="ArabicTB"
                     Text="وَإِذَا رَأَيْتَ ثَمَّ رَأَيْتَ نَعِيمًا وَمُلْكًا كَبِيرًا"
                     VerticalAlignment="Top"
@@ -79,7 +79,7 @@
                 TextWrapping="Wrap"
                 IsReadOnly="True"
                 FontFamily="/Baraka;component/Fonts/#Poppins"
-                Margin="12,5,0,5"
+                Margin="12,5,0,0"
                 Height="Auto" Width="Auto"
                 FontSize="17.5" Background="{x:Null}" Visibility="Collapsed" />
         </StackPanel>

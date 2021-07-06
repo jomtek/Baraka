@@ -3,6 +3,7 @@ using Baraka.Data.Descriptions;
 using Baraka.Data.Surah;
 using Baraka.Forms;
 using Baraka.Forms.Settings;
+using Baraka.Theme.UserControls.Quran.Displayer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -107,13 +108,20 @@ namespace Baraka
         #region Displayer to Player
         private void MainSurahDisplayer_VerseChanged(object sender, int num)
         {
-            // TODO : is this function used
+            // TODO : is this function actually used ?
             Player.ChangeVerse(num);
         }
 
-        private void MainSurahDisplayer_DownloadVerseRequested(object sender, int num)
+        private void MainSurahDisplayer_DownloadRecitationRequested(object sender, DownloadRecitationEventArgs e)
         {
-            Player.DownloadMp3Verse(num);
+            if (e.Begin == e.End)
+            {
+                Player.DownloadOneVerse(e.Begin);
+            }
+            else
+            {
+                Player.DownloadManyVerses(e.Begin, e.End);
+            }
         }
         #endregion
 

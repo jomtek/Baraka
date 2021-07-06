@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" Width="60" Height="60">
+             mc:Ignorable="d" Width="60" Height="60" Cursor="Hand">
 
     <UserControl.Resources>
         <Color x:Key="NormalMode_Fill_Color">#038B4B</Color>
@@ -14,6 +14,23 @@
         <SolidColorBrush x:Key="LoopMode_Fill_Brush" Color="{StaticResource LoopMode_Fill_Color}" />
     </UserControl.Resources>
     
+    <UserControl.Effect>
+        <DropShadowEffect ShadowDepth="3" Opacity="0.1" BlurRadius="3"/>
+    </UserControl.Effect>
+
+    <UserControl.ContextMenu>
+        <ContextMenu Name="CM" StaysOpen="true" FontFamily="Segoe UI" FontSize="17" FontWeight="DemiBold">
+            <ContextMenu.Style>
+                <Style TargetType="{x:Type ContextMenu}">
+                    <Setter Property="ItemsPanel" Value="{StaticResource MenuTPL}"/>
+                </Style>
+            </ContextMenu.Style>
+
+            <MenuItem Header="Télécharger les versets" Click="Menu_Download_Click" />
+            <MenuItem Header="Copier les versets sur le presse-papier" Click="Menu_CopyVerses_Click" />
+        </ContextMenu>
+    </UserControl.ContextMenu>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />

@@ -115,33 +115,37 @@ namespace Baraka.Forms
                             // Download translations
                             if (!TranslationExists(bar.Description.Identifier))
                             {
-                                try
+                                using (var wc = new WebClient()
                                 {
-                                    using (new Utils.WaitCursor())
-                                    using (var wc = new WebClient()
+                                    Encoding = Encoding.GetEncoding("UTF-8")
+                                })
+                                {
+                                    string rawData;
+
+                                    try
                                     {
-                                        Encoding = Encoding.GetEncoding("UTF-8")
-                                    })
-                                    {
-                                        // TODO: adapt to private server
-                                        var rawData = wc.DownloadString($"https://tanzil.net/trans/{bar.Description.Identifier}");
-                                        var parsed = new TanzilTranslationParser(rawData).Result;
-                                       
-                                        for (int j = 0; j < parsed.Count; j++)
+                                        using (new Utils.WaitCursor())
                                         {
-                                            string[] verses = parsed[j];
-                                            LoadedData.SurahList.ElementAt(j).Value.Add(
-                                                bar.Description.Identifier,
-                                                new SurahVersion(bar.Description.LanguageName_EN, verses)
-                                            );
+                                            // TODO: adapt to private server
+                                            rawData = wc.DownloadString($"https://tanzil.net/trans/{bar.Description.Identifier}");
                                         }
                                     }
-                                }
-                                catch (WebException ex)
-                                {
-                                    Utils.Emergency.ShowExMessage(ex);
-                                    MessageBox.Show("Les changements ont été abandonnés.", "Baraka - Panel de traductions");
-                                    return;
+                                    catch (WebException ex)
+                                    {
+                                        Utils.Emergency.ShowExMessage(ex);
+                                        MessageBox.Show("Les changements ont été abandonnés.", "Baraka - Panel de traductions");
+                                        return;
+                                    }
+
+                                    var parsed = new TanzilTranslationParser(rawData).Result;
+                                    for (int j = 0; j < parsed.Count; j++)
+                                    {
+                                        string[] verses = parsed[j];
+                                        LoadedData.SurahList.ElementAt(j).Value.Add(
+                                            bar.Description.Identifier,
+                                            new SurahVersion(bar.Description.LanguageName_EN, verses)
+                                        );
+                                    }
                                 }
                             }
 

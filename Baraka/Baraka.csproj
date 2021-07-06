@@ -180,6 +180,7 @@
     <Compile Include="Theme\UserControls\Quran\TranslationsManager\TranslationBar.xaml.cs">
       <DependentUpon>TranslationBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\Audio.cs" />
     <Compile Include="Utils\BorderClipConverter.cs" />
     <Compile Include="Utils\Emergency.cs" />
     <Compile Include="Utils\General.cs" />
@@ -361,7 +362,6 @@
     <Resource Include="Images\Flags\pt.png" />
     <Resource Include="Images\Flags\ro.png" />
     <Resource Include="Images\Flags\ru.png" />
-    <Resource Include="Images\Flags\sa.png" />
     <Resource Include="Images\Flags\se.png" />
     <Resource Include="Images\Flags\so.png" />
     <Resource Include="Images\Flags\th.png" />

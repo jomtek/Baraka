@@ -14,6 +14,18 @@ using System.Threading.Tasks;
 
 namespace Baraka.Theme.UserControls.Quran.Displayer
 {
+    public class DownloadRecitationEventArgs
+    {
+        public int Begin { get; set; }
+        public int End { get; set; }
+
+        public DownloadRecitationEventArgs(int begin, int end)
+        {
+            Begin = begin;
+            End = end;
+        }
+    }
+
     /// <summary>
     /// Logique d'interaction pour BarakaSurahDisplayer.xaml
     /// </summary>
@@ -63,7 +75,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         public event EventHandler<int> VerseChanged;
 
         [Category("Baraka")]
-        public event EventHandler<int> DownloadVerseRequested;
+        public event EventHandler<DownloadRecitationEventArgs> DownloadRecitationRequested; // Beginning, End
 
         [Category("Baraka")]
         public event EventHandler<int> LoopModeDisplayed;
@@ -72,7 +84,10 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         public BarakaSurahDisplayer()
         {
             InitializeComponent();
+            
             _relativeBmHeights = new List<double>();
+
+            Bookmark.Displayer = this;
         }
 
         public void LoadSurah(SurahDescription surah)
@@ -171,9 +186,16 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         }
 
         // TODO: temp
-        public void DownloadMp3Verse(int verseNum)
+        public void DownloadRecitation(int beginningVerse = -1, int endVerse = -1)
         {
-            DownloadVerseRequested?.Invoke(this, verseNum);
+            if (beginningVerse == -1) beginningVerse = StartVerse;
+            if (endVerse == -1) endVerse = EndVerse;
+
+            // Managed in MainWindow.cs
+            DownloadRecitationRequested?.Invoke(
+                this,
+                new DownloadRecitationEventArgs(beginningVerse, endVerse)
+            );
         }
         #endregion
 

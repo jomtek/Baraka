@@ -14,7 +14,7 @@
    
     <DockPanel>
         <DockPanel DockPanel.Dock="Top" LastChildFill="False">
-            <ScrollViewer x:Name="SelectedTranslationsSV" DockPanel.Dock="Top" Height="210">
+            <ScrollViewer x:Name="SelectedTranslationsSV" DockPanel.Dock="Top" Height="160">
                 <StackPanel x:Name="SelectedTranslationsSP">
                 </StackPanel>
             </ScrollViewer>
