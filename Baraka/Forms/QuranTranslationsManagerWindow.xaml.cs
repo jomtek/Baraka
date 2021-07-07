@@ -26,6 +26,8 @@ namespace Baraka.Forms
     /// </summary>
     public partial class QuranTranslationsManagerWindow : Window
     {
+        private bool _changesMade = false;
+
         public QuranTranslationsManagerWindow()
         {
             InitializeComponent();
@@ -41,6 +43,8 @@ namespace Baraka.Forms
                 var bar = new TranslationBar(LoadedData.TranslationsList[i], i);
                 bar.PreviewMouseLeftButtonDown += (object sender, MouseButtonEventArgs e) =>
                 {
+                    _changesMade = true;
+
                     if (bar.Selected)
                     {
                         SelectedTranslationsSP.Children.Remove(bar);
@@ -98,6 +102,9 @@ namespace Baraka.Forms
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (!_changesMade)
+                return;
+
             var sb = new StringBuilder("Voulez-vous sauvegarder les changements ?");
             sb.AppendLine();
             sb.AppendLine(@"Des téléchargements risquent d'être effectués.");

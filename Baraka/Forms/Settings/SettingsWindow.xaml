@@ -27,7 +27,7 @@
                         <TextBlock x:Name="ReadingTB" TextWrapping="Wrap" Text="Lecture" HorizontalAlignment="Left" FontSize="25" FontFamily="Montserrat" Margin="20,10,0,0" Foreground="Black" FontWeight="Medium" MouseEnter="ReadingTB_MouseEnter" MouseLeave="ReadingTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="ReadingTB_PreviewMouseLeftButtonUp"/>
                         <TextBlock x:Name="ResearchTB" TextWrapping="Wrap" Text="Recherche" HorizontalAlignment="Left" FontSize="25" FontFamily="Montserrat" Margin="20,10,0,0" Foreground="Black" FontWeight="Medium" MouseEnter="ResearchTB_MouseEnter" MouseLeave="ResearchTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="ResearchTB_PreviewMouseLeftButtonUp"/>
                     </StackPanel>
-                    <TextBlock x:Name="ResearchTB_Copy" TextWrapping="Wrap" Text="Aide" HorizontalAlignment="Left" FontSize="25" FontFamily="Montserrat" Margin="0,10,0,0" Foreground="Black" FontWeight="Medium" MouseEnter="ResearchTB_MouseEnter" MouseLeave="ResearchTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="ResearchTB_PreviewMouseLeftButtonUp" DockPanel.Dock="Bottom"/>
+                    <TextBlock x:Name="HelpTB" TextWrapping="Wrap" Text="Aide" HorizontalAlignment="Left" FontSize="30" FontFamily="Montserrat" Margin="20,0,0,20" Foreground="Black" FontWeight="Medium" MouseEnter="HelpTB_MouseEnter" MouseLeave="HelpTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="HelpTB_PreviewMouseLeftButtonUp" DockPanel.Dock="Bottom"/>
                 </DockPanel>
             </Border>
             <Grid x:Name="PageContainerGrid">

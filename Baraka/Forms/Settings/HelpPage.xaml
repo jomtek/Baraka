@@ -1,0 +1,43 @@
+﻿<Page x:Class="Baraka.Forms.Settings.HelpPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Baraka.Forms.Settings"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="SearchPage" Width="Auto" Height="Auto">
+
+    <StackPanel Background="White">
+        <GroupBox Header="Remerciements" HorizontalAlignment="Left" VerticalAlignment="Top" Width="350" Margin="30,15,0,0" FontSize="22">
+            <StackPanel Margin="0,10">
+                <Grid Margin="10,0">
+                    <Grid.Background>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                    </Grid.Background>
+                    <TextBlock TextWrapping="Wrap" Text="Issamose" FontWeight="Bold" Margin="0" VerticalAlignment="Center"/>
+                    <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="17" Margin="0,0,10,0"><Run Text="Volunt"/><Run Text="eer"/><Run Text=" design"/></TextBlock>
+                </Grid>
+                <Grid Margin="10,5,10,0">
+                    <Grid.Background>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                    </Grid.Background>
+                    <TextBlock TextWrapping="Wrap" Text="Tanzil Project" FontWeight="Bold" Margin="0" VerticalAlignment="Center"/>
+                    <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Translations" VerticalAlignment="Center" FontSize="17" Margin="0,0,10,0"/>
+                </Grid>
+                <Grid Margin="10,5,10,0">
+                    <Grid.Background>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                    </Grid.Background>
+                    <TextBlock TextWrapping="Wrap" Text="Everyayah" FontWeight="Bold" Margin="0" VerticalAlignment="Center"/>
+                    <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Arabic quran" VerticalAlignment="Center" FontSize="17" Margin="0,0,10,0"/>
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+        <Path Data="M224,329L353,329" HorizontalAlignment="Left" Margin="30,20,0,20" StrokeStartLineCap="Round" Stretch="Fill" StrokeEndLineCap="Round" Stroke="#FFC7C5C5" StrokeThickness="4" Width="350" Fill="Black"/>
+        <StackPanel HorizontalAlignment="Left" Margin="30,0,0,0">
+            <TextBlock TextWrapping="Wrap" Text="Nous contacter" FontSize="30" HorizontalAlignment="Left" TextDecorations="{x:Null}"/>
+            <TextBox IsReadOnly="True" Text="baraka.support@protonmail.com" FontSize="25" FontWeight="Bold" Padding="0,5,5,5" Margin="0,2,0,0"/>
+        </StackPanel>
+    </StackPanel>
+</Page>

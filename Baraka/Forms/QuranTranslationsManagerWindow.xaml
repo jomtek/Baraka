@@ -7,7 +7,9 @@
         xmlns:test="clr-namespace:Baraka.Theme.UserControls.Quran.TranslationsManager"
         mc:Ignorable="d"
         Title="Gérer les traductions (sources: Tanzil Project)" 
-        Height="700" Width="900" Closing="Window_Closing">
+        Height="700" Width="900"
+        Closing="Window_Closing"
+        Topmost="True">
     
     <Window.Resources>
     </Window.Resources>

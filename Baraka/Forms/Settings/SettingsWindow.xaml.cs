@@ -32,6 +32,7 @@ namespace Baraka.Forms.Settings
                 new AppearancePage(),
                 new ReadingPage(),
                 new SearchPage(),
+                new HelpPage(),
             };
             FrameComponent.Content = _pages[0];
         }
@@ -54,21 +55,32 @@ namespace Baraka.Forms.Settings
                     AppearanceTB.Foreground = Brushes.Black;
                     ReadingTB.Foreground = Brushes.Black;
                     ResearchTB.Foreground = Brushes.Black;
+                    HelpTB.Foreground = Brushes.Black;
                     break;
                 case 1:
                     AppearanceTB.Foreground = Brushes.Gray;
                     GeneralTB.Foreground = Brushes.Black;
                     ReadingTB.Foreground = Brushes.Black;
                     ResearchTB.Foreground = Brushes.Black;
+                    HelpTB.Foreground = Brushes.Black;
                     break;
                 case 2:
                     ReadingTB.Foreground = Brushes.Gray;
                     AppearanceTB.Foreground = Brushes.Black;
                     GeneralTB.Foreground = Brushes.Black;
                     ResearchTB.Foreground = Brushes.Black;
+                    HelpTB.Foreground = Brushes.Black;
                     break;
                 case 3:
                     ResearchTB.Foreground = Brushes.Gray;
+                    ReadingTB.Foreground = Brushes.Black;
+                    AppearanceTB.Foreground = Brushes.Black;
+                    GeneralTB.Foreground = Brushes.Black;
+                    HelpTB.Foreground = Brushes.Black;
+                    break;
+                case 4:
+                    HelpTB.Foreground = Brushes.Gray;
+                    ResearchTB.Foreground = Brushes.Black;
                     ReadingTB.Foreground = Brushes.Black;
                     AppearanceTB.Foreground = Brushes.Black;
                     GeneralTB.Foreground = Brushes.Black;
@@ -130,6 +142,19 @@ namespace Baraka.Forms.Settings
                 ResearchTB.Foreground = Brushes.Black;
             }
         }
+
+        private void HelpTB_MouseEnter(object sender, MouseEventArgs e)
+        {
+            HelpTB.Foreground = Brushes.Gray;
+        }
+
+        private void HelpTB_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (_selectedItem != 4)
+            {
+                HelpTB.Foreground = Brushes.Black;
+            }
+        }
         #endregion
 
         #region Click Handlers
@@ -151,11 +176,16 @@ namespace Baraka.Forms.Settings
             FrameComponent.Content = _pages[2];
         }
 
-
         private void ResearchTB_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             SetSelectedItem(3);
             FrameComponent.Content = _pages[3];
+        }
+
+        private void HelpTB_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            SetSelectedItem(4);
+            FrameComponent.Content = _pages[4];
         }
         #endregion
         #endregion
