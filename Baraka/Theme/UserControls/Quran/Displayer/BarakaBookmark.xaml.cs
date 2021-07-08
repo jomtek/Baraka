@@ -1,4 +1,9 @@
-﻿using System.Windows.Controls;
+﻿using Baraka.Data;
+using System.Linq;
+using System.Media;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Baraka.Theme.UserControls.Quran.Displayer
@@ -36,13 +41,19 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         #region ContextMenu
         private void Menu_Download_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-
             Displayer.DownloadRecitation();
         }
 
         private void Menu_CopyVerses_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            var sb = new StringBuilder();
+            for (int i = Displayer.StartVerse; i <= Displayer.EndVerse; i++)
+            {
+                sb.AppendLine(Utils.General.PrettyPrintVerse(i, Displayer.Surah));
+            }
 
+            Clipboard.SetText(sb.ToString());
+            SystemSounds.Exclamation.Play();
         }
         #endregion
     }

@@ -154,7 +154,6 @@
     </Compile>
     <Compile Include="Globalization\Language.cs" />
     <Compile Include="Streaming\QuranStreamer.cs" />
-    <Compile Include="Streaming\SeekToken.cs" />
     <Compile Include="Streaming\StreamingUtils.cs" />
     <Compile Include="Theme\UserControls\BarakaButton.xaml.cs">
       <DependentUpon>BarakaButton.xaml</DependentUpon>

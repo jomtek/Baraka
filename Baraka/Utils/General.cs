@@ -1,4 +1,5 @@
-﻿using Baraka.Data.Descriptions;
+﻿using Baraka.Data;
+using Baraka.Data.Descriptions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -69,6 +70,33 @@ namespace Baraka.Utils
             }
 
             return $"Contient {surah.NumberOfVerses} versets\nRévélation {revelationType}";
+        }
+
+        public static string PrettyPrintVerse(int verseNum, SurahDescription surah)
+        {
+            //if (verseNum == 0) verseNum = 1;
+
+            var firstTransId = LoadedData.Settings.SurahVersionConfig.Translation1.Identifier;
+            var surahVer = LoadedData.SurahList[surah][firstTransId];
+            string verse = surahVer.Verses[verseNum];
+
+            if (CheckIfBasmala(surah))
+            {
+                if (verseNum == 0)
+                {
+                    verse = LoadedData.SurahList[LoadedData.SurahList.ElementAt(0).Key][firstTransId].Verses[0];
+                }
+                else
+                {
+                    verse = surahVer.Verses[verseNum-1];
+                }
+            }
+            else
+            {
+                verseNum++;
+            }
+            
+            return $"{surah.SurahNumber}:{verseNum} {verse}";
         }
         #endregion
 

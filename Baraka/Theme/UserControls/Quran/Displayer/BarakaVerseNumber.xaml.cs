@@ -1,4 +1,5 @@
 ﻿using Baraka.Streaming;
+using System.Media;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -100,8 +101,11 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
         private void Menu_CopyVerse_Click(object sender, RoutedEventArgs e)
         {
-            // TODO
+            string verse = Utils.General.PrettyPrintVerse(_num, _displayer.Surah);
+            Clipboard.SetText(verse);
+            SystemSounds.Exclamation.Play();
         }
+
         #endregion
     }
 }

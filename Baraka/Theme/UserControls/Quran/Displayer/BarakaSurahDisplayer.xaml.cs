@@ -182,6 +182,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         #region VerseNum Menu
         public void VerseNum_Click(int num)
         {
+            if (num == -1) num = 0; // TODO: fix this mess
             VerseChanged?.Invoke(this, num);
             BrowseToVerse(num);
         }
@@ -197,6 +198,11 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                 this,
                 new DownloadRecitationEventArgs(beginningVerse, endVerse)
             );
+        }
+
+        public (int, int) GetNonRelativeBookmark()
+        {
+            return (0, 0);
         }
         #endregion
 
