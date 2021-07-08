@@ -60,6 +60,7 @@ namespace Baraka
                 new CheikhDescription("Saoud", "Shuraim", "https://everyayah.com/data/Saood_ash-Shuraym_128kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/shuraim.png"))),
                 new CheikhDescription("Fares", "Abbad", "https://everyayah.com/data/Fares_Abbad_64kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/abbad.png"))),
                 new CheikhDescription("Ali", "Jaber", "https://everyayah.com/data/Ali_Jaber_64kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/jaber.png"))),
+                new CheikhDescription("Abdullah", "Al-Juhany", "https://everyayah.com/data/Abdullaah_3awwaad_Al-Juhaynee_128kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/juhany.png"))),
                 new CheikhDescription("Mahmoud Khalil", "Al-Hussary", "https://everyayah.com/data/Husary_128kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/hussary.png"))),
                 new CheikhDescription("Mahmoud Khalil", "Al-Hussary مجود", "https://everyayah.com/data/Husary_128kbps_Mujawwad", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/hussary.png"))),
                 new CheikhDescription("Abdullah", "Basfar", "https://everyayah.com/data/Abdullah_Basfar_192kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/basfar.png"))),

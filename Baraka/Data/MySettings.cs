@@ -33,7 +33,7 @@ namespace Baraka.Data
         public string OutputDeviceGuid { get; set; } = "010000000-0000-0000-0000-000000000000"; // Default output
 
         // Translations
-        public SurahVersionConfig SurahVersionConfig = new SurahVersionConfig(true, true, LoadedData.TranslationsList[37], null, null);
+        public SurahVersionConfig SurahVersionConfig = new SurahVersionConfig(true, false, LoadedData.TranslationsList[37], null, null);
         #endregion
 
 
