@@ -10,7 +10,7 @@
         xmlns:Dashboard="clr-namespace:Baraka.Theme.UserControls.Dashboard"
         x:Class="Baraka.MainWindow"
         mc:Ignorable="d"
-        Title="Baraka - Le logiciel de lecture coranique"
+        Title="Baraka - Le logiciel de savoir coranique"
         Height="866" Width="1500"
         MinWidth="200" MinHeight="500"
         WindowStartupLocation="CenterScreen"

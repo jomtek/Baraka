@@ -152,32 +152,44 @@ namespace Baraka.Streaming
                     url = StreamingUtils.GenerateVerseUrl(Cheikh, Surah, next ? Verse + 1 : Verse);
                 }
 
-                try
+                Console.WriteLine($"asking for url: {url}");
+
+                if (LoadedData.Settings.EnableAudioCache && LoadedData.AudioCache.ContainsKey(url))
                 {
-                    // Init request
-                    var request = WebRequest.Create(url);
-                    request.Timeout = 5000;
-
-                    // Read response
-                    using (Stream stream = request.GetResponse().GetResponseStream())
+                    _nextVerseAudio = LoadedData.AudioCache[url];
+                }
+                else
+                {
+                    try
                     {
-                        byte[] buffer = new byte[32768];
-                        int read;
+                        // Init request
+                        var request = WebRequest.Create(url);
+                        request.Timeout = 5000;
 
-                        while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
+                        // Read response
+                        using (Stream stream = request.GetResponse().GetResponseStream())
                         {
-                            ms.Write(buffer, 0, read);
+                            byte[] buffer = new byte[32768];
+                            int read;
+
+                            while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
+                            {
+                                ms.Write(buffer, 0, read);
+                            }
                         }
                     }
-                }
-                catch (WebException ex)
-                {
-                    Playing = false;
-                    Utils.Emergency.ShowExMessage(ex);
-                    return;
-                }
+                    catch (WebException ex)
+                    {
+                        Playing = false;
+                        Utils.Emergency.ShowExMessage(ex);
+                        return;
+                    }
 
-                _nextVerseAudio = ms.ToArray();
+                    _nextVerseAudio = ms.ToArray();
+                    
+                    if (LoadedData.Settings.EnableAudioCache)
+                        LoadedData.AudioCache.Add(url, ms.ToArray());
+                }
             }
         }
 
@@ -203,6 +215,8 @@ namespace Baraka.Streaming
 
                 VerseChanged?.Invoke(this, EventArgs.Empty);
 
+                byte[] audioToPlay = _nextVerseAudio;
+
                 var prepareNextAudioTask =
                     new Task(() => DownloadVerseAudio());
                 
@@ -211,7 +225,7 @@ namespace Baraka.Streaming
                     prepareNextAudioTask.Start();
                 }
 
-                await Task.Run(PlayNextVerse);
+                await Task.Run(() => PlayVerse(audioToPlay));
 
                 if (prepareNextAudioTask.Status == TaskStatus.Running)
                 {
@@ -244,12 +258,12 @@ namespace Baraka.Streaming
             }
         }
 
-        private async Task PlayNextVerse()
+        private async Task PlayVerse(byte[] audio)
         {
             using (var ms = new MemoryStream())
             {
                 // Write next verse data to memory stream
-                ms.Write(_nextVerseAudio, 0, _nextVerseAudio.Length);
+                ms.Write(audio, 0, audio.Length);
 
                 // Convert and play mp3 data
                 ms.Position = 0;

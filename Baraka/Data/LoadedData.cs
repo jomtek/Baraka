@@ -14,5 +14,8 @@ namespace Baraka.Data
         // Settings
         public static MySettings Settings;
         public static List<int> Bookmarks;
+
+        // Cache
+        public static Dictionary<string, byte[]> AudioCache;
     }
 }

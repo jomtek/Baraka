@@ -19,6 +19,7 @@ namespace Baraka.Data
         // General
         public bool Startup { get; set; } = false;
         public Language Language { get; set; } = Language.FRENCH;
+        public bool EnableAudioCache { get; set; } = true;
 
         // Appearance
         public bool ShowWelcomeWindow { get; set; } = true;
@@ -31,9 +32,8 @@ namespace Baraka.Data
         public bool AutoNextSurah { get; set; } = false;
         public bool AutoReloadLastSurah { get; set; } = true;
         public string OutputDeviceGuid { get; set; } = "010000000-0000-0000-0000-000000000000"; // Default output
-
-        // Translations
         public SurahVersionConfig SurahVersionConfig = new SurahVersionConfig(true, false, LoadedData.TranslationsList[37], null, null);
+
         #endregion
 
 

@@ -25,24 +25,47 @@ namespace Baraka
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            await Task.Delay(1500);
+            await Task.Delay(700);
 
             TitleTB.Margin = new Thickness(0, 43, 0, 0);
             MainPB.Visibility = Visibility.Visible;
             ProgressionTB.Visibility = Visibility.Visible;
 
             await Task.Delay(10);
-            
+
             // // Loading
+
+            //
+            ProgressionTB.Text = "chargement des ressources...";
+
+            await Task.Delay(50);
+
             // Deserialize data
             LoadedData.SurahList =
                 SerializationUtils.Deserialize<Dictionary<SurahDescription, Dictionary<string, SurahVersion>>>("data/quran.ser");
+            ProgressionTB.Text = "chargement des ressources: quran.ser";
+            await Task.Delay(50);
+            MainPB.Progress = 0.2;
+            
             LoadedData.CheikhList =
                 SerializationUtils.Deserialize<CheikhDescription[]>("data/cheikh.ser");
+            ProgressionTB.Text = "chargement des ressources: cheikh.ser";
+            await Task.Delay(50);
+            MainPB.Progress = 0.4;
+            
             LoadedData.TranslationsList =
                 SerializationUtils.Deserialize<TranslationDescription[]>("data/translations.ser");
+            ProgressionTB.Text = "chargement des ressources: translations.ser";
+            await Task.Delay(50);
 
-            MainPB.Progress = 50;
+
+            //
+            ProgressionTB.Text = "chargement des préférences...";
+            MainPB.Progress = 0.5;
+            await Task.Delay(30);
+            
+            // Init cache container
+            LoadedData.AudioCache = new Dictionary<string, byte[]>();
 
             // Deserialize settings
             LoadedData.Settings =
@@ -51,7 +74,7 @@ namespace Baraka
                 SerializationUtils.Deserialize<List<int>>("bookmarks.ser");
 
             // Debug
-            MainPB.Progress = 100;
+            MainPB.Progress = 1;
             
             /*
             string translationPath = @"C:\Users\jomtek360\Documents\Baraka\quran-translated-main";
