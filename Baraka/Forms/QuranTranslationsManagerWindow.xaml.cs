@@ -60,7 +60,7 @@ namespace Baraka.Forms
                         }
                         else
                         {
-                            bar.Selected = !bar.Selected; // Forsee line 59
+                            bar.Selected = !bar.Selected; // Forsee incoming line
                             SystemSounds.Beep.Play();
                         }
                     }

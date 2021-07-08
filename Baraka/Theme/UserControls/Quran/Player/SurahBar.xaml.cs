@@ -37,7 +37,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             SurahNumberTB.Text = _surah.SurahNumber.ToString() + '.';
             SurahNameTB.Text = _surah.PhoneticName.ToString();
             TranslatedNameTB.Text = _surah.TranslatedName.ToString();
-            InfoPath.ToolTip = $"Contient {_surah.NumberOfVerses} versets\nRévélation {DetermineRevelationType()}";
+            InfoPath.ToolTip = Utils.General.GenerateSynopsis(_surah);
 
             RefreshProgress();
         }
@@ -60,7 +60,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
         {
             SetLoading(true);
             await Task.Delay(5);
-            _parentPlayer.SetDesignedBar(this);
+            _parentPlayer.SetSelectedBar(this);
             Select();
             SetLoading(false);
         }
@@ -81,27 +81,12 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
         public void Select()
         {
-            StreamBtnPath.Fill = Brushes.DarkGoldenrod;
+            StreamBtnPath.Fill = (SolidColorBrush)App.Current.Resources["DarkBrush"];
         }
         public void Unselect()
         {
             StreamBtnPath.Fill = Brushes.Black;
         }
-
-        #region UI Utils
-        private string DetermineRevelationType()
-        {
-            switch (_surah.RevelationType)
-            {
-                case SurahRevelationType.M:
-                    return "mecquoise (La Mecque)";
-                case SurahRevelationType.H:
-                    return "médinoise (Médine)";
-                default:
-                    return "mecquoise ou médinoise";
-            }
-        }
-        #endregion
 
         #region UI Reactivity
         private void UserControl_MouseEnter(object sender, MouseEventArgs e)

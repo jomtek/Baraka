@@ -148,7 +148,8 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
                     if (i + 1 == surah.NumberOfVerses)
                     {
-                        verseBox.Margin = new Thickness(0, topMargin, 0, 170);
+                        // Last verse
+                        verseBox.Margin = new Thickness(0, topMargin, 0, 135);
                     }
 
                     // Verse number

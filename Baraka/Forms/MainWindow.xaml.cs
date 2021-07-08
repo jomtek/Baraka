@@ -42,9 +42,7 @@ namespace Baraka
 
         private void Window_Initialized(object sender, EventArgs e)
         {
-           
-
-            /*
+            return;
             var tempCheikhs = new CheikhDescription[]
             {
                 new CheikhDescription("Mishary bin Rashid", "Alafasy", "https://everyayah.com/data/Alafasy_128kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/alafasy.png"))),
@@ -67,12 +65,11 @@ namespace Baraka
                 new CheikhDescription("Salah", "Al-Budair", "https://everyayah.com/data/Salah_Al_Budair_128kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/budair.png"))),
                 new CheikhDescription("Hani", "Rifai", "https://everyayah.com/data/Hani_Rifai_192kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/rifai.png"))),
                 new CheikhDescription("Abdallah", "Matroud", "https://everyayah.com/data/Abdullah_Matroud_128kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/matroud.png"))),
-                new CheikhDescription("Ayman", "Suwaid", "https://everyayah.com/data/Ayman_Sowaid_64kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/suwaid.png"))),
+                new CheikhDescription("Ali", "Hudhaify", "https://everyayah.com/data/Hudhaify_128kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/hudhaify.png"))),
                 new CheikhDescription("Sahl", "Yassin", "https://everyayah.com/data/Sahl_Yassin_128kbps", new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/Cheikh/yassin.png"))),
             };
 
             SerializationUtils.Serialize(tempCheikhs, "cheikh_new.ser");
-            */
 
             /*
             var tempTranslations = new List<TranslationDescription>();

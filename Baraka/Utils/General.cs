@@ -50,6 +50,26 @@ namespace Baraka.Utils
             // Exclude At-Tawba and Fatiha
             return surah.SurahNumber != 1 && surah.SurahNumber != 9;
         }
+
+        public static string GenerateSynopsis(SurahDescription surah)
+        {
+            string revelationType;
+
+            switch (surah.RevelationType)
+            {
+                case SurahRevelationType.M:
+                    revelationType = "mecquoise (La Mecque)";
+                    break;
+                case SurahRevelationType.H:
+                    revelationType = "médinoise (Médine)";
+                    break;
+                default:
+                    revelationType = "mecquoise ou médinoise";
+                    break;
+            }
+
+            return $"Contient {surah.NumberOfVerses} versets\nRévélation {revelationType}";
+        }
         #endregion
 
     }

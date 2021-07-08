@@ -176,16 +176,7 @@ namespace Baraka.Forms
         #endregion
 
         #region UI Effects
-        private void CloseWindowGrid_MouseEnter(object sender, MouseEventArgs e)
-        {
-            CloseWindowPath.Fill = Brushes.Gray;
-        }
-
-        private void CloseWindowGrid_MouseLeave(object sender, MouseEventArgs e)
-        {
-            CloseWindowPath.Fill = Brushes.Black;
-        }
-
+        // TODO: ??
         private void ResultsStatsTB_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
 

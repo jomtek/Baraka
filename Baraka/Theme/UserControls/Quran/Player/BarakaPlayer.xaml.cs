@@ -75,6 +75,8 @@ namespace Baraka.Theme.UserControls.Quran.Player
             _selectedSurah = LoadedData.SurahList.ElementAt(0).Key;
             _selectedCheikh = LoadedData.CheikhList.ElementAt(3);
 
+            SurahTB.ToolTip = Utils.General.GenerateSynopsis(_selectedSurah);
+
             // Streamer config
             Streamer = new QuranStreamer();
 
@@ -462,8 +464,11 @@ namespace Baraka.Theme.UserControls.Quran.Player
                 CheikhTB.Text = _selectedCheikh.ToString();
             }
         }
+        #endregion
 
-        public void SetDesignedBar(SurahBar bar)
+
+        #region Surah Selector
+        public void SetSelectedBar(SurahBar bar)
         {
             if (bar != _selectedSurahBar)
             {
@@ -507,12 +512,12 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
                 SurahTB.Text = _selectedSurah.PhoneticName;
 
-                Displayer.LoadSurah(SelectedSurah);
+                Displayer.LoadSurah(_selectedSurah);
+
+                SurahTB.ToolTip = Utils.General.GenerateSynopsis(_selectedSurah);
             }
         }
-        #endregion
 
-        #region Surah Selector
         private void ShowSurahSelector()
         {
             MainSB.TargetValue = (int)Math.Ceiling(114 / (LoadedData.CheikhList.Length / 3d));
@@ -530,7 +535,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
                 {
                     if (bar.Surah.PhoneticName == _selectedSurah.PhoneticName)
                     {
-                        SetDesignedBar(bar);
+                        SetSelectedBar(bar);
                         bar.Select();
                     }
                 }
@@ -538,7 +543,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
                 {
                     if (surahDesc.Key.SurahNumber == 1)
                     {
-                        SetDesignedBar(bar);
+                        SetSelectedBar(bar);
                         bar.Select();
                     }
                 }
@@ -567,7 +572,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             var sfd = new SaveFileDialog();
             sfd.Filter = "Fichier MP3|*.mp3";
 
-            if (Utils.General.CheckIfBasmala(SelectedSurah))
+            if (Utils.General.CheckIfBasmala(_selectedSurah))
             {
                 sfd.Title = $"Enregistrer le verset [{verseNum}] de cette sourate";
                 sfd.FileName = $"{_selectedCheikh.LastName.Replace(" ", "").ToLower()}_{_selectedSurah.SurahNumber}_{verseNum}";
@@ -610,7 +615,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             var sfd = new SaveFileDialog();
             sfd.Filter = "Fichier MP3|*.mp3";
 
-            if (!Utils.General.CheckIfBasmala(SelectedSurah))
+            if (!Utils.General.CheckIfBasmala(_selectedSurah))
             {
                 begin++;
                 end++;

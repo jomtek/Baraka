@@ -6,18 +6,15 @@
         xmlns:local="clr-namespace:Baraka.Forms"
         xmlns:UserControls="clr-namespace:Baraka.Theme.UserControls" xmlns:Searcher="clr-namespace:Baraka.Theme.UserControls.Quran.Searcher" x:Class="Baraka.Forms.SearchWindow"
         mc:Ignorable="d"
-        WindowStyle="None"
-        AllowsTransparency="True"
         WindowStartupLocation="CenterOwner"
-        Title="SearchWindow" Height="825" Width="1100" ResizeMode="NoResize" ShowInTaskbar="False" Background="{x:Null}" Foreground="{x:Null}" Initialized="Window_Initialized" >
-    <Border BorderThickness="0" Background="White" Padding="0" Margin="30" CornerRadius="12">
-        <Border.Effect>
-            <DropShadowEffect BlurRadius="20" Opacity="0.7"/>
-        </Border.Effect>
+        Title="SearchWindow"
+        Height="825" Width="1100"
+        MinWidth="750"
+        Initialized="Window_Initialized" >
+    <Grid x:Name="ContainerGrid" Margin="0" Background="White">
 
-        <Grid Margin="0">
-
-            <StackPanel Margin="0">
+        <DockPanel>
+            <StackPanel Margin="0" DockPanel.Dock="Top">
                 <UserControls:BarakaTextBox x:Name="SearchTB" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,25,0,4" Width="550" Height="55" TextChanged="SearchTB_TextChanged" >
                     <UserControls:BarakaTextBox.Effect>
                         <DropShadowEffect Opacity="0.25" ShadowDepth="2"/>
@@ -77,17 +74,13 @@
                         </TextBlock.Background><Run Text="22 versets "/><Run Text="trouvés"/></TextBlock>
                     <TextBlock x:Name="ShowAllTB" TextWrapping="Wrap" Text="Voir tout" FontSize="16" FontWeight="Bold" Foreground="#FF437CB6" Margin="10,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" Cursor="Hand" Visibility="Collapsed" MouseEnter="ShowAllTB_MouseEnter" MouseLeave="ShowAllTB_MouseLeave" PreviewMouseLeftButtonUp="ShowAllTB_PreviewMouseLeftButtonUp"/>
                 </StackPanel>
-                <DockPanel LastChildFill="False" Height="447" Margin="0,20,0,0">
-                    <ScrollViewer x:Name="ResultsSV" Height="447" VerticalAlignment="Top" Width="970" VerticalScrollBarVisibility="Hidden" Margin="0" PreviewMouseWheel="ResultsSV_PreviewMouseWheel" Foreground="Black">
-                        <StackPanel x:Name="ResultsSP" Margin="0"/>
-                    </ScrollViewer>
-                    <UserControls:BarakaScrollBar x:Name="MainSB" Height="447" VerticalAlignment="Top" OnScroll="MainSB_OnScroll" DockPanel.Dock="Right" Margin="0,0,20,0"/>
-                </DockPanel>
             </StackPanel>
-            <Grid x:Name="CloseWindowGrid" HorizontalAlignment="Right" Height="19" VerticalAlignment="Top" Width="19" Margin="0,11,13,0" MouseEnter="CloseWindowGrid_MouseEnter" MouseLeave="CloseWindowGrid_MouseLeave" Background="White" PreviewMouseLeftButtonUp="CloseWindowGrid_PreviewMouseLeftButtonUp">
-                <Path x:Name="CloseWindowPath" Data="{Binding Data, Source={StaticResource Cross}}" Stretch="Fill" IsEnabled="False" Fill="Black" />
-            </Grid>
-            <Grid x:Name="DragGrid" Height="25" VerticalAlignment="Top" Margin="0,0,45,0" MouseLeftButtonDown="DragGrid_MouseLeftButtonDown" Background="#00000000"/>
-        </Grid>
-    </Border>
+            <DockPanel Margin="0" LastChildFill="False" DockPanel.Dock="Bottom">
+                <ScrollViewer x:Name="ResultsSV" VerticalScrollBarVisibility="Hidden" Margin="0" PreviewMouseWheel="ResultsSV_PreviewMouseWheel" Foreground="Black">
+                    <StackPanel x:Name="ResultsSP" Margin="0"/>
+                </ScrollViewer>
+                <UserControls:BarakaScrollBar x:Name="MainSB" OnScroll="MainSB_OnScroll" DockPanel.Dock="Right" Margin="0,0,20,20" Width="40" Height="Auto" />
+            </DockPanel>
+        </DockPanel>
+    </Grid>
 </Window>

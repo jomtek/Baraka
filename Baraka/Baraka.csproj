@@ -338,6 +338,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Images\Cheikh\hudhaify.png" />
     <Resource Include="Images\Cheikh\juhany.png" />
     <Resource Include="Images\Flags\af.png" />
     <Resource Include="Images\Flags\al.png" />
@@ -384,7 +385,6 @@
     <Resource Include="Images\Cheikh\jaber.png" />
     <Resource Include="Images\Cheikh\matroud.png" />
     <Resource Include="Images\Cheikh\rifai.png" />
-    <Resource Include="Images\Cheikh\suwaid.png" />
     <Resource Include="Images\Cheikh\abbad.png" />
     <Resource Include="Images\Cheikh\abdessamad.png" />
     <Resource Include="Images\Cheikh\alafasy.png" />
