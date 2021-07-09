@@ -20,6 +20,7 @@ namespace Baraka.Data
         public bool Startup { get; set; } = false;
         public Language Language { get; set; } = Language.FRENCH;
         public bool EnableAudioCache { get; set; } = true;
+        public bool ClearAudioCache { get; set; } = false;
 
         // Appearance
         public bool ShowWelcomeWindow { get; set; } = true;

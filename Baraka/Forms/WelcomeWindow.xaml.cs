@@ -63,9 +63,10 @@ namespace Baraka
             ProgressionTB.Text = "chargement des préférences...";
             MainPB.Progress = 0.5;
             await Task.Delay(30);
-            
-            // Init cache container
-            LoadedData.AudioCache = new Dictionary<string, byte[]>();
+
+            // Load cache
+            LoadedData.AudioCache =
+                SerializationUtils.Deserialize<Dictionary<string, byte[]>>("data/cache.ser");
 
             // Deserialize settings
             LoadedData.Settings =

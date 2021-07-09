@@ -1,7 +1,8 @@
 ﻿<Page
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:qc="http://QuickConverter.CodePlex.com/"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:Baraka.Forms.Settings"
       xmlns:UserControls="clr-namespace:Baraka.Theme.UserControls" x:Class="Baraka.Forms.Settings.GeneralPage"
@@ -19,16 +20,35 @@
                 <ComboBoxItem x:Name="SpanishItem" Content="Español"  />
             </ComboBox>
         </StackPanel>
+        
         <CheckBox x:Name="LaunchOnStartupCHB" Content="Lancer Baraka au démarrage de la session Windows" Style="{DynamicResource SimpleCheckBox}" Margin="30,20,0,0" FontSize="24" Padding="7,0,0,0" ToolTip="Lancer Baraka au démarrage de l'ordinateur" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2">
             <CheckBox.BorderBrush>
                 <SolidColorBrush Color="{DynamicResource DarkColor}"/>
             </CheckBox.BorderBrush>
         </CheckBox>
-        <CheckBox x:Name="CacheCHB_Copy" Content="Autoriser le cache des ressources audio" Style="{DynamicResource SimpleCheckBox}" Margin="30,20,0,0" FontSize="24" Padding="7,0,0,0" ToolTip="Lancer Baraka au démarrage de l'ordinateur" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2" IsChecked="True">
-            <CheckBox.BorderBrush>
-                <SolidColorBrush Color="{DynamicResource DarkColor}"/>
-            </CheckBox.BorderBrush>
-        </CheckBox>
+        
+        <Path Data="M224,329L353,329" HorizontalAlignment="Left" Margin="30,20,0,20" StrokeStartLineCap="Round" Stretch="Fill" StrokeEndLineCap="Round" Stroke="#FFC7C5C5" StrokeThickness="4" Width="350" Fill="Black"/>
+        
+        <GroupBox Header="Cache" Margin="30,0" FontSize="24" BorderThickness="3" ClipToBounds="True">
+            <StackPanel Margin="15,10">
+                <CheckBox x:Name="AllowCacheCHB" Content="Autoriser le cache des ressources audio"
+                          Style="{DynamicResource SimpleCheckBox}" FontSize="24" Padding="7,0,0,0" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2"
+                          IsChecked="True">
+                    <CheckBox.BorderBrush>
+                        <SolidColorBrush Color="{DynamicResource DarkColor}"/>
+                    </CheckBox.BorderBrush>
+                </CheckBox>
+                <CheckBox x:Name="ClearCacheCHB" Content="Nettoyer le cache entre chaque session"
+                          Style="{DynamicResource SimpleCheckBox}" Margin="0,10,0,0" FontSize="24" Padding="7,0,0,0" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2"
+                          IsEnabled="{Binding ElementName=AllowCacheCHB, Path=IsChecked}"
+                          Opacity="{Binding ElementName=AllowCacheCHB, Path=IsChecked,
+                                    Converter={qc:QuickConverter '$P ? 1 : 0.7'}}">
+                    <CheckBox.BorderBrush>
+                        <SolidColorBrush Color="{DynamicResource DarkColor}"/>
+                    </CheckBox.BorderBrush>
+                </CheckBox>
+            </StackPanel>
+        </GroupBox>
 
     </StackPanel>
 </Page>

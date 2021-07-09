@@ -91,8 +91,15 @@ namespace Baraka
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Player.Dispose();
+
+            if (LoadedData.Settings.ClearAudioCache)
+            {
+                LoadedData.AudioCache.Clear();
+            }
+
             SerializationUtils.Serialize(LoadedData.Bookmarks, "bookmarks.ser");
-            
+            SerializationUtils.Serialize(LoadedData.AudioCache, "data/cache.ser");
+
             Environment.Exit(0);
         }
 

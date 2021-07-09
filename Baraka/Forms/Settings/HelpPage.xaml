@@ -39,5 +39,10 @@
             <TextBlock TextWrapping="Wrap" Text="Nous contacter" FontSize="30" HorizontalAlignment="Left" TextDecorations="{x:Null}"/>
             <TextBox IsReadOnly="True" Text="baraka.support@protonmail.com" FontSize="25" FontWeight="Bold" Padding="0,5,5,5" Margin="0,2,0,0"/>
         </StackPanel>
+        <Path Data="M224,329L353,329" HorizontalAlignment="Left" Margin="30,20,0,20" StrokeStartLineCap="Round" Stretch="Fill" StrokeEndLineCap="Round" Stroke="#FFC7C5C5" StrokeThickness="4" Width="350" Fill="Black"/>
+        <StackPanel HorizontalAlignment="Left" Margin="30,0,0,0">
+            <TextBlock TextWrapping="Wrap" Text="Version" FontSize="30" HorizontalAlignment="Left" TextDecorations="{x:Null}"/>
+            <TextBlock TextWrapping="Wrap" Text="prototype" FontSize="30" HorizontalAlignment="Left" TextDecorations="{x:Null}" Margin="0" Opacity="0.5"/>
+        </StackPanel>
     </StackPanel>
 </Page>
