@@ -54,6 +54,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             
             if (config.Translation1 != null)
             {
+                // TODO: OutOfRange problem
                 Translation1TB.Text = versions[config.Translation1.Identifier].Verses[verNum];
                 Translation1TB.Visibility = Visibility.Visible;
             }

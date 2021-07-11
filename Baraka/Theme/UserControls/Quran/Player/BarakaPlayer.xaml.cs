@@ -29,7 +29,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
         // UI relative
         private bool _cheikhModification = false;
         private bool _surahModification = false;
-        private bool _wasCtrlBtnStylePlay = true;
+        private bool _wasPlaying = true;
         private bool _closing = false;
         private int _lastTabShown = -1;
 
@@ -257,13 +257,13 @@ namespace Baraka.Theme.UserControls.Quran.Player
         {
             if (!_playing)
             {
+                Console.WriteLine("ctrl btn style updated to play");
                 PlayPauseBtnPath.Style = (Style)this.Resources["Play"];
-                _wasCtrlBtnStylePlay = false;
             }
             else
             {
+                Console.WriteLine("ctrl btn style updated to pause");
                 PlayPauseBtnPath.Style = (Style)this.Resources["Pause"];
-                _wasCtrlBtnStylePlay = true;
             }
         }
 
@@ -285,23 +285,34 @@ namespace Baraka.Theme.UserControls.Quran.Player
         #region Scroll
         private void MainSB_OnScroll(object sender, EventArgs e)
         {
-            DisplaySV.ScrollToVerticalOffset(DisplaySV.ScrollableHeight * MainSB.Scrolled);
+            if (_lastTabShown == 0) // Cheikh selector
+            {
+                _cheikhSelector.PageSV.ScrollToVerticalOffset(_cheikhSelector.PageSV.ScrollableHeight * MainSB.Scrolled);
+            }
+            else if (_lastTabShown == 1) // Surah selector
+            {
+                _surahSelector.PageSV.ScrollToVerticalOffset(_surahSelector.PageSV.ScrollableHeight * MainSB.Scrolled);
+            }
         }
 
-        private void DisplaySV_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        internal void PageSV_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            MainSB.Scrolled = DisplaySV.VerticalOffset / DisplaySV.ScrollableHeight;
+            var sv = (ScrollViewer)sender;
+            MainSB.Scrolled = sv.VerticalOffset / sv.ScrollableHeight;
         }
+        
         #endregion
 
         #region Scrollviewer Display
         private bool _resetSurahDisplayer = false;
 
-        // tab parameter: 0 => Cheikh selector
-        //                1 => Surah selector
+        // `tab` parameter: 0 => Cheikh selector
+        //                  1 => Surah selector
         private void OpenPlayer(int tab)
         {
             if (_closing) return;
+
+            _wasPlaying = _playing;
 
             if (_playing)
             {
@@ -329,12 +340,15 @@ namespace Baraka.Theme.UserControls.Quran.Player
             _closing = true;
             ((Storyboard)this.Resources["PlayerCloseStory"]).Begin();
 
-            Console.WriteLine($"_isCtrlBtnSetToPlay: {_wasCtrlBtnStylePlay}");
-
-            if (!_wasCtrlBtnStylePlay)
+            if (_wasPlaying)
             {
                 SetPlaying(true);
             }
+            else
+            {
+                SetPlaying(false);
+            }
+
 
             PlayPauseBTN.IsEnabled = true;
             PlayPauseBTN.Opacity = 1;
@@ -354,7 +368,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             else
             {
                 // TODO: make it so that each selector page has control over its own ScrollViewer
-                DisplaySV.ScrollToTop();
+                //DisplaySV.ScrollToTop();
                 MainSB.ResetThumbY();
             }
 

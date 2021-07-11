@@ -89,13 +89,7 @@
                 <BlurEffect Radius="0"/>
             </Grid.Effect>
 
-            <ScrollViewer
-                x:Name="DisplaySV"
-                Margin="0,15,55,10"
-                VerticalScrollBarVisibility="Hidden"
-                HorizontalContentAlignment="Stretch" PreviewMouseWheel="DisplaySV_PreviewMouseWheel">
-                <Frame x:Name="FrameComponent" Content="Frame" NavigationUIVisibility="Hidden" Height="Auto" Width="Auto" />
-            </ScrollViewer>
+            <Frame x:Name="FrameComponent" Content="Frame" NavigationUIVisibility="Hidden" Height="Auto" Width="Auto" Margin="0,15,55,10" />
 
             <local:BarakaScrollBar
                 x:Name="MainSB"

@@ -39,6 +39,8 @@ namespace Baraka.Theme.UserControls.Quran.Player
                     var bar = new SurahBar(surah, parentPlayer);
                     ContainerSP.Children.Add(bar);
                 }
+                
+                PageSV.PreviewMouseWheel += parentPlayer.PageSV_PreviewMouseWheel;
 
                 // Save parent player
                 _parentPlayer = parentPlayer;
@@ -68,7 +70,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
                         int index = ContainerSP.Children.IndexOf(bar);
                         if (index > 6)
                         {
-                            _parentPlayer.DisplaySV.ScrollToVerticalOffset(bar.ActualHeight * (index - 3));
+                            PageSV.ScrollToVerticalOffset(bar.ActualHeight * (index - 3));
                         }
                     }
                 }

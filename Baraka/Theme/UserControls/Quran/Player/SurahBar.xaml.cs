@@ -27,6 +27,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
         public SurahBar(SurahDescription surah, BarakaPlayer parent)
         {
             InitializeComponent();
+
             _surah = surah;
             Initialize();
 
@@ -58,11 +59,14 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
         private async void StreamBTN_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            SetLoading(true);
-            await Task.Delay(5);
-            _parentPlayer.SetSelectedBar(this);
-            Select();
-            SetLoading(false);
+            if (_parentPlayer.SelectedSurah != _surah)
+            {
+                SetLoading(true);
+                await Task.Delay(5);
+                _parentPlayer.SetSelectedBar(this);
+                Select();
+                SetLoading(false);
+            }
         }
 
         public void SetLoading(bool state)

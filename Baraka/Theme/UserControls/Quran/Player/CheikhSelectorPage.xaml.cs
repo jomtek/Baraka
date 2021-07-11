@@ -39,6 +39,8 @@ namespace Baraka.Theme.UserControls.Quran.Player
                     ContainerGrid.Children.Add(card);
                 }
 
+                PageSV.PreviewMouseWheel += parentPlayer.PageSV_PreviewMouseWheel;
+
                 ItemsInitialized = true;
             }
         }

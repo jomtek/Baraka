@@ -8,5 +8,7 @@
       d:DesignHeight="440" d:DesignWidth="685"
       Title="CheikhSelectorPage">
 
-    <UniformGrid x:Name="ContainerGrid" Background="White" Columns="4" />
+    <ScrollViewer x:Name="PageSV" VerticalScrollBarVisibility="Hidden" Width="Auto" Height="Auto">
+        <UniformGrid x:Name="ContainerGrid" Background="White" Columns="4" Width="Auto" Height="Auto" />
+    </ScrollViewer>
 </Page>
