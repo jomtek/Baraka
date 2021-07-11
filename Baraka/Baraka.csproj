@@ -176,6 +176,12 @@
     <Compile Include="Theme\UserControls\Quran\Displayer\BarakaVerseNumber.xaml.cs">
       <DependentUpon>BarakaVerseNumber.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Theme\UserControls\Quran\Player\CheikhSelectorPage.xaml.cs">
+      <DependentUpon>CheikhSelectorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Theme\UserControls\Quran\Player\SurahSelectorPage.xaml.cs">
+      <DependentUpon>SurahSelectorPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Theme\UserControls\Quran\Searcher\BarakaSearchResult.xaml.cs">
       <DependentUpon>BarakaSearchResult.xaml</DependentUpon>
     </Compile>
@@ -311,8 +317,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Theme\UserControls\Quran\Player\CheikhSelectorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Theme\UserControls\Quran\Player\SurahBar.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\UserControls\Quran\Player\SurahSelectorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Theme\UserControls\Quran\Searcher\BarakaSearchResult.xaml">

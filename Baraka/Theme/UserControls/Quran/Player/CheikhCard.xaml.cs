@@ -13,6 +13,8 @@ namespace Baraka.Theme.UserControls.Quran.Player
         private CheikhDescription _cheikh;
         private BarakaPlayer _parentPlayer;
 
+        private bool _selected = false;
+
         #region Settings
         public CheikhDescription Cheikh
         {
@@ -23,6 +25,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
         public CheikhCard(CheikhDescription cheikh, BarakaPlayer parent)
         {
             InitializeComponent();
+
             _cheikh = cheikh;
             Initialize();
 
@@ -44,15 +47,23 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
         public void Select()
         {
+            if (_selected) return;
+
             SeparatorPath.Stroke = (SolidColorBrush)App.Current.Resources["MediumBrush"];
             SeparatorPath.StrokeThickness = 4.5;
-            Height = 205;
+            Height += 10;
+
+            _selected = true;
         }
         public void Unselect()
         {
+            if (!_selected) return;
+
             SeparatorPath.Stroke = Brushes.Gray;
             SeparatorPath.StrokeThickness = 1.5;
-            Height = 198.25;
+            Height -= 10;
+
+            _selected = false;
         }
 
         #region UI Reactivity

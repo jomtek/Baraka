@@ -6,8 +6,9 @@
              xmlns:local="clr-namespace:Baraka.Theme.UserControls"
              xmlns:local1="clr-namespace:Baraka.Theme.UserControls.Quran.Player" x:Name="userControl"
             x:Class="Baraka.Theme.UserControls.Quran.Player.BarakaPlayer"
-             mc:Ignorable="d" Height="600" Width="745" MouseLeave="userControl_MouseLeave" ClipToBounds="True">
+             mc:Ignorable="d" Height="600" Width="850" MouseLeave="userControl_MouseLeave" ClipToBounds="True">
     <UserControl.Resources>
+        <!-- Paths -->
         <Style x:Key="Play" TargetType="{x:Type Path}">
             <Setter Property="Data" Value="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" />
         </Style>
@@ -24,6 +25,11 @@
             <Setter Property="Data" Value="M64 468V44c0-6.6 5.4-12 12-12h48c6.6 0 12 5.4 12 12v176.4l195.5-181C352.1 22.3 384 36.6 384 64v384c0 27.4-31.9 41.7-52.5 24.6L136 292.7V468c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12z" />
         </Style>
 
+        <Style x:Key="Repeat" TargetType="{x:Type Path}">
+            <Setter Property="Data" Value="M 512 256 c 0 88.225 -71.775 160 -160 160 H 110.628 l 68.201 68.201 c 4.686 4.686 4.686 12.284 0 16.971 l -5.656 5.656 c -4.686 4.686 -12.284 4.686 -16.971 0 l -98.343 -98.343 c -4.686 -4.686 -4.686 -12.284 0 -16.971 l 98.343 -98.343 c 4.686 -4.686 12.284 -4.686 16.971 0 l 5.656 5.656 c 4.686 4.686 4.686 12.284 0 16.971 L 110.628 384 H 352 c 70.579 0 128 -57.421 128 -128 c 0 -28.555 -9.403 -54.952 -25.271 -76.268 c -3.567 -4.792 -3.118 -11.462 1.106 -15.686 l 5.705 -5.705 c 5.16 -5.16 13.678 -4.547 18.083 1.271 C 499.935 186.438 512 219.835 512 256 Z M 57.271 332.268 C 41.403 310.952 32 284.555 32 256 c 0 -70.579 57.421 -128 128 -128 h 241.372 l -68.201 68.201 c -4.686 4.686 -4.686 12.284 0 16.971 l 5.656 5.656 c 4.686 4.686 12.284 4.686 16.971 0 l 98.343 -98.343 c 4.686 -4.686 4.686 -12.284 0 -16.971 L 355.799 5.172 c -4.686 -4.686 -12.284 -4.686 -16.971 0 l -5.656 5.656 c -4.686 4.686 -4.686 12.284 0 16.971 L 401.372 96 H 160 C 71.775 96 0 167.775 0 256 c 0 36.165 12.065 69.562 32.376 96.387 c 4.405 5.818 12.923 6.432 18.083 1.271 l 5.705 -5.705 c 4.225 -4.224 4.674 -10.893 1.107 -15.685 Z" />
+        </Style>
+
+        <!-- Storyboards -->
         <Storyboard x:Key="TabSwitchStory"/>
         <Storyboard x:Key="PlayerOpenStory">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="BeautifulSeparator">
@@ -67,7 +73,7 @@
         <DropShadowEffect Direction="45" Opacity="0.45" ShadowDepth="8" BlurRadius="40" RenderingBias="Quality"/>
     </UserControl.Effect>
 
-    <Grid HorizontalAlignment="Center" Margin="30,25,30,0">
+    <Grid Margin="30,25,30,0">
         <Border x:Name="border" BorderBrush="Black" BorderThickness="0" CornerRadius="35,35,0,0" Background="White" Margin="0" RenderTransformOrigin="0.5,0.5" Height="108" VerticalAlignment="Bottom">
             <Border.RenderTransform>
                 <TransformGroup>
@@ -85,19 +91,19 @@
 
             <ScrollViewer
                 x:Name="DisplaySV"
-                HorizontalAlignment="Center"
-                Width="500"
-                Margin="0,15,0,10"
+                Margin="0,15,55,10"
                 VerticalScrollBarVisibility="Hidden"
-                HorizontalContentAlignment="Stretch" PreviewMouseWheel="DisplaySV_PreviewMouseWheel"/>
+                HorizontalContentAlignment="Stretch" PreviewMouseWheel="DisplaySV_PreviewMouseWheel">
+                <Frame x:Name="FrameComponent" Content="Frame" NavigationUIVisibility="Hidden" Height="Auto" Width="Auto" />
+            </ScrollViewer>
 
             <local:BarakaScrollBar
                 x:Name="MainSB"
                 HorizontalAlignment="Right"
                 Width="40"
-                Margin="0,0,11,-45"
+                Margin="0,0,11,-35"
                 TargetValue="4"
-                OnScroll="MainSB_OnScroll" Height="445">
+                OnScroll="MainSB_OnScroll" Height="460">
 
                 <local:BarakaScrollBar.Effect>
                     <DropShadowEffect Opacity="0.1" ShadowDepth="2"/>
@@ -147,32 +153,19 @@
                     <ColumnDefinition Width="223*" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock x:Name="CheikhTB" Grid.Column="0" Text="Saad Al-Ghamidi" HorizontalAlignment="Right" FontFamily="Montserrat" FontSize="22" FontWeight="ExtraBlack" Cursor="Hand" PreviewMouseLeftButtonDown="CheikhTB_PreviewMouseLeftButtonDown" Margin="0" Width="323" FlowDirection="RightToLeft" VerticalAlignment="Center" />
-                <TextBlock x:Name="SurahTB" Grid.Column="2" HorizontalAlignment="Left" FontFamily="Montserrat" FontSize="22" FontWeight="ExtraBlack" TextDecorations="{x:Null}" Cursor="Hand" Text="Al-Fatiha" PreviewMouseLeftButtonDown="SurahTB_PreviewMouseLeftButtonDown" Width="232" ToolTip="test" VerticalAlignment="Center" />
+                <TextBlock x:Name="CheikhTB" Grid.Column="0" Text="Saad Al-Ghamidi" HorizontalAlignment="Right" FontFamily="Montserrat" FontSize="22" FontWeight="ExtraBlack" Cursor="Hand" PreviewMouseLeftButtonDown="CheikhTB_PreviewMouseLeftButtonDown" Margin="0" FlowDirection="RightToLeft" VerticalAlignment="Center" />
+                <TextBlock x:Name="SurahTB" Grid.Column="2" HorizontalAlignment="Left" FontFamily="Montserrat" FontSize="22" FontWeight="ExtraBlack" TextDecorations="{x:Null}" Cursor="Hand" Text="Al-Fatiha" PreviewMouseLeftButtonDown="SurahTB_PreviewMouseLeftButtonDown" ToolTip="test" VerticalAlignment="Center" />
             </Grid>
 
-            <Rectangle
-                x:Name="LoopBTN"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Height="31"
-                Width="26"
-                Stroke="#FFC7C5C5"
-                StrokeThickness="0" 
-                StrokeStartLineCap="Round"
-                StrokeEndLineCap="Round"
-                Margin="0,0,43,35"
-                ToolTip="Cliquez pour activer ou désactiver la lecture en boucle"
-                PreviewMouseLeftButtonDown="LoopBTN_PreviewMouseLeftButtonDown"
-                Cursor="Hand"
-                Grid.Column="1">
-                <Rectangle.Effect>
-                    <DropShadowEffect Opacity="0.15" ShadowDepth="4"/>
-                </Rectangle.Effect>
-                <Rectangle.Fill>
-                    <ImageBrush ImageSource="/Baraka;component/Images/player_loop_off.png"/>
-                </Rectangle.Fill>
-            </Rectangle>
+            <Grid x:Name="LoopBTN"
+                  HorizontalAlignment="Right" VerticalAlignment="Center"
+                  ToolTip="Cliquez pour activer ou désactiver la lecture en boucle"
+                  PreviewMouseLeftButtonDown="LoopBTN_PreviewMouseLeftButtonDown"
+                  Cursor="Hand"
+                  Grid.Column="1"
+                  Height="30" Width="30" Margin="0,15,40,0" Background="White">
+                <Path x:Name="LoopBtnPath" Style="{StaticResource Repeat}" Stretch="Fill" Margin="0" Stroke="DarkGray" Fill="DarkGray" StrokeThickness="1.5" />
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

@@ -30,9 +30,9 @@
                     <TextBlock x:Name="HelpTB" TextWrapping="Wrap" Text="Aide" HorizontalAlignment="Left" FontSize="30" FontFamily="Montserrat" Margin="20,0,0,20" Foreground="Black" FontWeight="Medium" MouseEnter="HelpTB_MouseEnter" MouseLeave="HelpTB_MouseLeave" Cursor="Hand" PreviewMouseLeftButtonUp="HelpTB_PreviewMouseLeftButtonUp" DockPanel.Dock="Bottom"/>
                 </DockPanel>
             </Border>
+            
             <Grid x:Name="PageContainerGrid">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible" Margin="0" HorizontalAlignment="Left" Width="{Binding ActualWidth, ElementName=PageContainerGrid}" VerticalAlignment="Top" Height="{Binding ActualHeight, ElementName=PageContainerGrid}">
-                    <!--{Binding ActualHeight, ElementName=ContainerGrid}">-->
                     <Frame x:Name="FrameComponent" NavigationUIVisibility="Hidden" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 </ScrollViewer>
             </Grid>

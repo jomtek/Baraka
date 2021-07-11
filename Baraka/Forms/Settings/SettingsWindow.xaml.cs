@@ -43,7 +43,6 @@ namespace Baraka.Forms.Settings
         }
 
         #region Dashboard
-        // FrameComponent.Content = new GeneralPage();
         private int _selectedItem = 0;
 
         private void SetSelectedItem(int item)

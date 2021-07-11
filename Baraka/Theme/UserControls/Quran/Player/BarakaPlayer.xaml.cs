@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -37,6 +38,10 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
         private SurahDescription _selectedSurah;
         private SurahBar _selectedSurahBar;
+
+        // Selectors
+        private CheikhSelectorPage _cheikhSelector;
+        private SurahSelectorPage _surahSelector;
 
         // Bindings
         public QuranStreamer Streamer { get; private set; }
@@ -77,6 +82,14 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
             SurahTB.ToolTip = Utils.General.GenerateSynopsis(_selectedSurah);
 
+
+            // Selectors init
+            _cheikhSelector = new CheikhSelectorPage();
+            _surahSelector = new SurahSelectorPage();
+
+            FrameComponent.Content = _cheikhSelector;
+
+
             // Streamer config
             Streamer = new QuranStreamer();
 
@@ -106,6 +119,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             {
                 Streamer.Cursor = e;
             };*/
+
 
             // Stories
             ((Storyboard)this.Resources["PlayerCloseStory"]).Begin();
@@ -157,15 +171,13 @@ namespace Baraka.Theme.UserControls.Quran.Player
         {
             if (_loopMode)
             {
-                LoopBTN.Fill = new ImageBrush(
-                    new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/player_loop_off.png"))
-                );
+                LoopBtnPath.Fill = Brushes.DarkGray;
+                LoopBtnPath.Stroke = Brushes.DarkGray;
             }
             else
             {
-                LoopBTN.Fill = new ImageBrush(
-                    new BitmapImage(new Uri(@"pack://application:,,,/Baraka;component/Images/player_loop_on.png"))
-                );
+                LoopBtnPath.Fill = Brushes.Goldenrod;
+                LoopBtnPath.Stroke = Brushes.Goldenrod;
             }
 
             _loopMode = !_loopMode;
@@ -341,6 +353,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             }
             else
             {
+                // TODO: make it so that each selector page has control over its own ScrollViewer
                 DisplaySV.ScrollToTop();
                 MainSB.ResetThumbY();
             }
@@ -353,10 +366,11 @@ namespace Baraka.Theme.UserControls.Quran.Player
                 case 1:
                     ShowSurahSelector();
                     break;
-                default: throw new NotImplementedException();
+                default:
+                    throw new NotImplementedException();
             }
-            _lastTabShown = tab;
 
+            _lastTabShown = tab;
         }
 
         #region Cheikh Selector
@@ -365,88 +379,10 @@ namespace Baraka.Theme.UserControls.Quran.Player
             MainSB.TargetValue = (int)Math.Ceiling(LoadedData.CheikhList.Length / 3d);
             MainSB.Accuracy = ScrollAccuracyMode.ACCURATE;
 
-            var panel = new StackPanel();
-            panel.HorizontalAlignment = HorizontalAlignment.Stretch;
-            panel.VerticalAlignment = VerticalAlignment.Stretch;
+            if (!_cheikhSelector.ItemsInitialized)
+                _cheikhSelector.InitializeItems(this);
 
-            // // Cheikh repartition
-            var cheikhPairs = new List<(CheikhDescription, CheikhDescription, CheikhDescription)>();
-
-            var lastThreeCheikhs = new List<CheikhDescription>();
-            foreach (var cheikh in LoadedData.CheikhList)
-            {
-                if (lastThreeCheikhs.Count < 3)
-                {
-                    lastThreeCheikhs.Add(cheikh);
-                }
-                else
-                {
-                    var pair = (lastThreeCheikhs[0], lastThreeCheikhs[1], lastThreeCheikhs[2]);
-                    cheikhPairs.Add(pair);
-
-                    lastThreeCheikhs.Clear();
-                    lastThreeCheikhs.Add(cheikh);
-                }
-            }
-
-            // Manage remaining pair
-            var remainingPair = new CheikhDescription[3] { null, null, null };
-            if (lastThreeCheikhs.ElementAtOrDefault(0) != null) remainingPair[0] = lastThreeCheikhs[0];
-            if (lastThreeCheikhs.ElementAtOrDefault(1) != null) remainingPair[1] = lastThreeCheikhs[1];
-            if (lastThreeCheikhs.ElementAtOrDefault(2) != null) remainingPair[2] = lastThreeCheikhs[2];
-            cheikhPairs.Add((remainingPair[0], remainingPair[1], remainingPair[2]));
-
-            // Create sub-panels
-            foreach (var idenPair in cheikhPairs)
-            {
-                var subPanel = new StackPanel();
-                subPanel.Orientation = Orientation.Horizontal;
-
-                // Prevent shadows from getting clipped
-                subPanel.Height = 215;
-                subPanel.Margin = new Thickness(5, 2, 0, 0);
-                // //
-
-                var card1 = new CheikhCard(idenPair.Item1, this)
-                {
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    Margin = new Thickness(20, 0, 15, 0)
-                };
-                subPanel.Children.Add(card1);
-
-                if (idenPair.Item2 != null)
-                {
-                    var card2 = new CheikhCard(idenPair.Item2, this)
-                    {
-                        HorizontalAlignment = HorizontalAlignment.Center,
-                    };
-                    subPanel.Children.Add(card2);
-                }
-
-                if (idenPair.Item3 != null)
-                {
-                    var card3 = new CheikhCard(idenPair.Item3, this)
-                    {
-                        HorizontalAlignment = HorizontalAlignment.Right,
-                        Margin = new Thickness(15, 0, 20, 0)
-                    };
-                    subPanel.Children.Add(card3);
-                }
-
-                    foreach (CheikhCard card in subPanel.Children)
-                    {
-                        if (card.Cheikh.ToString() == _selectedCheikh.ToString())
-                        {
-                            ChangeSelectedCheikh(card);
-                            card.Select();
-                        }
-                    }
-
-
-                panel.Children.Add(subPanel);
-            }
-
-            DisplaySV.Content = panel;
+            FrameComponent.Content = _cheikhSelector;
         }
 
         public void ChangeSelectedCheikh(CheikhCard card)
@@ -523,35 +459,14 @@ namespace Baraka.Theme.UserControls.Quran.Player
             MainSB.TargetValue = (int)Math.Ceiling(114 / (LoadedData.CheikhList.Length / 3d));
             MainSB.Accuracy = ScrollAccuracyMode.VAGUE;
 
-            var panel = new StackPanel();
-            panel.HorizontalAlignment = HorizontalAlignment.Stretch;
-            panel.VerticalAlignment = VerticalAlignment.Stretch;
-
-            foreach (var surahDesc in LoadedData.SurahList)
+            if (!_surahSelector.ItemsInitialized)
             {
-                var bar = new SurahBar(surahDesc.Key, this);
-
-                if (_selectedSurah != null)
-                {
-                    if (bar.Surah.PhoneticName == _selectedSurah.PhoneticName)
-                    {
-                        SetSelectedBar(bar);
-                        bar.Select();
-                    }
-                }
-                else
-                {
-                    if (surahDesc.Key.SurahNumber == 1)
-                    {
-                        SetSelectedBar(bar);
-                        bar.Select();
-                    }
-                }
-
-                panel.Children.Add(bar);
+                _surahSelector.InitializeItems(this);
             }
 
-            DisplaySV.Content = panel;
+            _surahSelector.RefreshSelection(_selectedSurah);
+
+            FrameComponent.Content = _surahSelector;
         }
         #endregion
 

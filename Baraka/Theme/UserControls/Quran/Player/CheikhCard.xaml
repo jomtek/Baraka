@@ -4,14 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Player"
-             mc:Ignorable="d" d:DesignWidth="800" Width="142" Height="198.25" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave" PreviewMouseLeftButtonUp="UserControl_PreviewMouseLeftButtonUp">
+             mc:Ignorable="d" d:DesignWidth="800" Width="160" Height="210" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave" PreviewMouseLeftButtonUp="UserControl_PreviewMouseLeftButtonUp" Margin="0,0,10,15">
     <Grid>
         <Grid.Effect>
             <DropShadowEffect x:Name="GeneralDropShadow" Opacity="0.2" Direction="260" ShadowDepth="3" BlurRadius="10" RenderingBias="Quality"/>
         </Grid.Effect>
         <Rectangle x:Name="BackgroundRect" Fill="White" Stroke="Black" RadiusY="12" RadiusX="12" StrokeThickness="0"/>
         <StackPanel>
-            <Rectangle x:Name="PhotoRect" Height="133.25" RadiusY="12" RadiusX="12" StrokeThickness="0" Stroke="White" Margin="0" VerticalAlignment="Top" Cursor="Hand">
+            <Rectangle x:Name="PhotoRect" Height="140" RadiusY="12" RadiusX="12" StrokeThickness="0" Stroke="White" Margin="0" VerticalAlignment="Top" Cursor="Hand">
                 <Rectangle.Fill>
                     <ImageBrush ImageSource="/Baraka;component/Images/Cheikh/alafasy.png" Stretch="UniformToFill"/>
                 </Rectangle.Fill>
@@ -20,8 +20,8 @@
                 </Rectangle.Effect>
             </Rectangle>
             <Path x:Name="SeparatorPath" Data="M17.5,110.5 L107,110.5" Fill="Gray" HorizontalAlignment="Center" Stretch="Fill" Stroke="#FFACACAC" VerticalAlignment="Top" Width="93.455" StrokeThickness="1.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Margin="0,8,0,0"/>
-            <TextBlock x:Name="FirstNameTB" Text="Mishary bin Rashid" VerticalAlignment="Top" Margin="0,6,0,0" FontFamily="Montserrat" FontStretch="SemiCondensed" HorizontalAlignment="Center"/>
-            <TextBlock x:Name="LastNameTB" Text="Alafasy" VerticalAlignment="Top" Margin="0" FontFamily="Montserrat" FontStretch="SemiCondensed" HorizontalAlignment="Center" FontWeight="Bold" FontSize="17"/>
+            <TextBlock x:Name="FirstNameTB" Text="Mishary bin Rashid" VerticalAlignment="Top" Margin="0,6,0,0" FontFamily="Montserrat" FontStretch="SemiCondensed" HorizontalAlignment="Center" FontSize="13"/>
+            <TextBlock x:Name="LastNameTB" Text="Alafasy" VerticalAlignment="Top" Margin="0" FontFamily="/Baraka;component/Fonts/#Poppins" FontStretch="SemiCondensed" HorizontalAlignment="Center" FontWeight="Bold" FontSize="17"/>
         </StackPanel>
     </Grid>
 </UserControl>
