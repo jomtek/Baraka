@@ -103,7 +103,7 @@
         
         <!-- Content -->
         <DockPanel x:Name="FContent" Margin="-1,0,0,0">
-            
+
             <Grid x:Name="MainGrid"
                   VerticalAlignment="Stretch"
                   Height="Auto" 
@@ -112,17 +112,19 @@
                   Background="{DynamicResource LightBrush}"
                   PreviewMouseWheel="MainGrid_PreviewMouseWheel">
 
-                <Grid.LayoutTransform>
-                    <ScaleTransform x:Name="ScaleTransformer" ScaleX="1" ScaleY="1" />
-                </Grid.LayoutTransform>
+                <Grid x:Name="DisplayerGrid" HorizontalAlignment="Center" Margin="0,0,127,0">
+                    <Grid.LayoutTransform>
+                        <ScaleTransform x:Name="ScaleTransformer" ScaleX="1" ScaleY="1" />
+                    </Grid.LayoutTransform>
 
-                <Displayer:BarakaSurahDisplayer x:Name="MainSurahDisplayer"
+                    <Displayer:BarakaSurahDisplayer x:Name="MainSurahDisplayer"
                                                 VerticalAlignment="Stretch" HorizontalAlignment="Center"
-                                                Margin="0,0,127,0"
+                                                Margin="0"
                                                 Height="Auto"
                                                 VerseChanged="MainSurahDisplayer_VerseChanged"
-                                                DownloadRecitationRequested="MainSurahDisplayer_DownloadRecitationRequested" />
-                
+                                                DownloadRecitationRequested="MainSurahDisplayer_DownloadRecitationRequested"/>
+                </Grid>
+
                 <Player:BarakaPlayer x:Name="Player"
                                      VerticalAlignment="Bottom" HorizontalAlignment="Center"
                                      Margin="35,0,0,0" />

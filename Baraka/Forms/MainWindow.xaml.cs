@@ -198,7 +198,8 @@ namespace Baraka
         {
             var final = _mainGridScale + change;
 
-            if (final > 0.8 && final < 1.5)
+            // Zoom limitations
+            if (final >= 1 && final < 1.7)
             {
                 _mainGridScale += change;
             }
