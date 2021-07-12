@@ -55,7 +55,7 @@
                     <TextBlock TextWrapping="Wrap" Text="Périphérique de sortie" FontSize="20" Margin="0,20,0,0"/>
                 </StackPanel>
                 <StackPanel Margin="20,10,15,10">
-                    <xctk:IntegerUpDown x:Name="test" Margin="0" Maximum="1000" Minimum="0" Increment="10" DefaultValue="10" BorderThickness="1.5" VerticalAlignment="Top" DisplayDefaultValueOnEmptyText="True" BorderBrush="#FFABADB3" Background="White" Width="120" HorizontalAlignment="Left"/>
+                    <xctk:IntegerUpDown x:Name="CrossFadingNUD" Margin="0" Maximum="1000" Minimum="0" Increment="10" DefaultValue="10" BorderThickness="1.5" VerticalAlignment="Top" DisplayDefaultValueOnEmptyText="True" BorderBrush="#FFABADB3" Background="White" Width="120" HorizontalAlignment="Left"/>
                     <ComboBox x:Name="OutputDeviceCMBB" Width="350" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="18"/>
                 </StackPanel>
             </StackPanel>
@@ -81,7 +81,7 @@
                 </CheckBox>
 
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                    <CheckBox x:Name="TranslatedVersionCHB" Content="Traduction" Style="{DynamicResource SimpleCheckBox}"
+                    <CheckBox x:Name="TranslatedVersionCHB" Content="Traduction(s)" Style="{DynamicResource SimpleCheckBox}"
                           Margin="15,10,0,10" FontSize="22" Padding="7,0,0,0" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2"
                           IsChecked="True">
                         <CheckBox.BorderBrush>

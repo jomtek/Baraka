@@ -139,8 +139,7 @@ namespace Baraka.Forms
         #region Show All Button
         private void ShowAllTB_MouseEnter(object sender, MouseEventArgs e)
         {
-            ShowAllTB.Background = new SolidColorBrush(SystemColors.ControlLightColor);
-            
+            ShowAllTB.Background = new SolidColorBrush(SystemColors.ControlLightColor);            
         }
 
         private void ShowAllTB_MouseLeave(object sender, MouseEventArgs e)

@@ -56,6 +56,7 @@ namespace Baraka.Forms.Settings
                 }
             }
 
+            // TODO: temporary
             if (OutputDeviceCMBB.SelectedIndex == -1)
             {
                 LoadedData.Settings.OutputDeviceGuid = DirectSoundOut.Devices.ElementAt(0).Guid.ToString();
@@ -69,8 +70,12 @@ namespace Baraka.Forms.Settings
             AutoScrollCHB.IsChecked = LoadedData.Settings.AutoScrollQuran;
             AutoNextCHB.IsChecked = LoadedData.Settings.AutoNextSurah;
             AutoReloadCHB.IsChecked = LoadedData.Settings.AutoReloadLastSurah;
-            // Editions...
+            CrossFadingNUD.Value = LoadedData.Settings.CrossFadingValue;
+            ArabicVersionCHB.IsChecked = LoadedData.Settings.SurahVersionConfig.DisplayArabic;
+            PhoneticVersionCHB.IsChecked = LoadedData.Settings.SurahVersionConfig.DisplayPhonetic;
+            TranslatedVersionCHB.IsChecked = LoadedData.Settings.SurahVersionConfig.DisplayTranslated;
         }
+
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
             LoadedData.Settings.DefaultSurahIndex = DefaultSurahCMBB.SelectedIndex;
@@ -78,13 +83,17 @@ namespace Baraka.Forms.Settings
             LoadedData.Settings.AutoScrollQuran = AutoScrollCHB.IsChecked.GetValueOrDefault();
             LoadedData.Settings.AutoNextSurah = AutoNextCHB.IsChecked.GetValueOrDefault();
             LoadedData.Settings.AutoReloadLastSurah = AutoReloadCHB.IsChecked.GetValueOrDefault();
+            LoadedData.Settings.CrossFadingValue = CrossFadingNUD.Value.GetValueOrDefault();
             LoadedData.Settings.OutputDeviceGuid = DirectSoundOut.Devices.ElementAt(OutputDeviceCMBB.SelectedIndex).Guid.ToString();
+            LoadedData.Settings.SurahVersionConfig.DisplayArabic = ArabicVersionCHB.IsChecked.GetValueOrDefault();
+            LoadedData.Settings.SurahVersionConfig.DisplayPhonetic = PhoneticVersionCHB.IsChecked.GetValueOrDefault();
+            LoadedData.Settings.SurahVersionConfig.DisplayTranslated = TranslatedVersionCHB.IsChecked.GetValueOrDefault();
         }
         #endregion
 
         private void ManageEditionsBTN_Click(object sender, RoutedEventArgs e)
         {
-            new Forms.QuranTranslationsManagerWindow() { Owner = (Window)Parent }.ShowDialog();
+            new QuranTranslationsManagerWindow() { Owner = (Window)Parent }.ShowDialog();
         }
     }
 }

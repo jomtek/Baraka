@@ -27,12 +27,16 @@ namespace Baraka.Forms.Settings
 
             LaunchOnStartupCHB.IsChecked = LoadedData.Settings.Startup;
             LanguageCMBB.SelectedIndex = (int)LoadedData.Settings.Language;
+            AllowCacheCHB.IsChecked = LoadedData.Settings.EnableAudioCache;
+            ClearCacheCHB.IsChecked = LoadedData.Settings.ClearAudioCache;
         }
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
             LoadedData.Settings.Startup = LaunchOnStartupCHB.IsChecked.GetValueOrDefault();
             LoadedData.Settings.Language = (Globalization.Language)LanguageCMBB.SelectedIndex;
+            LoadedData.Settings.EnableAudioCache = AllowCacheCHB.IsChecked.GetValueOrDefault();
+            LoadedData.Settings.ClearAudioCache = ClearCacheCHB.IsChecked.GetValueOrDefault();
         }
     }
 }

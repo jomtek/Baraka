@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
         Title="SearchWindow"
-        Height="825" Width="1100"
+        Height="725" Width="1100"
         MinWidth="750"
         Initialized="Window_Initialized" >
     <Grid x:Name="ContainerGrid" Margin="0" Background="White">
@@ -75,11 +75,11 @@
                     <TextBlock x:Name="ShowAllTB" TextWrapping="Wrap" Text="Voir tout" FontSize="16" FontWeight="Bold" Foreground="#FF437CB6" Margin="10,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" Cursor="Hand" Visibility="Collapsed" MouseEnter="ShowAllTB_MouseEnter" MouseLeave="ShowAllTB_MouseLeave" PreviewMouseLeftButtonUp="ShowAllTB_PreviewMouseLeftButtonUp"/>
                 </StackPanel>
             </StackPanel>
-            <DockPanel Margin="0" LastChildFill="False" DockPanel.Dock="Bottom">
+            <DockPanel Margin="0,10,0,0" LastChildFill="False" DockPanel.Dock="Bottom">
                 <ScrollViewer x:Name="ResultsSV" VerticalScrollBarVisibility="Hidden" Margin="0" PreviewMouseWheel="ResultsSV_PreviewMouseWheel" Foreground="Black">
                     <StackPanel x:Name="ResultsSP" Margin="0"/>
                 </ScrollViewer>
-                <UserControls:BarakaScrollBar x:Name="MainSB" OnScroll="MainSB_OnScroll" DockPanel.Dock="Right" Margin="0,0,20,20" Width="40" Height="Auto" />
+                <UserControls:BarakaScrollBar x:Name="MainSB" OnScroll="MainSB_OnScroll" DockPanel.Dock="Right" Margin="0,0,20,20" Width="45" Height="Auto" />
             </DockPanel>
         </DockPanel>
     </Grid>

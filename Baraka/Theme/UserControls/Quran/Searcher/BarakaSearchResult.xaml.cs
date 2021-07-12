@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Baraka.Data;
 using Baraka.Forms;
 using Baraka.Utils.Search;
 
@@ -36,11 +37,14 @@ namespace Baraka.Theme.UserControls.Quran.Searcher
             // Load verse info
             VerseInfoTB.Text = $"S{sres.Surah.SurahNumber}. V{sres.Verse + 1}";
 
-            // TODO CHANGED
-            //string fullVerse = Data.LoadedData.SurahList.ElementAt(sres.Surah.SurahNumber - 1).Value.ElementAt(2).Verses[sres.Verse];
-            //RTB.Document.Blocks.Add(new Paragraph(new Run(fullVerse)));
+            var dictionary = LoadedData.SurahList.ElementAt(sres.Surah.SurahNumber - 1).Value;
+            string fullVerse = dictionary[LoadedData.Settings.ResultsEdition].Verses[sres.Verse];
+            RTB.Document.Blocks.Add(new Paragraph(new Run(fullVerse)));
 
-            HighlightTerms();
+            if (LoadedData.Settings.HighlightSearchKeywords)
+            {
+                HighlightTerms();
+            }
         }
 
         private string CreatePattern(string pattern)

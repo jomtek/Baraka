@@ -12,10 +12,12 @@ namespace Baraka.Data
     {
         private string _path;
 
-
         // With temporary (debug) default values
 
         #region Values
+        // Settings window (clear between sessions)
+        public int SelectedTab { get; set; } = 0;
+
         // General
         public bool Startup { get; set; } = false;
         public Language Language { get; set; } = Language.FRENCH;
@@ -32,9 +34,16 @@ namespace Baraka.Data
         public bool AutoScrollQuran { get; set; } = false;
         public bool AutoNextSurah { get; set; } = false;
         public bool AutoReloadLastSurah { get; set; } = true;
-        public string OutputDeviceGuid { get; set; } = "010000000-0000-0000-0000-000000000000"; // Default output
-        public SurahVersionConfig SurahVersionConfig = new SurahVersionConfig(true, false, LoadedData.TranslationsList[37], null, null);
+        public int CrossFadingValue { get; set; } = 10;
+        public string OutputDeviceGuid { get; set; } =
+            "010000000-0000-0000-0000-000000000000"; // Default output
+        public SurahVersionConfig SurahVersionConfig =
+            new SurahVersionConfig(true, false, true, LoadedData.TranslationsList[37] /*fr.hamidullah (debug)*/, null, null);
 
+        // Search
+        public string SearchEdition { get; set; } = "ARABIC";
+        public string ResultsEdition { get; set; } = "ARABIC";
+        public bool HighlightSearchKeywords { get; set; } = true;
         #endregion
 
 

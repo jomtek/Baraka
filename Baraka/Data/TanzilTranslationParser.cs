@@ -32,13 +32,14 @@ namespace Baraka.Data
                     Result.Add(verseBuffer.ToArray());
                     verseBuffer.Clear();
                     bufferSurah = surahNum;
-                    Console.WriteLine($"surahnum: {surahNum}");
                 }
 
                 string cleanVerse = verse.Substring(verse.LastIndexOf('|') + 1);
                 verseBuffer.Add(cleanVerse);
-
             }
+
+            // Last surah (An-Nas)
+            Result.Add(verseBuffer.ToArray());
         }
     }
 }

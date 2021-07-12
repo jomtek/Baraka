@@ -51,26 +51,27 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                 PhoneticTB.Visibility = Visibility.Collapsed;
             }
 
-            
-            if (config.Translation1 != null)
+            if (config.DisplayTranslated)
             {
-                // TODO: OutOfRange problem
-                Translation1TB.Text = versions[config.Translation1.Identifier].Verses[verNum];
-                Translation1TB.Visibility = Visibility.Visible;
-            }
-            
-            if (config.Translation2 != null)
-            {
-                Translation2TB.Text = versions[config.Translation2.Identifier].Verses[verNum];
-                Translation2TB.Visibility = Visibility.Visible;
-            }
+                if (config.Translation1 != null)
+                {
+                    // TODO: OutOfRange problem
+                    Translation1TB.Text = versions[config.Translation1.Identifier].Verses[verNum];
+                    Translation1TB.Visibility = Visibility.Visible;
+                }
 
-            if (config.Translation3 != null)
-            {
-                Translation3TB.Text = versions[config.Translation3.Identifier].Verses[verNum];
-                Translation3TB.Visibility = Visibility.Visible;
+                if (config.Translation2 != null)
+                {
+                    Translation2TB.Text = versions[config.Translation2.Identifier].Verses[verNum];
+                    Translation2TB.Visibility = Visibility.Visible;
+                }
+
+                if (config.Translation3 != null)
+                {
+                    Translation3TB.Text = versions[config.Translation3.Identifier].Verses[verNum];
+                    Translation3TB.Visibility = Visibility.Visible;
+                }
             }
-            
 
             // Measure and pre-arrange so that the size is known from the initialization
             Measure(new Size(650, double.PositiveInfinity));

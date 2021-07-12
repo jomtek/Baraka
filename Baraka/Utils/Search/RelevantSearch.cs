@@ -1,5 +1,6 @@
 ﻿using Baraka.Data;
 using Baraka.Data.Descriptions;
+using Baraka.Data.Surah;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,59 +28,44 @@ namespace Baraka.Utils.Search
 
         public List<SearchResult> Go(string search)
         {
-            search = search.ToLower(); // TODO
-
             string[] keywords = search.Split(' ');
 
             var results = new List<SearchResult>();
-            var founds = new List<(int, int)>(); // Surah number, verse number
+            var firstStepFounds = new List<(int, int)>(); // Surah number, verse number
 
-            // First try, match exact keyword order
-            foreach (var key in LoadedData.SurahList)
+            foreach (var entry in LoadedData.SurahList)
             {
-                var surah = key.Key;
-                if ( !KeepSurah(surah) )
-                {
-                    continue;
-                }
-                
-                /* CHANGED
-                string[] verses = key.Value[2].Verses;
+                SurahDescription surah = entry.Key;
 
-                for (int i = 0; i < verses.Length; i++)
-                {
-                    if (verses[i].ToLower().Contains(search))
-                    {
-                        results.Add(new SearchResult(surah, i, new string[1] { search }));
-                        founds.Add((surah.SurahNumber, i));
-                    }
-                }
-                */
-            }
-
-            // Second try, match keywords in any order
-            foreach (var key in LoadedData.SurahList)
-            {
-                var surah = key.Key;
                 if (!KeepSurah(surah))
                 {
                     continue;
                 }
 
-                //return;
-                /*
+                var edition = entry.Value[LoadedData.Settings.SearchEdition];
 
-                string[] verses = key.Value[2].Verses;
-
-                for (int i = 0; i < verses.Length; i++)
+                // First try, match with exact keywords order
+                for (int i = 0; i < edition.Verses.Length; i++)
                 {
-                    if (founds.Contains((surah.SurahNumber, i))) continue;
-                    if (keywords.All(verses[i].ToLower().Contains))
+                    if (edition.Verses[i].ToLower().Contains(search))
                     {
-                        results.Add(new SearchResult(key.Key, i, keywords));
+                        results.Add(new SearchResult(surah, i, new string[1] { search }));
+                        firstStepFounds.Add((surah.SurahNumber, i));
                     }
                 }
-                */
+
+                // Second try, match keywords in any order
+                for (int i = 0; i < edition.Verses.Length; i++)
+                {
+                    if (firstStepFounds.Contains((surah.SurahNumber, i)))
+                    {
+                        continue;
+                    }
+                    else if (keywords.All(edition.Verses[i].ToLower().Contains))
+                    {
+                        results.Add(new SearchResult(surah, i, keywords));
+                    }
+                }
             }
 
             return results;

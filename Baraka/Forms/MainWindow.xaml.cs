@@ -24,7 +24,7 @@ namespace Baraka
     /// </summary>
     public partial class MainWindow : Window
     {
-        private double _mainGridScale = 1;
+        private double _mainGridScale = 1.2;
 
         public MainWindow()
         {
@@ -92,6 +92,10 @@ namespace Baraka
         {
             Player.Dispose();
 
+            // Serialize stuff that be serialized
+            //
+            LoadedData.Settings.SelectedTab = 0;
+
             if (LoadedData.Settings.ClearAudioCache)
             {
                 LoadedData.AudioCache.Clear();
@@ -100,6 +104,7 @@ namespace Baraka
             SerializationUtils.Serialize(LoadedData.Bookmarks, "bookmarks.ser");
             SerializationUtils.Serialize(LoadedData.AudioCache, "data/cache.ser");
 
+            // Exit
             Environment.Exit(0);
         }
 

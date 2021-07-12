@@ -115,6 +115,10 @@ namespace Baraka.Forms
                 case MessageBoxResult.Yes:
                     if (SelectedTranslationsSP.Children.Count > 0)
                     {
+                        LoadedData.Settings.SurahVersionConfig.Translation1 = null;
+                        LoadedData.Settings.SurahVersionConfig.Translation2 = null;
+                        LoadedData.Settings.SurahVersionConfig.Translation3 = null;
+
                         for (int i = 0; i < SelectedTranslationsSP.Children.Count; i++)
                         {
                             var bar = (TranslationBar)SelectedTranslationsSP.Children[i];
@@ -156,12 +160,7 @@ namespace Baraka.Forms
                                 }
                             }
 
-
                             // Save selected translations
-                            LoadedData.Settings.SurahVersionConfig.Translation1 = null;
-                            LoadedData.Settings.SurahVersionConfig.Translation2 = null;
-                            LoadedData.Settings.SurahVersionConfig.Translation3 = null;
-                            
                             switch (i)
                             {
                                 case 0:

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Baraka.Data;
+using Baraka.Data.Descriptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,33 @@ namespace Baraka.Forms.Settings
         public SearchPage()
         {
             InitializeComponent();
+
+            LoadSettings();
+
+            // Fill Comboboxes
+            // Pick all editions available for Al-Fatiha
+            foreach (var edition in LoadedData.SurahList.ElementAt(0).Value.Keys)
+            {
+                SearchEditionCMBB.Items.Add(edition);
+                ResultsEditionCMBB.Items.Add(edition);
+            }
         }
+
+        #region Load and save
+        private void LoadSettings()
+        {
+            SearchEditionCMBB.SelectedItem = LoadedData.Settings.SearchEdition;
+            ResultsEditionCMBB.SelectedItem = LoadedData.Settings.ResultsEdition;
+            HighlightKeywordsCHB.IsChecked = LoadedData.Settings.HighlightSearchKeywords;
+        }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            LoadedData.Settings.SearchEdition = SearchEditionCMBB.Text;
+            LoadedData.Settings.ResultsEdition = ResultsEditionCMBB.Text;
+            LoadedData.Settings.HighlightSearchKeywords = HighlightKeywordsCHB.IsChecked.GetValueOrDefault();
+        }
+        #endregion
+
     }
 }
