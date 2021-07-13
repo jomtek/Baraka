@@ -15,7 +15,7 @@
 
         <DockPanel>
             <StackPanel Margin="0" DockPanel.Dock="Top">
-                <UserControls:BarakaTextBox x:Name="SearchTB" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,25,0,4" Width="550" Height="55" TextChanged="SearchTB_TextChanged" >
+                <UserControls:BarakaTextBox x:Name="SearchTB" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,25,0,4" Width="575" Height="55" TextChanged="SearchTB_TextChanged" >
                     <UserControls:BarakaTextBox.Effect>
                         <DropShadowEffect Opacity="0.25" ShadowDepth="2"/>
                     </UserControls:BarakaTextBox.Effect>
@@ -62,7 +62,7 @@
                         </StackPanel>
                     </GroupBox>
                 </Grid>
-                <Path x:Name="path" Data="M0,200 L803.946,199.33333" Margin="0,10,-1,0" Stretch="Fill" VerticalAlignment="Top" StrokeThickness="4" Height="4" StrokeStartLineCap="Square" StrokeEndLineCap="Square">
+                <Path x:Name="path" Data="M0,200 L803.946,199.33333" Margin="0,10,0,0" Stretch="Fill" VerticalAlignment="Top" StrokeThickness="4" Height="4" StrokeStartLineCap="Square" StrokeEndLineCap="Square">
                     <Path.Stroke>
                         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
                     </Path.Stroke>
@@ -75,12 +75,9 @@
                     <TextBlock x:Name="ShowAllTB" TextWrapping="Wrap" Text="Voir tout" FontSize="16" FontWeight="Bold" Foreground="#FF437CB6" Margin="10,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" Cursor="Hand" Visibility="Collapsed" MouseEnter="ShowAllTB_MouseEnter" MouseLeave="ShowAllTB_MouseLeave" PreviewMouseLeftButtonUp="ShowAllTB_PreviewMouseLeftButtonUp"/>
                 </StackPanel>
             </StackPanel>
-            <DockPanel Margin="0,10,0,0" LastChildFill="False" DockPanel.Dock="Bottom">
-                <ScrollViewer x:Name="ResultsSV" VerticalScrollBarVisibility="Hidden" Margin="0" PreviewMouseWheel="ResultsSV_PreviewMouseWheel" Foreground="Black">
-                    <StackPanel x:Name="ResultsSP" Margin="0"/>
-                </ScrollViewer>
-                <UserControls:BarakaScrollBar x:Name="MainSB" OnScroll="MainSB_OnScroll" DockPanel.Dock="Right" Margin="0,0,20,20" Width="45" Height="Auto" />
-            </DockPanel>
+            <ScrollViewer x:Name="ResultsSV" VerticalScrollBarVisibility="Hidden" Margin="0,15,20,0" Foreground="Black" BorderBrush="Black" BorderThickness="2">
+                <StackPanel x:Name="ResultsSP" Margin="0"/>
+            </ScrollViewer>
         </DockPanel>
     </Grid>
 </Window>

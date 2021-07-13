@@ -1,4 +1,5 @@
-﻿using Baraka.Data.Descriptions;
+﻿using Baraka.Data;
+using Baraka.Data.Descriptions;
 using Baraka.Data.Surah;
 using System;
 using System.Collections.Generic;
@@ -53,22 +54,25 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
             if (config.DisplayTranslated)
             {
-                if (config.Translation1 != null)
+                if (config.Translation1 != -1)
                 {
                     // TODO: OutOfRange problem
-                    Translation1TB.Text = versions[config.Translation1.Identifier].Verses[verNum];
+                    string id = LoadedData.TranslationsList[config.Translation1].Identifier;
+                    Translation1TB.Text = versions[id].Verses[verNum];
                     Translation1TB.Visibility = Visibility.Visible;
                 }
 
-                if (config.Translation2 != null)
+                if (config.Translation2 != -1)
                 {
-                    Translation2TB.Text = versions[config.Translation2.Identifier].Verses[verNum];
+                    string id = LoadedData.TranslationsList[config.Translation2].Identifier;
+                    Translation2TB.Text = versions[id].Verses[verNum];
                     Translation2TB.Visibility = Visibility.Visible;
                 }
 
-                if (config.Translation3 != null)
+                if (config.Translation3 != -1)
                 {
-                    Translation3TB.Text = versions[config.Translation3.Identifier].Verses[verNum];
+                    string id = LoadedData.TranslationsList[config.Translation3].Identifier;
+                    Translation3TB.Text = versions[id].Verses[verNum];
                     Translation3TB.Visibility = Visibility.Visible;
                 }
             }

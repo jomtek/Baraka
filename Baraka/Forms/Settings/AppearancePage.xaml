@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Baraka.Forms.Settings"
       mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="700"
-      Title="AppearancePage" Width="Auto" Height="Auto" Unloaded="Page_Unloaded">
+      Title="AppearancePage" Width="Auto" Height="Auto">
 
     <StackPanel Background="White">
         <CheckBox x:Name="ShowWelcomeWindowCHB" Content="Afficher l'écran d'accueil au démarrage de Baraka" Style="{DynamicResource SimpleCheckBox}" Margin="30,25,0,0" FontSize="24" Padding="7,0,0,0" ToolTip="Lancer Baraka au démarrage de l'ordinateur" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2" IsChecked="True">
@@ -14,20 +14,20 @@
             </CheckBox.BorderBrush>
         </CheckBox>
         <Path Data="M224,329L353,329" HorizontalAlignment="Left" Margin="30,20,0,20" StrokeStartLineCap="Round" Stretch="Fill" StrokeEndLineCap="Round" Stroke="#FFC7C5C5" StrokeThickness="4" Width="575" Fill="Black"/>
-        <GroupBox Header="Thème du logiciel (à venir)" Height="228" Margin="30,0" FontSize="24" BorderThickness="3" ClipToBounds="True" Opacity="0.5" IsEnabled="False">
+        <GroupBox Header="Thème du logiciel (à venir)" Height="50" Margin="30,0" FontSize="24" BorderThickness="3" ClipToBounds="True" Opacity="0.5" IsEnabled="False">
             <DockPanel Margin="20,20,0,20" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <!-- <Image Margin="0,0,20,0" Source="theme1.PNG"/> -->
                 <!-- <Image Margin="0" Source="theme1.PNG" HorizontalAlignment="Right" DockPanel.Dock="Right"/> -->
             </DockPanel>
         </GroupBox>
-        <GroupBox Header="Coran" Height="268.667" Margin="30,15,30,0" FontSize="24" BorderThickness="3" Padding="0">
-            <StackPanel>
+        <GroupBox Header="Coran" Margin="30,15,30,0" FontSize="24" BorderThickness="3" Padding="0">
+            <StackPanel Margin="0">
                 <CheckBox x:Name="DisplayScrollbarCHB" Content="Afficher la barre de défilement" Style="{DynamicResource SimpleCheckBox}" Margin="15,10,0,0" FontSize="20" Padding="7,0,0,0" ToolTip="Lancer Baraka au démarrage de l'ordinateur" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2" IsChecked="True">
                     <CheckBox.BorderBrush>
                         <SolidColorBrush Color="{DynamicResource DarkColor}"/>
                     </CheckBox.BorderBrush>
                 </CheckBox>
-                <GroupBox Header="Polices d'écriture (à venir)" Margin="15,10,15,0" FontSize="20" Height="145" BorderThickness="2" Opacity="0.5" IsEnabled="False">
+                <GroupBox Header="Polices d'écriture (à venir)" Margin="15,10" FontSize="20" Height="145" BorderThickness="2" Opacity="0.5" IsEnabled="False">
                     <StackPanel Margin="15,10,0,10">
                         <StackPanel Height="25" Orientation="Horizontal">
                             <TextBlock HorizontalAlignment="Left" Margin="0" TextWrapping="Wrap" Text="Arabe" VerticalAlignment="Center" FontSize="18" FontFamily="/Baraka;component/Fonts/#Poppins"/>

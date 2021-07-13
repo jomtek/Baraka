@@ -21,7 +21,7 @@ namespace Baraka.Forms.Settings
     /// <summary>
     /// Logique d'interaction pour ReadingPage.xaml
     /// </summary>
-    public partial class ReadingPage : Page
+    public partial class ReadingPage : Page, ISettingsPage
     {
         public ReadingPage()
         {
@@ -47,19 +47,15 @@ namespace Baraka.Forms.Settings
             for (int i = 0; i < DirectSoundOut.Devices.Count(); i++)
             {
                 DirectSoundDeviceInfo dev = DirectSoundOut.Devices.ElementAt(i);
-
                 OutputDeviceCMBB.Items.Add(dev.Description);
-
-                if (dev.Guid.ToString() == LoadedData.Settings.OutputDeviceGuid)
-                {
-                    OutputDeviceCMBB.SelectedIndex = i;
-                }
             }
+
+            OutputDeviceCMBB.SelectedIndex = LoadedData.Settings.OutputDeviceIndex;
 
             // TODO: temporary
             if (OutputDeviceCMBB.SelectedIndex == -1)
             {
-                LoadedData.Settings.OutputDeviceGuid = DirectSoundOut.Devices.ElementAt(0).Guid.ToString();
+                LoadedData.Settings.OutputDeviceIndex = 0;
                 OutputDeviceCMBB.SelectedIndex = 0;
             }
         }
@@ -76,7 +72,7 @@ namespace Baraka.Forms.Settings
             TranslatedVersionCHB.IsChecked = LoadedData.Settings.SurahVersionConfig.DisplayTranslated;
         }
 
-        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        public void SaveSettings()
         {
             LoadedData.Settings.DefaultSurahIndex = DefaultSurahCMBB.SelectedIndex;
             LoadedData.Settings.DefaultCheikhIndex = DefaultCheikhCMBB.SelectedIndex;
@@ -84,7 +80,7 @@ namespace Baraka.Forms.Settings
             LoadedData.Settings.AutoNextSurah = AutoNextCHB.IsChecked.GetValueOrDefault();
             LoadedData.Settings.AutoReloadLastSurah = AutoReloadCHB.IsChecked.GetValueOrDefault();
             LoadedData.Settings.CrossFadingValue = CrossFadingNUD.Value.GetValueOrDefault();
-            LoadedData.Settings.OutputDeviceGuid = DirectSoundOut.Devices.ElementAt(OutputDeviceCMBB.SelectedIndex).Guid.ToString();
+            LoadedData.Settings.OutputDeviceIndex = OutputDeviceCMBB.SelectedIndex;
             LoadedData.Settings.SurahVersionConfig.DisplayArabic = ArabicVersionCHB.IsChecked.GetValueOrDefault();
             LoadedData.Settings.SurahVersionConfig.DisplayPhonetic = PhoneticVersionCHB.IsChecked.GetValueOrDefault();
             LoadedData.Settings.SurahVersionConfig.DisplayTranslated = TranslatedVersionCHB.IsChecked.GetValueOrDefault();

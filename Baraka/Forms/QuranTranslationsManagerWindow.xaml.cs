@@ -73,20 +73,20 @@ namespace Baraka.Forms
 
 
             // Selected translations
-            foreach (TranslationDescription translation in new[] {
+            foreach (int translationIdx in new[] {
                 LoadedData.Settings.SurahVersionConfig.Translation1,
                 LoadedData.Settings.SurahVersionConfig.Translation2,
                 LoadedData.Settings.SurahVersionConfig.Translation3
             })
             {
-                if (translation != null)
+                if (translationIdx != -1)
                 {
-                    int idx = Array.IndexOf(LoadedData.TranslationsList, translation);
-                    
-                    TranslationBar bar = (TranslationBar)AllTranslationsSP.Children[idx];
+                    var translation = LoadedData.TranslationsList[translationIdx];
+
+                    TranslationBar bar = (TranslationBar)AllTranslationsSP.Children[translationIdx];
                     bar.Selected = true;
 
-                    AllTranslationsSP.Children.RemoveAt(idx);
+                    AllTranslationsSP.Children.RemoveAt(translationIdx);
                     SelectedTranslationsSP.Children.Add(bar);
                 }
             }
@@ -115,9 +115,9 @@ namespace Baraka.Forms
                 case MessageBoxResult.Yes:
                     if (SelectedTranslationsSP.Children.Count > 0)
                     {
-                        LoadedData.Settings.SurahVersionConfig.Translation1 = null;
-                        LoadedData.Settings.SurahVersionConfig.Translation2 = null;
-                        LoadedData.Settings.SurahVersionConfig.Translation3 = null;
+                        LoadedData.Settings.SurahVersionConfig.Translation1 = -1;
+                        LoadedData.Settings.SurahVersionConfig.Translation2 = -1;
+                        LoadedData.Settings.SurahVersionConfig.Translation3 = -1;
 
                         for (int i = 0; i < SelectedTranslationsSP.Children.Count; i++)
                         {
@@ -161,16 +161,17 @@ namespace Baraka.Forms
                             }
 
                             // Save selected translations
+                            var idx = Array.IndexOf(LoadedData.TranslationsList, bar.Description);
                             switch (i)
                             {
                                 case 0:
-                                    LoadedData.Settings.SurahVersionConfig.Translation1 = bar.Description;
+                                    LoadedData.Settings.SurahVersionConfig.Translation1 = idx;
                                     break;
                                 case 1:
-                                    LoadedData.Settings.SurahVersionConfig.Translation2 = bar.Description;
+                                    LoadedData.Settings.SurahVersionConfig.Translation2 = idx;
                                     break;
                                 case 2:
-                                    LoadedData.Settings.SurahVersionConfig.Translation3 = bar.Description;
+                                    LoadedData.Settings.SurahVersionConfig.Translation3 = idx;
                                     break;
                             }
 
@@ -180,9 +181,9 @@ namespace Baraka.Forms
                     }
                     else
                     {
-                        LoadedData.Settings.SurahVersionConfig.Translation1 = null;
-                        LoadedData.Settings.SurahVersionConfig.Translation2 = null;
-                        LoadedData.Settings.SurahVersionConfig.Translation3 = null;
+                        LoadedData.Settings.SurahVersionConfig.Translation1 = -1;
+                        LoadedData.Settings.SurahVersionConfig.Translation2 = -1;
+                        LoadedData.Settings.SurahVersionConfig.Translation3 = -1;
                     }
 
                     MessageBox.Show(

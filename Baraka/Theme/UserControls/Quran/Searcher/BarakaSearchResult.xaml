@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Searcher"
              mc:Ignorable="d">
-    <DockPanel Background="White">
+    <DockPanel>
         <Border x:Name="VerseNumBorder" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,5,0,5" BorderThickness="1.5" Padding="5,1" CornerRadius="4" MouseEnter="VerseNumBorder_MouseEnter" MouseLeave="VerseNumBorder_MouseLeave" Background="White" Height="35" Width="90">
             <Border.BorderBrush>
                 <SolidColorBrush Color="{DynamicResource DarkColor}"/>
@@ -20,7 +20,7 @@
             BorderThickness="0"
             IsReadOnly="True"
             FontFamily="/Baraka;component/Fonts/#Poppins"
-            Margin="20,4,10,4" Background="{x:Null}" FontSize="18" SelectionChanged="RTB_SelectionChanged" DockPanel.Dock="Right">
+            Margin="20,4,10,4" Background="{x:Null}" FontSize="18" SelectionChanged="RTB_SelectionChanged" DockPanel.Dock="Right" VerticalAlignment="Center">
             <FlowDocument/>
         </RichTextBox>
 

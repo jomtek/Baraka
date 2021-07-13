@@ -11,6 +11,8 @@ namespace Baraka.Theme.UserControls
     /// </summary>
     public partial class BarakaTextBox : UserControl
     {
+        private string _placeholder = "rechercher...";
+
         #region Settings
         [Category("Baraka")]
         public string Text
@@ -19,6 +21,18 @@ namespace Baraka.Theme.UserControls
             set
             {
                 TextBoxComponent.Text = value;
+            }
+        }
+
+        [Category("Baraka")]
+        public string Placeholder
+        {
+            get { return _placeholder; }
+            set
+            {
+                _placeholder = value;
+                TextBoxComponent.Text = _placeholder;
+                TextBoxComponent.Opacity = 0.65;
             }
         }
         #endregion
@@ -60,7 +74,7 @@ namespace Baraka.Theme.UserControls
         {
             if (TextBoxComponent.Text.Trim().Length == 0)
             {
-                TextBoxComponent.Text = "rechercher...";
+                TextBoxComponent.Text = _placeholder;
                 TextBoxComponent.Opacity = 0.65;
             }
         }

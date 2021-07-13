@@ -24,7 +24,7 @@ namespace Baraka
     /// </summary>
     public partial class MainWindow : Window
     {
-        private double _mainGridScale = 1.2;
+        private double _mainGridScale = 1.1;
 
         public MainWindow()
         {
@@ -101,8 +101,15 @@ namespace Baraka
                 LoadedData.AudioCache.Clear();
             }
 
+            if (LoadedData.Settings.AutoReloadLastSurah)
+            {
+                LoadedData.Settings.DefaultCheikhIndex = Array.IndexOf(LoadedData.CheikhList, Player.SelectedCheikh);
+                LoadedData.Settings.DefaultSurahIndex = Player.SelectedSurah.SurahNumber - 1;
+            }
+
+            SerializationUtils.Serialize(LoadedData.Settings, "settings.ser");
             SerializationUtils.Serialize(LoadedData.Bookmarks, "bookmarks.ser");
-            SerializationUtils.Serialize(LoadedData.AudioCache, "data/cache.ser");
+            SerializationUtils.Serialize(LoadedData.AudioCache.Content, "data/cache.ser");
 
             // Exit
             Environment.Exit(0);
@@ -182,9 +189,23 @@ namespace Baraka
 
         private void SettingsDashboardItem_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            var oldSurahVerConfig =
+                (SurahVersionConfig)LoadedData.Settings.SurahVersionConfig.Clone();
+
             WindowBlurEffect.Radius = 8;
             new SettingsWindow() { Owner = this }.ShowDialog();
             WindowBlurEffect.Radius = 0;
+
+            // Apply settings to be directly applied
+            //
+            MainSurahDisplayer.SetSBVisible(LoadedData.Settings.DisplayScrollBar);
+            Player.Streamer.OutputDeviceIndex = LoadedData.Settings.OutputDeviceIndex;
+
+            if (!LoadedData.Settings.SurahVersionConfig.Equals(oldSurahVerConfig))
+            {
+                // Reload actual surah              
+                MainSurahDisplayer.LoadSurah(MainSurahDisplayer.Surah);
+            }
         }
         #endregion
         #endregion

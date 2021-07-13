@@ -33,10 +33,17 @@ namespace Baraka.Theme.UserControls.Quran.Player
         {
             if (!ItemsInitialized)
             {
-                foreach (CheikhDescription cheikh in LoadedData.CheikhList)
+                for (int i = 0; i < LoadedData.CheikhList.Length; i++)
                 {
+                    var cheikh = LoadedData.CheikhList[i];
+
                     var card = new CheikhCard(cheikh, parentPlayer);
                     ContainerGrid.Children.Add(card);
+
+                    if (i == LoadedData.Settings.DefaultCheikhIndex)
+                    {
+                        card.Select();
+                    }
                 }
 
                 PageSV.PreviewMouseWheel += parentPlayer.PageSV_PreviewMouseWheel;

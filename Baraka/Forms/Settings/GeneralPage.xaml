@@ -8,10 +8,10 @@
       xmlns:UserControls="clr-namespace:Baraka.Theme.UserControls" x:Class="Baraka.Forms.Settings.GeneralPage"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="GeneralPage" Width="Auto" Height="Auto" Unloaded="Page_Unloaded">
+      Title="GeneralPage" Width="Auto" Height="Auto">
 
     <StackPanel Background="White">
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,40,0,0" Orientation="Horizontal">
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,40,0,0" Orientation="Horizontal" Opacity="0.6">
             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Langue du logiciel" VerticalAlignment="Top" FontSize="24" Margin="0"/>
             <ComboBox x:Name="LanguageCMBB" Width="205" Margin="30,0,0,0" FontSize="24" VerticalContentAlignment="Center" FontFamily="Montserrat">
                 <ComboBoxItem x:Name="FrenchItem"  Content="Français" />
@@ -21,13 +21,13 @@
             </ComboBox>
         </StackPanel>
         
-        <CheckBox x:Name="LaunchOnStartupCHB" Content="Lancer Baraka au démarrage de la session Windows" Style="{DynamicResource SimpleCheckBox}" Margin="30,20,0,0" FontSize="24" Padding="7,0,0,0" ToolTip="Lancer Baraka au démarrage de l'ordinateur" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2">
+        <CheckBox x:Name="LaunchOnStartupCHB" Content="Lancer Baraka au démarrage de la session Windows" Style="{DynamicResource SimpleCheckBox}" Margin="30,20,0,0" FontSize="24" Padding="7,0,0,0" ToolTip="Lancer Baraka au démarrage de l'ordinateur" HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="2" Opacity="0.6">
             <CheckBox.BorderBrush>
                 <SolidColorBrush Color="{DynamicResource DarkColor}"/>
             </CheckBox.BorderBrush>
         </CheckBox>
         
-        <Path Data="M224,329L353,329" HorizontalAlignment="Left" Margin="30,20,0,20" StrokeStartLineCap="Round" Stretch="Fill" StrokeEndLineCap="Round" Stroke="#FFC7C5C5" StrokeThickness="4" Width="350" Fill="Black"/>
+        <Path Data="M224,329L353,329" HorizontalAlignment="Left" Margin="30,20,0,20" StrokeStartLineCap="Round" Stretch="Fill" StrokeEndLineCap="Round" Stroke="#FFC7C5C5" StrokeThickness="4" Width="575" Fill="Black"/>
         
         <GroupBox Header="Cache" Margin="30,0" FontSize="24" BorderThickness="3" ClipToBounds="True">
             <StackPanel Margin="15,10">

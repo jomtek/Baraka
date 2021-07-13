@@ -18,11 +18,16 @@ namespace Baraka.Forms.Settings
     /// <summary>
     /// Logique d'interaction pour HelpPage.xaml
     /// </summary>
-    public partial class HelpPage : Page
+    public partial class HelpPage : Page, ISettingsPage
     {
         public HelpPage()
         {
             InitializeComponent();
+        }
+
+        public void SaveSettings()
+        {
+
         }
     }
 }

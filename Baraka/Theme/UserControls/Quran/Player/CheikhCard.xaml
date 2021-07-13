@@ -19,7 +19,7 @@
                     <DropShadowEffect x:Name="PhotoDropShadow" Direction="260" ShadowDepth="2" BlurRadius="10" RenderingBias="Quality" Opacity="0.35"/>
                 </Rectangle.Effect>
             </Rectangle>
-            <Path x:Name="SeparatorPath" Data="M17.5,110.5 L107,110.5" Fill="Gray" HorizontalAlignment="Center" Stretch="Fill" Stroke="#FFACACAC" VerticalAlignment="Top" Width="93.455" StrokeThickness="1.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Margin="0,8,0,0"/>
+            <Path x:Name="SeparatorPath" Data="M17.5,110.5 L107,110.5" Fill="Gray" HorizontalAlignment="Center" Stretch="Fill" Stroke="#FFACACAC" VerticalAlignment="Top" Width="93.455" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Margin="0,8,0,0"/>
             <TextBlock x:Name="FirstNameTB" Text="Mishary bin Rashid" VerticalAlignment="Top" Margin="0,6,0,0" FontFamily="Montserrat" FontStretch="SemiCondensed" HorizontalAlignment="Center" FontSize="13"/>
             <TextBlock x:Name="LastNameTB" Text="Alafasy" VerticalAlignment="Top" Margin="0" FontFamily="/Baraka;component/Fonts/#Poppins" FontStretch="SemiCondensed" HorizontalAlignment="Center" FontWeight="Bold" FontSize="17"/>
         </StackPanel>

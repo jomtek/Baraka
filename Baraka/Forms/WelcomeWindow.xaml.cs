@@ -25,58 +25,67 @@ namespace Baraka
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            await Task.Delay(700);
+            LoadedData.Settings =
+                SerializationUtils.Deserialize<MySettings>("settings.ser");
 
-            TitleTB.Margin = new Thickness(0, 43, 0, 0);
+            if (!LoadedData.Settings.ShowWelcomeWindow)
+            {
+                Visibility = Visibility.Hidden;
+            }
+
+            MainPB.Visibility = Visibility.Collapsed;
+            ProgressionTB.Visibility = Visibility.Collapsed;
+
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(800);
+
+            TitleTB.Margin = new Thickness(
+                TitleTB.Margin.Left,
+                TitleTB.Margin.Top - 40,
+                TitleTB.Margin.Right,
+                TitleTB.Margin.Bottom
+            );
+
             MainPB.Visibility = Visibility.Visible;
             ProgressionTB.Visibility = Visibility.Visible;
 
-            await Task.Delay(10);
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(10);
 
             // // Loading
-
             //
-            ProgressionTB.Text = "chargement des ressources...";
-
-            await Task.Delay(50);
-
             // Deserialize data
+            ProgressionTB.Text = "chargement des ressources: quran.ser";
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(50);
             LoadedData.SurahList =
                 SerializationUtils.Deserialize<Dictionary<SurahDescription, Dictionary<string, SurahVersion>>>("data/quran.ser");
-            ProgressionTB.Text = "chargement des ressources: quran.ser";
-            await Task.Delay(50);
             MainPB.Progress = 0.2;
-            
+
+            ProgressionTB.Text = "chargement des ressources: cheikh.ser";
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(50);
             LoadedData.CheikhList =
                 SerializationUtils.Deserialize<CheikhDescription[]>("data/cheikh.ser");
-            ProgressionTB.Text = "chargement des ressources: cheikh.ser";
-            await Task.Delay(50);
             MainPB.Progress = 0.4;
-            
+
+            ProgressionTB.Text = "chargement des ressources: translations.ser";
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(50);
             LoadedData.TranslationsList =
                 SerializationUtils.Deserialize<TranslationDescription[]>("data/translations.ser");
-            ProgressionTB.Text = "chargement des ressources: translations.ser";
-            await Task.Delay(50);
-
-
-            //
-            ProgressionTB.Text = "chargement des préférences...";
             MainPB.Progress = 0.5;
-            await Task.Delay(30);
 
-            // Load cache
-            LoadedData.AudioCache =
+            ProgressionTB.Text = "chargement des ressources: cache.ser";
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(70);
+            var cacheContent =
                 SerializationUtils.Deserialize<Dictionary<string, byte[]>>("data/cache.ser");
+            LoadedData.AudioCache = new AudioCacheManager(cacheContent);
+            MainPB.Progress = 0.7;
 
             // Deserialize settings
-            LoadedData.Settings =
-                new MySettings("data/settings.ser");
+            ProgressionTB.Text = "chargement des préférences...";
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(350);
             LoadedData.Bookmarks =
                 SerializationUtils.Deserialize<List<int>>("bookmarks.ser");
-
-            // Debug
             MainPB.Progress = 1;
-            
+
+            // DEBUG
             /*
             string translationPath = @"C:\Users\jomtek360\Documents\Baraka\quran-translated-main";
             foreach (var elem in SerializationUtils.Deserialize<Dictionary<SurahDescription, List<SurahVersion>>>("data/quran.ser"))
@@ -101,12 +110,23 @@ namespace Baraka
 
             //  // Finish
             Hide();
+
             var window = new MainWindow();
-            window.Loaded += (object _, RoutedEventArgs a) =>
+            window.Loaded += (object self, RoutedEventArgs a) =>
             {
-                window.MainSurahDisplayer.LoadSurah(LoadedData.SurahList.ElementAt(0).Key);
+                var defaultCheikh = LoadedData.CheikhList.ElementAt(LoadedData.Settings.DefaultCheikhIndex);
+                var defaultSurah = LoadedData.SurahList.ElementAt(LoadedData.Settings.DefaultSurahIndex).Key;
+
+                window.Player.ChangeSelectedCheikh(defaultCheikh);
+                window.Player.ChangeSelectedSurah(defaultSurah);
+                
+                window.MainSurahDisplayer.LoadSurah(window.Player.SelectedSurah);
+
+                // Other UI settings
+                window.MainSurahDisplayer.SetSBVisible(LoadedData.Settings.DisplayScrollBar);
             };
 
+            // TODO: wait for window to be fully loaded before showing it
             window.Show();
         }
     }

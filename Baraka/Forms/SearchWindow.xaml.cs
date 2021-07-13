@@ -38,6 +38,7 @@ namespace Baraka.Forms
 
         private void Window_Initialized(object sender, EventArgs e)
         {
+            SearchTB.Placeholder = $"rechercher ({LoadedData.Settings.SearchEdition})...";
             foreach (SurahDescription surah in LoadedData.SurahList.Keys)
             {
                 SurahCMBB.Items.Add($"{surah.SurahNumber}. {surah.PhoneticName}");
@@ -45,12 +46,6 @@ namespace Baraka.Forms
         }
 
         #region Search
-        public void ScrollToTop()
-        {
-            MainSB.ResetThumbY();
-            ResultsSV.ScrollToTop();
-        }
-
         private async Task SendQuery()
         {
             var query = General.PrepareQuery(SearchTB.Text);
@@ -81,7 +76,6 @@ namespace Baraka.Forms
                 return;
             }
 
-            ScrollToTop();
             ResultsSP.Children.Clear();
 
             var revelationType = new SurahRevelationType[]
@@ -130,8 +124,6 @@ namespace Baraka.Forms
                 ResultsSP.Children.Add(resultBar);
             }
 
-            MainSB.TargetValue = results.Count;
-
             return;
         }
         #endregion
@@ -156,21 +148,6 @@ namespace Baraka.Forms
             }
 
             ShowAllTB.Visibility = Visibility.Collapsed;
-        }
-        #endregion
-
-        #region Scroll
-        private void ResultsSV_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            MainSB.Scrolled = ResultsSV.VerticalOffset / ResultsSV.ScrollableHeight;
-        }
-
-        private void MainSB_OnScroll(object sender, EventArgs e)
-        {
-            if (ResultsSV.ScrollableHeight * MainSB.Scrolled > 0)
-            {
-                ResultsSV.ScrollToVerticalOffset(ResultsSV.ScrollableHeight * MainSB.Scrolled);
-            }
         }
         #endregion
 

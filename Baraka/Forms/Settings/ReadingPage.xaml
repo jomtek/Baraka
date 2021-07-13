@@ -8,7 +8,7 @@
       xmlns:local="clr-namespace:Baraka.Forms.Settings"
       mc:Ignorable="d" d:DesignWidth="800"
       Width="Auto"
-      Title="ReadingPage" Unloaded="Page_Unloaded">
+      Title="ReadingPage">
 
     <StackPanel Background="White" Margin="0">
         <!-- Startup -->
@@ -55,7 +55,7 @@
                     <TextBlock TextWrapping="Wrap" Text="Périphérique de sortie" FontSize="20" Margin="0,20,0,0"/>
                 </StackPanel>
                 <StackPanel Margin="20,10,15,10">
-                    <xctk:IntegerUpDown x:Name="CrossFadingNUD" Margin="0" Maximum="1000" Minimum="0" Increment="10" DefaultValue="10" BorderThickness="1.5" VerticalAlignment="Top" DisplayDefaultValueOnEmptyText="True" BorderBrush="#FFABADB3" Background="White" Width="120" HorizontalAlignment="Left"/>
+                    <xctk:IntegerUpDown x:Name="CrossFadingNUD" Margin="0" Maximum="1000" Minimum="0" DefaultValue="5" BorderThickness="1.5" VerticalAlignment="Top" DisplayDefaultValueOnEmptyText="True" BorderBrush="#FFABADB3" Background="White" Width="120" HorizontalAlignment="Left" Value="5"/>
                     <ComboBox x:Name="OutputDeviceCMBB" Width="350" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="18"/>
                 </StackPanel>
             </StackPanel>

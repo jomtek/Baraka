@@ -42,28 +42,30 @@ namespace Baraka.Theme.UserControls.Quran.Player
         private void UserControl_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Select();
-            _parentPlayer.ChangeSelectedCheikh(this);
+            _parentPlayer.ChangeSelectedCheikhCard(this);
         }
 
         public void Select()
         {
-            if (_selected) return;
-
             SeparatorPath.Stroke = (SolidColorBrush)App.Current.Resources["MediumBrush"];
-            SeparatorPath.StrokeThickness = 4.5;
-            Height += 10;
+            SeparatorPath.StrokeThickness = 5.5;
 
-            _selected = true;
+            if (!_selected)
+            {
+                Height += 10;
+                _selected = true;
+            }
         }
         public void Unselect()
         {
-            if (!_selected) return;
-
             SeparatorPath.Stroke = Brushes.Gray;
-            SeparatorPath.StrokeThickness = 1.5;
-            Height -= 10;
+            SeparatorPath.StrokeThickness = 3;
 
-            _selected = false;
+            if (_selected)
+            {
+                Height -= 10;
+                _selected = false;
+            }
         }
 
         #region UI Reactivity

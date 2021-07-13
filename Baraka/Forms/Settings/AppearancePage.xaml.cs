@@ -19,7 +19,7 @@ namespace Baraka.Forms.Settings
     /// <summary>
     /// Logique d'interaction pour AppearancePage.xaml
     /// </summary>
-    public partial class AppearancePage : Page
+    public partial class AppearancePage : Page, ISettingsPage
     {
         public AppearancePage()
         {
@@ -33,7 +33,7 @@ namespace Baraka.Forms.Settings
             ShowWelcomeWindowCHB.IsChecked = LoadedData.Settings.ShowWelcomeWindow;
             DisplayScrollbarCHB.IsChecked = LoadedData.Settings.DisplayScrollBar;
         }
-        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        public void SaveSettings()
         {
             LoadedData.Settings.ShowWelcomeWindow = ShowWelcomeWindowCHB.IsChecked.GetValueOrDefault();
             LoadedData.Settings.DisplayScrollBar = DisplayScrollbarCHB.IsChecked.GetValueOrDefault();

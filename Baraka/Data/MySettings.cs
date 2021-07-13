@@ -1,4 +1,5 @@
-﻿using Baraka.Data.Surah;
+﻿using Baraka.Data.Descriptions;
+using Baraka.Data.Surah;
 using Baraka.Globalization;
 using System;
 using System.Collections.Generic;
@@ -8,10 +9,9 @@ using System.Threading.Tasks;
 
 namespace Baraka.Data
 {
+    [Serializable]
     public class MySettings
     {
-        private string _path;
-
         // With temporary (debug) default values
 
         #region Values
@@ -29,31 +29,20 @@ namespace Baraka.Data
         public bool DisplayScrollBar { get; set; } = true;
 
         // Reading
-        public int DefaultSurahIndex { get; set; } = 0;
-        public int DefaultCheikhIndex { get; set; } = 0;
+        public int DefaultSurahIndex { get; set; } = 0; // Al-Fatiha
+        public int DefaultCheikhIndex { get; set; } = 4; // Saad Al-Ghamadi
         public bool AutoScrollQuran { get; set; } = false;
         public bool AutoNextSurah { get; set; } = false;
         public bool AutoReloadLastSurah { get; set; } = true;
-        public int CrossFadingValue { get; set; } = 10;
-        public string OutputDeviceGuid { get; set; } =
-            "010000000-0000-0000-0000-000000000000"; // Default output
+        public int CrossFadingValue { get; set; } = 5;
+        public int OutputDeviceIndex { get; set; } = 0; // Default output
         public SurahVersionConfig SurahVersionConfig =
-            new SurahVersionConfig(true, false, true, LoadedData.TranslationsList[37] /*fr.hamidullah (debug)*/, null, null);
+            new SurahVersionConfig(true, false, true, -1, -1, -1);
 
         // Search
         public string SearchEdition { get; set; } = "ARABIC";
         public string ResultsEdition { get; set; } = "ARABIC";
         public bool HighlightSearchKeywords { get; set; } = true;
         #endregion
-
-
-        public MySettings(string path)
-        {
-            _path = path;
-        }
-        public void Save()
-        {
-            // use _path
-        }
     }
 }

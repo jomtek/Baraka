@@ -19,7 +19,7 @@ namespace Baraka.Forms.Settings
     /// <summary>
     /// Logique d'interaction pour GeneralPage.xaml
     /// </summary>
-    public partial class GeneralPage : Page
+    public partial class GeneralPage : Page, ISettingsPage
     {
         public GeneralPage()
         {
@@ -31,7 +31,7 @@ namespace Baraka.Forms.Settings
             ClearCacheCHB.IsChecked = LoadedData.Settings.ClearAudioCache;
         }
 
-        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        public void SaveSettings()
         {
             LoadedData.Settings.Startup = LaunchOnStartupCHB.IsChecked.GetValueOrDefault();
             LoadedData.Settings.Language = (Globalization.Language)LanguageCMBB.SelectedIndex;

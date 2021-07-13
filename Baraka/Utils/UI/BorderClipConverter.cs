@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace Baraka.Utils
+namespace Baraka.Utils.UI
 {
     public class BorderClipConverter : IMultiValueConverter
     {

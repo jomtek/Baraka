@@ -41,7 +41,7 @@ namespace Baraka.Forms.Settings
 
         private void Window_Deactivated(object sender, EventArgs e)
         {
-            // TODO: remove this event
+            
         }
 
         #region Dashboard
@@ -208,6 +208,14 @@ namespace Baraka.Forms.Settings
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
            
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            foreach (ISettingsPage page in _pages)
+            {
+                page.SaveSettings();
+            }
         }
     }
 }

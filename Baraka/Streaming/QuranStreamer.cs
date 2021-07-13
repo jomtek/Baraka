@@ -80,13 +80,24 @@ namespace Baraka.Streaming
         }
         #endregion
 
+        #region Streamer config
+        public int OutputDeviceIndex
+        {
+            set
+            {
+                _wout.DeviceNumber = value;
+                ChangeVerse(NonRelativeVerse);
+            }
+        }
+        #endregion
+
         public QuranStreamer()
         {
             // Default values
             Surah = LoadedData.SurahList.ElementAt(0).Key;
             Cheikh = LoadedData.CheikhList.ElementAt(3);
 
-            _wout = new WaveOut(WaveCallbackInfo.FunctionCallback());
+            _wout = new WaveOut(WaveCallbackInfo.FunctionCallback());   
         }
 
         #region Cursor Management
@@ -152,11 +163,9 @@ namespace Baraka.Streaming
                     url = StreamingUtils.GenerateVerseUrl(Cheikh, Surah, next ? Verse + 1 : Verse);
                 }
 
-                Console.WriteLine($"asking for url: {url}");
-
-                if (LoadedData.Settings.EnableAudioCache && LoadedData.AudioCache.ContainsKey(url))
+                if (LoadedData.Settings.EnableAudioCache && LoadedData.AudioCache.HasEntry(url))
                 {
-                    _nextVerseAudio = LoadedData.AudioCache[url];
+                    _nextVerseAudio = LoadedData.AudioCache.Gather(url);
                 }
                 else
                 {
@@ -185,10 +194,12 @@ namespace Baraka.Streaming
                         return;
                     }
 
-                    _nextVerseAudio = ms.ToArray();
-                    
                     if (LoadedData.Settings.EnableAudioCache)
-                        LoadedData.AudioCache.Add(url, ms.ToArray());
+                    {
+                        LoadedData.AudioCache.AddEntry(url, ms.ToArray());
+                    }
+
+                    _nextVerseAudio = ms.ToArray();
                 }
             }
         }
@@ -225,7 +236,14 @@ namespace Baraka.Streaming
                     prepareNextAudioTask.Start();
                 }
 
-                await Task.Run(() => PlayVerse(audioToPlay));
+                try
+                {
+                    await Task.Run(() => PlayVerse(audioToPlay));
+                }
+                catch (NAudio.MmException)
+                {
+                    break;
+                }
 
                 if (prepareNextAudioTask.Status == TaskStatus.Running)
                 {
@@ -272,7 +290,16 @@ namespace Baraka.Streaming
                         WaveFormatConversionStream.CreatePcmStream(
                             new Mp3FileReader(ms))))
                 {
-                    _wout.Init(blockAlignedStream);
+                    try
+                    {
+                        _wout.Init(blockAlignedStream);
+                    }
+                    catch (NAudio.MmException ex)
+                    {
+                        Playing = false;
+                        Utils.Emergency.ShowExMessage(ex);
+                        throw ex;
+                    }
 
                     try
                     {
@@ -281,7 +308,7 @@ namespace Baraka.Streaming
                     catch (NullReferenceException)
                     {
                         Console.WriteLine("Null reference");
-                    };
+                    }
 
                     //double time = blockAlignedStream.TotalTime.TotalMilliseconds * percentage;
                     //blockAlignedStream.Position =
@@ -305,8 +332,7 @@ namespace Baraka.Streaming
                         // _cursor = currentMs / totalMs;
 
                         // Crossfading (WIP TODO)
-                        int milliseconds = 1;
-                        if (totalMs - currentMs < milliseconds)
+                        if (totalMs - currentMs < LoadedData.Settings.CrossFadingValue)
                         {
                             break;
                         }

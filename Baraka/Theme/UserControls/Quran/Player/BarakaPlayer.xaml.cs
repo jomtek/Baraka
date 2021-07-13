@@ -34,7 +34,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
         private int _lastTabShown = -1;
 
         private CheikhDescription _selectedCheikh;
-        private CheikhCard _selectedCheikhCard;
+        private CheikhCard _selectedCheikhCard; // TODO: ?? unused
 
         private SurahDescription _selectedSurah;
         private SurahBar _selectedSurahBar;
@@ -78,10 +78,9 @@ namespace Baraka.Theme.UserControls.Quran.Player
             InitializeComponent();
 
             _selectedSurah = LoadedData.SurahList.ElementAt(0).Key;
-            _selectedCheikh = LoadedData.CheikhList.ElementAt(3);
+            _selectedCheikh = LoadedData.CheikhList.ElementAt(0);
 
             SurahTB.ToolTip = Utils.General.GenerateSynopsis(_selectedSurah);
-
 
             // Selectors init
             _cheikhSelector = new CheikhSelectorPage();
@@ -106,13 +105,20 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
                 //VersePB.Progress = 0;
 
-                Displayer.ChangeVerse(Streamer.NonRelativeVerse);
+                Displayer.ChangeVerse(Streamer.NonRelativeVerse, true);
             };
 
             Streamer.FinishedSurah += (object sender, EventArgs e) =>
             {
                 _playing = false;
                 RefreshPlayPauseBtn();
+
+                if (LoadedData.Settings.AutoNextSurah)
+                {
+                    // TODO: auto-play on next surah loaded with bookmark
+                    //       taken into account (play basmala first)
+                    Displayer.LoadNextSurah();
+                }
             };
 
             /*VersePB.CursorChanged += (object sender, double e) =>
@@ -154,6 +160,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
         {
             Streamer.StartVerse = Displayer.StartVerse;
             Streamer.EndVerse = Displayer.EndVerse;
+            Console.WriteLine("loop mode info reinitialized");
         }
 
         public void ReinitLoopmode(bool activated)
@@ -257,12 +264,10 @@ namespace Baraka.Theme.UserControls.Quran.Player
         {
             if (!_playing)
             {
-                Console.WriteLine("ctrl btn style updated to play");
                 PlayPauseBtnPath.Style = (Style)this.Resources["Play"];
             }
             else
             {
-                Console.WriteLine("ctrl btn style updated to pause");
                 PlayPauseBtnPath.Style = (Style)this.Resources["Pause"];
             }
         }
@@ -271,14 +276,12 @@ namespace Baraka.Theme.UserControls.Quran.Player
         {
             SetPlaying(false);
             ChangeSelectedSurah(LoadedData.SurahList.ElementAt(_selectedSurah.SurahNumber - 1 - 1).Key);
-            _resetSurahDisplayer = true;
         }
 
         private void ForwardBTN_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             SetPlaying(false);
             ChangeSelectedSurah(LoadedData.SurahList.ElementAt(_selectedSurah.SurahNumber + 1 - 1).Key);
-            _resetSurahDisplayer = true;
         }
         #endregion
 
@@ -304,8 +307,6 @@ namespace Baraka.Theme.UserControls.Quran.Player
         #endregion
 
         #region Scrollviewer Display
-        private bool _resetSurahDisplayer = false;
-
         // `tab` parameter: 0 => Cheikh selector
         //                  1 => Surah selector
         private void OpenPlayer(int tab)
@@ -318,12 +319,6 @@ namespace Baraka.Theme.UserControls.Quran.Player
             {
                 SetPlaying(false);
                 RefreshPlayPauseBtn();
-            }
-
-            if (_resetSurahDisplayer)
-            {
-                ShowSurahSelector();
-                _resetSurahDisplayer = false;
             }
 
             SelectorGrid.Visibility = Visibility.Visible;
@@ -367,8 +362,6 @@ namespace Baraka.Theme.UserControls.Quran.Player
             }
             else
             {
-                // TODO: make it so that each selector page has control over its own ScrollViewer
-                //DisplaySV.ScrollToTop();
                 MainSB.ResetThumbY();
             }
 
@@ -399,19 +392,21 @@ namespace Baraka.Theme.UserControls.Quran.Player
             FrameComponent.Content = _cheikhSelector;
         }
 
-        public void ChangeSelectedCheikh(CheikhCard card)
+        public void ChangeSelectedCheikh(CheikhDescription cheikh)
+        {
+            _selectedCheikh = cheikh;
+            Streamer.Cheikh = cheikh;
+            CheikhTB.Text = cheikh.ToString();
+        }
+
+        public void ChangeSelectedCheikhCard(CheikhCard card)
         {
             if (card != _selectedCheikhCard)
             {
-                _selectedCheikh = card.Cheikh;
-                Streamer.Cheikh = card.Cheikh;
-
                 if (_selectedCheikhCard != null)
                     _selectedCheikhCard.Unselect();
 
-                _selectedCheikhCard = card;
-
-                CheikhTB.Text = _selectedCheikh.ToString();
+                ChangeSelectedCheikh(card.Cheikh);
             }
         }
         #endregion

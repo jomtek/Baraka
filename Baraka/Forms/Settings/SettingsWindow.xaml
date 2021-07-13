@@ -8,7 +8,7 @@
         WindowStartupLocation="CenterOwner"
         Title="SettingsWindow" Background="White" ShowInTaskbar="False" Deactivated="Window_Deactivated" MouseLeftButtonDown="Window_MouseLeftButtonDown" Loaded="Window_Loaded"
         Width="950" Height="800"
-        MinWidth="250" MinHeight="250">
+        MinWidth="250" MinHeight="250" Closing="Window_Closing">
 
     <Window.Resources>
         <Color x:Key="DashboardHoveredItemColor">#FFD7EEFF</Color>

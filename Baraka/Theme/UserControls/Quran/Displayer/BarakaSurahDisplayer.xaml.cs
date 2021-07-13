@@ -11,6 +11,7 @@ using System.Windows.Input;
 using Baraka.Utils;
 using System.Windows.Media;
 using System.Threading.Tasks;
+using System.Windows.Media.Animation;
 
 namespace Baraka.Theme.UserControls.Quran.Displayer
 {
@@ -179,6 +180,16 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             LoadLastBookmark();
         }
 
+        public void LoadNextSurah()
+        {
+            // -1 is not required here because we want the NEXT surah
+            if (Surah.SurahNumber < 114)
+            {
+                var nextSurah = LoadedData.SurahList.Keys.ElementAt(Surah.SurahNumber);
+                LoadSurah(nextSurah);
+            }
+        }
+
         #region VerseNum Menu
         public void VerseNum_Click(int num)
         {
@@ -213,13 +224,36 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             VersesSV.ScrollToTop();
         }
 
+        // SOF 2176945/anatoliy-nikolaev
+        private void DoSmoothScoll(double verticalOffset)
+        {
+            DoubleAnimation verticalAnimation = new DoubleAnimation();
+
+            verticalAnimation.From = VersesSV.VerticalOffset;
+            verticalAnimation.To = verticalOffset;
+            verticalAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(600));
+
+            Storyboard storyboard = new Storyboard();
+            storyboard.Children.Add(verticalAnimation);
+            Storyboard.SetTarget(verticalAnimation, VersesSV);
+            Storyboard.SetTargetProperty(verticalAnimation, new PropertyPath(Utils.UI.ScrollAnimationBehavior.VerticalOffsetProperty)); // Attached dependency property
+            storyboard.Begin();
+        }
+
         public void ScrollToVerse(int verse, bool searchRes = false)
         {
             BrowseToVerse(verse);
 
-            double newVerticalOffset = Bookmark.Height - 60;
-            VersesSV.ScrollToVerticalOffset(newVerticalOffset);
-            // TODO: MainSB.Scrolled = newVerticalOffset / VersesSV.ScrollableHeight;
+            double newVerticalOffset = Bookmark.Height - 60 - 250;
+            if (newVerticalOffset > VersesSV.VerticalOffset)
+            {
+                if (VersesSV.ScrollableHeight != 0)
+                {
+                    // TODO: fix this
+                    MainSB.Scrolled = newVerticalOffset / VersesSV.ScrollableHeight;
+                }
+                DoSmoothScoll(newVerticalOffset);
+            }
 
             if (searchRes)
             {
@@ -268,7 +302,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             int bookmark =
                 LoadedData.Bookmarks[Surah.SurahNumber - 1];
             VerseChanged?.Invoke(this, bookmark);
-            ScrollToVerse(bookmark);
+            ScrollToVerse(bookmark, false);
         }
         #endregion
 
@@ -293,9 +327,8 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
             if (StartVerse != 0)
             {
-                Bookmark.Height -= _firstVerseOffset;
+            Bookmark.Height -= _firstVerseOffset;
             }
-
             ActualVerse = num;
 
             // Save bookmark
@@ -332,7 +365,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         #endregion
 
         #region External Events
-        public void ChangeVerse(int num)
+        public void ChangeVerse(int num, bool automatic = false)
         {
             if (_playing)
             {
@@ -343,11 +376,28 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
                 var numPolygon = (BarakaVerseNumber)NumberingSP.Children[num];
                 numPolygon.Playing = true;
+
+                if (!LoopMode && LoadedData.Settings.AutoScrollQuran)
+                    ScrollToVerse(num, false);
             }
 
             if (!LoopMode)
             {
                 EndVerse = num;
+            }
+        }
+        #endregion
+
+        #region External UI configuration
+        public void SetSBVisible(bool value)
+        {
+            if (value)
+            {
+                MainSB.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                MainSB.Visibility = Visibility.Collapsed;
             }
         }
         #endregion

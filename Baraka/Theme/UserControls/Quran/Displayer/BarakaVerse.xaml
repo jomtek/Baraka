@@ -25,7 +25,7 @@
         </Grid.OpacityMask>
 
         <Border x:Name="Border1" BorderBrush="Black" BorderThickness="0" ClipToBounds="True" Margin="0" Background="White" CornerRadius="10" />
-        <StackPanel Background="White" Height="Auto" Margin="0,0,0,10">
+        <StackPanel Background="White" Height="Auto" Margin="0,10">
             <TextBox x:Name="ArabicTB"
                     Text="وَإِذَا رَأَيْتَ ثَمَّ رَأَيْتَ نَعِيمًا وَمُلْكًا كَبِيرًا"
                     VerticalAlignment="Top"
@@ -35,7 +35,7 @@
                     TextWrapping="Wrap"
                     IsReadOnly="True"
                     FontFamily="/Baraka;component/Fonts/#Al Qalam Quran"
-                    Margin="12,10,12,0"
+                    Margin="12,5,12,0"
                     Height="Auto" Width="Auto"
                     FontSize="32" Background="{x:Null}" />
             <TextBox x:Name="PhoneticTB"

@@ -20,7 +20,7 @@ namespace Baraka.Forms.Settings
     /// <summary>
     /// Logique d'interaction pour SearchPage.xaml
     /// </summary>
-    public partial class SearchPage : Page
+    public partial class SearchPage : Page, ISettingsPage
     {
         public SearchPage()
         {
@@ -45,7 +45,7 @@ namespace Baraka.Forms.Settings
             HighlightKeywordsCHB.IsChecked = LoadedData.Settings.HighlightSearchKeywords;
         }
 
-        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        public void SaveSettings()
         {
             LoadedData.Settings.SearchEdition = SearchEditionCMBB.Text;
             LoadedData.Settings.ResultsEdition = ResultsEditionCMBB.Text;

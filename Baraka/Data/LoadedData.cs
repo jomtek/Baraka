@@ -16,6 +16,6 @@ namespace Baraka.Data
         public static List<int> Bookmarks;
 
         // Cache
-        public static Dictionary<string, byte[]> AudioCache;
+        public static AudioCacheManager AudioCache;
     }
 }
