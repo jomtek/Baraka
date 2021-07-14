@@ -43,6 +43,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
                     if (i == LoadedData.Settings.DefaultCheikhIndex)
                     {
                         card.Select();
+                        parentPlayer.ChangeSelectedCheikhCard(card);
                     }
                 }
 

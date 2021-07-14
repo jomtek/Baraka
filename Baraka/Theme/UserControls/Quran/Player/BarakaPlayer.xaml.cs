@@ -34,7 +34,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
         private int _lastTabShown = -1;
 
         private CheikhDescription _selectedCheikh;
-        private CheikhCard _selectedCheikhCard; // TODO: ?? unused
+        private CheikhCard _selectedCheikhCard;
 
         private SurahDescription _selectedSurah;
         private SurahBar _selectedSurahBar;
@@ -407,6 +407,8 @@ namespace Baraka.Theme.UserControls.Quran.Player
                     _selectedCheikhCard.Unselect();
 
                 ChangeSelectedCheikh(card.Cheikh);
+
+                _selectedCheikhCard = card;
             }
         }
         #endregion
