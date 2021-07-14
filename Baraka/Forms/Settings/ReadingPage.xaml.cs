@@ -91,5 +91,39 @@ namespace Baraka.Forms.Settings
         {
             new QuranTranslationsManagerWindow() { Owner = (Window)Parent }.ShowDialog();
         }
+
+        #region UI misc
+        // Make it so that at least one language has to be selected 
+        //
+        private void ArabicVersionCHB_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (!PhoneticVersionCHB.IsChecked.GetValueOrDefault() &&
+                !TranslatedVersionCHB.IsChecked.GetValueOrDefault())
+            {
+                // Cancel the event
+                ArabicVersionCHB.IsChecked = true;
+            }
+        }
+
+        private void PhoneticVersionCHB_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (!ArabicVersionCHB.IsChecked.GetValueOrDefault() &&
+                !TranslatedVersionCHB.IsChecked.GetValueOrDefault())
+            {
+                // Cancel the event
+                PhoneticVersionCHB.IsChecked = true;
+            }
+        }
+
+        private void TranslatedVersionCHB_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (!ArabicVersionCHB.IsChecked.GetValueOrDefault() &&
+                !PhoneticVersionCHB.IsChecked.GetValueOrDefault())
+            {
+                // Cancel the event
+                TranslatedVersionCHB.IsChecked = true;
+            }
+        }
+        #endregion
     }
 }
