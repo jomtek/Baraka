@@ -23,6 +23,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
     public partial class CheikhSelectorPage : Page
     {
         public bool ItemsInitialized { get; set; } = false;
+        private BarakaPlayer _parentPlayer;
 
         public CheikhSelectorPage()
         {
@@ -48,6 +49,9 @@ namespace Baraka.Theme.UserControls.Quran.Player
                 }
 
                 PageSV.PreviewMouseWheel += parentPlayer.PageSV_PreviewMouseWheel;
+
+                // Save parent player
+                _parentPlayer = parentPlayer;
 
                 ItemsInitialized = true;
             }

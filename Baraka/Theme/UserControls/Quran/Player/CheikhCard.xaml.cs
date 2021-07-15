@@ -10,23 +10,23 @@ namespace Baraka.Theme.UserControls.Quran.Player
     /// </summary>
     public partial class CheikhCard : UserControl
     {
-        private CheikhDescription _cheikh;
+        private CheikhDescription _description;
         private BarakaPlayer _parentPlayer;
 
         private bool _selected = false;
 
         #region Settings
-        public CheikhDescription Cheikh
+        public CheikhDescription Description
         {
-            get { return _cheikh; }
+            get { return _description; }
         }
         #endregion
 
-        public CheikhCard(CheikhDescription cheikh, BarakaPlayer parent)
+        public CheikhCard(CheikhDescription description, BarakaPlayer parent)
         {
             InitializeComponent();
 
-            _cheikh = cheikh;
+            _description = description;
             Initialize();
 
             _parentPlayer = parent;
@@ -34,9 +34,9 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
         public void Initialize()
         {
-            FirstNameTB.Text = _cheikh.FirstName;
-            LastNameTB.Text = _cheikh.LastName;
-            PhotoRect.Fill = new ImageBrush(_cheikh.GetPhoto());
+            FirstNameTB.Text = _description.FirstName;
+            LastNameTB.Text = _description.LastName;
+            PhotoRect.Fill = new ImageBrush(_description.GetPhoto());
         }
 
         private void UserControl_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)

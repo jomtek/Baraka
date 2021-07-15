@@ -49,9 +49,14 @@ namespace Baraka.Theme.UserControls.Quran.Player
             }
         }
 
-        public void RefreshSelection(SurahDescription selectedSurah)
+        public void RefreshSelection()
         {
-            if (selectedSurah == null)
+            if (!ItemsInitialized)
+            {
+                return;
+            }
+
+            if (_parentPlayer.SelectedSurah == null)
             {
                 var firstBar = (SurahBar)ContainerSP.Children[0];
                 _parentPlayer.SetSelectedBar(firstBar);
@@ -61,7 +66,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             {
                 foreach (SurahBar bar in ContainerSP.Children)
                 {
-                    if (bar.Surah.PhoneticName == selectedSurah.PhoneticName)
+                    if (bar.Surah.PhoneticName == _parentPlayer.SelectedSurah.PhoneticName)
                     {
                         _parentPlayer.SetSelectedBar(bar);
                         bar.Select();
@@ -72,6 +77,14 @@ namespace Baraka.Theme.UserControls.Quran.Player
                         {
                             PageSV.ScrollToVerticalOffset(bar.ActualHeight * (index - 3));
                         }
+                        else
+                        {
+                            PageSV.ScrollToVerticalOffset(0);
+                        }
+                    }
+                    else
+                    {
+                        bar.Unselect();
                     }
                 }
             }

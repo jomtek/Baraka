@@ -406,7 +406,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
                 if (_selectedCheikhCard != null)
                     _selectedCheikhCard.Unselect();
 
-                ChangeSelectedCheikh(card.Cheikh);
+                ChangeSelectedCheikh(card.Description);
 
                 _selectedCheikhCard = card;
             }
@@ -456,10 +456,10 @@ namespace Baraka.Theme.UserControls.Quran.Player
                     ForwardBTN.Opacity = 1;
                 }
 
-
                 SurahTB.Text = _selectedSurah.PhoneticName;
 
                 Displayer.LoadSurah(_selectedSurah);
+                _surahSelector.RefreshSelection();
 
                 SurahTB.ToolTip = Utils.General.GenerateSynopsis(_selectedSurah);
             }
@@ -475,7 +475,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
                 _surahSelector.InitializeItems(this);
             }
 
-            _surahSelector.RefreshSelection(_selectedSurah);
+            _surahSelector.RefreshSelection();
 
             FrameComponent.Content = _surahSelector;
         }
