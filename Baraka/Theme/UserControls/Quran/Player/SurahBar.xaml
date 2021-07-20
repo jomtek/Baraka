@@ -29,7 +29,7 @@
         </StackPanel>
 
         <StackPanel x:Name="PlayControlsSP" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,17.5,0">
-            <TextBlock x:Name="ProgressTB" HorizontalAlignment="Right" TextWrapping="Wrap" Margin="0,0,10,0" FontFamily="Arial" VerticalAlignment="Center" TextDecorations="{x:Null}" FontSize="18" Foreground="Black" Background="WhiteSmoke" FontStretch="Expanded" Padding="5,2"><Run Text="8"/><Run Text="0%"/></TextBlock>
+            <TextBlock x:Name="ProgressTB" HorizontalAlignment="Right" TextWrapping="Wrap" Margin="0,0,10,0" FontFamily="Arial" VerticalAlignment="Center" TextDecorations="{x:Null}" FontSize="18" Foreground="Black" Background="WhiteSmoke" FontStretch="Expanded" Padding="5,2" Visibility="Collapsed"><Run Text="8"/><Run Text="0%"/></TextBlock>
             <Canvas x:Name="StreamBTN" Width="28" Height="22" Cursor="Hand" Margin="0,0,12,0" PreviewMouseLeftButtonUp="StreamBTN_PreviewMouseLeftButtonUp" ToolTip="Cliquez pour écouter la récitation en streaming" Background="White">
                 <Path x:Name="StreamBtnPath" Style="{StaticResource CloudPath}" Stretch="Fill" Height="22" Width="28" Fill="Black" />
             </Canvas>

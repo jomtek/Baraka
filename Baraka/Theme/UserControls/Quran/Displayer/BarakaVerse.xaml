@@ -26,18 +26,23 @@
 
         <Border x:Name="Border1" BorderBrush="Black" BorderThickness="0" ClipToBounds="True" Margin="0" Background="White" CornerRadius="10" />
         <StackPanel Background="White" Height="Auto" Margin="0,10">
-            <TextBox x:Name="ArabicTB"
-                    Text="وَإِذَا رَأَيْتَ ثَمَّ رَأَيْتَ نَعِيمًا وَمُلْكًا كَبِيرًا"
+            <RichTextBox x:Name="ArabicRTB"
                     VerticalAlignment="Top"
                     HorizontalAlignment="Right"
                     HorizontalContentAlignment="Right"
                     BorderThickness="0"
-                    TextWrapping="Wrap"
                     IsReadOnly="True"
                     FontFamily="/Baraka;component/Fonts/#Al Qalam Quran"
-                    Margin="12,5,12,0"
-                    Height="Auto" Width="Auto"
-                    FontSize="32" Background="{x:Null}" />
+                    Margin="0,5,12,0" Width="Auto"
+                    FlowDirection="RightToLeft"
+                    FontSize="32">
+                <FlowDocument>
+                    <Paragraph>
+                        <Run x:Name="ArabicRTB_Run" Text="وَإِذَا رَأَيْتَ ثَمَّ رَأَيْتَ نَعِيمًا وَمُلْكًا كَبِيرًا"/>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+            
             <TextBox x:Name="PhoneticTB"
                     Text="Wa-itha raayta thamma raayta na'eeman wamulkan kabeeran"
                     VerticalAlignment="Top"
@@ -49,6 +54,7 @@
                     Margin="12,15,12,5"
                     Height="Auto" Width="Auto"
                     FontSize="17" Foreground="#FF6E6E6E" />
+            
             <TextBox x:Name="Translation1TB"
                     Text="C'est Toi [Seul] que nous adorons, et c'est Toi [Seul] dont nous implorons secours"
                     VerticalAlignment="Top"
@@ -60,6 +66,7 @@
                     Margin="12,5"
                     Height="Auto" Width="Auto"
                     FontSize="17.5" Background="{x:Null}" Visibility="Collapsed" />
+            
             <TextBox x:Name="Translation2TB"
                 Text="C'est Toi [Seul] que nous adorons, et c'est Toi [Seul] dont nous implorons secours"
                 VerticalAlignment="Top"
@@ -71,6 +78,7 @@
                 Margin="12,5,0,5"
                 Height="Auto" Width="Auto"
                 FontSize="17.5" Background="{x:Null}" Visibility="Collapsed" />
+            
             <TextBox x:Name="Translation3TB"
                 Text="C'est Toi [Seul] que nous adorons, et c'est Toi [Seul] dont nous implorons secours"
                 VerticalAlignment="Top"
