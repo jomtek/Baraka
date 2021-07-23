@@ -266,6 +266,5 @@ namespace Baraka
             SetMinWidth();
         }
         #endregion
-
     }
 }

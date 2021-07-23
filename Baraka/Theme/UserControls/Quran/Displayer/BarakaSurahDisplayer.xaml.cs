@@ -185,8 +185,13 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             // -1 is not required here because we want the NEXT surah
             if (Surah.SurahNumber < 114)
             {
+                // Load next surah
                 var nextSurah = LoadedData.SurahList.Keys.ElementAt(Surah.SurahNumber);
                 LoadSurah(nextSurah);
+
+                // Scroll to first verse
+                VerseChanged?.Invoke(this, 0);
+                ScrollToVerse(0);
             }
         }
 
@@ -302,7 +307,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             int bookmark =
                 LoadedData.Bookmarks[Surah.SurahNumber - 1];
             VerseChanged?.Invoke(this, bookmark);
-            ScrollToVerse(bookmark, false);
+            ScrollToVerse(bookmark);
         }
         #endregion
 
@@ -327,7 +332,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
             if (StartVerse != 0)
             {
-            Bookmark.Height -= _firstVerseOffset;
+                Bookmark.Height -= _firstVerseOffset;
             }
             ActualVerse = num;
 
@@ -378,7 +383,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                 numPolygon.Playing = true;
 
                 if (!LoopMode && LoadedData.Settings.AutoScrollQuran)
-                    ScrollToVerse(num, false);
+                    ScrollToVerse(num);
             }
 
             if (!LoopMode)

@@ -55,8 +55,10 @@ namespace Baraka.Theme.UserControls.Quran.Player
             set
             {
                 _playing = value;
+
+                Streamer.Playing = value;
+                Displayer.Playing = value;
                 RefreshPlayPauseBtn();
-                // TODO
             }
         }
 
@@ -115,9 +117,9 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
                 if (LoadedData.Settings.AutoNextSurah)
                 {
-                    // TODO: auto-play on next surah loaded with bookmark
-                    //       taken into account (play basmala first)
                     Displayer.LoadNextSurah();
+                    ChangeSelectedSurah(Displayer.Surah, false);
+                    Playing = true;
                 }
             };
 
@@ -145,15 +147,6 @@ namespace Baraka.Theme.UserControls.Quran.Player
         public void ChangeVerse(int num)
         {
             Streamer.ChangeVerse(num);
-        }
-
-        public void SetPlaying(bool playing)
-        {
-            Streamer.Playing = playing;
-            _playing = playing;
-            Displayer.Playing = Playing;
-
-            RefreshPlayPauseBtn();
         }
 
         public void ReinitLoopmodeInfo()
@@ -257,7 +250,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
                 Displayer.ScrollToTop();
             }
 
-            SetPlaying(!_playing);
+            Playing = !_playing;
         }
 
         private void RefreshPlayPauseBtn()
@@ -274,13 +267,13 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
         private void BackwardBTN_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            SetPlaying(false);
+            Playing = false;
             ChangeSelectedSurah(LoadedData.SurahList.ElementAt(_selectedSurah.SurahNumber - 1 - 1).Key);
         }
 
         private void ForwardBTN_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            SetPlaying(false);
+            Playing = false;
             ChangeSelectedSurah(LoadedData.SurahList.ElementAt(_selectedSurah.SurahNumber + 1 - 1).Key);
         }
         #endregion
@@ -317,7 +310,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
             if (_playing)
             {
-                SetPlaying(false);
+                Playing = false;
                 RefreshPlayPauseBtn();
             }
 
@@ -337,13 +330,12 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
             if (_wasPlaying)
             {
-                SetPlaying(true);
+                Playing = true;
             }
             else
             {
-                SetPlaying(false);
+                Playing = false;
             }
-
 
             PlayPauseBTN.IsEnabled = true;
             PlayPauseBTN.Opacity = 1;
@@ -425,7 +417,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
                 _selectedSurahBar = bar;
             }
         }
-        public void ChangeSelectedSurah(SurahDescription description)
+        public void ChangeSelectedSurah(SurahDescription description, bool loadInDisplayer = true)
         {
             if (description != _selectedSurah)
             {
@@ -458,7 +450,11 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
                 SurahTB.Text = _selectedSurah.PhoneticName;
 
-                Displayer.LoadSurah(_selectedSurah);
+                if (loadInDisplayer)
+                {
+                    Displayer.LoadSurah(_selectedSurah);
+                }
+
                 _surahSelector.RefreshSelection();
 
                 SurahTB.ToolTip = Utils.General.GenerateSynopsis(_selectedSurah);
