@@ -30,7 +30,8 @@ namespace Baraka.Utils.Search
         {
             string[] keywords = search.Split(' ');
 
-            var results = new List<SearchResult>();
+            var hqResults = new List<SearchResult>();
+            var bqResults = new List<SearchResult>();
             var firstStepFounds = new List<(int, int)>(); // Surah number, verse number
 
             foreach (var entry in LoadedData.SurahList)
@@ -49,7 +50,7 @@ namespace Baraka.Utils.Search
                 {
                     if (edition.Verses[i].ToLower().Contains(search))
                     {
-                        results.Add(new SearchResult(surah, i, new string[1] { search }));
+                        hqResults.Add(new SearchResult(surah, i, new string[1] { search }));
                         firstStepFounds.Add((surah.SurahNumber, i));
                     }
                 }
@@ -63,12 +64,12 @@ namespace Baraka.Utils.Search
                     }
                     else if (keywords.All(edition.Verses[i].ToLower().Contains))
                     {
-                        results.Add(new SearchResult(surah, i, keywords));
+                        bqResults.Add(new SearchResult(surah, i, keywords));
                     }
                 }
             }
 
-            return results;
+            return hqResults.Concat(bqResults).ToList();
         } 
     }
 }
