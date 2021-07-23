@@ -36,7 +36,7 @@ namespace Baraka.Forms.Settings
                 new HelpPage(),
             };
 
-            SetSelectedTab(LoadedData.Settings.SelectedTab);
+            SetSelectedTab(0);
         }
 
         private void Window_Deactivated(object sender, EventArgs e)
@@ -90,8 +90,6 @@ namespace Baraka.Forms.Settings
 
             _selectedItem = tab;
             FrameComponent.Content = _pages[tab];
-
-            LoadedData.Settings.SelectedTab = tab;
         }
 
         #region Hover Handlers
@@ -194,28 +192,21 @@ namespace Baraka.Forms.Settings
             Close();
         }
 
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
         private void DragGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (Mouse.LeftButton == MouseButtonState.Pressed)
                 this.DragMove();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-           
-        }
-
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            e.Cancel = true;
+
             foreach (ISettingsPage page in _pages)
             {
                 page.SaveSettings();
             }
+            Hide();
         }
     }
 }

@@ -105,8 +105,6 @@ namespace Baraka.Theme.UserControls.Quran.Player
                     Displayer.BrowseToVerse(Streamer.NonRelativeVerse);
                 }
 
-                //VersePB.Progress = 0;
-
                 Displayer.ChangeVerse(Streamer.NonRelativeVerse, true);
             };
 
@@ -122,12 +120,6 @@ namespace Baraka.Theme.UserControls.Quran.Player
                     Playing = true;
                 }
             };
-
-            /*VersePB.CursorChanged += (object sender, double e) =>
-            {
-                Streamer.Cursor = e;
-            };*/
-
 
             // Stories
             ((Storyboard)this.Resources["PlayerCloseStory"]).Begin();

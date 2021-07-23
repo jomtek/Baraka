@@ -14,7 +14,10 @@
         Height="866" Width="1500"
         MinWidth="200" MinHeight="500"
         WindowStartupLocation="CenterScreen"
-        Initialized="Window_Initialized" Closing="Window_Closing" SizeChanged="Window_SizeChanged">
+        Initialized="Window_Initialized"
+        Closing="Window_Closing"
+        SizeChanged="Window_SizeChanged"
+        ContentRendered="Window_ContentRendered">
     
     <Window.Resources>
         <Storyboard x:Key="DashboardCloseStory">
@@ -119,7 +122,6 @@
 
                     <Displayer:BarakaSurahDisplayer x:Name="MainSurahDisplayer"
                                                 VerticalAlignment="Stretch" HorizontalAlignment="Center"
-                                                Margin="0"
                                                 Height="Auto"
                                                 VerseChanged="MainSurahDisplayer_VerseChanged"
                                                 DownloadRecitationRequested="MainSurahDisplayer_DownloadRecitationRequested"/>

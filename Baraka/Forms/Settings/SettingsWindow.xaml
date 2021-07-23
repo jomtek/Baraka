@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Baraka.Forms"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        Title="SettingsWindow" Background="White" ShowInTaskbar="False" Deactivated="Window_Deactivated" MouseLeftButtonDown="Window_MouseLeftButtonDown" Loaded="Window_Loaded"
+        Title="SettingsWindow" Background="White" ShowInTaskbar="False" Deactivated="Window_Deactivated"
         Width="950" Height="800"
         MinWidth="250" MinHeight="250" Closing="Window_Closing">
 

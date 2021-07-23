@@ -15,9 +15,6 @@ namespace Baraka.Data
         // With temporary (debug) default values
 
         #region Values
-        // Settings window (clear between sessions)
-        public int SelectedTab { get; set; } = 0;
-
         // General
         public bool Startup { get; set; } = false;
         public Language Language { get; set; } = Language.FRENCH;

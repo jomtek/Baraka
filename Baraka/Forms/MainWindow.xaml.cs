@@ -37,6 +37,12 @@ namespace Baraka
             Player.Displayer = MainSurahDisplayer;
         }
 
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+            InitWindows();
+        }
+
+        #region Serialize (temp)
         private Dictionary<SurahDescription, List<SurahVersion>> SerializationData =
             new Dictionary<SurahDescription, List<SurahVersion>>();
 
@@ -85,6 +91,7 @@ namespace Baraka
             */
 
         }
+        #endregion
 
         #region Events
         #region Window events
@@ -94,8 +101,6 @@ namespace Baraka
 
             // Serialize stuff that be serialized
             //
-            LoadedData.Settings.SelectedTab = 0;
-
             if (LoadedData.Settings.ClearAudioCache)
             {
                 LoadedData.AudioCache.Clear();
@@ -146,6 +151,27 @@ namespace Baraka
 
         #region Dashboard
         private bool _dashboardOpened = false;
+        private SearchWindow _searchWindow;
+        private SettingsWindow _settingsWindow;
+
+        private void InitWindows()
+        {
+            // Search window
+            _searchWindow = new SearchWindow() { Owner = this };
+            _searchWindow.VerseClicked += (object _, VerseDescription verse) =>
+            {
+                Player.ChangeSelectedSurah(verse.Surah);
+                Player.ChangeVerse(verse.Number);
+
+                MainSurahDisplayer.BrowseToVerse(verse.Number);
+                MainSurahDisplayer.ScrollToVerse(verse.Number, true);
+
+                Player.Playing = false;
+            };
+
+            // Settings window
+            _settingsWindow = new SettingsWindow() { Owner = this };
+        }
 
         #region Animation
         private void Dashboard_MouseEnter(object sender, MouseEventArgs e)
@@ -171,18 +197,7 @@ namespace Baraka
         {
             WindowBlurEffect.Radius = 8;
 
-            var myInstance = new SearchWindow() { Owner = this };
-            myInstance.VerseClicked += (object _, VerseDescription verse) =>
-            {
-                Player.ChangeSelectedSurah(verse.Surah);
-                Player.ChangeVerse(verse.Number);
-
-                MainSurahDisplayer.BrowseToVerse(verse.Number);
-                MainSurahDisplayer.ScrollToVerse(verse.Number, true);
-                
-                Player.Playing = false;
-            };
-            myInstance.ShowDialog();
+            _searchWindow.ShowDialog();
 
             WindowBlurEffect.Radius = 0;
         }
@@ -193,7 +208,7 @@ namespace Baraka
                 (SurahVersionConfig)LoadedData.Settings.SurahVersionConfig.Clone();
 
             WindowBlurEffect.Radius = 8;
-            new SettingsWindow() { Owner = this }.ShowDialog();
+            _settingsWindow.ShowDialog();
             WindowBlurEffect.Radius = 0;
 
             // Apply settings to be directly applied

@@ -83,8 +83,6 @@ namespace Baraka.Forms
                 [RevelationTypeCMBB.SelectedIndex];
             var surahNum = SurahCMBB.SelectedIndex;
 
-            Console.WriteLine($"num: {surahNum} // revelation: {revelationType}");   
-
             var results = new RelevantSearch(revelationType, surahNum).Go(query);
 
             if (results.Count > 50)
@@ -151,27 +149,6 @@ namespace Baraka.Forms
         }
         #endregion
 
-        #region UI Effects
-        // TODO: ??
-        private void ResultsStatsTB_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-        #endregion
-
-        #region Form Drag and Close
-        private void CloseWindowGrid_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            Close();
-        }
-
-        private void DragGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (Mouse.LeftButton == MouseButtonState.Pressed)
-                this.DragMove();
-        }
-        #endregion
-
         #region Other
         public void ResultClicked(SearchResult sres)
         {
@@ -189,5 +166,11 @@ namespace Baraka.Forms
             await SendQuery();
         }
         #endregion
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            e.Cancel = true;
+            Hide();
+        }
     }
 }
