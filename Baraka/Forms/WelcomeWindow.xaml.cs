@@ -54,36 +54,61 @@ namespace Baraka
             //
             // Deserialize data
             ProgressionTB.Text = "chargement des ressources: quran.ser";
-            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(50);
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
             LoadedData.SurahList =
                 SerializationUtils.Deserialize<Dictionary<SurahDescription, Dictionary<string, SurahVersion>>>("data/quran.ser");
             MainPB.Progress = 0.2;
 
             ProgressionTB.Text = "chargement des ressources: cheikh.ser";
-            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(50);
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
             LoadedData.CheikhList =
                 SerializationUtils.Deserialize<CheikhDescription[]>("data/cheikh.ser");
             MainPB.Progress = 0.4;
 
             ProgressionTB.Text = "chargement des ressources: translations.ser";
-            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(50);
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
             LoadedData.TranslationsList =
                 SerializationUtils.Deserialize<TranslationDescription[]>("data/translations.ser");
-            MainPB.Progress = 0.5;
+            MainPB.Progress = 0.6;
 
             ProgressionTB.Text = "chargement des ressources: cache.ser";
-            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(70);
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(50);
             var cacheContent =
                 SerializationUtils.Deserialize<Dictionary<string, byte[]>>("data/cache.ser");
             LoadedData.AudioCache = new AudioCacheManager(cacheContent);
-            MainPB.Progress = 0.7;
+            MainPB.Progress = 0.8;
 
             // Deserialize settings
-            ProgressionTB.Text = "chargement des préférences...";
-            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(350);
+            ProgressionTB.Text = "chargement des marque-pages...";
             LoadedData.Bookmarks =
                 SerializationUtils.Deserialize<List<int>>("bookmarks.ser");
-            MainPB.Progress = 1;
+
+            //  // Finish
+            ProgressionTB.Text = $"préparation de l'interface...";
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
+
+            var window = new MainWindow();
+            window.ContentRendered += (object self, EventArgs a) =>
+            {
+                var instance = self as MainWindow;
+
+                var defaultCheikh = LoadedData.CheikhList.ElementAt(LoadedData.Settings.DefaultCheikhIndex);
+                var defaultSurah = LoadedData.SurahList.ElementAt(LoadedData.Settings.DefaultSurahIndex).Key;
+
+                instance.Player.ChangeSelectedCheikh(defaultCheikh);
+                instance.Player.ChangeSelectedSurah(defaultSurah);
+
+                instance.MainSurahDisplayer.LoadSurah(instance.Player.SelectedSurah);
+
+                // Other UI settings
+                instance.MainSurahDisplayer.SetSBVisible(LoadedData.Settings.DisplayScrollBar);
+
+                this.Hide();
+                window.Show();
+            };
+
+            window.Show();
+        }
 
             // DEBUG
             /*
@@ -107,27 +132,9 @@ namespace Baraka
             return;
             */
 
-
-            //  // Finish
-            Hide();
-
-            var window = new MainWindow();
-            window.Loaded += (object self, RoutedEventArgs a) =>
-            {
-                var defaultCheikh = LoadedData.CheikhList.ElementAt(LoadedData.Settings.DefaultCheikhIndex);
-                var defaultSurah = LoadedData.SurahList.ElementAt(LoadedData.Settings.DefaultSurahIndex).Key;
-
-                window.Player.ChangeSelectedCheikh(defaultCheikh);
-                window.Player.ChangeSelectedSurah(defaultSurah);
-                
-                window.MainSurahDisplayer.LoadSurah(window.Player.SelectedSurah);
-
-                // Other UI settings
-                window.MainSurahDisplayer.SetSBVisible(LoadedData.Settings.DisplayScrollBar);
-            };
-
-            // TODO: wait for window to be fully loaded before showing it
-            window.Show();
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

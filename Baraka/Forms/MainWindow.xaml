@@ -14,6 +14,7 @@
         Height="866" Width="1500"
         MinWidth="200" MinHeight="500"
         WindowStartupLocation="CenterScreen"
+        Visibility="Hidden"
         Initialized="Window_Initialized"
         Closing="Window_Closing"
         SizeChanged="Window_SizeChanged"
