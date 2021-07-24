@@ -181,9 +181,15 @@ namespace Baraka.Forms
                     }
                     else
                     {
-                        LoadedData.Settings.SurahVersionConfig.Translation1 = -1;
-                        LoadedData.Settings.SurahVersionConfig.Translation2 = -1;
-                        LoadedData.Settings.SurahVersionConfig.Translation3 = -1;
+                        e.Cancel = true;
+                        MessageBox.Show(
+                            "Merci de sélectionner au moins une traduction.",
+                            "Baraka - Panel de traductions",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error
+                        );
+
+                        break;
                     }
 
                     MessageBox.Show(

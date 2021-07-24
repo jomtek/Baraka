@@ -96,7 +96,7 @@ namespace Baraka.Utils
             {
                 verseNum++;
             }
-            
+
             return $"{surah.SurahNumber}:{verseNum} {verse}";
         }
         #endregion

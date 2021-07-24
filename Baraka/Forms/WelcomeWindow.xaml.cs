@@ -25,6 +25,13 @@ namespace Baraka
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            TitleTB.Margin = new Thickness(
+                TitleTB.Margin.Left,
+                50,
+                TitleTB.Margin.Right,
+                TitleTB.Margin.Bottom
+            );
+
             LoadedData.Settings =
                 SerializationUtils.Deserialize<MySettings>("settings.ser");
 
@@ -40,7 +47,7 @@ namespace Baraka
 
             TitleTB.Margin = new Thickness(
                 TitleTB.Margin.Left,
-                TitleTB.Margin.Top - 40,
+                10,
                 TitleTB.Margin.Right,
                 TitleTB.Margin.Bottom
             );
@@ -80,6 +87,7 @@ namespace Baraka
 
             // Deserialize settings
             ProgressionTB.Text = "chargement des marque-pages...";
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(50);
             LoadedData.Bookmarks =
                 SerializationUtils.Deserialize<List<int>>("bookmarks.ser");
 
