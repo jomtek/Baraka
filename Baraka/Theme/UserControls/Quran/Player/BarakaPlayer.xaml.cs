@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -54,11 +55,14 @@ namespace Baraka.Theme.UserControls.Quran.Player
             get { return _playing; }
             set
             {
-                _playing = value;
+                if (value != _playing)
+                {
+                    _playing = value;
 
-                Streamer.Playing = value;
-                Displayer.Playing = value;
-                RefreshPlayPauseBtn();
+                    Streamer.Playing = value;
+                    Displayer.Playing = value;
+                    RefreshPlayPauseBtn();
+                }
             }
         }
 
@@ -177,7 +181,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             ReinitLoopmode(_loopMode);
         }
 
-        private void CheikhTB_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private async void CheikhTB_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (_cheikhModification)
             {
@@ -206,7 +210,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             _cheikhModification = !_cheikhModification;
         }
 
-        private void SurahTB_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void SurahTB_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (_surahModification)
             {
@@ -307,6 +311,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             }
 
             SelectorGrid.Visibility = Visibility.Visible;
+            SelectorGrid.Opacity = 0;
             ((Storyboard)this.Resources["PlayerOpenStory"]).Begin();
 
             SwitchTab(tab, false);
@@ -317,6 +322,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
         private void ClosePlayer()
         {
+            Console.WriteLine("close player");
             _closing = true;
             ((Storyboard)this.Resources["PlayerCloseStory"]).Begin();
 
@@ -475,8 +481,8 @@ namespace Baraka.Theme.UserControls.Quran.Player
         private void userControl_MouseLeave(object sender, MouseEventArgs e)
         {
             // Close player
-            if (_surahModification) SurahTB_PreviewMouseLeftButtonDown(null, null);
-            if (_cheikhModification) CheikhTB_PreviewMouseLeftButtonDown(null, null);
+            if (_surahModification)  SurahTB_PreviewMouseLeftButtonUp(null, null);
+            if (_cheikhModification) CheikhTB_PreviewMouseLeftButtonUp(null, null);
         }
         #endregion
 

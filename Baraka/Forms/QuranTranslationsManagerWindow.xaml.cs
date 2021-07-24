@@ -174,7 +174,6 @@ namespace Baraka.Forms
                                     LoadedData.Settings.SurahVersionConfig.Translation3 = idx;
                                     break;
                             }
-
                         }
 
                         SerializationUtils.Serialize(LoadedData.SurahList, "data/quran.ser");

@@ -65,10 +65,10 @@
             </ObjectAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
-    
+
     <UserControl.Triggers>
     </UserControl.Triggers>
-    
+
     <UserControl.Effect>
         <DropShadowEffect Direction="45" Opacity="0.45" ShadowDepth="8" BlurRadius="40" RenderingBias="Quality"/>
     </UserControl.Effect>
@@ -147,8 +147,8 @@
                     <ColumnDefinition Width="223*" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock x:Name="CheikhTB" Grid.Column="0" Text="Saad Al-Ghamidi" HorizontalAlignment="Right" FontFamily="Montserrat" FontSize="22" FontWeight="ExtraBlack" Cursor="Hand" PreviewMouseLeftButtonDown="CheikhTB_PreviewMouseLeftButtonDown" Margin="0" FlowDirection="RightToLeft" VerticalAlignment="Center" />
-                <TextBlock x:Name="SurahTB" Grid.Column="2" HorizontalAlignment="Left" FontFamily="Montserrat" FontSize="22" FontWeight="ExtraBlack" TextDecorations="{x:Null}" Cursor="Hand" Text="Al-Fatiha" PreviewMouseLeftButtonDown="SurahTB_PreviewMouseLeftButtonDown" ToolTip="test" VerticalAlignment="Center" />
+                <TextBlock x:Name="CheikhTB" Grid.Column="0" Text="Saad Al-Ghamidi" HorizontalAlignment="Right" FontFamily="Montserrat" FontSize="22" FontWeight="ExtraBlack" Cursor="Hand" Margin="0" FlowDirection="RightToLeft" VerticalAlignment="Center" PreviewMouseLeftButtonUp="CheikhTB_PreviewMouseLeftButtonUp" />
+                <TextBlock x:Name="SurahTB" Grid.Column="2" HorizontalAlignment="Left" FontFamily="Montserrat" FontSize="22" FontWeight="ExtraBlack" TextDecorations="{x:Null}" Cursor="Hand" Text="Al-Fatiha" ToolTip="test" VerticalAlignment="Center" PreviewMouseLeftButtonUp="SurahTB_PreviewMouseLeftButtonUp" />
             </Grid>
 
             <Grid x:Name="LoopBTN"
