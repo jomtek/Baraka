@@ -150,7 +150,7 @@ namespace Baraka.Forms
         #endregion
 
         #region Other
-        public void ResultClicked(SearchResult sres)
+        public void VerseSelected(SearchResult sres)
         {
             VerseClicked?.Invoke(this, new VerseDescription(sres.Surah, sres.Verse + 1));
             Close();

@@ -236,7 +236,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
             verticalAnimation.From = VersesSV.VerticalOffset;
             verticalAnimation.To = verticalOffset;
-            verticalAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(600));
+            verticalAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(800));
 
             Storyboard storyboard = new Storyboard();
             storyboard.Children.Add(verticalAnimation);

@@ -23,11 +23,11 @@ namespace Baraka.Data
             new List<(HizbDescription, HizbDescription)>()
             {
                 // start_s, end_s, start_v, end_v
-                (new HizbDescription(1,  2,  1,   74,  1),   new HizbDescription(2,  2,   75,  141, 2)),
-                (new HizbDescription(2,  2,  142, 202, 3),   new HizbDescription(2,  2,   203, 252, 4)),
-                (new HizbDescription(2,  3,  253, 14,  5),   new HizbDescription(3,  3,   15,  92,  6)),
-                (new HizbDescription(3,  3,  93,  170, 7),   new HizbDescription(3,  4,   171, 23,  8)),
-                (new HizbDescription(4,  4,  24,  87,  8),   new HizbDescription(4,  4,   88,  147, 10)),
+                (new HizbDescription(1,  2,  1,   74,  1 ),  new HizbDescription(2,  2,   75,  141, 2 )),
+                (new HizbDescription(2,  2,  142, 202, 3 ),  new HizbDescription(2,  2,   203, 252, 4 )),
+                (new HizbDescription(2,  3,  253, 14,  5 ),  new HizbDescription(3,  3,   15,  92,  6 )),
+                (new HizbDescription(3,  3,  93,  170, 7 ),  new HizbDescription(3,  4,   171, 23,  8 )),
+                (new HizbDescription(4,  4,  24,  87,  9 ),  new HizbDescription(4,  4,   88,  147, 10)),
                 (new HizbDescription(4,  5,  148, 26,  11),  new HizbDescription(5,  5,   27,  81,  12)),
                 (new HizbDescription(5,  6,  82,  35,  13),  new HizbDescription(6,  6,   36,  110, 14)),
                 (new HizbDescription(6,  6,  111, 165, 15),  new HizbDescription(7,  7,   1,   87,  16)),
@@ -48,11 +48,11 @@ namespace Baraka.Data
                 (new HizbDescription(36, 37, 28,  114, 45),  new HizbDescription(37, 39,  145, 31,  46)),
                 (new HizbDescription(39, 40, 32,  40,  47),  new HizbDescription(40, 41,  41,  46,  48)),
                 (new HizbDescription(41, 43, 47,  23,  49),  new HizbDescription(43, 45,  24,  37,  50)),
-                (new HizbDescription(46, 48, 1,   17,  50),  new HizbDescription(48, 51,  18,  30,  52)),
-                (new HizbDescription(51, 54, 31,  55,  52),  new HizbDescription(55, 57,  1,   29,  54)),
-                (new HizbDescription(58, 61, 1,   14,  54),  new HizbDescription(62, 66,  1,   12,  56)),
-                (new HizbDescription(67, 71, 1,   28,  56),  new HizbDescription(72, 77,  1,   50,  57)),
-                (new HizbDescription(78, 86, 1,   17,  58),  new HizbDescription(87, 114, 1,   6,   60)),
+                (new HizbDescription(46, 48, 1,   17,  51),  new HizbDescription(48, 51,  18,  30,  52)),
+                (new HizbDescription(51, 54, 31,  55,  53),  new HizbDescription(55, 57,  1,   29,  54)),
+                (new HizbDescription(58, 61, 1,   14,  55),  new HizbDescription(62, 66,  1,   12,  56)),
+                (new HizbDescription(67, 71, 1,   28,  57),  new HizbDescription(72, 77,  1,   50,  58)),
+                (new HizbDescription(78, 86, 1,   17,  59),  new HizbDescription(87, 114, 1,   6,   60)),
             };
     }
 }

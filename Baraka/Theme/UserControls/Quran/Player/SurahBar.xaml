@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Player"
-             mc:Ignorable="d" Height="52.5" Width="685" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave">
+             mc:Ignorable="d" Height="52" Width="625" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave">
     <UserControl.Resources>
         <Style x:Key="PlayPath" TargetType="{x:Type Path}">
             <Setter Property="Data" Value="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"/>
@@ -19,17 +19,17 @@
 
     <Grid Background="White">
 
-        <StackPanel Orientation="Horizontal">
-            <TextBlock x:Name="SurahNumberTB" HorizontalAlignment="Left" TextWrapping="Wrap" FontFamily="Roboto" FontWeight="Bold" FontSize="22" VerticalAlignment="Top" Margin="5,8,0,0" Text="1."/>
-            <Canvas x:Name="InfoBTN" Width="20" Height="20" Margin="15,11,0,0" VerticalAlignment="Top" ToolTip="test" Cursor="Help" >
+        <TextBlock x:Name="SurahNumberTB" HorizontalAlignment="Left" TextWrapping="Wrap" FontFamily="Roboto" FontWeight="Bold" FontSize="22" VerticalAlignment="Center" Margin="5,0,0,0" Text="1."/>
+
+        <StackPanel Orientation="Horizontal" Margin="65,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <Canvas x:Name="InfoBTN" Width="20" Height="20" Margin="0" VerticalAlignment="Top" ToolTip="test" Cursor="Help" >
                 <Path x:Name="InfoPath" Style="{StaticResource Hint}" Stretch="Fill" Width="20" Height="20" Fill="#FFBFBFBF" ToolTip="" Margin="0" />
             </Canvas>
-            <TextBlock x:Name="SurahNameTB" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="5,12,0,0" FontFamily="Roboto" FontSize="18" VerticalAlignment="Top" TextDecorations="{x:Null}" Text="Al Fatiha" FontWeight="Bold"/>
-            <TextBlock x:Name="TranslatedNameTB" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="7,14,0,0" FontFamily="Alef" VerticalAlignment="Top" TextDecorations="{x:Null}" FontSize="15" Foreground="#FF939393" Text="Prologue"/>
+            <TextBlock x:Name="SurahNameTB" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="5,0,0,0" FontFamily="Roboto" FontSize="20" VerticalAlignment="Top" TextDecorations="{x:Null}" Text="Al Fatiha" FontWeight="Bold"/>
+            <TextBlock x:Name="TranslatedNameTB" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="7,2,0,0" FontFamily="Alef" VerticalAlignment="Top" TextDecorations="{x:Null}" FontSize="17" Foreground="#FF939393" Text="Prologue"/>
         </StackPanel>
 
         <StackPanel x:Name="PlayControlsSP" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,17.5,0">
-            <local:BarakaHizbVisualizer x:Name="HizbVisualizer" d:LayoutOverrides="Width, Height" Margin="0,0,50,0"/>
             <TextBlock x:Name="ProgressTB" HorizontalAlignment="Right" TextWrapping="Wrap" Margin="0,0,10,0" FontFamily="Arial" VerticalAlignment="Center" TextDecorations="{x:Null}" FontSize="18" Foreground="Black" Background="WhiteSmoke" FontStretch="Expanded" Padding="5,2" Visibility="Collapsed"><Run Text="8"/><Run Text="0%"/></TextBlock>
             <Canvas x:Name="StreamBTN" Width="28" Height="22" Cursor="Hand" Margin="0,0,12,0" PreviewMouseLeftButtonUp="StreamBTN_PreviewMouseLeftButtonUp" ToolTip="Cliquez pour écouter la récitation en streaming" Background="White">
                 <Path x:Name="StreamBtnPath" Style="{StaticResource CloudPath}" Stretch="Fill" Height="22" Width="28" Fill="Black" />
@@ -43,6 +43,6 @@
         </StackPanel>
 
         <Path x:Name="BottomSplitterPath" Data="M0,50 L500,52.5" Height="2.5" Stretch="Fill" VerticalAlignment="Bottom" StrokeThickness="2.5" Stroke="LightGray" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Margin="5,0"/>
-        <TextBlock x:Name="LoadingTB" HorizontalAlignment="Right" TextWrapping="Wrap" Text="chargement..." VerticalAlignment="Center" Margin="0,0,20,0" FontSize="14" FontStyle="Italic" Foreground="#FF727272" FontFamily="/Baraka;component/Fonts/#Poppins"/>
+        <TextBlock x:Name="LoadingTB" HorizontalAlignment="Right" TextWrapping="Wrap" Text="chargement..." VerticalAlignment="Center" Margin="0,0,20,0" FontSize="14" FontStyle="Italic" Foreground="#FF727272" FontFamily="/Baraka;component/Fonts/#Poppins" Visibility="Hidden"/>
     </Grid>
 </UserControl>

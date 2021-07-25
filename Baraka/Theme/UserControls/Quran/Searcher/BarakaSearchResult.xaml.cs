@@ -104,7 +104,7 @@ namespace Baraka.Theme.UserControls.Quran.Searcher
 
         private void Viewbox_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            _window.ResultClicked(_sres);
+            _window.VerseSelected(_sres);
         }
 
         private void VerseNumBorder_MouseEnter(object sender, MouseEventArgs e)

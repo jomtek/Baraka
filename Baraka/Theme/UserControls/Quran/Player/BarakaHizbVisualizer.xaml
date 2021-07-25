@@ -5,13 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Player" xmlns:converters="clr-namespace:Baraka.Utils.Converters"
              mc:Ignorable="d" 
-             Width="150" Height="15" SizeChanged="UserControl_SizeChanged">
+             Width="15" Height="Auto">
 
     <UserControl.Resources>
         <converters:RectangleConverter x:Key="rectConverter" />
     </UserControl.Resources>
 
-    <Border x:Name="ContainerBorder" Background="White" CornerRadius="7">
+    <Border x:Name="ContainerBorder" CornerRadius="7">
+        <Border.Background>
+            <SolidColorBrush Color="{DynamicResource DarkColor}"/>
+        </Border.Background>
         <!-- Corner radius (TODO) -->
         <Border.Clip>
             <RectangleGeometry RadiusX="7" RadiusY="7">
@@ -21,9 +24,9 @@
                         <Binding Path="ActualHeight" RelativeSource="{RelativeSource AncestorType={x:Type Border}}" />
                     </MultiBinding>
                 </RectangleGeometry.Rect>
-            </RectangleGeometry>       
+            </RectangleGeometry>
         </Border.Clip>
 
-        <StackPanel x:Name="HizbSP" Height="Auto" Orientation="Horizontal"/>
+        <StackPanel x:Name="HizbSP" Height="Auto"/>
     </Border>
 </UserControl>

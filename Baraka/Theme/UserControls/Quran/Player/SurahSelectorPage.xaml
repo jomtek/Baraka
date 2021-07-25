@@ -7,19 +7,20 @@
       xmlns:UserControls="clr-namespace:Baraka.Theme.UserControls" x:Class="Baraka.Theme.UserControls.Quran.Player.SurahSelectorPage"
       mc:Ignorable="d" 
       d:DesignHeight="440" d:DesignWidth="685"
-      Title="SurahSelectorPage" Background="White">
+      Title="SurahSelectorPage" Background="White"
+      SizeChanged="Page_SizeChanged">
 
     <DockPanel Margin="0">
         <Border VerticalAlignment="Top" Margin="0" DockPanel.Dock="Top" >
-            <DockPanel>
-                <UserControls:BarakaTextBox VerticalAlignment="Top" DockPanel.Dock="Top" Width="Auto" Height="40" Margin="10,15,10,0" Placeholder="rechercher une sourate..."/>
-                <StackPanel Height="25" VerticalAlignment="Top" Orientation="Horizontal" Margin="10" HorizontalAlignment="Left">
-                    <ComboBox x:Name="JuzCMBB" Width="200" Margin="0,0,10,0" DropDownClosed="JuzCMBB_DropDownClosed" FontSize="15" Padding="5,3"/>
-                </StackPanel>
+            <DockPanel Margin="0">
+                <UserControls:BarakaTextBox VerticalAlignment="Top" DockPanel.Dock="Top" Width="Auto" Height="40" Margin="10,15,10,5" Placeholder="rechercher une sourate..."/>
             </DockPanel>
         </Border>
-        <ScrollViewer x:Name="PageSV" DockPanel.Dock="Bottom" VerticalScrollBarVisibility="Hidden" Margin="0,5,0,0">
-            <StackPanel x:Name="ContainerSP" HorizontalAlignment="Left" />
+        <ScrollViewer x:Name="PageSV" DockPanel.Dock="Bottom" VerticalScrollBarVisibility="Hidden" Margin="10,5,10,0">
+            <DockPanel>
+                <local:BarakaHizbVisualizer x:Name="HizbVisualizer" Width="30" Margin="0,0,10,0"/>
+                <StackPanel x:Name="ContainerSP" Margin="0" DockPanel.Dock="Right"/>
+            </DockPanel>
         </ScrollViewer>
     </DockPanel>
 </Page>

@@ -92,6 +92,11 @@ namespace Baraka.Theme.UserControls.Quran.Player
             _cheikhSelector = new CheikhSelectorPage();
             _surahSelector = new SurahSelectorPage();
 
+            _surahSelector.HizbClicked += (object _, VerseDescription hizbStart) =>
+            {
+                ((MainWindow)App.Current.MainWindow).IntersurahChangeVerse(hizbStart);
+            };
+
             FrameComponent.Content = _cheikhSelector;
 
 

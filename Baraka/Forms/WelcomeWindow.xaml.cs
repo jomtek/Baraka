@@ -260,10 +260,11 @@ namespace Baraka
                 // Other UI settings
                 instance.MainSurahDisplayer.SetSBVisible(LoadedData.Settings.DisplayScrollBar);
 
-                this.Hide();
                 window.Show();
+                this.Close();
             };
 
+            App.Current.MainWindow = window;
             window.Show();
         }
 

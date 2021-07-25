@@ -160,13 +160,7 @@ namespace Baraka
             _searchWindow = new SearchWindow() { Owner = this };
             _searchWindow.VerseClicked += (object _, VerseDescription verse) =>
             {
-                Player.ChangeSelectedSurah(verse.Surah);
-                Player.ChangeVerse(verse.Number);
-
-                MainSurahDisplayer.BrowseToVerse(verse.Number);
-                MainSurahDisplayer.ScrollToVerse(verse.Number, true);
-
-                Player.Playing = false;
+                IntersurahChangeVerse(verse, true);
             };
 
             // Settings window
@@ -279,6 +273,19 @@ namespace Baraka
 
             ApplyScale();
             SetMinWidth();
+        }
+        #endregion
+
+        #region Local utils
+        public void IntersurahChangeVerse(VerseDescription verse, bool searchRes = false)
+        {
+            Player.ChangeSelectedSurah(verse.Surah);
+            Player.ChangeVerse(verse.Number);
+
+            MainSurahDisplayer.BrowseToVerse(verse.Number);
+            MainSurahDisplayer.ScrollToVerse(verse.Number, searchRes);
+
+            Player.Playing = false;
         }
         #endregion
     }
