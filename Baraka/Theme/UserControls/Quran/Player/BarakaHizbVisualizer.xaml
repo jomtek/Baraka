@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="Baraka.Theme.UserControls.Quran.Player.BarakaHizbVisualizer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Player" xmlns:converters="clr-namespace:Baraka.Utils.Converters"
+             mc:Ignorable="d" 
+             Width="150" Height="15" SizeChanged="UserControl_SizeChanged">
+
+    <UserControl.Resources>
+        <converters:RectangleConverter x:Key="rectConverter" />
+    </UserControl.Resources>
+
+    <Border x:Name="ContainerBorder" Background="White" CornerRadius="7">
+        <!-- Corner radius (TODO) -->
+        <Border.Clip>
+            <RectangleGeometry RadiusX="7" RadiusY="7">
+                <RectangleGeometry.Rect>
+                    <MultiBinding Converter="{StaticResource rectConverter}">
+                        <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType={x:Type Border}}"  />
+                        <Binding Path="ActualHeight" RelativeSource="{RelativeSource AncestorType={x:Type Border}}" />
+                    </MultiBinding>
+                </RectangleGeometry.Rect>
+            </RectangleGeometry>       
+        </Border.Clip>
+
+        <StackPanel x:Name="HizbSP" Height="Auto" Orientation="Horizontal"/>
+    </Border>
+</UserControl>

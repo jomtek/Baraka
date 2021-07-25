@@ -129,6 +129,7 @@
     <Compile Include="Data\SerializationUtils.cs" />
     <Compile Include="Data\Descriptions\SurahDescription.cs" />
     <Compile Include="Data\Descriptions\SurahRevelationType.cs" />
+    <Compile Include="Data\Surah\HizbDescription.cs" />
     <Compile Include="Data\Surah\SurahVersion.cs" />
     <Compile Include="Data\Surah\SurahVersionConfig.cs" />
     <Compile Include="Data\TanzilTranslationParser.cs" />
@@ -181,6 +182,9 @@
     <Compile Include="Theme\UserControls\Quran\Displayer\BarakaVerseNumber.xaml.cs">
       <DependentUpon>BarakaVerseNumber.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Theme\UserControls\Quran\Player\BarakaHizbVisualizer.xaml.cs">
+      <DependentUpon>BarakaHizbVisualizer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Theme\UserControls\Quran\Player\CheikhSelectorPage.xaml.cs">
       <DependentUpon>CheikhSelectorPage.xaml</DependentUpon>
     </Compile>
@@ -194,6 +198,7 @@
       <DependentUpon>TranslationBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\Audio.cs" />
+    <Compile Include="Utils\Converters\RectangleConverter.cs" />
     <Compile Include="Utils\UI\BorderClipConverter.cs" />
     <Compile Include="Utils\Emergency.cs" />
     <Compile Include="Utils\General.cs" />
@@ -303,6 +308,9 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Theme\UserControls\Quran\Player\BarakaHizbVisualizer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Theme\UserControls\Quran\Player\BarakaPlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

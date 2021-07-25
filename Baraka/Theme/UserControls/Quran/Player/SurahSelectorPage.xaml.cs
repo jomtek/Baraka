@@ -37,6 +37,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
                 foreach (SurahDescription surah in LoadedData.SurahList.Keys)
                 {
                     var bar = new SurahBar(surah, parentPlayer);
+                    bar.HizbVisualizer.Prepare(surah.SurahNumber, surah.NumberOfVerses);
                     ContainerSP.Children.Add(bar);
                 }
                 
@@ -44,6 +45,9 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
                 // Save parent player
                 _parentPlayer = parentPlayer;
+
+                // Load juz and hizb list
+                InitJuzAndHizbSelectors();
 
                 ItemsInitialized = true;
             }
@@ -89,5 +93,28 @@ namespace Baraka.Theme.UserControls.Quran.Player
                 }
             }
         }
+
+        #region Juz and Hizb
+        private void InitJuzAndHizbSelectors()
+        {
+            for (int i = 0; i <= 30; i++)
+            {
+                if (i == 0)
+                {
+                    JuzCMBB.Items.Add("N'importe quel Juz");
+                }
+                else
+                {
+                    JuzCMBB.Items.Add($"Juz {i}");
+                }
+            }
+
+            JuzCMBB.SelectedIndex = 0;
+        }
+
+        private void JuzCMBB_DropDownClosed(object sender, EventArgs e)
+        {
+        }
+        #endregion
     }
 }

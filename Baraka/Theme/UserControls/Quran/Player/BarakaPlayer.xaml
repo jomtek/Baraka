@@ -140,7 +140,7 @@
                 </Grid>
             </StackPanel>
 
-            <Grid Height="31" Margin="0,0,100,10" VerticalAlignment="Bottom" Grid.ColumnSpan="2">
+            <Grid Height="31" Margin="0,0,125,10" VerticalAlignment="Bottom" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="323*" />
                     <ColumnDefinition Width="10" />
