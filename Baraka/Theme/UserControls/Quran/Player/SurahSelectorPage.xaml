@@ -13,12 +13,12 @@
     <DockPanel Margin="0">
         <Border VerticalAlignment="Top" Margin="0" DockPanel.Dock="Top" >
             <DockPanel Margin="0">
-                <UserControls:BarakaTextBox VerticalAlignment="Top" DockPanel.Dock="Top" Width="Auto" Height="40" Margin="10,15,10,5" Placeholder="rechercher une sourate..."/>
+                <UserControls:BarakaTextBox x:Name="SearchTB" VerticalAlignment="Top" DockPanel.Dock="Top" Width="Auto" Height="40" Margin="10,15,10,5" Placeholder="rechercher une sourate..." TextChanged="SearchTB_TextChanged"/>
             </DockPanel>
         </Border>
-        <ScrollViewer x:Name="PageSV" DockPanel.Dock="Bottom" VerticalScrollBarVisibility="Hidden" Margin="10,5,10,0">
+        <ScrollViewer x:Name="PageSV" Focusable="True" DockPanel.Dock="Bottom" VerticalScrollBarVisibility="Hidden" Margin="10,5,10,0">
             <DockPanel>
-                <local:BarakaHizbVisualizer x:Name="HizbVisualizer" Width="30" Margin="0,0,10,0"/>
+                <local:BarakaHizbVisualizer x:Name="HizbVisualizer" Width="35" Margin="0,0,10,0"/>
                 <StackPanel x:Name="ContainerSP" Margin="0" DockPanel.Dock="Right"/>
             </DockPanel>
         </ScrollViewer>

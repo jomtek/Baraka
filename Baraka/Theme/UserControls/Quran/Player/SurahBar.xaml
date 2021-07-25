@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Player"
-             mc:Ignorable="d" Height="52" Width="625" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave">
+             mc:Ignorable="d" Height="52" Width="620" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave">
     <UserControl.Resources>
         <Style x:Key="PlayPath" TargetType="{x:Type Path}">
             <Setter Property="Data" Value="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"/>

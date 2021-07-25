@@ -69,7 +69,7 @@ namespace Baraka.Forms
 
         private async Task ProcessQuery(string query, bool showAll = false)
         {
-            await Task.Delay(250);
+            await Task.Delay(300);
 
             if (query != General.PrepareQuery(SearchTB.Text))
             {

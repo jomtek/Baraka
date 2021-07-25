@@ -1,5 +1,6 @@
 ﻿using Baraka.Data;
 using Baraka.Data.Descriptions;
+using Baraka.Utils.Search;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -40,18 +41,18 @@ namespace Baraka.Theme.UserControls.Quran.Player
         {
             if (!ItemsInitialized)
             {
-                foreach (SurahDescription surah in LoadedData.SurahList.Keys)
-                {
-                    var bar = new SurahBar(surah, parentPlayer);
-                    ContainerSP.Children.Add(bar);
-                }
-                
                 PageSV.PreviewMouseWheel += parentPlayer.PageSV_PreviewMouseWheel;
-
+                
                 // Save parent player
                 _parentPlayer = parentPlayer;
 
                 ItemsInitialized = true;
+            }
+
+            foreach (SurahDescription surah in LoadedData.SurahList.Keys)
+            {
+                var bar = new SurahBar(surah, parentPlayer);
+                ContainerSP.Children.Add(bar);
             }
         }
 
@@ -101,24 +102,59 @@ namespace Baraka.Theme.UserControls.Quran.Player
         {
             HizbClicked?.Invoke(this, start);
         }
-        #endregion
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             // Load hizb visualizer
             HizbVisualizer.Page = this;
             HizbVisualizer.LoadSegments();
+
+            // TODO
+            //PageSV.Focus();
+        }
+        #endregion
+
+        #region Search
+        private async Task SendQuery()
+        {
+            var query = General.PrepareQuery(SearchTB.Text);
+
+            if (query.Length > 0 && query != SearchTB.Placeholder)
+            {
+                await ProcessQuery(query);
+            }
+            else
+            {
+                if (ContainerSP.Children.Count < 114)
+                {
+                    // Re-load Surah list
+                    InitializeItems(null);
+                }
+            }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void SearchTB_TextChanged(object sender, EventArgs e)
         {
-            Console.WriteLine(((SurahBar)ContainerSP.Children[0]).ActualHeight);
-            HizbVisualizer.LoadSegments();
+            if (ItemsInitialized)
+            {
+                await SendQuery();
+            }
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private async Task ProcessQuery(string query, bool showAll = false)
         {
-            var bg = HizbVisualizer.HizbSP;
+            await Task.Delay(300);
+
+            if (query != General.PrepareQuery(SearchTB.Text))
+            {
+                return;
+            }
+
+            ContainerSP.Children.Clear();
+
+
+            Console.WriteLine($"test: {query}");
         }
+        #endregion
     }
 }
