@@ -26,6 +26,8 @@ namespace Baraka.Forms
     /// </summary>
     public partial class SearchWindow : Window
     {
+        private bool _initialized = false;
+
         #region Custom Events
         [Category("Baraka")]
         public event EventHandler<VerseDescription> VerseClicked;
@@ -43,6 +45,8 @@ namespace Baraka.Forms
             {
                 SurahCMBB.Items.Add($"{surah.SurahNumber}. {surah.PhoneticName}");
             }
+
+            _initialized = true;
         }
 
         #region Search
@@ -50,7 +54,7 @@ namespace Baraka.Forms
         {
             var query = General.PrepareQuery(SearchTB.Text);
 
-            if (query.Length > 0)
+            if (query.Length > 0 && query != SearchTB.Placeholder)
             {
                 await ProcessQuery(query);
             }
@@ -64,7 +68,10 @@ namespace Baraka.Forms
 
         private async void SearchTB_TextChanged(object sender, EventArgs e)
         {
-            await SendQuery();
+            if (_initialized)
+            {
+                await SendQuery();
+            }
         }
 
         private async Task ProcessQuery(string query, bool showAll = false)

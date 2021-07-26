@@ -475,9 +475,9 @@ namespace Baraka.Theme.UserControls.Quran.Player
                 _surahSelector.InitializeItems(this);
             }
 
-            _surahSelector.RefreshSelection();
-
             FrameComponent.Content = _surahSelector;
+
+            _surahSelector.RefreshSelection();
         }
         #endregion
 

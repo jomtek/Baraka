@@ -146,10 +146,9 @@ namespace Baraka
 
             string translationPath = @"C:\Users\jomtek360\Documents\Baraka\quran-translated-main";
             
-            int i = 0;
-            foreach (var elem in SerializationUtils.Deserialize<Dictionary<SurahDescription, List<SurahVersion>>>("data/quran.ser"))
+            for (int i = 0; i < 114; i++)
             {
-                var desc = SurahList[i]; // instead of elem.Key
+                var desc = SurahList[i];
                 var surahNum = desc.SurahNumber;
                 var arVersion = File.ReadAllLines($@"{translationPath}\arabic_uthmani\{surahNum}");
                 var phVersion = File.ReadAllLines($@"{translationPath}\phonetic\{surahNum}");
@@ -159,8 +158,6 @@ namespace Baraka
                     ["ARABIC"] = new SurahVersion("ARABIC", arVersion),
                     ["PHONETIC"] = new SurahVersion("PHONETIC", phVersion)
                 });
-
-                i++;
             }
             Data.SerializationUtils.Serialize(SerializationData, "qurannew.ser");
         }
@@ -168,7 +165,7 @@ namespace Baraka
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //SerializeQuran();
+            SerializeQuran();
 
             //MessageBox.Show("yes");
 
