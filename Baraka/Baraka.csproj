@@ -182,13 +182,16 @@
     <Compile Include="Theme\UserControls\Quran\Displayer\BarakaVerseNumber.xaml.cs">
       <DependentUpon>BarakaVerseNumber.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Player\BarakaHizbVisualizer.xaml.cs">
+    <Compile Include="Theme\UserControls\Quran\Player\Selectors\Surah\BarakaHizbSegment.xaml.cs">
+      <DependentUpon>BarakaHizbSegment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Theme\UserControls\Quran\Player\Selectors\Surah\BarakaHizbVisualizer.xaml.cs">
       <DependentUpon>BarakaHizbVisualizer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Player\CheikhSelectorPage.xaml.cs">
+    <Compile Include="Theme\UserControls\Quran\Player\Selectors\Cheikh\CheikhSelectorPage.xaml.cs">
       <DependentUpon>CheikhSelectorPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Player\SurahSelectorPage.xaml.cs">
+    <Compile Include="Theme\UserControls\Quran\Player\Selectors\Surah\SurahSelectorPage.xaml.cs">
       <DependentUpon>SurahSelectorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Theme\UserControls\Quran\Searcher\BarakaSearchResult.xaml.cs">
@@ -222,10 +225,10 @@
     <Compile Include="Theme\UserControls\BarakaTextBox.xaml.cs">
       <DependentUpon>BarakaTextBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Player\CheikhCard.xaml.cs">
+    <Compile Include="Theme\UserControls\Quran\Player\Selectors\Cheikh\CheikhCard.xaml.cs">
       <DependentUpon>CheikhCard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Player\SurahBar.xaml.cs">
+    <Compile Include="Theme\UserControls\Quran\Player\Selectors\Surah\SurahBar.xaml.cs">
       <DependentUpon>SurahBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Theme\UserControls\ScrollAccuracyMode.cs" />
@@ -308,7 +311,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Theme\UserControls\Quran\Player\BarakaHizbVisualizer.xaml">
+    <Page Include="Theme\UserControls\Quran\Player\Selectors\Surah\BarakaHizbSegment.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\UserControls\Quran\Player\Selectors\Surah\BarakaHizbVisualizer.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Theme\UserControls\Quran\Player\BarakaPlayer.xaml">
@@ -327,18 +333,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Player\CheikhCard.xaml">
+    <Page Include="Theme\UserControls\Quran\Player\Selectors\Cheikh\CheikhCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Player\CheikhSelectorPage.xaml">
+    <Page Include="Theme\UserControls\Quran\Player\Selectors\Cheikh\CheikhSelectorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Player\SurahBar.xaml">
+    <Page Include="Theme\UserControls\Quran\Player\Selectors\Surah\SurahBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Player\SurahSelectorPage.xaml">
+    <Page Include="Theme\UserControls\Quran\Player\Selectors\Surah\SurahSelectorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Theme\UserControls\Quran\Searcher\BarakaSearchResult.xaml">

@@ -12,6 +12,7 @@ namespace Baraka.Theme.UserControls
     public partial class BarakaTextBox : UserControl
     {
         private string _placeholder = "rechercher...";
+        private bool _placeholderEnabled = true;
 
         #region Settings
         [Category("Baraka")]
@@ -21,6 +22,10 @@ namespace Baraka.Theme.UserControls
             set
             {
                 TextBoxComponent.Text = value;
+                if (value.Trim() == "")
+                {
+                    TextBoxComponent_LostFocus(null, null);
+                }
             }
         }
 
@@ -31,9 +36,14 @@ namespace Baraka.Theme.UserControls
             set
             {
                 _placeholder = value;
-                TextBoxComponent.Text = _placeholder;
-                TextBoxComponent.Opacity = 0.65;
+                RefreshPlaceholder();
             }
+        }
+
+        [Category("Baraka")]
+        public bool PlaceholderEnabled
+        {
+            get { return _placeholderEnabled; }
         }
         #endregion
 
@@ -61,12 +71,23 @@ namespace Baraka.Theme.UserControls
             }
         }
 
+        #region Placeholder
+        public void RefreshPlaceholder()
+        {
+            if (_placeholderEnabled)
+            {
+                TextBoxComponent.Text = _placeholder;
+                TextBoxComponent.Opacity = 0.65;
+            }
+        }
+
         private void TextBoxComponent_GotFocus(object sender, RoutedEventArgs e)
         {
             if (TextBoxComponent.Opacity == 0.65)
             {
                 TextBoxComponent.Clear();
                 TextBoxComponent.Opacity = 1;
+                _placeholderEnabled = false;
             }
         }
 
@@ -74,10 +95,12 @@ namespace Baraka.Theme.UserControls
         {
             if (TextBoxComponent.Text.Trim().Length == 0)
             {
-                TextBoxComponent.Text = _placeholder;
-                TextBoxComponent.Opacity = 0.65;
+                _placeholderEnabled = true;
             }
+
+            RefreshPlaceholder();
         }
+        #endregion
 
         private void TextBoxComponent_TextChanged(object sender, TextChangedEventArgs e)
         {

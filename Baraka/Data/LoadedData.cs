@@ -19,6 +19,10 @@ namespace Baraka.Data
         public static AudioCacheManager AudioCache;
 
         // Hardcoded data
+        //
+
+        // Juz and hizb list
+        // Each line is a Juz, composed of a Tuple containing 2 hizb
         public static List<(HizbDescription, HizbDescription)> JuzAndHizb =
             new List<(HizbDescription, HizbDescription)>()
             {

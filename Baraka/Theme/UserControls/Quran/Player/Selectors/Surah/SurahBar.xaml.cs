@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace Baraka.Theme.UserControls.Quran.Player
+namespace Baraka.Theme.UserControls.Quran.Player.Selectors.Surah
 {
     /// <summary>
     /// Logique d'interaction pour SurahBar.xaml
@@ -62,7 +62,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             if (_parentPlayer.SelectedSurah != _surah)
             {
                 SetLoading(true);
-                await Task.Delay(5);
+                await Task.Delay(10); // TODO: fix this mess, I'm not a 5 years old :angry:
                 _parentPlayer.SetSelectedBar(this);
                 Select();
                 SetLoading(false);

@@ -191,6 +191,8 @@ namespace Baraka
         {
             WindowBlurEffect.Radius = 8;
 
+            // TODO: apply placeholder directly in SearchWindow.cs
+            _searchWindow.SearchTB.Placeholder = $"rechercher ({LoadedData.Settings.SearchEdition})...";
             _searchWindow.ShowDialog();
 
             WindowBlurEffect.Radius = 0;

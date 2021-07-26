@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using Baraka.Data.Surah;
 using Baraka.Data.Descriptions;
 
-namespace Baraka.Theme.UserControls.Quran.Player
+namespace Baraka.Theme.UserControls.Quran.Player.Selectors.Surah
 {
     /// <summary>
     /// Logique d'interaction pour BarakaHizbVisualizer.xaml
@@ -35,10 +35,10 @@ namespace Baraka.Theme.UserControls.Quran.Player
         }
 
         #region Load segments
-        private Dictionary<(int, int), HizbDescription> FindSegments()
+        private Dictionary<VerseDescription, HizbDescription> FindSegments()
         {
-            var segments = new Dictionary<(int, int), HizbDescription>(); // (Surah number, End verse): Hizb
-            
+            var segments = new Dictionary<VerseDescription, HizbDescription>();
+
             // Find segments
             //
             foreach (var hizbGroup in LoadedData.JuzAndHizb)
@@ -56,21 +56,21 @@ namespace Baraka.Theme.UserControls.Quran.Player
                         {
                             if (hizb.EndSurah != hizb.StartSurah)
                             {
-                                segments.Add((surah.SurahNumber, surah.NumberOfVerses), hizb);
+                                segments.Add(new VerseDescription(surah, surah.NumberOfVerses), hizb);
                             }
                             else
                             {
-                                segments.Add((surah.SurahNumber, hizb.EndVerse), hizb);
+                                segments.Add(new VerseDescription(surah, hizb.EndVerse), hizb);
                             }
                         }
                         else if (hizb.EndSurah == surah.SurahNumber)
                         {
-                            segments.Add((surah.SurahNumber, hizb.EndVerse), hizb);
+                            segments.Add(new VerseDescription(surah, hizb.EndVerse), hizb);
                         }
                         else if (hizb.StartSurah < surah.SurahNumber && hizb.EndSurah > surah.SurahNumber)
                         {
                             // Surah is fully embed in the hizb
-                            segments.Add((surah.SurahNumber, surah.NumberOfVerses), hizb);
+                            segments.Add(new VerseDescription(surah, surah.NumberOfVerses), hizb);
                         }
                     }
                 }
@@ -79,7 +79,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
             // Unify segments
             //
-            var repetitiveSegments = new List<(int, int)>();
+            var repetitiveSegments = new List<VerseDescription>();
 
             for (int i = 0; i < segments.Count; i++)
             {
@@ -117,7 +117,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             }
 
             // Remove repetitive occurrences
-            foreach ((int, int) seg in repetitiveSegments)
+            foreach (var seg in repetitiveSegments)
             {
                 segments.Remove(seg);
             }
@@ -125,16 +125,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             // ---
 
             return segments;
-        }
-
-        /* TODO
-        private void SetHizbSelected(bool selected, Rectangle hizbRect)
-        {
-            if (selected)
-            {
-            }
-        }
-        */
+        }  
 
         public void LoadSegments()
         {
@@ -143,44 +134,32 @@ namespace Baraka.Theme.UserControls.Quran.Player
             var segments = FindSegments();
 
             double lastSegmentDue = 0;
-            foreach (KeyValuePair<(int, int), HizbDescription> segDesc in segments)
+            foreach (KeyValuePair<VerseDescription, HizbDescription> segDesc in segments)
             {              
+                var segLimit = segDesc.Key;
                 var hizb = segDesc.Value;
 
                 double segmentHeight = -lastSegmentDue;
 
-                int surahNum = segDesc.Key.Item1;
-                int verseNum = segDesc.Key.Item2;
-
                 // 52 is the height of a SurahBar
-                segmentHeight += (surahNum - 1) * 52;
+                segmentHeight += (segLimit.Surah.SurahNumber - 1) * 52;
 
-                double surahCompletedRatio = verseNum / (double)LoadedData.SurahList.ElementAt(surahNum - 1).Key.NumberOfVerses;
+                double surahCompletedRatio = segLimit.Number / (double)LoadedData.SurahList.ElementAt(segLimit.Surah.SurahNumber - 1).Key.NumberOfVerses;
                 segmentHeight += surahCompletedRatio * 52;
 
-                Brush fill = hizb.Number % 2 == 0 ? _palette.Item1 : _palette.Item2;
-                var segment = new Border()
+                Brush bg = hizb.Number % 2 == 0 ? _palette.Item1 : _palette.Item2;
+                var segment = new BarakaHizbSegment()
                 {
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    Cursor = Cursors.Hand,
-                    Background = fill,
-                    BorderThickness = new Thickness(0, 0, 0, 5),
                     ToolTip = hizb.ToString(),
-                    Width = ActualWidth
-                };
-
-                segment.MouseEnter += (object _, MouseEventArgs __) =>
-                {
-                    segment.BorderBrush = Brushes.Goldenrod;
-                };
-
-                segment.MouseLeave += (object _, MouseEventArgs __) =>
-                {
-                    segment.BorderBrush = Brushes.Transparent;
+                    Background = bg,
+                    Width = ActualWidth,
+                    Limit = segLimit
                 };
 
                 segment.PreviewMouseLeftButtonUp += (object _, MouseButtonEventArgs __) =>
                 {
+                    SetHizbSelected(true, hizb.Number - 1);
+
                     var surah = LoadedData.SurahList.ElementAt(hizb.StartSurah - 1).Key;
                     Page.HizbSelected(new VerseDescription(surah, hizb.StartVerse - 1));
                 };
@@ -189,6 +168,42 @@ namespace Baraka.Theme.UserControls.Quran.Player
                 HizbSP.Children.Add(segment);
 
                 lastSegmentDue += segmentHeight;
+            }
+        }
+        #endregion
+
+        #region UI
+        public void RefreshSelectedHizb(VerseDescription verse)
+        {
+            // Find segment index based on verse
+            foreach (BarakaHizbSegment segment in HizbSP.Children)
+            {
+                if ((verse.Surah.SurahNumber < segment.Limit.Surah.SurahNumber) ||
+                    (verse.Surah.SurahNumber == segment.Limit.Surah.SurahNumber) && verse.Number <= segment.Limit.Number)
+                {
+                    SetHizbSelected(true, segment);
+                    break;
+                }
+            }
+        }
+
+        private void SetHizbSelected(bool selected, int segIndex)
+        {
+            var segment = HizbSP.Children[segIndex] as BarakaHizbSegment;
+            SetHizbSelected(selected, segment);
+        }
+
+        private void SetHizbSelected(bool selected, BarakaHizbSegment segment)
+        {
+            // Unselect all segments
+            foreach (BarakaHizbSegment seg in HizbSP.Children)
+            {
+                seg.Selected = false;
+            }
+
+            if (selected)
+            {
+                segment.Selected = true;
             }
         }
         #endregion

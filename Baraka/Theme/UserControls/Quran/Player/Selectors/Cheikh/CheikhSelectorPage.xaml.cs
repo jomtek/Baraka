@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Baraka.Theme.UserControls.Quran.Player
+namespace Baraka.Theme.UserControls.Quran.Player.Selectors.Cheikh
 {
     /// <summary>
     /// Logique d'interaction pour CheikhSelectorPage.xaml

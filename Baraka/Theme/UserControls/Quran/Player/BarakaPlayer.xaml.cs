@@ -2,6 +2,8 @@
 using Baraka.Data.Descriptions;
 using Baraka.Streaming;
 using Baraka.Theme.UserControls.Quran.Displayer;
+using Baraka.Theme.UserControls.Quran.Player.Selectors.Cheikh;
+using Baraka.Theme.UserControls.Quran.Player.Selectors.Surah;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -76,6 +78,15 @@ namespace Baraka.Theme.UserControls.Quran.Player
         public SurahDescription SelectedSurah
         {
             get { return _selectedSurah; }
+        }
+
+        [Category("Baraka")]
+        public VerseDescription SelectedVerse
+        {
+            get
+            {
+                return new VerseDescription(_selectedSurah, Streamer.Verse);
+            }
         }
         #endregion
 
@@ -419,13 +430,13 @@ namespace Baraka.Theme.UserControls.Quran.Player
         {
             if (bar != _selectedSurahBar)
             {
-                ChangeSelectedSurah(bar.Surah);
+                ChangeSelectedSurah(bar.Surah, true, false);
                 if (_selectedSurahBar != null)
                     _selectedSurahBar.Unselect();
                 _selectedSurahBar = bar;
             }
         }
-        public void ChangeSelectedSurah(SurahDescription description, bool loadInDisplayer = true)
+        public void ChangeSelectedSurah(SurahDescription description, bool loadInDisplayer = true, bool refreshSelectorScroll = true)
         {
             if (description != _selectedSurah)
             {
@@ -463,7 +474,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
                     Displayer.LoadSurah(_selectedSurah);
                 }
 
-                _surahSelector.RefreshSelection();
+                _surahSelector.RefreshSelection(refreshSelectorScroll);
 
                 SurahTB.ToolTip = Utils.General.GenerateSynopsis(_selectedSurah);
             }

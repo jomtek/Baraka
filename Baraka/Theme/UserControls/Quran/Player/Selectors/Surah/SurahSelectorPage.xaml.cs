@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Baraka.Theme.UserControls.Quran.Player
+namespace Baraka.Theme.UserControls.Quran.Player.Selectors.Surah
 {
     /// <summary>
     /// Logique d'interaction pour SurahSelectorPage.xaml
@@ -58,12 +58,14 @@ namespace Baraka.Theme.UserControls.Quran.Player
             RefreshSelection();
         }
 
-        public void RefreshSelection()
+        public void RefreshSelection(bool scroll = true)
         {
             if (!ItemsInitialized)
             {
                 return;
             }
+
+            HizbVisualizer.RefreshSelectedHizb(_parentPlayer.SelectedVerse);
 
             if (_parentPlayer.SelectedSurah == null)
             {
@@ -80,15 +82,18 @@ namespace Baraka.Theme.UserControls.Quran.Player
                         _parentPlayer.SetSelectedBar(bar);
                         bar.Select();
 
-                        // Auto-scroll to bar
-                        int index = ContainerSP.Children.IndexOf(bar);
-                        if (index > 6)
+                        if (scroll)
                         {
-                            PageSV.ScrollToVerticalOffset(bar.ActualHeight * (index - 3));
-                        }
-                        else
-                        {
-                            PageSV.ScrollToVerticalOffset(0);
+                            // Auto-scroll to bar
+                            int index = ContainerSP.Children.IndexOf(bar);
+                            if (index > 6)
+                            {
+                                PageSV.ScrollToVerticalOffset(bar.ActualHeight * (index - 3));
+                            }
+                            else
+                            {
+                                PageSV.ScrollToVerticalOffset(0);
+                            }
                         }
                     }
                     else

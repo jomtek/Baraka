@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace Baraka.Theme.UserControls.Quran.Player
+namespace Baraka.Theme.UserControls.Quran.Player.Selectors.Cheikh
 {
     /// <summary>
     /// Logique d'interaction pour CheikhCard.xaml
