@@ -21,10 +21,13 @@ namespace Baraka.Theme.UserControls
             get { return TextBoxComponent.Text; }
             set
             {
-                TextBoxComponent.Text = value;
-                if (value.Trim() == "")
+                if (!PlaceholderEnabled)
                 {
-                    TextBoxComponent_LostFocus(null, null);
+                    TextBoxComponent.Text = value;
+                    if (value.Trim() == "")
+                    {
+                        TextBoxComponent_LostFocus(null, null);
+                    }
                 }
             }
         }
@@ -85,6 +88,7 @@ namespace Baraka.Theme.UserControls
         {
             if (TextBoxComponent.Opacity == 0.65)
             {
+                Console.WriteLine("got focus");
                 TextBoxComponent.Clear();
                 TextBoxComponent.Opacity = 1;
                 _placeholderEnabled = false;
@@ -93,6 +97,7 @@ namespace Baraka.Theme.UserControls
 
         private void TextBoxComponent_LostFocus(object sender, RoutedEventArgs e)
         {
+            Console.WriteLine("lost focus");
             if (TextBoxComponent.Text.Trim().Length == 0)
             {
                 _placeholderEnabled = true;
@@ -104,7 +109,10 @@ namespace Baraka.Theme.UserControls
 
         private void TextBoxComponent_TextChanged(object sender, TextChangedEventArgs e)
         {
-            TextChanged?.Invoke(this, EventArgs.Empty);
+            if (!_placeholderEnabled)
+            {
+                TextChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 }

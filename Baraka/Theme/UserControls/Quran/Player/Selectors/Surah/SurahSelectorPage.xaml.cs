@@ -134,16 +134,13 @@ namespace Baraka.Theme.UserControls.Quran.Player.Selectors.Surah
 
             // Re-load Surah list
             InitializeItems(null);
-
-            // Clear search query
-            SearchTB.Text = "";
         }
 
         private async Task SendQuery()
         {
             var query = General.PrepareQuery(SearchTB.Text);
 
-            if (query.Length > 0 && query != SearchTB.Placeholder)
+            if (query.Length > 0 && !SearchTB.PlaceholderEnabled)
             {
                 await ProcessQuery(query);
             }
@@ -179,11 +176,28 @@ namespace Baraka.Theme.UserControls.Quran.Player.Selectors.Surah
 
             // TODO: unify with SearchWindow's search engine
             string[] keywords = query.Split(' ');
-            foreach (var surah in LoadedData.SurahList.Keys)
+
+            // Number search (ex: 58)
+            int surahNumber;
+            if (int.TryParse(keywords[0], out surahNumber))
             {
-                if (keywords.All((kw) => surah.PhoneticName.ToLower().Contains(kw) || surah.TranslatedName.ToLower().Contains(kw)))
+                foreach (var surah in LoadedData.SurahList.Keys)
                 {
-                    ContainerSP.Children.Add(new SurahBar(surah, _parentPlayer));
+                    if (surah.SurahNumber == surahNumber)
+                    {
+                        ContainerSP.Children.Add(new SurahBar(surah, _parentPlayer));
+                    }
+                }
+            }
+            else
+            {
+            // Keyword search (ex: nisa)
+                foreach (var surah in LoadedData.SurahList.Keys)
+                {
+                    if (keywords.All((kw) => surah.PhoneticName.ToLower().Contains(kw) || surah.TranslatedName.ToLower().Contains(kw)))
+                    {
+                        ContainerSP.Children.Add(new SurahBar(surah, _parentPlayer));
+                    }
                 }
             }
 

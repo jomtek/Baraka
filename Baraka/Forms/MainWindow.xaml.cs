@@ -281,7 +281,7 @@ namespace Baraka
         #region Local utils
         public void IntersurahChangeVerse(VerseDescription verse, bool searchRes = false)
         {
-            Player.ChangeSelectedSurah(verse.Surah);
+            Player.ChangeSelectedSurah(verse.Surah, true, false);
             Player.ChangeVerse(verse.Number);
 
             MainSurahDisplayer.BrowseToVerse(verse.Number);

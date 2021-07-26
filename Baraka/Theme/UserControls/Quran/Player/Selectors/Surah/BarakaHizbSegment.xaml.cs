@@ -35,16 +35,7 @@ namespace Baraka.Theme.UserControls.Quran.Player.Selectors.Surah
             set
             {
                 _selected = value;
-                
-                if (value)
-                {
-                    Console.WriteLine("yes");
-                    BorderBrush = Brushes.Goldenrod;
-                }
-                else
-                {
-                    BorderBrush = Brushes.Transparent;
-                }
+                SetDisplay(value);
             }
         }
         #endregion
@@ -55,16 +46,27 @@ namespace Baraka.Theme.UserControls.Quran.Player.Selectors.Surah
         }
 
         #region Interaction
+        private void SetDisplay(bool selected)
+        {
+            if (selected)
+            {
+                BorderComponent.BorderBrush = Brushes.Goldenrod;
+            }
+            else
+            {
+                BorderComponent.BorderBrush = Brushes.Transparent;
+            }
+        }
         private void UserControl_MouseEnter(object sender, MouseEventArgs e)
         {
-            BorderBrush = Brushes.Goldenrod;
+            SetDisplay(true);
         }
 
         private void UserControl_MouseLeave(object sender, MouseEventArgs e)
         {
             if (!Selected)
             {
-                BorderBrush = Brushes.Transparent;
+                SetDisplay(false);
             }
         }
         #endregion
