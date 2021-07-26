@@ -46,7 +46,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
         public void RefreshProgress()
         {
             int bookmark = LoadedData.Bookmarks[_surah.SurahNumber - 1];
-            int progress = (int)Math.Floor(((double)bookmark / (_surah.NumberOfVerses - 1)) * 100);
+            int progress = (int)Math.Floor(((double)bookmark / _surah.NumberOfVerses) * 100);
             if (progress == 0)
             {
                 ProgressTB.Visibility = Visibility.Collapsed;

@@ -250,8 +250,6 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             BrowseToVerse(verse);
 
             double newVerticalOffset = Bookmark.Height - 60 - 250;
-            DoSmoothScoll(newVerticalOffset);
-
             if (newVerticalOffset > VersesSV.VerticalOffset)
             {
                 if (VersesSV.ScrollableHeight != 0)
@@ -260,6 +258,13 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                     MainSB.Scrolled = newVerticalOffset / VersesSV.ScrollableHeight;
                 }
             }
+            else
+            {
+                // Backwards scroll
+                VersesSV.ScrollToVerticalOffset(0);
+            }
+
+            DoSmoothScoll(newVerticalOffset);
 
             if (searchRes)
             {
