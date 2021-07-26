@@ -44,13 +44,14 @@
                 <DiscreteObjectKeyFrame KeyTime="0:0:0.233" Value="{x:Static Visibility.Visible}"/>
             </ObjectAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="border">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="574"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="575"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+        
         <Storyboard x:Key="PlayerCloseStory">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="border">
-                <EasingDoubleKeyFrame KeyTime="0" Value="574"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="108"/>
+                <EasingDoubleKeyFrame KeyTime="0" Value="575"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="108"/>
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="BeautifulSeparator">
                 <EasingDoubleKeyFrame KeyTime="0" Value="450"/>

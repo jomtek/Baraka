@@ -65,14 +65,18 @@ namespace Baraka.Theme.UserControls.Quran.Player
                 return;
             }
 
+            Console.WriteLine("REFRESH SELECTION --");
+
             if (_parentPlayer.SelectedSurah == null)
             {
+                Console.WriteLine("first bar");
                 var firstBar = (SurahBar)ContainerSP.Children[0];
                 _parentPlayer.SetSelectedBar(firstBar);
                 firstBar.Select();
             }
             else
             {
+                Console.WriteLine("nope");
                 foreach (SurahBar bar in ContainerSP.Children)
                 {
                     if (bar.Surah.PhoneticName == _parentPlayer.SelectedSurah.PhoneticName)
@@ -80,6 +84,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
                         _parentPlayer.SetSelectedBar(bar);
                         bar.Select();
 
+                        Console.WriteLine("auto-scrolling");
                         // Auto-scroll to bar
                         int index = ContainerSP.Children.IndexOf(bar);
                         if (index > 6)
@@ -97,6 +102,8 @@ namespace Baraka.Theme.UserControls.Quran.Player
                     }
                 }
             }
+
+            Console.WriteLine("-----");
         }
 
         #region Juz and Hizb
@@ -110,6 +117,9 @@ namespace Baraka.Theme.UserControls.Quran.Player
             // Load hizb visualizer
             HizbVisualizer.Page = this;
             HizbVisualizer.LoadSegments();
+
+            // Refresh surah selection
+            RefreshSelection();
 
             // TODO
             //PageSV.Focus();

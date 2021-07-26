@@ -137,6 +137,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             {
                 SelectorGrid.Visibility = Visibility.Hidden;
                 _closing = false;
+                _surahSelector.ReloadList();
             };
         }
 
@@ -154,7 +155,6 @@ namespace Baraka.Theme.UserControls.Quran.Player
         {
             Streamer.StartVerse = Displayer.StartVerse;
             Streamer.EndVerse = Displayer.EndVerse;
-            Console.WriteLine("loop mode info reinitialized");
         }
 
         public void ReinitLoopmode(bool activated)
@@ -330,8 +330,6 @@ namespace Baraka.Theme.UserControls.Quran.Player
             _closing = true;
             ((Storyboard)this.Resources["PlayerCloseStory"]).Begin();
 
-            _surahSelector.ReloadList();
-
             if (_wasPlaying)
             {
                 Playing = true;
@@ -354,6 +352,12 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
             if (_lastTabShown == tab)
             {
+                if (tab == 1)
+                {
+                    // Refresh surah selector anyways
+                    _surahSelector.RefreshSelection();
+                }
+
                 return;
             }
             else
@@ -474,10 +478,12 @@ namespace Baraka.Theme.UserControls.Quran.Player
             {
                 _surahSelector.InitializeItems(this);
             }
+            else
+            {
+                _surahSelector.RefreshSelection();
+            }
 
             FrameComponent.Content = _surahSelector;
-
-            _surahSelector.RefreshSelection();
         }
         #endregion
 
