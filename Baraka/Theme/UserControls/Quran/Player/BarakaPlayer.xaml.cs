@@ -186,7 +186,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             ReinitLoopmode(_loopMode);
         }
 
-        private async void CheikhTB_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void CheikhTB_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (_cheikhModification)
             {
@@ -327,9 +327,10 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
         private void ClosePlayer()
         {
-            Console.WriteLine("close player");
             _closing = true;
             ((Storyboard)this.Resources["PlayerCloseStory"]).Begin();
+
+            _surahSelector.ReloadList();
 
             if (_wasPlaying)
             {

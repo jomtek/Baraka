@@ -51,9 +51,11 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
             foreach (SurahDescription surah in LoadedData.SurahList.Keys)
             {
-                var bar = new SurahBar(surah, parentPlayer);
+                var bar = new SurahBar(surah, _parentPlayer);
                 ContainerSP.Children.Add(bar);
             }
+
+            RefreshSelection();
         }
 
         public void RefreshSelection()
@@ -115,6 +117,20 @@ namespace Baraka.Theme.UserControls.Quran.Player
         #endregion
 
         #region Search
+        private bool _resultsAltered = false;
+
+        public void ReloadList()
+        {
+            // Clear the results
+            ContainerSP.Children.Clear();
+
+            // Re-load Surah list
+            InitializeItems(null);
+
+            // Clear search query
+            SearchTB.Text = "";
+        }
+
         private async Task SendQuery()
         {
             var query = General.PrepareQuery(SearchTB.Text);
@@ -125,10 +141,10 @@ namespace Baraka.Theme.UserControls.Quran.Player
             }
             else
             {
-                if (ContainerSP.Children.Count < 114)
+                if (_resultsAltered)
                 {
-                    // Re-load Surah list
-                    InitializeItems(null);
+                    ReloadList();
+                    _resultsAltered = false;
                 }
             }
         }
@@ -143,7 +159,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
         private async Task ProcessQuery(string query, bool showAll = false)
         {
-            await Task.Delay(300);
+            await Task.Delay(400);
 
             if (query != General.PrepareQuery(SearchTB.Text))
             {
@@ -151,9 +167,21 @@ namespace Baraka.Theme.UserControls.Quran.Player
             }
 
             ContainerSP.Children.Clear();
+            PageSV.ScrollToVerticalOffset(0);
 
+            // TODO: unify with SearchWindow's search engine
+            string[] keywords = query.Split(' ');
+            foreach (var surah in LoadedData.SurahList.Keys)
+            {
+                if (keywords.All((kw) => surah.PhoneticName.ToLower().Contains(kw) || surah.TranslatedName.ToLower().Contains(kw)))
+                {
+                    ContainerSP.Children.Add(new SurahBar(surah, _parentPlayer));
+                }
+            }
 
-            Console.WriteLine($"test: {query}");
+            RefreshSelection();
+
+            _resultsAltered = true;
         }
         #endregion
     }
