@@ -128,9 +128,9 @@ namespace Baraka
         #endregion
 
         #region Displayer to Player
+#pragma warning disable IDE0051 // Remove unused private members
         private void MainSurahDisplayer_VerseChanged(object sender, int num)
         {
-            // TODO : is this function actually used ?
             Player.ChangeVerse(num);
         }
 
@@ -145,6 +145,7 @@ namespace Baraka
                 Player.DownloadManyVerses(e.Begin, e.End);
             }
         }
+#pragma warning restore IDE0051
         #endregion
 
         #endregion

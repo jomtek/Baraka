@@ -119,12 +119,17 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                 // Basmala
                 if (basmala)
                 {
-                    var verseBox = new BarakaVerse(LoadedData.SurahList.ElementAt(0).Key, 0);
-                    verseBox.Margin = new Thickness(0, 45, 0, 0);
-                    verseBox.Initialize();
+                    var verseBox = new BarakaVerse(LoadedData.SurahList.ElementAt(0).Key, 0)
+                    {
+                        Margin = new Thickness(0, 45, 0, 0)
+                    };
 
-                    var verseNum = new BarakaVerseNumber(this, -1, -1, true);
-                    verseNum.Margin = new Thickness(0, 45, 0, 0);
+                    var verseNum = new BarakaVerseNumber(this, -1, -1, true)
+                    {
+                        Margin = new Thickness(0, 45, 0, 0)
+                    };
+
+                    verseBox.Initialize();
 
                     VersesSP.Children.Add(verseBox);
                     NumberingSP.Children.Add(verseNum);

@@ -140,6 +140,11 @@ namespace Baraka.Streaming
             {
                 Verse = number + 1;
             }
+
+            if (LoopMode)
+            {
+                EndVerse = Verse;
+            }
         }
         #endregion
 
@@ -210,12 +215,6 @@ namespace Baraka.Streaming
 
             while (_playing)
             {
-                if (StartVerse > EndVerse) // TODO
-                {
-                    StartVerse--;
-                    continue;
-                }
-
                 if (_loopMode && NonRelativeVerse >= EndVerse + 1)
                 {            
                     SetVerse(StartVerse);

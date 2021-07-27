@@ -51,14 +51,8 @@ namespace Baraka.Forms.Settings
             }
 
             OutputDeviceCMBB.SelectedIndex = LoadedData.Settings.OutputDeviceIndex;
-
-            // TODO: temporary
-            if (OutputDeviceCMBB.SelectedIndex == -1)
-            {
-                LoadedData.Settings.OutputDeviceIndex = 0;
-                OutputDeviceCMBB.SelectedIndex = 0;
-            }
         }
+
         private void LoadSettings()
         {
             DefaultSurahCMBB.SelectedIndex = LoadedData.Settings.DefaultSurahIndex;
