@@ -132,8 +132,11 @@ namespace Baraka.Theme.UserControls.Quran.Player.Selectors.Surah
             // Clear the results
             ContainerSP.Children.Clear();
 
-            // Re-load Surah list
-            InitializeItems(null);
+            if (ItemsInitialized)
+            {
+                // Re-load Surah list
+                InitializeItems(null);
+            }
         }
 
         private async Task SendQuery()

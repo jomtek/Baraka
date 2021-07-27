@@ -27,7 +27,8 @@ namespace Baraka.Streaming
         public int StartVerse { get; set; } = 0;
         public int EndVerse { get; set; } = -1;
 
-        private WaveOut _wout;
+        private VerseStreamer _defaultStreamer;
+        private VerseStreamer _crossfadingStreamer;
         private byte[] _nextVerseAudio;
 
         #region Events
@@ -54,7 +55,8 @@ namespace Baraka.Streaming
                 {
                     try
                     {
-                        _wout.Stop();
+                        _defaultStreamer.Stop();
+                        _crossfadingStreamer.Stop();
                     }
                     catch (NullReferenceException)
                     {
@@ -85,7 +87,8 @@ namespace Baraka.Streaming
         {
             set
             {
-                _wout.DeviceNumber = value;
+                _defaultStreamer.SetDevice(value);
+                _crossfadingStreamer.SetDevice(value);
                 ChangeVerse(NonRelativeVerse);
             }
         }
@@ -97,7 +100,8 @@ namespace Baraka.Streaming
             Surah = LoadedData.SurahList.ElementAt(0).Key;
             Cheikh = LoadedData.CheikhList.ElementAt(3);
 
-            _wout = new WaveOut(WaveCallbackInfo.FunctionCallback());   
+            _defaultStreamer = new VerseStreamer();
+            _crossfadingStreamer = new VerseStreamer();
         }
 
         #region Cursor Management
@@ -275,78 +279,24 @@ namespace Baraka.Streaming
             }
         }
 
+        private bool _lastStreamerWasDefault = false;
+
         private async Task PlayVerse(byte[] audio)
         {
-            using (var ms = new MemoryStream())
+            VerseStreamer streamer;
+
+            if (!_lastStreamerWasDefault)
             {
-                // Write next verse data to memory stream
-                ms.Write(audio, 0, audio.Length);
-
-                // Convert and play mp3 data
-                ms.Position = 0;
-                using (WaveStream blockAlignedStream =
-                    new BlockAlignReductionStream(
-                        WaveFormatConversionStream.CreatePcmStream(
-                            new Mp3FileReader(ms))))
-                {
-                    try
-                    {
-                        _wout.Init(blockAlignedStream);
-                    }
-                    catch (NAudio.MmException ex)
-                    {
-                        Playing = false;
-                        Utils.Emergency.ShowExMessage(ex);
-                        throw ex;
-                    }
-
-                    try
-                    {
-                        _wout.Play();
-                    }
-                    catch (NullReferenceException)
-                    {
-                        Console.WriteLine("Null reference");
-                    }
-
-                    //double time = blockAlignedStream.TotalTime.TotalMilliseconds * percentage;
-                    //blockAlignedStream.Position =
-                    //    (long)(time * _wout.OutputWaveFormat.SampleRate * _wout.OutputWaveFormat.BitsPerSample * _wout.OutputWaveFormat.Channels / 8000.0) & ~1;
-                    while (true)
-                    {
-                        /*if (SeekTok.SeekRequested)
-                        { 
-                            double time = blockAlignedStream.TotalTime.TotalMilliseconds * SeekTok.Factor;
-                            blockAlignedStream.Position =
-                                (long)(time *
-                                      _wout.OutputWaveFormat.SampleRate *
-                                      _wout.OutputWaveFormat.BitsPerSample *
-                                      _wout.OutputWaveFormat.Channels / 8000.0) & ~1;
-
-                            SeekTok.SeekRequested = false;    
-                        }*/
-
-                        double totalMs = blockAlignedStream.TotalTime.TotalMilliseconds;
-                        double currentMs = blockAlignedStream.CurrentTime.TotalMilliseconds;
-                        // _cursor = currentMs / totalMs;
-
-                        // Crossfading (WIP TODO)
-                        if (totalMs - currentMs < LoadedData.Settings.CrossFadingValue)
-                        {
-                            break;
-                        }
-
-                        if (_wout.PlaybackState == PlaybackState.Stopped)
-                        {
-                            break;
-                        }
-
-                        await Task.Delay(10);
-                    }
-                }
+                streamer = _defaultStreamer;
+            }
+            else
+            {
+                streamer = _crossfadingStreamer;
             }
 
-            //return Task.CompletedTask;
+            await streamer.Play(audio);
+
+            _lastStreamerWasDefault = !_lastStreamerWasDefault;
         }
         #endregion
     }

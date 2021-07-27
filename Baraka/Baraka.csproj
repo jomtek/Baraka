@@ -161,6 +161,7 @@
     <Compile Include="Globalization\Language.cs" />
     <Compile Include="Streaming\QuranStreamer.cs" />
     <Compile Include="Streaming\StreamingUtils.cs" />
+    <Compile Include="Streaming\VerseStreamer.cs" />
     <Compile Include="Theme\UserControls\BarakaButton.xaml.cs">
       <DependentUpon>BarakaButton.xaml</DependentUpon>
     </Compile>
@@ -209,6 +210,7 @@
     <Compile Include="Utils\Search\RelevantSearch.cs" />
     <Compile Include="Utils\Search\SearchResult.cs" />
     <Compile Include="Utils\UI\ScrollAnimationBehavior.cs" />
+    <Compile Include="Utils\UI\SelectableTextBlock.cs" />
     <Compile Include="Utils\WaitCursor.cs" />
     <Compile Include="Forms\WelcomeWindow.xaml.cs">
       <DependentUpon>WelcomeWindow.xaml</DependentUpon>

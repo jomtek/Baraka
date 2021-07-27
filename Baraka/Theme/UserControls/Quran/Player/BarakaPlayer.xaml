@@ -130,13 +130,13 @@
         </Path>
         <Grid x:Name="PlayerControlsGrid" Margin="0" VerticalAlignment="Bottom" Height="109">
             <StackPanel Orientation="Horizontal" Margin="0,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Column="1">
-                <Grid x:Name="BackwardBTN" Cursor="Hand" ToolTip="Cliquez pour jouer la sourate précédente" IsEnabled="False" Height="30" Width="30" Background="White" Opacity="0.4" PreviewMouseLeftButtonUp="BackwardBTN_PreviewMouseLeftButtonUp">
+                <Grid x:Name="BackwardBTN" Cursor="Hand" ToolTip="Cliquez pour afficher la sourate précédente" IsEnabled="False" Height="30" Width="30" Background="White" Opacity="0.4" PreviewMouseLeftButtonUp="BackwardBTN_PreviewMouseLeftButtonUp">
                     <Path Style="{StaticResource Backward}" Stretch="Fill" Fill="Black" ToolTip="" IsEnabled="False" />
                 </Grid>
                 <Grid x:Name="PlayPauseBTN" Background="White" Margin="20,0,0,0" Cursor="Hand" PreviewMouseLeftButtonUp="PlayPauseBTN_PreviewMouseLeftButtonUp" Height="30" Width="30">
                     <Path x:Name="PlayPauseBtnPath" Style="{StaticResource Play}" Stretch="Fill" IsEnabled="False" Fill="Black" />
                 </Grid>
-                <Grid x:Name="ForwardBTN" Background="White" Margin="20,0,0,0" Cursor="Hand" ToolTip="Cliquez pour jouer la prochaine sourate (x)" Height="30" Width="30" PreviewMouseLeftButtonUp="ForwardBTN_PreviewMouseLeftButtonUp">
+                <Grid x:Name="ForwardBTN" Background="White" Margin="20,0,0,0" Cursor="Hand" ToolTip="Cliquez pour afficher la prochaine sourate" Height="30" Width="30" PreviewMouseLeftButtonUp="ForwardBTN_PreviewMouseLeftButtonUp">
                     <Path Style="{StaticResource Forward}" Stretch="Fill" Fill="Black" />
                 </Grid>
             </StackPanel>

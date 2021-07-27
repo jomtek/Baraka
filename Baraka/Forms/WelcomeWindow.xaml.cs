@@ -258,7 +258,9 @@ namespace Baraka
                 instance.MainSurahDisplayer.SetSBVisible(LoadedData.Settings.DisplayScrollBar);
 
                 window.Show();
-                this.Close();
+                window.Activate(); // Bring window to front
+
+                this.Close(); // Close welcome window
             };
 
             App.Current.MainWindow = window;
