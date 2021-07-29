@@ -91,53 +91,93 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             Bookmark.Displayer = this;
         }
 
+        #region Prepare
+        private double _topMargin = 2.5; // Space between verse-boxes
+
+        private BarakaVerse GetVerseBoxFromSP(int index)
+        {
+            return VersesSP.Children[index] as BarakaVerse;
+        }
+
+        // This method is called whenever the last verse has finished loading its layout.
+        // What it does:
+        // - Generates the respective "verse numbers"
+        // - Configures bookmark information
+        // - Loads the last bookmark
+        private void LastVerseBox_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            NumberingSP.Children.Clear();
+            ReinitBookmark();
+
+
+            double numIncrMargin = 0;
+            double cumulatedHeights = 60;
+
+            // Basmala
+            if (Surah.HasBasmala())
+            {
+                var verseNum = new BarakaVerseNumber(this, -1, -1, true)
+                {
+                    Margin = new Thickness(0, 45, 0, 0)
+                };
+
+                NumberingSP.Children.Add(verseNum);
+
+                numIncrMargin = GetVerseBoxFromSP(0).ActualHeight - 60 + _topMargin;
+
+                _relativeBmHeights.Add(cumulatedHeights);
+                cumulatedHeights += GetVerseBoxFromSP(0).ActualHeight + _topMargin;
+            }
+
+            // Verses
+            for (int i = 0; i < Surah.NumberOfVerses; i++)
+            {
+                var verseNum = new BarakaVerseNumber(this, Surah.HasBasmala() ? i + 1 : i, i + 1);
+                verseNum.Margin = new Thickness(0, numIncrMargin, 0, 0);
+
+                if (i == 0 && !Surah.HasBasmala())
+                {
+                    verseNum.Margin = new Thickness(0, 45, 0, 0);
+                }
+
+                NumberingSP.Children.Add(verseNum);
+
+                numIncrMargin = GetVerseBoxFromSP(verseNum.Number).ActualHeight - 60 + _topMargin;
+
+                _relativeBmHeights.Add(cumulatedHeights);
+                cumulatedHeights += GetVerseBoxFromSP(verseNum.Number).ActualHeight + _topMargin;
+            }
+
+            // Bookmark
+            LoadLastBookmark();
+        }
+
         public void LoadSurah(SurahDescription surah)
         {
+            if (surah == Surah)
+            {
+                // The surah is already loaded
+                return;
+            }
+
             Surah = surah;
+            StartVerse = 0;
 
             using (new Utils.WaitCursor())
             {
                 ScrollToTop();
-
                 VersesSP.Children.Clear();
-                NumberingSP.Children.Clear();
-
-                ReinitBookmark();
-
-                StartVerse = 0;
-
-                // //
-
-                double topMargin = 2.5; // Space between verse-boxes
-
-                double numIncrMargin = 0;
-                double cumulatedHeights = 60;
-
-                // Exclude Al-Fatiha and At-Tawbah
-                bool basmala = surah.SurahNumber != 1 && surah.SurahNumber != 9;
 
                 // Basmala
-                if (basmala)
+                if (surah.HasBasmala())
                 {
                     var verseBox = new BarakaVerse(LoadedData.SurahList.ElementAt(0).Key, 0)
                     {
                         Margin = new Thickness(0, 45, 0, 0)
                     };
-
-                    var verseNum = new BarakaVerseNumber(this, -1, -1, true)
-                    {
-                        Margin = new Thickness(0, 45, 0, 0)
-                    };
-
                     verseBox.Initialize();
 
                     VersesSP.Children.Add(verseBox);
-                    NumberingSP.Children.Add(verseNum);
-
-                    numIncrMargin = verseBox.ActualHeight - 60 + topMargin;
-
-                    _relativeBmHeights.Add(cumulatedHeights);
-                    cumulatedHeights += verseBox.ActualHeight + topMargin;
                 }
 
                 // Verses
@@ -147,43 +187,41 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                     var verseBox = new BarakaVerse(surah, i);
                     verseBox.Initialize();
 
-                    if (!(i == 0 && (surah.SurahNumber == 1 || surah.SurahNumber == 9)))
+                    if (!(i == 0 && !Surah.HasBasmala())) // TODO: perhaps simplify this condition?
                     {
-                        verseBox.Margin = new Thickness(0, topMargin, 0, 0);
+                        verseBox.Margin = new Thickness(0, _topMargin, 0, 0);
                     }
 
                     if (i + 1 == surah.NumberOfVerses)
                     {
                         // Last verse
-                        verseBox.Margin = new Thickness(0, topMargin, 0, 135);
+                        verseBox.Margin = new Thickness(0, _topMargin, 0, 135);
                     }
 
-                    // Verse number
-                    var verseNum = new BarakaVerseNumber(this, basmala ? i + 1 : i, i + 1);
-                    verseNum.Margin = new Thickness(0, numIncrMargin, 0, 0);
-
-                    if (i == 0 && (surah.SurahNumber == 1 || surah.SurahNumber == 9))
+                    if (i == 0 && !Surah.HasBasmala())
                     {
                         verseBox.Margin = new Thickness(0, 45, 0, 0);
-                        verseNum.Margin = new Thickness(0, 45, 0, 0);
                     }
 
                     // //
 
                     VersesSP.Children.Add(verseBox);
-                    NumberingSP.Children.Add(verseNum);
 
-                    numIncrMargin = verseBox.ActualHeight - 60 + topMargin;
+                    if (i == surah.NumberOfVerses - 1)
+                    {
+                        verseBox.SizeChanged += LastVerseBox_SizeChanged;
+                    }
 
-                    _relativeBmHeights.Add(cumulatedHeights);
-                    cumulatedHeights += verseBox.ActualHeight + topMargin;
+                    // Communicate the progress to the Welcome window
+                    ((MainWindow)App.Current.MainWindow).ReportLoadingProgress((i / (double)surah.NumberOfVerses));
                 }
             }
 
             MainSB.TargetValue = surah.NumberOfVerses;
-
-            LoadLastBookmark();
         }
+
+
+        #endregion
 
         public void LoadNextSurah()
         {
@@ -242,6 +280,8 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                 return;
             }
 
+            Console.WriteLine($"from: {VersesSV.VerticalOffset}, to: {verticalOffset}");
+
             DoubleAnimation verticalAnimation = new DoubleAnimation();
 
             verticalAnimation.From = VersesSV.VerticalOffset;
@@ -257,9 +297,17 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
         public void ScrollToVerse(int verse, bool searchRes = false)
         {
+            Console.WriteLine($"scrolltoverse: {verse}");
             BrowseToVerse(verse);
 
             double newVerticalOffset = Bookmark.Height - 60 - 250;
+            
+            if (StartVerse != 0)
+            {
+                newVerticalOffset = Math.Abs(newVerticalOffset);
+                newVerticalOffset += VersesSV.VerticalOffset;
+            }
+
             if (newVerticalOffset > VersesSV.VerticalOffset)
             {
                 if (VersesSV.ScrollableHeight != 0)
@@ -273,6 +321,8 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                 // Backwards scroll
                 VersesSV.ScrollToVerticalOffset(0);
             }
+
+
 
             DoSmoothScoll(newVerticalOffset);
 
@@ -422,5 +472,15 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             }
         }
         #endregion
+
+        private void UserControl_LayoutUpdated(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("loaded");
+        }
     }
 }

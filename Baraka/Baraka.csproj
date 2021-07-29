@@ -181,6 +181,7 @@
     <Compile Include="Theme\UserControls\Quran\Displayer\BarakaSurahDisplayer.xaml.cs">
       <DependentUpon>BarakaSurahDisplayer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Theme\UserControls\Quran\Displayer\BarakaTrivialTextBlock.cs" />
     <Compile Include="Theme\UserControls\Quran\Displayer\BarakaVerse.xaml.cs">
       <DependentUpon>BarakaVerse.xaml</DependentUpon>
     </Compile>

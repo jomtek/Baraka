@@ -37,13 +37,21 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         {
             int verNum = Number;
 
+            //var sw = new System.Diagnostics.Stopwatch();
+            //sw.Start();
             Dictionary<string, SurahVersion> versions = Data.LoadedData.SurahList[Surah];
             var config = Data.LoadedData.Settings.SurahVersionConfig;
-            
+            //sw.Stop();
+            //Console.WriteLine($"\t-Indexing (l42): {sw.ElapsedMilliseconds}ms");
+
             if (config.DisplayArabic)
             {
+              //  sw.Restart();
                 string[] words = versions["ARABIC"].Verses[verNum].Split(' ');
+               // sw.Stop();
+                //Console.WriteLine($"\t-Splitting (l50): {sw.ElapsedMilliseconds}ms");
 
+                //sw.Restart();
                 for (int i = 0; i < words.Length; i++)
                 {
                     var run = new Run(words[i]); // A run associated with the current word
@@ -62,6 +70,8 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                 }
 
                 ArabicTB.Visibility = Visibility.Visible;
+                //sw.Stop();
+                //Console.WriteLine($"\t-Adding inlines: {sw.ElapsedMilliseconds}ms");
             }
             else
             {
@@ -104,9 +114,12 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                 }
             }
 
+            //sw.Restart();
             // Measure and pre-arrange so that the size is known from the initialization
-            Measure(new System.Windows.Size(650, double.PositiveInfinity));
-            Arrange(new Rect(0, 0, 650, DesiredSize.Height));
+            //Measure(new System.Windows.Size(650, double.PositiveInfinity));
+            //Arrange(new Rect(0, 0, 650, DesiredSize.Height));
+            //sw.Stop();
+            //Console.WriteLine($"\t-Measure: {sw.ElapsedMilliseconds}ms");
 
             //HighlightWord(0);
         }

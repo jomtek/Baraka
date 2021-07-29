@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.ComponentModel;
 
 namespace Baraka.Theme.UserControls.Quran.Displayer
 {
@@ -12,8 +13,10 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
     /// </summary>
     public partial class BarakaVerseNumber : UserControl
     {
+        [Category("Baraka")]
+        public int Number { get; private set; }
+
         private bool _playing = false;
-        private int _num;
         private BarakaSurahDisplayer _displayer;
 
         public bool Playing
@@ -44,7 +47,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         {
             InitializeComponent();
 
-            _num = number;
+            Number = number;
             _displayer = displayer;
 
             if (!basmala)
@@ -79,29 +82,29 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
         private void UserControl_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            _displayer.VerseNum_Click(_num);
+            _displayer.VerseNum_Click(Number);
         }
         #endregion
 
         #region ContextMenu
         private void Menu_MoveHere_Click(object sender, RoutedEventArgs e)
         {
-            _displayer.VerseNum_Click(_num);
+            _displayer.VerseNum_Click(Number);
         }
 
         private void Menu_StartHere_Click(object sender, RoutedEventArgs e)
         {
-            _displayer.StartFromVerse(_num);
+            _displayer.StartFromVerse(Number);
         }
 
         private void Menu_Download_Click(object sender, RoutedEventArgs e)
         {
-            _displayer.DownloadRecitation(_num, _num);
+            _displayer.DownloadRecitation(Number, Number);
         }
 
         private void Menu_CopyVerse_Click(object sender, RoutedEventArgs e)
         {
-            string verse = Utils.General.PrettyPrintVerse(_num, _displayer.Surah);
+            string verse = Utils.General.PrettyPrintVerse(Number, _displayer.Surah);
             Clipboard.SetText(verse);
             SystemSounds.Exclamation.Play();
         }

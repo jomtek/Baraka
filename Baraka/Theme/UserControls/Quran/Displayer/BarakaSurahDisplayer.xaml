@@ -6,7 +6,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Displayer"
              xmlns:UserControls="clr-namespace:Baraka.Theme.UserControls"
-             mc:Ignorable="d" Height="607">
+             mc:Ignorable="d" Height="607"
+             LayoutUpdated="UserControl_LayoutUpdated"
+             Loaded="UserControl_Loaded">
     <Grid Margin="0">
         <ScrollViewer x:Name="VersesSV" Margin="0" VerticalScrollBarVisibility="Hidden" PreviewMouseWheel="VersesSV_PreviewMouseWheel">
             <Grid>

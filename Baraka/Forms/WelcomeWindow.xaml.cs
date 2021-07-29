@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Newtonsoft.Json;
+using System.Windows.Threading;
 
 namespace Baraka
 {
@@ -163,7 +164,6 @@ namespace Baraka
             Data.SerializationUtils.Serialize(SerializationData, "qurannew.ser");
         }
         #endregion
-
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             //SerializeQuran();
@@ -185,7 +185,7 @@ namespace Baraka
             }
 
             MainPB.Visibility = Visibility.Collapsed;
-            ProgressionTB.Visibility = Visibility.Collapsed;
+            ProgressTB.Visibility = Visibility.Collapsed;
 
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(800);
 
@@ -197,32 +197,32 @@ namespace Baraka
             );
 
             MainPB.Visibility = Visibility.Visible;
-            ProgressionTB.Visibility = Visibility.Visible;
+            ProgressTB.Visibility = Visibility.Visible;
 
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(10);
 
             // // Loading
             //
             // Deserialize data
-            ProgressionTB.Text = "chargement des ressources: quran.ser";
+            ProgressTB.Text = "chargement des ressources: quran.ser";
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
             LoadedData.SurahList =
                 SerializationUtils.Deserialize<Dictionary<SurahDescription, Dictionary<string, SurahVersion>>>("data/quran.ser");
             MainPB.Progress = 0.2;
 
-            ProgressionTB.Text = "chargement des ressources: cheikh.ser";
+            ProgressTB.Text = "chargement des ressources: cheikh.ser";
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
             LoadedData.CheikhList =
                 SerializationUtils.Deserialize<CheikhDescription[]>("data/cheikh.ser");     
             MainPB.Progress = 0.4;
 
-            ProgressionTB.Text = "chargement des ressources: translations.ser";
+            ProgressTB.Text = "chargement des ressources: translations.ser";
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
             LoadedData.TranslationsList =
                 SerializationUtils.Deserialize<TranslationDescription[]>("data/translations.ser");
             MainPB.Progress = 0.6;
 
-            ProgressionTB.Text = "chargement des ressources: cache.ser";
+            ProgressTB.Text = "chargement des ressources: cache.ser";
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(50);
             var cacheContent =
                 SerializationUtils.Deserialize<Dictionary<string, byte[]>>("data/cache.ser");
@@ -230,16 +230,17 @@ namespace Baraka
             MainPB.Progress = 0.8;
 
             // Deserialize settings
-            ProgressionTB.Text = "chargement des marque-pages...";
+            ProgressTB.Text = "chargement des marque-pages...";
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(50);
             LoadedData.Bookmarks =
                 SerializationUtils.Deserialize<List<int>>("bookmarks.ser");
 
             //  // Finish
-            ProgressionTB.Text = $"préparation de l'interface...";
+            ProgressTB.Text = $"préparation de l'interface...";
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
 
             var window = new MainWindow();
+
             window.ContentRendered += (object self, EventArgs a) =>
             {
                 var instance = self as MainWindow;
@@ -254,11 +255,23 @@ namespace Baraka
 
                 // Other UI settings
                 instance.MainSurahDisplayer.SetSBVisible(LoadedData.Settings.DisplayScrollBar);
+            };
 
-                window.Show();
-                window.Activate(); // Bring window to front
+            window.LoadingProgressChanged += (object self, double progress) =>
+            {
+                int percentage = (int)Math.Round(progress * 100);
 
-                this.Close(); // Close welcome window
+                Dispatcher.Invoke(new Action(() =>
+                {
+                    ProgressTB.Text = $"préparation de l'interface... {percentage}%";
+                }), DispatcherPriority.ContextIdle);
+
+                if (percentage == 100)
+                {
+                    window.Show();
+                    window.Activate(); // Bring window to front
+                    this.Close(); // Close welcome window
+                }
             };
 
             App.Current.MainWindow = window;

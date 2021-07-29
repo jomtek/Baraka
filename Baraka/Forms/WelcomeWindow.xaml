@@ -18,6 +18,6 @@
         </TextBlock>
         <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,-55,0,0" FontSize="28" FontFamily="SimSun" Foreground="#FFC3C3C3" FontWeight="Bold"><Run Text="le logiciel de savoir "/><Run Text="coranique"/></TextBlock>
         <usercontrols:BarakaMysteriousProgressBar x:Name="MainPB" Margin="55,0" Width="Auto" Height="50" />
-        <TextBlock x:Name="ProgressionTB" TextWrapping="Wrap" Text="initialisation..." HorizontalAlignment="Right" Margin="0,1,54,0" FontFamily="Malgun Gothic" FontSize="22.5" Foreground="#FFD1D1D1"/>
+        <TextBlock x:Name="ProgressTB" TextWrapping="Wrap" Text="initialisation..." HorizontalAlignment="Right" Margin="0,1,54,0" FontFamily="Malgun Gothic" FontSize="22.5" Foreground="#FFD1D1D1"/>
     </StackPanel>
 </Window>

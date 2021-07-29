@@ -15,8 +15,6 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 
-// todo remove
-
 namespace Baraka
 {
     /// <summary>
@@ -25,6 +23,16 @@ namespace Baraka
     public partial class MainWindow : Window
     {
         private double _mainGridScale = 1.1;
+
+        #region Events
+        [Category("Baraka")]
+        public event EventHandler<double> LoadingProgressChanged;
+        #endregion
+
+        public void ReportLoadingProgress(double progress)
+        {
+            LoadingProgressChanged?.Invoke(this, progress);
+        }
 
         public MainWindow()
         {

@@ -24,5 +24,11 @@ namespace Baraka.Data.Descriptions
             TranslatedName = translatedName;
             RevelationType = revelation;
         }
+
+        public bool HasBasmala()
+        {
+            // Exclude Al-Fatiha and At-Tawba
+            return SurahNumber != 1 && SurahNumber != 9;
+        }
     }
 }

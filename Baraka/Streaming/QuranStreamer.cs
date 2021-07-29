@@ -269,7 +269,7 @@ namespace Baraka.Streaming
                 if (_playing)
                 {
                     int currentVerse;
-                    if (Utils.General.CheckIfBasmala(Surah))
+                    if (Surah.HasBasmala())
                     {
                         currentVerse = NonRelativeVerse - 1;
                     }

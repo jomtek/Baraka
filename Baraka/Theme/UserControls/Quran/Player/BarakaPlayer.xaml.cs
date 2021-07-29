@@ -527,7 +527,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             var sfd = new SaveFileDialog();
             sfd.Filter = "Fichier MP3|*.mp3";
 
-            if (Utils.General.CheckIfBasmala(_selectedSurah))
+            if (_selectedSurah.HasBasmala())
             {
                 sfd.Title = $"Enregistrer le verset [{verseNum}] de cette sourate";
                 sfd.FileName = $"{_selectedCheikh.LastName.Replace(" ", "").ToLower()}_{_selectedSurah.SurahNumber}_{verseNum}";
@@ -570,7 +570,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             var sfd = new SaveFileDialog();
             sfd.Filter = "Fichier MP3|*.mp3";
 
-            if (!Utils.General.CheckIfBasmala(_selectedSurah))
+            if (!_selectedSurah.HasBasmala())
             {
                 begin++;
                 end++;

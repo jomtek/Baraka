@@ -46,12 +46,6 @@ namespace Baraka.Utils
         #endregion
 
         #region Quran
-        public static bool CheckIfBasmala(SurahDescription surah)
-        {
-            // Exclude At-Tawba and Fatiha
-            return surah.SurahNumber != 1 && surah.SurahNumber != 9;
-        }
-
         public static string GenerateSynopsis(SurahDescription surah)
         {
             string revelationType;
@@ -81,7 +75,7 @@ namespace Baraka.Utils
             var surahVer = LoadedData.SurahList[surah][firstTransId];
             string verse = surahVer.Verses[verseNum];
 
-            if (CheckIfBasmala(surah))
+            if (surah.HasBasmala())
             {
                 if (verseNum == 0)
                 {
