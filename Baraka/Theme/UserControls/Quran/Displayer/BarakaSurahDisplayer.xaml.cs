@@ -240,7 +240,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             if (VersesSV.VerticalOffset == verticalOffset)
             {
                 return;
-            }    
+            }
 
             DoubleAnimation verticalAnimation = new DoubleAnimation();
 
@@ -268,7 +268,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                     MainSB.Scrolled = newVerticalOffset / VersesSV.ScrollableHeight;
                 }
             }
-            else
+            else if (newVerticalOffset < VersesSV.VerticalOffset)
             {
                 // Backwards scroll
                 VersesSV.ScrollToVerticalOffset(0);
