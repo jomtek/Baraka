@@ -141,6 +141,19 @@ namespace Baraka.Theme.UserControls.Quran.Player
                 }
             };
 
+            Streamer.WordHighlightRequested += (object sender, int wordIndex) =>
+            {
+                var verse = Displayer.VersesSP.Children[Displayer.ActualVerse] as BarakaVerse;
+                if (wordIndex == -1)
+                {
+                    verse.CleanHighlighting();
+                }
+                else
+                {
+                    verse.HighlightWord(wordIndex);
+                }
+            };
+
             // Stories
             ((Storyboard)this.Resources["PlayerCloseStory"]).Begin();
             ((Storyboard)this.Resources["PlayerCloseStory"]).SkipToFill();
@@ -424,7 +437,6 @@ namespace Baraka.Theme.UserControls.Quran.Player
         }
         #endregion
 
-
         #region Surah Selector
         public void SetSelectedBar(SurahBar bar)
         {
@@ -576,7 +588,6 @@ namespace Baraka.Theme.UserControls.Quran.Player
                     for (int i = begin; i < end+1; i++)
                     {
                         string url = StreamingUtils.GenerateVerseUrl(_selectedCheikh, _selectedSurah, i);
-                        Console.WriteLine($"{i}");
                         try
                         {
                             using (new Utils.WaitCursor())

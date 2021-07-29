@@ -68,6 +68,9 @@
     <Reference Include="NAudio.WinMM, Version=2.0.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
       <HintPath>..\packages\NAudio.WinMM.2.0.0\lib\netstandard2.0\NAudio.WinMM.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="QuickConverter, Version=1.2.5.0, Culture=neutral, PublicKeyToken=9c892aa7bc2af2cf, processorArchitecture=MSIL">
       <HintPath>..\packages\QuickConverter.1.2.5\lib\net40\QuickConverter.dll</HintPath>
     </Reference>
@@ -121,6 +124,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\AudioCacheManager.cs" />
+    <Compile Include="Data\Cheikh\WavSegmentationData.cs" />
     <Compile Include="Data\Descriptions\CheikhDescription.cs" />
     <Compile Include="Data\Descriptions\TranslationDescription.cs" />
     <Compile Include="Data\Descriptions\VerseDescription.cs" />

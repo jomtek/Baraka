@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Baraka.Data;
+using Baraka.Data.Descriptions;
 using NAudio;
 using NAudio.Wave;
 
@@ -16,16 +19,38 @@ namespace Baraka.Streaming
         private WaveStream _wStream;
         private MemoryStream _mStream;
 
+        private Stopwatch _stopWatch;
+
+        #region Events
+        [Category("Baraka")]
+        public event EventHandler<int> WordHighlightRequested;
+        #endregion
+
         public VerseStreamer()
         {
             _wout = new WaveOut(WaveCallbackInfo.FunctionCallback());
             _wStream = null;
             _mStream = new MemoryStream();
+
+            _stopWatch = new Stopwatch();
         }
 
         #region Controller
-        public async Task Play(byte[] audio)
+        private bool CheckCrossfading()
         {
+            double cfBytesLimit =
+                (LoadedData.Settings.CrossFadingValue / 1000d) * _wStream.WaveFormat.AverageBytesPerSecond;
+            return _wStream.Length - _wStream.Position < cfBytesLimit;
+        }
+
+        public async Task Play(byte[] audio, CheikhDescription cheikh, VerseDescription verse)
+        {
+            List<int> segments = null;
+            if (cheikh.WavSegments != null)
+            {
+                segments = cheikh.WavSegments.FindSegments(verse);
+            }
+
             _mStream.SetLength(0); // Clear the stream
             _mStream.Write(audio, 0, audio.Length); // Write audio
             _mStream.Position = 0;
@@ -45,25 +70,42 @@ namespace Baraka.Streaming
             }
 
             _wout.Play();
+            _stopWatch.Restart();
 
-            while (true)
+            int lastSelectedWord = -1;
+            while (_wout.PlaybackState != PlaybackState.Stopped)
             {
-                double totalMs = _wStream.TotalTime.TotalMilliseconds;
-                double currentMs = _wStream.CurrentTime.TotalMilliseconds;
-
-                // Crossfading (WIP TODO)
-                if (totalMs - currentMs < LoadedData.Settings.CrossFadingValue)
+                if (CheckCrossfading())
                 {
                     break;
                 }
 
-                if (_wout.PlaybackState == PlaybackState.Stopped)
+                if (segments != null) // temp
                 {
-                    break;
+                    long currentTime = Utils.Audio.RoundOff(_stopWatch.ElapsedMilliseconds);
+
+                    // TODO: any idea on how to optimize this bit of code ?
+                    // (perhaps use a variable where to save the last used segment?)
+                    for (int i = 0; i < segments.Count; i++)
+                    {
+                        if (currentTime < segments[i])
+                        {
+                            if (i != lastSelectedWord)
+                            {
+                                // Highlight i_th word on the current verse
+                                App.Current.Dispatcher.Invoke(new Action(() => WordHighlightRequested?.Invoke(this, i)));
+                                lastSelectedWord = i;
+                            }
+                            break;
+                        }
+                    }
                 }
 
                 await Task.Delay(10);
             }
+
+            // Clear highlighting on the verse
+            App.Current.Dispatcher.Invoke(new Action(() => WordHighlightRequested?.Invoke(this, -1)));
         }
         public void Stop()
         {

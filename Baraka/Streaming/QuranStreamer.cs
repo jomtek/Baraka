@@ -37,6 +37,9 @@ namespace Baraka.Streaming
 
         [Category("Baraka")]
         public event EventHandler FinishedSurah;
+
+        [Category("Baraka")]
+        public event EventHandler<int> WordHighlightRequested;
         #endregion
 
         #region Player Controls
@@ -102,9 +105,18 @@ namespace Baraka.Streaming
 
             _defaultStreamer = new VerseStreamer();
             _crossfadingStreamer = new VerseStreamer();
+
+            _defaultStreamer.WordHighlightRequested += VerseStreamer_WordHighlightRequested;
+            _crossfadingStreamer.WordHighlightRequested += VerseStreamer_WordHighlightRequested;
         }
 
         #region Cursor Management
+        #region Karaoke
+        private void VerseStreamer_WordHighlightRequested(object sender, int wordIndex)
+        {
+            WordHighlightRequested?.Invoke(this, wordIndex);
+        }
+        #endregion
         public void Reset()
         {
             if (Surah.SurahNumber != 1 && Surah.SurahNumber != 9)
@@ -280,21 +292,13 @@ namespace Baraka.Streaming
         }
 
         private bool _lastStreamerWasDefault = false;
-
         private async Task PlayVerse(byte[] audio)
         {
-            VerseStreamer streamer;
+            // Explanation: For the sake of crossfading, we want 2 different VerseStreamer instances to play one in two
+            VerseStreamer streamer =
+                _lastStreamerWasDefault ? _crossfadingStreamer : _defaultStreamer;
 
-            if (!_lastStreamerWasDefault)
-            {
-                streamer = _defaultStreamer;
-            }
-            else
-            {
-                streamer = _crossfadingStreamer;
-            }
-
-            await streamer.Play(audio);
+            await streamer.Play(audio, Cheikh, new VerseDescription(Surah, Verse));
 
             _lastStreamerWasDefault = !_lastStreamerWasDefault;
         }

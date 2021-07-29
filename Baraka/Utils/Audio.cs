@@ -40,6 +40,10 @@ namespace Baraka.Utils
             }
         }
 
-
+        // SOF: 5697/chris-charabaruk (modified)
+        public static long RoundOff(long i)
+        {
+            return ((int)Math.Floor(i / 10d)) * 10;
+        }
     }
 }

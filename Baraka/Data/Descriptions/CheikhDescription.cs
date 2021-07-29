@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Baraka.Data.Cheikh;
+using System;
 using System.IO;
 using System.Windows.Media.Imaging;
 
@@ -10,18 +11,21 @@ namespace Baraka.Data.Descriptions
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public string StreamingUrl { get; private set; }
+        public WavSegmentationData WavSegments { get; private set; }
 
         private byte[] _photo;
 
         public CheikhDescription(
             string firstName,
             string lastName,
-            string streamingUrl, 
-            BitmapImage photo)
+            string streamingUrl,
+            BitmapImage photo,
+            WavSegmentationData segData = null)
         {
             FirstName = firstName;
             LastName = lastName;
             StreamingUrl = streamingUrl;
+            WavSegments = segData;
             _photo = ConvertToBytes(photo);
         }
 

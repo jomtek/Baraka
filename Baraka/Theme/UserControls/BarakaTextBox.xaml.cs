@@ -88,7 +88,6 @@ namespace Baraka.Theme.UserControls
         {
             if (TextBoxComponent.Opacity == 0.65)
             {
-                Console.WriteLine("got focus");
                 TextBoxComponent.Clear();
                 TextBoxComponent.Opacity = 1;
                 _placeholderEnabled = false;
@@ -97,7 +96,6 @@ namespace Baraka.Theme.UserControls
 
         private void TextBoxComponent_LostFocus(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("lost focus");
             if (TextBoxComponent.Text.Trim().Length == 0)
             {
                 _placeholderEnabled = true;

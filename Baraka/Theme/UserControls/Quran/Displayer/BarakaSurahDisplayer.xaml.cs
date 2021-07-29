@@ -237,6 +237,11 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         // SOF 2176945/anatoliy-nikolaev
         private void DoSmoothScoll(double verticalOffset)
         {
+            if (VersesSV.VerticalOffset == verticalOffset)
+            {
+                return;
+            }    
+
             DoubleAnimation verticalAnimation = new DoubleAnimation();
 
             verticalAnimation.From = VersesSV.VerticalOffset;

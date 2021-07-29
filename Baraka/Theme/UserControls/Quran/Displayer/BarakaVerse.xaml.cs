@@ -19,6 +19,8 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         public SurahDescription Surah { get; private set; }
         public int Number { get; private set; }
 
+        private List<Run> _arabicInlines;
+
         public BarakaVerse(SurahDescription surah, int number)
         {
             InitializeComponent();
@@ -27,6 +29,8 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
             Surah = surah;
             Number = number;
+
+            _arabicInlines = new List<Run>();
         }
 
         public void Initialize()
@@ -35,7 +39,6 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
             Dictionary<string, SurahVersion> versions = Data.LoadedData.SurahList[Surah];
             var config = Data.LoadedData.Settings.SurahVersionConfig;
-
             
             if (config.DisplayArabic)
             {
@@ -45,7 +48,9 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                 {
                     var run = new Run(words[i]); // A run associated with the current word
 
+                    _arabicInlines.Add(run);
                     ArabicTB.Inlines.Add(run); 
+
                     if (i != words.Length)
                     {
                         ArabicTB.Inlines.Add(new Run("  "));
@@ -106,48 +111,15 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             //HighlightWord(0);
         }
 
-        #region Karaoke
-        #region Utils
-        private (int, int) WordIndexToCharIndex(int index)
-        {
-            int charIndex = 0;
-            int wordIndex = 0;
-
-            foreach (string word in ArabicTB.Text.Split(' '))
-            {
-                Console.WriteLine($"{word}: {word.Length}");
-                if (wordIndex == index)
-                {
-                    return (charIndex, charIndex + word.Length);
-                }
-
-                wordIndex++;
-                charIndex += word.Length + 3;
-            }
-
-            return (0, 0);
-            //throw new IndexOutOfRangeException();
-        }
-        #endregion
-        /*
+        #region Karaoke      
         public void HighlightWord(int index)
         {
-            //TextPointer pointer = ArabicTB.
-            TextPointer pointer = ArabicRTB.Document.ContentStart;
-
-            (int, int) charIndex = WordIndexToCharIndex(index);
-
-            string word = ArabicRTB_Run.Text.Split(' ')[index];
-            int indexx = ArabicRTB_Run.Text.IndexOf(word, StringComparison.Ordinal);
-            int lengthh = word.Length;
-
-            TextPointer start = pointer.GetPositionAtOffset(ArabicRTB_Run.Text.IndexOf(word, StringComparison.Ordinal));
-            TextPointer end = start.GetPositionAtOffset(ArabicRTB_Run.Text.IndexOf(word, StringComparison.Ordinal) + word.Length);
+            CleanHighlighting();
 
             try
             {
-                var selection = new TextRange(start, end);
-                selection.ApplyPropertyValue(TextElement.ForegroundProperty, System.Windows.Media.Brushes.Goldenrod);
+                Run inline = _arabicInlines[index];
+                inline.Background = Brushes.YellowGreen;
             } catch
             {
 
@@ -156,9 +128,11 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
         public void CleanHighlighting()
         {
-
+            foreach (Run inline in _arabicInlines)
+            {
+                inline.Background = Brushes.Transparent;
+            }
         }
-        */
         #endregion
     }
 }

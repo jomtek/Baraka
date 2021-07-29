@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Newtonsoft.Json;
 
 namespace Baraka
 {
@@ -165,10 +166,7 @@ namespace Baraka
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            SerializeQuran();
-
-            //MessageBox.Show("yes");
-
+            //SerializeQuran();
             //return;
 
             TitleTB.Margin = new Thickness(
@@ -215,7 +213,7 @@ namespace Baraka
             ProgressionTB.Text = "chargement des ressources: cheikh.ser";
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
             LoadedData.CheikhList =
-                SerializationUtils.Deserialize<CheikhDescription[]>("data/cheikh.ser");
+                SerializationUtils.Deserialize<CheikhDescription[]>("data/cheikh.ser");     
             MainPB.Progress = 0.4;
 
             ProgressionTB.Text = "chargement des ressources: translations.ser";
@@ -267,11 +265,72 @@ namespace Baraka
             window.Show();
         }
 
-            // DEBUG
-            /*
+        #region DEBUG
+        /*
+        internal class Stats
+        {
+            public int deletions { get; set; }
+            public int transpositions { get; set; }
+            public int insertions { get; set; }
+        }
 
+        internal class DummySegmentClass
+        {
+            public int ayah { get; set; }
+            public int surah { get; set; }
+            public List<List<int>> segments { get; set; }
+            public Stats stats
+            {
+                get; set;
+            }
+        }
+            // Load individual cheikh wav segments
+
+            var newCheikhData = new List<CheikhDescription>();
+
+            foreach (var cheikhDesc in LoadedData.CheikhList)
+            {
+                string fileId = cheikhDesc.StreamingUrl.Replace("https://everyayah.com/data/", "");
+
+                if (!File.Exists($@"C:\Users\jomtek360\Documents\Baraka\align_data\{fileId}.json"))
+                {
+                    newCheikhData.Add(cheikhDesc);
+                    continue;
+                }
+
+                string strJsonContent = File.ReadAllText($@"C:\Users\jomtek360\Documents\Baraka\align_data\{fileId}.json");
+
+                var jsonContent = JsonConvert.DeserializeObject<DummySegmentClass[]>(strJsonContent);
+                var segmentsDict = new Dictionary<(int, int), List<int>>();
+
+                foreach (DummySegmentClass entry in jsonContent)
+                {
+                    var verseDesc = (LoadedData.SurahList.ElementAt(entry.surah - 1).Key.SurahNumber, entry.ayah - 1);
+                    var segments = new List<int>();
+
+                    if (entry.segments != null)
+                    {
+                        foreach (var segment in entry.segments)
+                        {
+                            segments.Add(segment[3]);
+                        }
+                    }
+
+                    segmentsDict.Add(verseDesc, segments);
+                }
+
+                var wavSegData = new Data.Cheikh.WavSegmentationData(segmentsDict);
+
+                newCheikhData.Add(
+                    new CheikhDescription(cheikhDesc.FirstName, cheikhDesc.LastName, cheikhDesc.StreamingUrl, cheikhDesc.GetPhoto(), wavSegData));
+            }
+
+            SerializationUtils.Serialize(newCheikhData.ToArray(), "data/newcheikh.ser");
+
+            MessageBox.Show("done");
             return;
-            */
+        */
+        #endregion
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
