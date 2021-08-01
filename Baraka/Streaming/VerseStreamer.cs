@@ -46,7 +46,12 @@ namespace Baraka.Streaming
         public async Task Play(byte[] audio, CheikhDescription cheikh, VerseDescription verse)
         {
             List<int> segments = null;
-            if (cheikh.WavSegments != null)
+            if (verse.Number == 0)
+            {
+                var fatihaFirstVerse = new VerseDescription(LoadedData.SurahList.ElementAt(0).Key, 2);
+                segments = cheikh.WavSegments.FindSegments(fatihaFirstVerse);
+            }
+            else if (cheikh.WavSegments != null)
             {
                 segments = cheikh.WavSegments.FindSegments(verse);
             }

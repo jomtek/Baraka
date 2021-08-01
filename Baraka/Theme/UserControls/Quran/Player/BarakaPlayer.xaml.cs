@@ -103,56 +103,15 @@ namespace Baraka.Theme.UserControls.Quran.Player
             _cheikhSelector = new CheikhSelectorPage();
             _surahSelector = new SurahSelectorPage();
 
-            _surahSelector.HizbClicked += (object _, VerseDescription hizbStart) =>
-            {
-                ((MainWindow)App.Current.MainWindow).IntersurahChangeVerse(hizbStart);
-            };
+            _surahSelector.HizbClicked += SurahSelector_HizbClicked;
 
             FrameComponent.Content = _cheikhSelector;
 
-
             // Streamer config
             Streamer = new QuranStreamer();
-
-            Streamer.VerseChanged += (object sender, EventArgs e) =>
-            {
-                if (Displayer.LoopMode)
-                {
-                    ReinitLoopmodeInfo();
-                }
-                else
-                {
-                    Displayer.BrowseToVerse(Streamer.NonRelativeVerse);
-                }
-
-                Displayer.ChangeVerse(Streamer.NonRelativeVerse, true);
-            };
-
-            Streamer.FinishedSurah += (object sender, EventArgs e) =>
-            {
-                _playing = false;
-                RefreshPlayPauseBtn();
-
-                if (LoadedData.Settings.AutoNextSurah)
-                {
-                    Displayer.LoadNextSurah();
-                    ChangeSelectedSurah(Displayer.Surah, false);
-                    Playing = true;
-                }
-            };
-
-            Streamer.WordHighlightRequested += (object sender, int wordIndex) =>
-            {
-                var verse = Displayer.VersesSP.Children[Displayer.ActualVerse] as BarakaVerse;
-                if (wordIndex == -1)
-                {
-                    verse.CleanHighlighting();
-                }
-                else
-                {
-                    verse.HighlightWord(wordIndex);
-                }
-            };
+            Streamer.VerseChanged += Streamer_VerseChanged;
+            Streamer.FinishedSurah += Streamer_FinishedSurah;
+            Streamer.WordHighlightRequested += Streamer_WordHighlightRequested;
 
             // Stories
             ((Storyboard)this.Resources["PlayerCloseStory"]).Begin();
@@ -175,6 +134,63 @@ namespace Baraka.Theme.UserControls.Quran.Player
             Streamer.ChangeVerse(num);
         }
 
+        #region Selector events
+        private async void SurahSelector_HizbClicked(object sender, VerseDescription hizbStart)
+        {
+            await ((MainWindow)App.Current.MainWindow).IntersurahChangeVerseAsync(hizbStart, true);
+        }
+        #endregion
+
+        #region Streamer events
+        private async void Streamer_VerseChanged(object sender, EventArgs e)
+        {
+            if (Displayer.LoopMode)
+            {
+                ReinitLoopmodeInfo();
+            }
+            else
+            {
+                await Displayer.BrowseToVerseAsync(Streamer.NonRelativeVerse);
+            }
+
+            await Displayer.ChangeVerseAsync(Streamer.NonRelativeVerse, true);
+        }
+
+        private async void Streamer_FinishedSurah(object sender, EventArgs e)
+        {
+            _playing = false;
+            RefreshPlayPauseBtn();
+
+            if (LoadedData.Settings.AutoNextSurah)
+            {
+                await Displayer.LoadNextSurahAsync();
+                await ChangeSelectedSurahAsync(Displayer.Surah, false);
+                Playing = true;
+            }
+        }
+
+        private void Streamer_WordHighlightRequested(object sender, int wIndex)
+        {
+            if (Displayer.ActualVerse >= Displayer.VersesSP.Children.Count)
+            {
+                // TODO: make this a little bit cleaner
+                // Avoid OutOfRange when suddenly changing surah
+                return;
+            }
+
+            var verse = Displayer.VersesSP.Children[Displayer.ActualVerse] as BarakaVerse;
+            if (wIndex == -1)
+            {
+                verse.ClearHighlighting();
+            }
+            else
+            {
+                verse.HighlightWord(wIndex);
+            }
+        }
+        #endregion
+
+        #region Loopmode
         public void ReinitLoopmodeInfo()
         {
             Streamer.StartVerse = Displayer.StartVerse;
@@ -190,6 +206,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             }
             Streamer.LoopMode = activated;
         }
+        #endregion
 
         #region Controller Controls
         private void LoopBTN_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -290,16 +307,16 @@ namespace Baraka.Theme.UserControls.Quran.Player
             }
         }
 
-        private void BackwardBTN_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private async void BackwardBTN_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Playing = false;
-            ChangeSelectedSurah(LoadedData.SurahList.ElementAt(_selectedSurah.SurahNumber - 1 - 1).Key);
+            await ChangeSelectedSurahAsync(LoadedData.SurahList.ElementAt(_selectedSurah.SurahNumber - 1 - 1).Key);
         }
 
-        private void ForwardBTN_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private async void ForwardBTN_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Playing = false;
-            ChangeSelectedSurah(LoadedData.SurahList.ElementAt(_selectedSurah.SurahNumber + 1 - 1).Key);
+            await ChangeSelectedSurahAsync(LoadedData.SurahList.ElementAt(_selectedSurah.SurahNumber + 1 - 1).Key);
         }
         #endregion
 
@@ -354,17 +371,20 @@ namespace Baraka.Theme.UserControls.Quran.Player
             _closing = true;
             ((Storyboard)this.Resources["PlayerCloseStory"]).Begin();
 
-            if (_wasPlaying)
-            {
-                Playing = true;
-            }
-            else
-            {
-                Playing = false;
-            }
-
             PlayPauseBTN.IsEnabled = true;
             PlayPauseBTN.Opacity = 1;
+
+            if (IsEnabled)
+            {
+                if (_wasPlaying)
+                {
+                    Playing = true;
+                }
+                else
+                {
+                    Playing = false;
+                }
+            }
         }
 
         private void SwitchTab(int tab, bool animation = true)
@@ -438,17 +458,17 @@ namespace Baraka.Theme.UserControls.Quran.Player
         #endregion
 
         #region Surah Selector
-        public void SetSelectedBar(SurahBar bar)
+        public async Task SetSelectedBarAsync(SurahBar bar)
         {
             if (bar != _selectedSurahBar)
             {
-                ChangeSelectedSurah(bar.Surah, true, false);
+                await ChangeSelectedSurahAsync(bar.Surah, true, false);
                 if (_selectedSurahBar != null)
                     _selectedSurahBar.Unselect();
                 _selectedSurahBar = bar;
             }
         }
-        public void ChangeSelectedSurah(SurahDescription description, bool loadInDisplayer = true, bool refreshSelectorScroll = true)
+        public async Task ChangeSelectedSurahAsync(SurahDescription description, bool loadInDisplayer = true, bool refreshSelectorScroll = true, bool init = false, bool loadLastBookmark = true)
         {
             if (description != _selectedSurah)
             {
@@ -481,9 +501,9 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
                 SurahTB.Text = _selectedSurah.PhoneticName;
 
-                if (loadInDisplayer)
+                if (loadInDisplayer && !init)
                 {
-                    Displayer.LoadSurah(_selectedSurah);
+                    await Displayer.LoadSurahAsync(_selectedSurah, false, loadLastBookmark);
                 }
 
                 _surahSelector.RefreshSelection(refreshSelectorScroll);
@@ -515,9 +535,12 @@ namespace Baraka.Theme.UserControls.Quran.Player
         #region UI Reactivity
         private void userControl_MouseLeave(object sender, MouseEventArgs e)
         {
-            // Close player
-            if (_surahModification)  SurahTB_PreviewMouseLeftButtonUp(null, null);
-            if (_cheikhModification) CheikhTB_PreviewMouseLeftButtonUp(null, null);
+            if (IsEnabled)
+            {
+                // Close player
+                if (_surahModification) SurahTB_PreviewMouseLeftButtonUp(null, null);
+                if (_cheikhModification) CheikhTB_PreviewMouseLeftButtonUp(null, null);
+            }
         }
         #endregion
 

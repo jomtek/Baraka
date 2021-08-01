@@ -70,7 +70,7 @@ namespace Baraka.Theme.UserControls.Quran.Player.Selectors.Surah
             if (_parentPlayer.SelectedSurah == null)
             {
                 var firstBar = (SurahBar)ContainerSP.Children[0];
-                _parentPlayer.SetSelectedBar(firstBar);
+                _parentPlayer.SetSelectedBarAsync(firstBar).ConfigureAwait(false);
                 firstBar.Select();
             }
             else
@@ -79,7 +79,7 @@ namespace Baraka.Theme.UserControls.Quran.Player.Selectors.Surah
                 {
                     if (bar.Surah.PhoneticName == _parentPlayer.SelectedSurah.PhoneticName)
                     {
-                        _parentPlayer.SetSelectedBar(bar);
+                        _parentPlayer.SetSelectedBarAsync(bar).ConfigureAwait(false);
                         bar.Select();
 
                         if (scroll)

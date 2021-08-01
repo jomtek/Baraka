@@ -92,9 +92,9 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             _displayer.VerseNum_Click(Number);
         }
 
-        private void Menu_StartHere_Click(object sender, RoutedEventArgs e)
+        private async void Menu_StartHere_Click(object sender, RoutedEventArgs e)
         {
-            _displayer.StartFromVerse(Number);
+            await _displayer.StartFromVerseAsync(Number);
         }
 
         private void Menu_Download_Click(object sender, RoutedEventArgs e)

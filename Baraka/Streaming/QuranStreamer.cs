@@ -294,6 +294,11 @@ namespace Baraka.Streaming
         private bool _lastStreamerWasDefault = false;
         private async Task PlayVerse(byte[] audio)
         {
+            if (!_playing)
+            {
+                return;
+            }
+
             // Explanation: For the sake of crossfading, we want 2 different VerseStreamer instances to play one in two
             VerseStreamer streamer =
                 _lastStreamerWasDefault ? _crossfadingStreamer : _defaultStreamer;

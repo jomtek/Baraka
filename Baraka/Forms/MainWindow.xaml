@@ -18,7 +18,8 @@
         Initialized="Window_Initialized"
         Closing="Window_Closing"
         SizeChanged="Window_SizeChanged"
-        ContentRendered="Window_ContentRendered">
+        ContentRendered="Window_ContentRendered"
+        PreviewKeyDown="Window_PreviewKeyDown">
     
     <Window.Resources>
         <Storyboard x:Key="DashboardCloseStory">
@@ -96,7 +97,9 @@
                     </TransformGroup>
                 </TextBlock.RenderTransform>
             </TextBlock>
+            
             <Path x:Name="path" Data="M10,74L263,74" HorizontalAlignment="Left" Height="5.5" Margin="160,64,0,0" Stretch="Fill" Stroke="White" StrokeThickness="5" VerticalAlignment="Top" Width="32" StrokeEndLineCap="Round" StrokeStartLineCap="Round"/>
+            
             <StackPanel x:Name="ElementsSP" Margin="4,80,0,0" Grid.RowSpan="2">
                 <Dashboard:BarakaDashboardItem x:Name="SearchDashboardItem" HorizontalAlignment="Right" Margin="0" ItemIndex="0" PreviewMouseLeftButtonUp="SearchDashboardItem_PreviewMouseLeftButtonUp" />
                 <Dashboard:BarakaDashboardItem x:Name="LibraryDashboardItem" HorizontalAlignment="Right" Margin="0" ItemIndex="1"/>
@@ -124,6 +127,7 @@
                     <Displayer:BarakaSurahDisplayer x:Name="MainSurahDisplayer"
                                                 VerticalAlignment="Stretch" HorizontalAlignment="Center"
                                                 Height="Auto"
+                                                Focusable="False"
                                                 VerseChanged="MainSurahDisplayer_VerseChanged"
                                                 DownloadRecitationRequested="MainSurahDisplayer_DownloadRecitationRequested"/>
                 </Grid>

@@ -32,6 +32,8 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
     /// </summary>
     public partial class BarakaSurahDisplayer : UserControl
     {
+        private bool _initialized = false;
+
         private bool _playing = false;
         public bool LoopMode { get; private set; } = false;
         private List<double> _relativeBmHeights;
@@ -80,6 +82,9 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
         [Category("Baraka")]
         public event EventHandler<int> LoopModeDisplayed;
+
+        [Category("Baraka")]
+        public event EventHandler EnabledChanged;
         #endregion
 
         public BarakaSurahDisplayer()
@@ -99,12 +104,12 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             return VersesSP.Children[index] as BarakaVerse;
         }
 
-        // This method is called whenever the last verse has finished loading its layout.
+        // This handler is called whenever the last verse has finished loading its layout.
         // What it does:
-        // - Generates the respective "verse numbers"
-        // - Configures bookmark information
-        // - Loads the last bookmark
-        private void LastVerseBox_SizeChanged(object sender, SizeChangedEventArgs e)
+        // - Generate the respective "verse numbers"
+        // - Configure bookmark information
+        // - Load the last bookmark (unless the Event args specify otherwise)
+        private async void LastVerseBox_CompletedInitialize(object sender, bool loadLastBookmark)
         {
             NumberingSP.Children.Clear();
             ReinitBookmark();
@@ -148,21 +153,43 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                 cumulatedHeights += GetVerseBoxFromSP(verseNum.Number).ActualHeight + _topMargin;
             }
 
-            // Bookmark
-            LoadLastBookmark();
+            IsEnabled = true;
+            if (_initialized)
+            {
+                EnabledChanged?.Invoke(this, EventArgs.Empty);
+            }
+            else
+            {
+                _initialized = true;
+            }
+
+            if (loadLastBookmark)
+            {
+                await LoadLastBookmarkAsync();
+            }
         }
 
-        public void LoadSurah(SurahDescription surah)
+        // Set it to true, the verse displaying process stops
+        private bool _cancellationToken = false;
+
+        public async Task LoadSurahAsync(SurahDescription surah, bool reload = false, bool loadLastBookmark = true)
         {
-            if (surah == Surah)
+            if (surah == Surah && !reload)
             {
                 // The surah is already loaded
                 return;
             }
 
+            _cancellationToken = true;
+            await Task.Delay(100);
+            _cancellationToken = false;
+
+            IsEnabled = false;
+            if (_initialized) EnabledChanged?.Invoke(this, EventArgs.Empty);
+
             Surah = surah;
             StartVerse = 0;
-
+            
             using (new Utils.WaitCursor())
             {
                 ScrollToTop();
@@ -184,7 +211,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                 for (int i = 0; i < surah.NumberOfVerses; i++)
                 {
                     // Verse box
-                    var verseBox = new BarakaVerse(surah, i);
+                    var verseBox = new BarakaVerse(surah, i, loadLastBookmark);
                     verseBox.Initialize();
 
                     if (!(i == 0 && !Surah.HasBasmala())) // TODO: perhaps simplify this condition?
@@ -209,41 +236,57 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
                     if (i == surah.NumberOfVerses - 1)
                     {
-                        verseBox.SizeChanged += LastVerseBox_SizeChanged;
+                        verseBox.CompletedInitialize += LastVerseBox_CompletedInitialize;
                     }
 
-                    // Communicate the progress to the Welcome window
-                    ((MainWindow)App.Current.MainWindow).ReportLoadingProgress((i / (double)surah.NumberOfVerses));
+                    if (!_initialized)
+                    {
+                        // Communicate the progress to the Welcome window
+                        ((MainWindow)App.Current.MainWindow).ReportLoadingProgress(i / ((double)surah.NumberOfVerses-1));
+                    }
+                    else
+                    {
+                        // Check cancellation token
+                        if (_cancellationToken)
+                        {
+                            break;
+                        }
+
+                        await Task.Delay(1);
+                    }
                 }
             }
 
             MainSB.TargetValue = surah.NumberOfVerses;
         }
-
-
         #endregion
 
-        public void LoadNextSurah()
+        public async Task LoadNextSurahAsync()
         {
             // -1 is not required here because we want the NEXT surah
-            if (Surah.SurahNumber < 114)
+            if (Surah.SurahNumber != 114)
             {
                 // Load next surah
                 var nextSurah = LoadedData.SurahList.Keys.ElementAt(Surah.SurahNumber);
-                LoadSurah(nextSurah);
-
-                // Scroll to first verse
-                VerseChanged?.Invoke(this, 0);
-                ScrollToVerse(0);
+                await LoadSurahAsync(nextSurah, false, false);
             }
         }
 
         #region VerseNum Menu
-        public void VerseNum_Click(int num)
+        public async void VerseNum_Click(int num)
         {
-            if (num == -1) num = 0; // TODO: fix this mess
+            if (num == -1)
+                num = 0; // TODO: fix this mess
+            
+            if (num != ActualVerse)
+            {
+                // Clear the highlightings of the actual verse before rushing to the desired one
+                var actualVerseBox = VersesSP.Children[ActualVerse] as BarakaVerse;
+                actualVerseBox.ClearHighlighting();
+            }
+
             VerseChanged?.Invoke(this, num);
-            BrowseToVerse(num);
+            await BrowseToVerseAsync(num);
         }
 
         // TODO: temp
@@ -280,13 +323,11 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                 return;
             }
 
-            Console.WriteLine($"from: {VersesSV.VerticalOffset}, to: {verticalOffset}");
-
             DoubleAnimation verticalAnimation = new DoubleAnimation();
 
             verticalAnimation.From = VersesSV.VerticalOffset;
             verticalAnimation.To = verticalOffset;
-            verticalAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(800));
+            verticalAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(1200));
 
             Storyboard storyboard = new Storyboard();
             storyboard.Children.Add(verticalAnimation);
@@ -295,13 +336,11 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             storyboard.Begin();
         }
 
-        public void ScrollToVerse(int verse, bool searchRes = false)
+        public async Task ScrollToVerseAsync(int verse, bool searchRes = false)
         {
-            Console.WriteLine($"scrolltoverse: {verse}");
-            BrowseToVerse(verse);
+            await BrowseToVerseAsync(verse);
+            double newVerticalOffset = Bookmark.Height - 60 - 250;         
 
-            double newVerticalOffset = Bookmark.Height - 60 - 250;
-            
             if (StartVerse != 0)
             {
                 newVerticalOffset = Math.Abs(newVerticalOffset);
@@ -316,13 +355,9 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                     MainSB.Scrolled = newVerticalOffset / VersesSV.ScrollableHeight;
                 }
             }
-            else if (newVerticalOffset < VersesSV.VerticalOffset)
-            {
-                // Backwards scroll
-                VersesSV.ScrollToVerticalOffset(0);
-            }
 
-
+            // Breathe (TODO)
+            await Task.Delay(100);
 
             DoSmoothScoll(newVerticalOffset);
 
@@ -368,23 +403,23 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             Bookmark.Margin = new Thickness(0, 45, 0, 0);
         }
 
-        private void LoadLastBookmark()
+        private async Task LoadLastBookmarkAsync()
         {
             int bookmark =
                 LoadedData.Bookmarks[Surah.SurahNumber - 1];
             VerseChanged?.Invoke(this, bookmark);
-            ScrollToVerse(bookmark);
+            await ScrollToVerseAsync(bookmark);
         }
         #endregion
 
         #region Movement
-        public void BrowseToVerse(int num)
+        public async Task BrowseToVerseAsync(int num)
         {
             EndVerse = num;
 
             if (StartVerse != 0 && num < StartVerse)
             {
-                StartFromVerse(num);
+                await StartFromVerseAsync(num);
             }
 
             if (num == -1) // Basmala support
@@ -406,7 +441,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             LoadedData.Bookmarks[Surah.SurahNumber - 1] = num;
         }
 
-        public void StartFromVerse(int target)
+        public async Task StartFromVerseAsync(int target)
         {
             StartVerse = target;
 
@@ -419,7 +454,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
 
             if (target < EndVerse)
             {
-                BrowseToVerse(EndVerse);
+                await BrowseToVerseAsync(EndVerse);
                 VerseChanged?.Invoke(this, StartVerse);
             }
         }
@@ -436,7 +471,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         #endregion
 
         #region External Events
-        public void ChangeVerse(int num, bool automatic = false)
+        public async Task ChangeVerseAsync(int num, bool automatic = false)
         {
             if (_playing)
             {
@@ -448,8 +483,10 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                 var numPolygon = (BarakaVerseNumber)NumberingSP.Children[num];
                 numPolygon.Playing = true;
 
-                if (!LoopMode && LoadedData.Settings.AutoScrollQuran)
-                    ScrollToVerse(num);
+                if (!LoopMode && LoadedData.Settings.AutoScrollQuran && automatic)
+                {
+                    await ScrollToVerseAsync(num);
+                }
             }
 
             if (!LoopMode)

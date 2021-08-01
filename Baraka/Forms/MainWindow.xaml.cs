@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -43,6 +44,16 @@ namespace Baraka
 
             // Bind the displayer to the player
             Player.Displayer = MainSurahDisplayer;
+            Player.Displayer.EnabledChanged += (object sender, EventArgs e) =>
+            {
+                if (!MainSurahDisplayer.IsEnabled)
+                {
+                    Player.Playing = false;
+                    MainSurahDisplayer.Playing = false;
+                }
+                Dashboard.IsEnabled = MainSurahDisplayer.IsEnabled;
+                Player.IsEnabled = MainSurahDisplayer.IsEnabled;
+            };
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)
@@ -133,6 +144,15 @@ namespace Baraka
             SetMinWidth();
             ApplyScale(true);
         }
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            // Prevent tab navigation
+            if (e.Key == Key.Tab)
+            {
+                e.Handled = true;
+            }
+        }
         #endregion
 
         #region Displayer to Player
@@ -155,7 +175,6 @@ namespace Baraka
         }
 #pragma warning restore IDE0051
         #endregion
-
         #endregion
 
         #region Dashboard
@@ -169,7 +188,7 @@ namespace Baraka
             _searchWindow = new SearchWindow() { Owner = this };
             _searchWindow.VerseClicked += (object _, VerseDescription verse) =>
             {
-                IntersurahChangeVerse(verse, true);
+                IntersurahChangeVerseAsync(verse, true).ConfigureAwait(false);
             };
 
             // Settings window
@@ -207,7 +226,7 @@ namespace Baraka
             WindowBlurEffect.Radius = 0;
         }
 
-        private void SettingsDashboardItem_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private async void SettingsDashboardItem_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             var oldSurahVerConfig =
                 (SurahVersionConfig)LoadedData.Settings.SurahVersionConfig.Clone();
@@ -223,8 +242,8 @@ namespace Baraka
 
             if (!LoadedData.Settings.SurahVersionConfig.Equals(oldSurahVerConfig))
             {
-                // Reload actual surah              
-                MainSurahDisplayer.LoadSurah(MainSurahDisplayer.Surah);
+                // Reload actual surah
+                    await MainSurahDisplayer.LoadSurahAsync(MainSurahDisplayer.Surah, true);
             }
         }
         #endregion
@@ -288,15 +307,15 @@ namespace Baraka
         #endregion
 
         #region Local utils
-        public void IntersurahChangeVerse(VerseDescription verse, bool searchRes = false)
+        public async Task IntersurahChangeVerseAsync(VerseDescription verse, bool searchRes = false)
         {
-            Player.ChangeSelectedSurah(verse.Surah, true, false);
+            Player.Playing = false;
+            
+            await Player.ChangeSelectedSurahAsync(verse.Surah, true, false, false, false);
             Player.ChangeVerse(verse.Number);
 
-            MainSurahDisplayer.BrowseToVerse(verse.Number);
-            MainSurahDisplayer.ScrollToVerse(verse.Number, searchRes);
-
-            Player.Playing = false;
+            await MainSurahDisplayer.BrowseToVerseAsync(verse.Number);
+            await MainSurahDisplayer.ScrollToVerseAsync(verse.Number, searchRes);
         }
         #endregion
     }

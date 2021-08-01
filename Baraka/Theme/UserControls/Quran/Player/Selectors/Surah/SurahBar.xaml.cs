@@ -63,7 +63,7 @@ namespace Baraka.Theme.UserControls.Quran.Player.Selectors.Surah
             {
                 SetLoading(true);
                 await Task.Delay(10); // TODO: fix this mess, I'm not a 5 years old :angry:
-                _parentPlayer.SetSelectedBar(this);
+                await _parentPlayer.SetSelectedBarAsync(this);
                 Select();
                 SetLoading(false);
             }

@@ -10,7 +10,7 @@
              LayoutUpdated="UserControl_LayoutUpdated"
              Loaded="UserControl_Loaded">
     <Grid Margin="0">
-        <ScrollViewer x:Name="VersesSV" Margin="0" VerticalScrollBarVisibility="Hidden" PreviewMouseWheel="VersesSV_PreviewMouseWheel">
+        <ScrollViewer x:Name="VersesSV" VerticalScrollBarVisibility="Hidden" PreviewMouseWheel="VersesSV_PreviewMouseWheel">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="65.5" />

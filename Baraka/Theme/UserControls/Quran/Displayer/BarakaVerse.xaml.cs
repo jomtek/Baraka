@@ -3,11 +3,11 @@ using Baraka.Data.Descriptions;
 using Baraka.Data.Surah;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.ComponentModel;
 
 namespace Baraka.Theme.UserControls.Quran.Displayer
 {
@@ -20,8 +20,15 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         public int Number { get; private set; }
 
         private List<Run> _arabicInlines;
+        private bool _loadLastBookmark;
 
-        public BarakaVerse(SurahDescription surah, int number)
+        #region Events
+        [Category("Baraka")]
+        public event EventHandler<bool> CompletedInitialize;
+        #endregion
+
+        public BarakaVerse(SurahDescription surah, int number,
+            bool loadLastBookmark = false) // See BarakaSurahDisplayer.cs for explanations about this
         {
             InitializeComponent();
 
@@ -31,27 +38,20 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             Number = number;
 
             _arabicInlines = new List<Run>();
+            _loadLastBookmark = loadLastBookmark;
         }
 
         public void Initialize()
         {
             int verNum = Number;
 
-            //var sw = new System.Diagnostics.Stopwatch();
-            //sw.Start();
             Dictionary<string, SurahVersion> versions = Data.LoadedData.SurahList[Surah];
             var config = Data.LoadedData.Settings.SurahVersionConfig;
-            //sw.Stop();
-            //Console.WriteLine($"\t-Indexing (l42): {sw.ElapsedMilliseconds}ms");
 
             if (config.DisplayArabic)
             {
-              //  sw.Restart();
                 string[] words = versions["ARABIC"].Verses[verNum].Split(' ');
-               // sw.Stop();
-                //Console.WriteLine($"\t-Splitting (l50): {sw.ElapsedMilliseconds}ms");
 
-                //sw.Restart();
                 for (int i = 0; i < words.Length; i++)
                 {
                     var run = new Run(words[i]); // A run associated with the current word
@@ -70,8 +70,6 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                 }
 
                 ArabicTB.Visibility = Visibility.Visible;
-                //sw.Stop();
-                //Console.WriteLine($"\t-Adding inlines: {sw.ElapsedMilliseconds}ms");
             }
             else
             {
@@ -93,7 +91,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             {
                 if (config.Translation1 != -1)
                 {
-                    // TODO: OutOfRange problem
+                    // TODO: manage OutOfRange problem
                     string id = LoadedData.TranslationsList[config.Translation1].Identifier;
                     Translation1TB.Text = versions[id].Verses[verNum];
                     Translation1TB.Visibility = Visibility.Visible;
@@ -113,33 +111,23 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
                     Translation3TB.Visibility = Visibility.Visible;
                 }
             }
-
-            //sw.Restart();
-            // Measure and pre-arrange so that the size is known from the initialization
-            //Measure(new System.Windows.Size(650, double.PositiveInfinity));
-            //Arrange(new Rect(0, 0, 650, DesiredSize.Height));
-            //sw.Stop();
-            //Console.WriteLine($"\t-Measure: {sw.ElapsedMilliseconds}ms");
-
-            //HighlightWord(0);
         }
 
         #region Karaoke      
         public void HighlightWord(int index)
         {
-            CleanHighlighting();
-
-            try
+            if (ArabicTB.Visibility == Visibility.Collapsed)
             {
-                Run inline = _arabicInlines[index];
-                inline.Background = Brushes.YellowGreen;
-            } catch
-            {
-
+                return;
             }
+
+            ClearHighlighting();
+
+            Run inline = _arabicInlines[index];
+            inline.Background = Brushes.LightCyan;
         }
 
-        public void CleanHighlighting()
+        public void ClearHighlighting()
         {
             foreach (Run inline in _arabicInlines)
             {
@@ -147,5 +135,10 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             }
         }
         #endregion
+
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            CompletedInitialize?.Invoke(this, _loadLastBookmark);
+        }
     }
 }
