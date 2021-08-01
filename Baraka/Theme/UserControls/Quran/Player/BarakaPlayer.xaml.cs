@@ -178,7 +178,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
                 return;
             }
 
-            var verse = Displayer.VersesSP.Children[Displayer.ActualVerse] as BarakaVerse;
+            var verse = Displayer.VersesSP.Children[Streamer.Verse] as BarakaVerse;
             if (wIndex == -1)
             {
                 verse.ClearHighlighting();

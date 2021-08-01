@@ -97,6 +97,7 @@ namespace Baraka.Streaming
                         {
                             if (i != lastSelectedWord)
                             {
+                                Console.WriteLine($"requesting highlight on verse {verse.Number}");
                                 // Highlight i_th word on the current verse
                                 App.Current.Dispatcher.Invoke(new Action(() => WordHighlightRequested?.Invoke(this, i)));
                                 lastSelectedWord = i;
