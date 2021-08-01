@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Threading.Tasks;
 using System.Windows.Media.Animation;
 
-namespace Baraka.Theme.UserControls.Quran.Displayer
+namespace Baraka.Theme.UserControls.Quran.Display.Translated
 {
     public class DownloadRecitationEventArgs
     {
@@ -28,9 +28,9 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
     }
 
     /// <summary>
-    /// Logique d'interaction pour BarakaSurahDisplayer.xaml
+    /// Logique d'interaction pour BarakaTranslatedSurahDisplayer.xaml
     /// </summary>
-    public partial class BarakaSurahDisplayer : UserControl
+    public partial class BarakaTranslatedSurahDisplayer : UserControl
     {
         private bool _initialized = false;
 
@@ -87,7 +87,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         public event EventHandler EnabledChanged;
         #endregion
 
-        public BarakaSurahDisplayer()
+        public BarakaTranslatedSurahDisplayer()
         {
             InitializeComponent();
             

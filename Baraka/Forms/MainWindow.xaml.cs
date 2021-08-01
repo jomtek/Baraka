@@ -3,7 +3,7 @@ using Baraka.Data.Descriptions;
 using Baraka.Data.Surah;
 using Baraka.Forms;
 using Baraka.Forms.Settings;
-using Baraka.Theme.UserControls.Quran.Displayer;
+using Baraka.Theme.UserControls.Quran.Display.Translated;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -43,16 +43,16 @@ namespace Baraka
             ((Storyboard)this.Resources["DashboardCloseStory"]).SkipToFill();
 
             // Bind the displayer to the player
-            Player.Displayer = MainSurahDisplayer;
+            Player.Displayer = TranslatedSurahDisplayer;
             Player.Displayer.EnabledChanged += (object sender, EventArgs e) =>
             {
-                if (!MainSurahDisplayer.IsEnabled)
+                if (!TranslatedSurahDisplayer.IsEnabled)
                 {
                     Player.Playing = false;
-                    MainSurahDisplayer.Playing = false;
+                    TranslatedSurahDisplayer.Playing = false;
                 }
-                Dashboard.IsEnabled = MainSurahDisplayer.IsEnabled;
-                Player.IsEnabled = MainSurahDisplayer.IsEnabled;
+                Dashboard.IsEnabled = TranslatedSurahDisplayer.IsEnabled;
+                Player.IsEnabled = TranslatedSurahDisplayer.IsEnabled;
             };
         }
 
@@ -157,12 +157,12 @@ namespace Baraka
 
         #region Displayer to Player
 #pragma warning disable IDE0051 // Remove unused private members
-        private void MainSurahDisplayer_VerseChanged(object sender, int num)
+        private void TranslatedSurahDisplayer_VerseChanged(object sender, int num)
         {
             Player.ChangeVerse(num);
         }
 
-        private void MainSurahDisplayer_DownloadRecitationRequested(object sender, DownloadRecitationEventArgs e)
+        private void TranslatedSurahDisplayer_DownloadRecitationRequested(object sender, DownloadRecitationEventArgs e)
         {
             if (e.Begin == e.End)
             {
@@ -237,13 +237,13 @@ namespace Baraka
 
             // Apply settings to be directly applied
             //
-            MainSurahDisplayer.SetSBVisible(LoadedData.Settings.DisplayScrollBar);
+            TranslatedSurahDisplayer.SetSBVisible(LoadedData.Settings.DisplayScrollBar);
             Player.Streamer.OutputDeviceIndex = LoadedData.Settings.OutputDeviceIndex;
 
             if (!LoadedData.Settings.SurahVersionConfig.Equals(oldSurahVerConfig))
             {
                 // Reload actual surah
-                    await MainSurahDisplayer.LoadSurahAsync(MainSurahDisplayer.Surah, true);
+                    await TranslatedSurahDisplayer.LoadSurahAsync(TranslatedSurahDisplayer.Surah, true);
             }
         }
         #endregion
@@ -252,7 +252,7 @@ namespace Baraka
         #region Zoom
         private double GetDisplayerWidth()
         {
-            return MainSurahDisplayer.ActualWidth * ScaleTransformer.ScaleX;
+            return TranslatedSurahDisplayer.ActualWidth * ScaleTransformer.ScaleX;
         }
         private void SetMinWidth() // Set minimum width
         {
@@ -314,8 +314,8 @@ namespace Baraka
             await Player.ChangeSelectedSurahAsync(verse.Surah, true, false, false, false);
             Player.ChangeVerse(verse.Number);
 
-            await MainSurahDisplayer.BrowseToVerseAsync(verse.Number);
-            await MainSurahDisplayer.ScrollToVerseAsync(verse.Number, searchRes);
+            await TranslatedSurahDisplayer.BrowseToVerseAsync(verse.Number);
+            await TranslatedSurahDisplayer.ScrollToVerseAsync(verse.Number, searchRes);
         }
         #endregion
     }

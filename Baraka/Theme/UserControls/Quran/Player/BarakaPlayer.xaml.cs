@@ -1,7 +1,7 @@
 ﻿using Baraka.Data;
 using Baraka.Data.Descriptions;
 using Baraka.Streaming;
-using Baraka.Theme.UserControls.Quran.Displayer;
+using Baraka.Theme.UserControls.Quran.Display.Translated;
 using Baraka.Theme.UserControls.Quran.Player.Selectors.Cheikh;
 using Baraka.Theme.UserControls.Quran.Player.Selectors.Surah;
 using Microsoft.Win32;
@@ -48,7 +48,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
         // Bindings
         public QuranStreamer Streamer { get; private set; }
-        public BarakaSurahDisplayer Displayer { get; set; }
+        public BarakaTranslatedSurahDisplayer Displayer { get; set; }
 
         #region Settings
         [Category("Baraka")]

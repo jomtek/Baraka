@@ -258,10 +258,10 @@ namespace Baraka
             instance.Player.ChangeSelectedCheikh(defaultCheikh);
             await instance.Player.ChangeSelectedSurahAsync(defaultSurah, true, true, true);
 
-            await instance.MainSurahDisplayer.LoadSurahAsync(instance.Player.SelectedSurah);
+            await instance.TranslatedSurahDisplayer.LoadSurahAsync(instance.Player.SelectedSurah);
 
             // Other UI settings
-            instance.MainSurahDisplayer.SetSBVisible(LoadedData.Settings.DisplayScrollBar);
+            instance.TranslatedSurahDisplayer.SetSBVisible(LoadedData.Settings.DisplayScrollBar);
         }
 
         private void Window_LoadingProgressChanged(object sender, double progress)

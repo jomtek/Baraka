@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Baraka"
         xmlns:UserControls="clr-namespace:Baraka.Theme.UserControls"
         xmlns:Player="clr-namespace:Baraka.Theme.UserControls.Quran.Player"
-        xmlns:Displayer="clr-namespace:Baraka.Theme.UserControls.Quran.Displayer"
+        xmlns:TranslatedDisplay="clr-namespace:Baraka.Theme.UserControls.Quran.Display.Translated"
+        xmlns:MushafDisplay="clr-namespace:Baraka.Theme.UserControls.Quran.Display.Mushaf"
         xmlns:Dashboard="clr-namespace:Baraka.Theme.UserControls.Dashboard"
         x:Class="Baraka.MainWindow"
         mc:Ignorable="d"
@@ -119,17 +120,24 @@
                   Background="{DynamicResource LightBrush}"
                   PreviewMouseWheel="MainGrid_PreviewMouseWheel">
 
-                <Grid x:Name="DisplayerGrid" HorizontalAlignment="Center" Margin="0,0,127,0">
+                <Grid x:Name="DisplayerGrid" HorizontalAlignment="Center" Margin="0,0,80,0">
                     <Grid.LayoutTransform>
                         <ScaleTransform x:Name="ScaleTransformer" ScaleX="1.2" ScaleY="1.2" />
                     </Grid.LayoutTransform>
 
-                    <Displayer:BarakaSurahDisplayer x:Name="MainSurahDisplayer"
+                    <TranslatedDisplay:BarakaTranslatedSurahDisplayer x:Name="TranslatedSurahDisplayer"
                                                 VerticalAlignment="Stretch" HorizontalAlignment="Center"
                                                 Height="Auto"
                                                 Focusable="False"
-                                                VerseChanged="MainSurahDisplayer_VerseChanged"
-                                                DownloadRecitationRequested="MainSurahDisplayer_DownloadRecitationRequested"/>
+                                                Visibility="Collapsed"
+                                                VerseChanged="TranslatedSurahDisplayer_VerseChanged"
+                                                DownloadRecitationRequested="TranslatedSurahDisplayer_DownloadRecitationRequested"/>
+
+                    <MushafDisplay:BarakaMushafSurahDisplayer x:Name="MushafSurahDisplayer"
+                                                VerticalAlignment="Stretch" HorizontalAlignment="Center"
+                                                Height="Auto"
+                                                Focusable="False"
+                                                Visibility="Visible" />
                 </Grid>
 
                 <Player:BarakaPlayer x:Name="Player"

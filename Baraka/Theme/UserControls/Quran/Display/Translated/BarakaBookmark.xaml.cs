@@ -6,14 +6,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Baraka.Theme.UserControls.Quran.Displayer
+namespace Baraka.Theme.UserControls.Quran.Display.Translated
 {
     /// <summary>
     /// Logique d'interaction pour BarakaMarkbook.xaml
     /// </summary>
     public partial class BarakaBookmark : UserControl
     {
-        public BarakaSurahDisplayer Displayer { get; set; }
+        public BarakaTranslatedSurahDisplayer Displayer { get; set; }
 
         public BarakaBookmark()
         {

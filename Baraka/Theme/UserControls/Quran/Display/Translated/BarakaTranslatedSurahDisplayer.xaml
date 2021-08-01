@@ -1,15 +1,16 @@
 ﻿<UserControl
-             x:Class="Baraka.Theme.UserControls.Quran.Displayer.BarakaSurahDisplayer"
+             x:Class="Baraka.Theme.UserControls.Quran.Display.Translated.BarakaTranslatedSurahDisplayer"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Displayer"
+             xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Display.Translated"
              xmlns:UserControls="clr-namespace:Baraka.Theme.UserControls"
-             mc:Ignorable="d" Height="607"
+             mc:Ignorable="d" Height="610"
              LayoutUpdated="UserControl_LayoutUpdated"
              Loaded="UserControl_Loaded">
-    <Grid Margin="0">
+    <DockPanel Margin="0">
+        <UserControls:BarakaScrollBar x:Name="MainSB" Margin="10,40,0,40" VerticalAlignment="Stretch" Height="Auto"  Width="40" OnScroll="MainSB_OnScroll" HorizontalAlignment="Right" DockPanel.Dock="Right"/>
         <ScrollViewer x:Name="VersesSV" VerticalScrollBarVisibility="Hidden" PreviewMouseWheel="VersesSV_PreviewMouseWheel">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -28,6 +29,5 @@
                 <StackPanel Grid.Column="2" x:Name="VersesSP" Margin="20,0,0,0" Width="850"  />
             </Grid>
         </ScrollViewer>
-        <UserControls:BarakaScrollBar x:Name="MainSB" Margin="0,45,-50,45" VerticalAlignment="Stretch" Height="Auto"  Width="40" OnScroll="MainSB_OnScroll" HorizontalAlignment="Right"/>
-    </Grid>
+    </DockPanel>
 </UserControl>

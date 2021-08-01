@@ -9,7 +9,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.ComponentModel;
 
-namespace Baraka.Theme.UserControls.Quran.Displayer
+namespace Baraka.Theme.UserControls.Quran.Display.Translated
 {
     /// <summary>
     /// Logique d'interaction pour BarakaVerse.xaml
@@ -28,7 +28,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         #endregion
 
         public BarakaVerse(SurahDescription surah, int number,
-            bool loadLastBookmark = false) // See BarakaSurahDisplayer.cs for explanations about this
+            bool loadLastBookmark = false) // See BarakaTranslatedSurahDisplayer.cs for explanations about this
         {
             InitializeComponent();
 

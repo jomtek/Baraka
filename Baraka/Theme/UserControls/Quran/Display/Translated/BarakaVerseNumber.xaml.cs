@@ -6,7 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.ComponentModel;
 
-namespace Baraka.Theme.UserControls.Quran.Displayer
+namespace Baraka.Theme.UserControls.Quran.Display.Translated
 {
     /// <summary>
     /// Logique d'interaction pour BarakaVerseNumber.xaml
@@ -17,7 +17,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
         public int Number { get; private set; }
 
         private bool _playing = false;
-        private BarakaSurahDisplayer _displayer;
+        private BarakaTranslatedSurahDisplayer _displayer;
 
         public bool Playing
         {
@@ -43,7 +43,7 @@ namespace Baraka.Theme.UserControls.Quran.Displayer
             InitializeComponent();
         }
 
-        public BarakaVerseNumber(BarakaSurahDisplayer displayer, int number, int displayNum, bool basmala = false)
+        public BarakaVerseNumber(BarakaTranslatedSurahDisplayer displayer, int number, int displayNum, bool basmala = false)
         {
             InitializeComponent();
 
