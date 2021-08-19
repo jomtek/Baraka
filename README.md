@@ -1,9 +1,16 @@
-# Baraka
-Avez-vous déjà cherché à apprendre les versets du coran, à surligner, à prendre des notes, ou lire accompagné
-de la voix d'Al Dosari, de Soudais, de Maher ou même d'Abdessamat ? Avez-vous déjà eu l'envie de pouvoir enfin profiter d'une grande gamme de traductions rares - pourtant célèbres et riches en sens ? Avez-vous déjà eu besoin de chercher des mots-clés à travers le Coran et la Sunna du prophète ﷺ ?
+# Barak... what ?
 
-Nous avons ce qu'il vous faut.
+FRENCH<br>
+Baraka est un logiciel multiplateforme et open-source permettant de lire ou de réviser le Coran gratuitement et de l'écouter en temps réel (streaming) avec un choix parmi des dizaines de récitateurs et une centaine de traductions. Baraka propose un mus'haf digital (Madani) ludique et interactif, ainsi que divers modes d'entraînement en cours de développement. Ce logiciel léger et simpliste propose également un système de recherche coranique rapide.
 
-Baraka est un logiciel - agréable, rapide et aux facettes multiples - principalement axé sur la recherche théologique musulmane.
+ENGLISH<br>
+Baraka is a free, cross-platform and open-source software made for reading or studying the qur'an. Baraka allows you to stream qur'anic recitations from more than 15 reciters and read among a hundred quran translations. Baraka has a digital and interactive Madani mus'haf, as well as multiple training modes or games (WIP). This simple lightweight software also includes a fast quran browser.
 
-Pour l'instant Baraka est toujours en développement, mais d'ici quelques mois avec l'aide d'Allah nous espérons dévoiler une première version. Baraka comprendra l'ensemble du Coran traduit dans plusieurs langues, avec plusieurs versions pour chaque langue, en plus d'un moteur de streaming dédié aux récitations coraniques.
+ARABIC<br>
+incoming
+
+
+
+HOW TO CONTRIBUTE ---<br>
+Hey... you! We are actively looking for contributors in for design, programming or presentation. We need translators, webmasters, API developers, C# developers, and testers.
+We are grateful to God and we hope this project helps us seek His forgiveness إن شاء الله.
