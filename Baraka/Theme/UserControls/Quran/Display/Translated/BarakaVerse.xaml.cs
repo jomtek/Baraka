@@ -41,6 +41,36 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
             _loadLastBookmark = loadLastBookmark;
         }
 
+        public void LoadArabicVersion(FontFamily pageFamily, string glyphs, int page)
+        {
+            ArabicTB.FontFamily = pageFamily;
+
+            foreach (char glyph in glyphs) // Works the same way as the Mushaf (one glyph = one word with p.s. font)
+            {
+                var run = new Run(glyph.ToString());
+                ArabicTB.Inlines.Add(run);
+
+                // TODO: do not let ayah number sit on a line by itself
+
+
+                // Do not add stopping signs to the inlines list
+                double measure = Utils.General.MeasureText(glyph.ToString(), ArabicTB);
+                if (measure > 10)
+                {
+                    _arabicInlines.Add(run);
+                }
+                else
+                {
+                    run.Foreground = Brushes.DeepSkyBlue;
+                }
+            }
+
+            if (page == 1 || page == 2)
+            {
+                ArabicTB.FontSize *= 4 / 3d; // quran.com
+            }
+        }
+
         public void Initialize()
         {
             int verNum = Number;
@@ -48,34 +78,11 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
             Dictionary<string, SurahVersion> versions = Data.LoadedData.SurahList[Surah];
             var config = Data.LoadedData.Settings.SurahVersionConfig;
 
+            // For performance reasons, the arabic version is loaded from the Displayer directly         
             if (config.DisplayArabic)
             {
-                string[] words = versions["ARABIC"].Verses[verNum].Split(' ');
-
-                for (int i = 0; i < words.Length; i++)
-                {
-                    var run = new Run(words[i]); // A run associated with the current word
-
-                    _arabicInlines.Add(run);
-                    ArabicTB.Inlines.Add(run); 
-
-                    if (i != words.Length)
-                    {
-                        ArabicTB.Inlines.Add(new Run("  "));
-                    }
-                    else
-                    {
-                        run.Background = Brushes.LightCyan;
-                    }
-                }
-
                 ArabicTB.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                ArabicTB.Visibility = Visibility.Collapsed;
-            }
-            
+            }       
 
             if (config.DisplayPhonetic)
             {
@@ -124,7 +131,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
             ClearHighlighting();
 
             Run inline = _arabicInlines[index];
-            inline.Background = Brushes.LightCyan;
+            inline.Background = Brushes.LightGoldenrodYellow;
         }
 
         public void ClearHighlighting()

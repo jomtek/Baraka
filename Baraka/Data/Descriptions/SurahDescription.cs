@@ -30,5 +30,17 @@ namespace Baraka.Data.Descriptions
             // Exclude Al-Fatiha and At-Tawba
             return SurahNumber != 1 && SurahNumber != 9;
         }
+
+        public SurahDescription Next()
+        {
+            if (SurahNumber == 114)
+            {
+                return this;
+            }
+            else
+            {
+                return Utils.Quran.General.FindSurah(SurahNumber + 1);
+            }
+        }
     }
 }

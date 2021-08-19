@@ -19,6 +19,11 @@ namespace Baraka.Utils.UI
 
         TextRange _ntr = null;
 
+        public SelectableTextBlock()
+        {
+            
+        }
+
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             base.OnMouseDown(e);

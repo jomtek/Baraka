@@ -34,7 +34,7 @@
                     Margin="12,5,13,0" Width="Auto"
                     FlowDirection="RightToLeft"
                     TextWrapping="Wrap"
-                    FontSize="32">
+                    FontSize="28">
                 <!--<Run Text="وَإِذَا" />
                 <Run Text="رَأَيْتَ ثَمَّ" />
                 <Run Text="رَأَيْتَ" />

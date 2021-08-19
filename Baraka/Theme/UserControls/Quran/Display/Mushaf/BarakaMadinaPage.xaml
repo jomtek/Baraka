@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="Baraka.Theme.UserControls.Quran.Display.Mushaf.BarakaMadinaPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Display.Mushaf" xmlns:ui="clr-namespace:Baraka.Utils.UI"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        
+    </UserControl.Resources>
+
+    <Border x:Name="BorderComponent" Background="White" BorderThickness="5">
+        <Border.BorderBrush>
+            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuHighlightColorKey}}"/>
+        </Border.BorderBrush>
+
+        <Viewbox Margin="10,20,10,-15">
+            <Viewbox.LayoutTransform>
+                <ScaleTransform x:Name="ScaleTransformer" ScaleX="2.5" ScaleY="1.6" />
+            </Viewbox.LayoutTransform>
+            <TextBlock x:Name="PageTB" TextWrapping="NoWrap" TextAlignment="Center" FlowDirection="RightToLeft" FontFamily="/Baraka;component/Fonts/Mushaf/#QCF_P054" Foreground="Black" Margin="0" TextDecorations="{x:Null}"><Run Text="ﭑﭒﭓﭔﭕﭖﭗﭘﭙﭚﭛ"/><LineBreak/><Run Text="ﭜﭝﭞﭟﭠﭡﭢﭣﭤﭥﭦ"/><LineBreak/><Run Text="ﭧﭨﭩﭪﭫﭬﭭﭮﭯﭰﭱﭲ"/><LineBreak/><Run Text="ﭳﭴﭵﭶﭷﭸﭹﭺﭻﭼ"/><LineBreak/><Run Text="ﭽﭾﭿﮀﮁﮂﮃﮄﮅﮆﮇﮈ"/><LineBreak/><Run Text="ﮉﮊﮋﮌﮍﮎﮏﮐﮑﮒ"/><LineBreak/><Run Text="ﮓﮔﮕﮖﮗﮘﮙﮚﮛﮜﮝ"/><LineBreak/><Run Text="ﮞﮟﮠﮡﮢﮣﮤﮥﮦﮧﮨ"/><LineBreak/><Run Text="ﮩﮪﮫﮬﮭﮮﮯﮰﮱﯓﯔﯕﯖ"/><LineBreak/><Run Text="ﯗﯘﯙﯚﯛﯜﯝﯞﯟﯠ"/><LineBreak/><Run Text="ﯡﯢﯣﯤﯥﯦﯧﯨﯩﯪ"/><LineBreak/><Run Text="ﯫﯬﯭﯮﯯﯰﯱﯲ"/><LineBreak/><Run Text="ﯳﯴﯵﯶﯷﯸﯹﯺﯻﯼ"/><LineBreak/><Run Text="ﯽﯾﯿﰀﰁﰂﰃﰄﰅﰆﰇﰈ"/><LineBreak/><Run Text="ﰉﰊﰋﰌﰍﰎﰏﰐﰑﰒﰓﰔﰕﰖ"/><LineBreak/><Run/></TextBlock>
+        </Viewbox>
+    </Border>
+</UserControl>

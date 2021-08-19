@@ -143,8 +143,8 @@ namespace Baraka.Theme.UserControls.Quran.Player.Selectors.Surah
 
                 // 52 is the height of a SurahBar
                 segmentHeight += (segLimit.Surah.SurahNumber - 1) * 52;
-
-                double surahCompletedRatio = segLimit.Number / (double)LoadedData.SurahList.ElementAt(segLimit.Surah.SurahNumber - 1).Key.NumberOfVerses;
+                
+                double surahCompletedRatio = segLimit.Number / (double)(Utils.Quran.General.FindSurah(segLimit.Surah.SurahNumber).NumberOfVerses);
                 segmentHeight += surahCompletedRatio * 52;
 
                 Brush bg = hizb.Number % 2 == 0 ? _palette.Item1 : _palette.Item2;
@@ -160,8 +160,10 @@ namespace Baraka.Theme.UserControls.Quran.Player.Selectors.Surah
                 {
                     SetHizbSelected(true, hizb.Number - 1);
 
-                    var surah = LoadedData.SurahList.ElementAt(hizb.StartSurah - 1).Key;
-                    Page.HizbSelected(new VerseDescription(surah, hizb.StartVerse - 1));
+                    // TODO: why, when setting hizb.StartVerse instead of hizb.StartVerse-1,
+                    //       am I targeting the wrong hizb ?
+                    var surah = Utils.Quran.General.FindSurah(hizb.StartSurah);
+                    Page.HizbSelected(new VerseDescription(surah, hizb.StartVerse-1));
                 };
 
                 segment.Height = segmentHeight;                

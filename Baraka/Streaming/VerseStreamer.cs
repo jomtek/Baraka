@@ -48,7 +48,7 @@ namespace Baraka.Streaming
             List<int> segments = null;
             if (verse.Number == 0)
             {
-                var fatihaFirstVerse = new VerseDescription(LoadedData.SurahList.ElementAt(0).Key, 2);
+                var fatihaFirstVerse = new VerseDescription(Utils.Quran.General.FindSurah(1), 2);
                 segments = cheikh.WavSegments.FindSegments(fatihaFirstVerse);
             }
             else if (cheikh.WavSegments != null)
@@ -74,7 +74,7 @@ namespace Baraka.Streaming
                 throw ex;
             }
 
-            _wout.Play();
+            if (_wout != null) _wout.Play();
             _stopWatch.Restart();
 
             int lastSelectedWord = -1;
@@ -97,7 +97,6 @@ namespace Baraka.Streaming
                         {
                             if (i != lastSelectedWord)
                             {
-                                Console.WriteLine($"requesting highlight on verse {verse.Number}");
                                 // Highlight i_th word on the current verse
                                 App.Current.Dispatcher.Invoke(new Action(() => WordHighlightRequested?.Invoke(this, i)));
                                 lastSelectedWord = i;

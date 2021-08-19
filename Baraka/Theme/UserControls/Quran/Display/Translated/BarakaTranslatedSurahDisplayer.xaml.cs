@@ -12,6 +12,9 @@ using Baraka.Utils;
 using System.Windows.Media;
 using System.Threading.Tasks;
 using System.Windows.Media.Animation;
+using Baraka.Theme.UserControls.Quran.Display.Mushaf;
+using System.Net;
+using System.Diagnostics;
 
 namespace Baraka.Theme.UserControls.Quran.Display.Translated
 {
@@ -30,13 +33,22 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
     /// <summary>
     /// Logique d'interaction pour BarakaTranslatedSurahDisplayer.xaml
     /// </summary>
-    public partial class BarakaTranslatedSurahDisplayer : UserControl
+    public partial class BarakaTranslatedSurahDisplayer : UserControl, ISurahDisplayer
     {
         private bool _initialized = false;
+        
+        #region Generation detail
+        private List<double> _relativeBmHeights;
+        private double _firstVerseOffset;
+        #endregion
+        
+        #region Other detail
+        private Storyboard _smoothScrollStory;
+        #endregion
 
+        #region Info
         private bool _playing = false;
         public bool LoopMode { get; private set; } = false;
-        private List<double> _relativeBmHeights;
 
         public SurahDescription Surah { get; set; }
 
@@ -44,9 +56,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
         public int ActualVerse { get; private set; } = 0;
         public int StartVerse { get; private set; } = 0;
         public int EndVerse { get; private set; } = 0;
-
-        //
-        private double _firstVerseOffset;
+        #endregion
 
         #region Settings
         public bool Playing
@@ -92,11 +102,12 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
             InitializeComponent();
             
             _relativeBmHeights = new List<double>();
+            _smoothScrollStory = new Storyboard();
 
             Bookmark.Displayer = this;
         }
 
-        #region Prepare
+        #region Prepare or unload
         private double _topMargin = 2.5; // Space between verse-boxes
 
         private BarakaVerse GetVerseBoxFromSP(int index)
@@ -172,7 +183,12 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
         // Set it to true, the verse displaying process stops
         private bool _cancellationToken = false;
 
-        public async Task LoadSurahAsync(SurahDescription surah, bool reload = false, bool loadLastBookmark = true)
+        public async Task LoadSurahAsync(SurahDescription surah)
+        {
+            await LoadSurahAsync(surah, false, true);
+        }
+
+        public async Task LoadSurahAsync(SurahDescription surah, bool reload, bool loadLastBookmark)
         {
             if (surah == Surah && !reload)
             {
@@ -195,24 +211,47 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
                 ScrollToTop();
                 VersesSP.Children.Clear();
 
+                var mushafData = LoadedData.MushafDataManager.VerseLookup($"sura={surah.SurahNumber}");
+
                 // Basmala
                 if (surah.HasBasmala())
                 {
-                    var verseBox = new BarakaVerse(LoadedData.SurahList.ElementAt(0).Key, 0)
+                    var verseBox = new BarakaVerse(Utils.Quran.General.FindSurah(1), 0)
                     {
                         Margin = new Thickness(0, 45, 0, 0)
                     };
                     verseBox.Initialize();
 
+                    if (LoadedData.Settings.SurahVersionConfig.DisplayArabic)
+                    {
+                        verseBox.LoadArabicVersion(
+                            LoadedData.MushafDataManager.FindPageFontFamily(0),
+                            WebUtility.HtmlDecode("&#64337;&#64338;&#64339;&#64340;&#64341;"), // Basmala glyphs from Al-Fatiha
+                            1
+                        );
+                    }
+
                     VersesSP.Children.Add(verseBox);
                 }
 
-                // Verses
+                // Load verses
                 for (int i = 0; i < surah.NumberOfVerses; i++)
                 {
                     // Verse box
                     var verseBox = new BarakaVerse(surah, i, loadLastBookmark);
                     verseBox.Initialize();
+
+                    // Fill in the Mushaf data (if necessary)
+                    if (LoadedData.Settings.SurahVersionConfig.DisplayArabic)
+                    {
+                        var description = new VerseDescription(verseBox.Surah, verseBox.Number + 1);
+                        var associatedMushafData = mushafData[description];
+
+                        FontFamily family = LoadedData.MushafDataManager.FindPageFontFamily(associatedMushafData.page - 1);
+                        string glyphs = WebUtility.HtmlDecode(associatedMushafData.text);
+
+                        verseBox.LoadArabicVersion(family, glyphs, associatedMushafData.page);
+                    }
 
                     if (!(i == 0 && !Surah.HasBasmala())) // TODO: perhaps simplify this condition?
                     {
@@ -258,6 +297,11 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
             }
 
             MainSB.TargetValue = surah.NumberOfVerses;
+        }
+
+        public void UnloadActualSurah()
+        {
+            VersesSP.Children.Clear();
         }
         #endregion
 
@@ -309,14 +353,9 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
         #endregion
 
         #region Scroll
-        public void ScrollToTop()
-        {
-            MainSB.ResetThumbY();
-            VersesSV.ScrollToTop();
-        }
-
+        #region Utils
         // SOF 2176945/anatoliy-nikolaev
-        private void DoSmoothScoll(double verticalOffset)
+        private void DoSmoothScroll(double verticalOffset)
         {
             if (VersesSV.VerticalOffset == verticalOffset)
             {
@@ -329,23 +368,31 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
             verticalAnimation.To = verticalOffset;
             verticalAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(1200));
 
-            Storyboard storyboard = new Storyboard();
-            storyboard.Children.Add(verticalAnimation);
+            _smoothScrollStory.Children.Clear();
+            _smoothScrollStory.Children.Add(verticalAnimation);
             Storyboard.SetTarget(verticalAnimation, VersesSV);
             Storyboard.SetTargetProperty(verticalAnimation, new PropertyPath(Utils.UI.ScrollAnimationBehavior.VerticalOffsetProperty)); // Attached dependency property
-            storyboard.Begin();
+            
+            _smoothScrollStory.Begin();         
+        }
+
+        // Non-relative verse asked for
+        private double GetTargetVerseOffset(int targetVerse)
+        {
+            return VersesSP.Children[targetVerse].TranslatePoint(new Point(), VersesSP).Y;
+        }
+        #endregion
+
+        public void ScrollToTop()
+        {
+            MainSB.ResetThumbY();
+            VersesSV.ScrollToTop();
         }
 
         public async Task ScrollToVerseAsync(int verse, bool searchRes = false)
         {
             await BrowseToVerseAsync(verse);
-            double newVerticalOffset = Bookmark.Height - 60 - 250;         
-
-            if (StartVerse != 0)
-            {
-                newVerticalOffset = Math.Abs(newVerticalOffset);
-                newVerticalOffset += VersesSV.VerticalOffset;
-            }
+            double newVerticalOffset = GetTargetVerseOffset(verse) - 250;
 
             if (newVerticalOffset > VersesSV.VerticalOffset)
             {
@@ -359,7 +406,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
             // Breathe (TODO)
             await Task.Delay(100);
 
-            DoSmoothScoll(newVerticalOffset);
+            DoSmoothScroll(newVerticalOffset);
 
             if (searchRes)
             {
@@ -389,6 +436,12 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
             {
                 // Cannot use this anywhere
                 MainSB.Scrolled = VersesSV.VerticalOffset / VersesSV.ScrollableHeight;
+            }
+
+            // Pause auto-scroll when user interrupts it by manually scrolling
+            if (_smoothScrollStory.GetCurrentState() == ClockState.Active)
+            {
+                _smoothScrollStory.Pause();
             }
         }
         #endregion
@@ -424,7 +477,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
 
             if (num == -1) // Basmala support
             {
-                Bookmark.Height = _relativeBmHeights[Math.Abs(num)];
+                Bookmark.Height = _relativeBmHeights[1];
             }
             else
             {
@@ -517,7 +570,6 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("loaded");
         }
     }
 }

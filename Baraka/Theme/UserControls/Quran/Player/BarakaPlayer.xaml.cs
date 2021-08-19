@@ -105,6 +105,8 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
             _surahSelector.HizbClicked += SurahSelector_HizbClicked;
 
+            ShowCheikhSelector();
+            ShowSurahSelector();
             FrameComponent.Content = _cheikhSelector;
 
             // Streamer config
@@ -120,8 +122,13 @@ namespace Baraka.Theme.UserControls.Quran.Player
             {
                 SelectorGrid.Visibility = Visibility.Hidden;
                 _closing = false;
-                _surahSelector.ReloadList();
             };
+        }
+
+        public void PrepareItems()
+        {
+            _surahSelector.InitializeItems(this);
+            _cheikhSelector.InitializeItems(this);
         }
 
         public void Dispose()
@@ -178,7 +185,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
                 return;
             }
 
-            var verse = Displayer.VersesSP.Children[Streamer.Verse] as BarakaVerse;
+            var verse = Displayer.VersesSP.Children[Streamer.NonRelativeVerse] as BarakaVerse;
             if (wIndex == -1)
             {
                 verse.ClearHighlighting();
@@ -227,7 +234,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             ReinitLoopmode(_loopMode);
         }
 
-        private void CheikhTB_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private async void CheikhTB_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (_cheikhModification)
             {
@@ -242,11 +249,11 @@ namespace Baraka.Theme.UserControls.Quran.Player
                     {
                         SurahTB.Foreground = Brushes.Black;
                         _surahModification = false;
-                        SwitchTab(0);
+                        await SwitchTab(0);
                     }
                     else
                     {
-                        OpenPlayer(0);
+                        await OpenPlayerAsync(0);
                     }
                 }
 
@@ -256,7 +263,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             _cheikhModification = !_cheikhModification;
         }
 
-        private void SurahTB_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private async void SurahTB_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (_surahModification)
             {
@@ -271,11 +278,11 @@ namespace Baraka.Theme.UserControls.Quran.Player
                     {
                         CheikhTB.Foreground = Brushes.Black;
                         _cheikhModification = false;
-                        SwitchTab(1);
+                        await SwitchTab(1);
                     }
                     else
                     {
-                        OpenPlayer(1);
+                        await OpenPlayerAsync(1);
                     }
                 }
 
@@ -310,13 +317,13 @@ namespace Baraka.Theme.UserControls.Quran.Player
         private async void BackwardBTN_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Playing = false;
-            await ChangeSelectedSurahAsync(LoadedData.SurahList.ElementAt(_selectedSurah.SurahNumber - 1 - 1).Key);
+            await ChangeSelectedSurahAsync(Utils.Quran.General.FindSurah(_selectedSurah.SurahNumber - 1));
         }
 
         private async void ForwardBTN_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Playing = false;
-            await ChangeSelectedSurahAsync(LoadedData.SurahList.ElementAt(_selectedSurah.SurahNumber + 1 - 1).Key);
+            await ChangeSelectedSurahAsync(Utils.Quran.General.FindSurah(_selectedSurah.SurahNumber + 1));
         }
         #endregion
 
@@ -344,7 +351,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
         #region Scrollviewer Display
         // `tab` parameter: 0 => Cheikh selector
         //                  1 => Surah selector
-        private void OpenPlayer(int tab)
+        private async Task OpenPlayerAsync(int tab)
         {
             if (_closing) return;
 
@@ -358,9 +365,11 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
             SelectorGrid.Visibility = Visibility.Visible;
             SelectorGrid.Opacity = 0;
+
+            await SwitchTab(tab, false);
+            await Task.Delay(10);
             ((Storyboard)this.Resources["PlayerOpenStory"]).Begin();
 
-            SwitchTab(tab, false);
 
             PlayPauseBTN.IsEnabled = false;
             PlayPauseBTN.Opacity = 0.4;
@@ -387,7 +396,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             }
         }
 
-        private void SwitchTab(int tab, bool animation = true)
+        private Task SwitchTab(int tab, bool animation = true)
         {
             if (animation)
             {
@@ -402,13 +411,14 @@ namespace Baraka.Theme.UserControls.Quran.Player
                     _surahSelector.RefreshSelection();
                 }
 
-                return;
+                return Task.CompletedTask;
             }
             else
             {
                 MainSB.ResetThumbY();
             }
 
+            //MessageBox.Show("now");
             switch (tab)
             {
                 case 0:
@@ -422,6 +432,8 @@ namespace Baraka.Theme.UserControls.Quran.Player
             }
 
             _lastTabShown = tab;
+
+            return Task.CompletedTask;
         }
 
         #region Cheikh Selector
@@ -429,9 +441,6 @@ namespace Baraka.Theme.UserControls.Quran.Player
         {
             MainSB.TargetValue = (int)Math.Ceiling(LoadedData.CheikhList.Length / 3d);
             MainSB.Accuracy = ScrollAccuracyMode.ACCURATE;
-
-            if (!_cheikhSelector.ItemsInitialized)
-                _cheikhSelector.InitializeItems(this);
 
             FrameComponent.Content = _cheikhSelector;
         }
@@ -516,15 +525,8 @@ namespace Baraka.Theme.UserControls.Quran.Player
         {
             MainSB.TargetValue = (int)Math.Ceiling(114 / (LoadedData.CheikhList.Length / 3d));
             MainSB.Accuracy = ScrollAccuracyMode.VAGUE;
-
-            if (!_surahSelector.ItemsInitialized)
-            {
-                _surahSelector.InitializeItems(this);
-            }
-            else
-            {
-                _surahSelector.RefreshSelection();
-            }
+            
+            _surahSelector.RefreshSelection();
 
             FrameComponent.Content = _surahSelector;
         }
@@ -599,7 +601,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
                 end++;
             }
 
-            sfd.Title = $"Enregistrer en un seul fichier les versets [{begin} à {end}] de cette sourate";
+            sfd.Title = $"Enregistrer en un seul fichier les versets {begin} à {end} de cette sourate";
             sfd.FileName = $"{_selectedCheikh.LastName.Replace(" ", "").ToLower()}_{_selectedSurah.SurahNumber}_{begin}-{end}";
 
             if (sfd.ShowDialog() == true)
@@ -608,7 +610,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
                     
                 using (var wc = new WebClient())
                 {
-                    for (int i = begin; i < end+1; i++)
+                    for (int i = begin; i <= end; i++)
                     {
                         string url = StreamingUtils.GenerateVerseUrl(_selectedCheikh, _selectedSurah, i);
                         try

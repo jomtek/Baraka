@@ -3,6 +3,7 @@ using Baraka.Data.Descriptions;
 using Baraka.Data.Surah;
 using Baraka.Forms;
 using Baraka.Forms.Settings;
+using Baraka.Theme.UserControls.Quran.Display;
 using Baraka.Theme.UserControls.Quran.Display.Translated;
 using System;
 using System.Collections.Generic;
@@ -54,11 +55,6 @@ namespace Baraka
                 Dashboard.IsEnabled = TranslatedSurahDisplayer.IsEnabled;
                 Player.IsEnabled = TranslatedSurahDisplayer.IsEnabled;
             };
-        }
-
-        private void Window_ContentRendered(object sender, EventArgs e)
-        {
-            InitWindows();
         }
 
         #region Serialize (temp)
@@ -153,6 +149,11 @@ namespace Baraka
                 e.Handled = true;
             }
         }
+
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+            InitWindows();
+        }
         #endregion
 
         #region Displayer to Player
@@ -243,7 +244,7 @@ namespace Baraka
             if (!LoadedData.Settings.SurahVersionConfig.Equals(oldSurahVerConfig))
             {
                 // Reload actual surah
-                    await TranslatedSurahDisplayer.LoadSurahAsync(TranslatedSurahDisplayer.Surah, true);
+                await TranslatedSurahDisplayer.LoadSurahAsync(TranslatedSurahDisplayer.Surah, true, false);
             }
         }
         #endregion
@@ -303,6 +304,33 @@ namespace Baraka
 
             ApplyScale();
             SetMinWidth();
+        }
+        #endregion
+
+        #region Display
+        public async Task ChangeDisplayModeAsync(QuranDisplayMode mode)
+        {
+            if (mode == QuranDisplayMode.MUSHAF)
+            {
+                MessageBox.Show("Nous sommes désolés: le mode Mus'haf n'est pas encore disponible.\n" +
+                    "Cependant, nous affichons quand-même la version arabe pour servir vos ~petits yeux~\n\n",
+                    "Message du développeur");
+            /*    TranslatedSurahDisplayer.UnloadActualSurah();
+                await MushafSurahDisplayer.LoadSurahAsync(Player.SelectedSurah);
+                
+                TranslatedSurahDisplayer.Visibility = Visibility.Collapsed;
+                MushafSurahDisplayer.Visibility = Visibility.Visible;
+            */
+            }
+
+            //else if (mode == QuranDisplayMode.TRANSLATED)
+            {
+                MushafSurahDisplayer.UnloadActualSurah();
+                await TranslatedSurahDisplayer.LoadSurahAsync(Player.SelectedSurah);
+                
+                MushafSurahDisplayer.Visibility = Visibility.Collapsed;
+                TranslatedSurahDisplayer.Visibility = Visibility.Visible;
+            }
         }
         #endregion
 

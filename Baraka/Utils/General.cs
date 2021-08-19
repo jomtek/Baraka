@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Media;
 
 namespace Baraka.Utils
 {
@@ -42,6 +43,21 @@ namespace Baraka.Utils
             sv.ScrollToVerticalOffset(oldVerticalOffset);
 
             return scrollableHeight;
+        }
+
+        public static double MeasureText(string text, TextBlock refTB)
+        {
+            var formattedText = new FormattedText(
+                text,
+                CultureInfo.CurrentCulture,
+                FlowDirection.LeftToRight,
+                new Typeface(refTB.FontFamily, refTB.FontStyle, refTB.FontWeight, refTB.FontStretch),
+                refTB.FontSize,
+                Brushes.Black,
+                new NumberSubstitution(),
+                1);
+
+            return formattedText.Width;
         }
         #endregion
 
@@ -79,7 +95,7 @@ namespace Baraka.Utils
             {
                 if (verseNum == 0)
                 {
-                    verse = LoadedData.SurahList[LoadedData.SurahList.ElementAt(0).Key][firstTransId].Verses[0];
+                    verse = LoadedData.SurahList.ElementAt(0).Value[firstTransId].Verses[0];
                 }
                 else
                 {

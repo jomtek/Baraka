@@ -4,16 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Display.Mushaf"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Height="610">
-    <DockPanel>
-        <Border BorderThickness="7" Width="500" DockPanel.Dock="Top" Height="610">
-            <Border.BorderBrush>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}"/>
-            </Border.BorderBrush>
-            <Border.Background>
-                <SolidColorBrush Color="White"/>
-            </Border.Background>
-        </Border>
-    </DockPanel>
+             xmlns:ui="clr-namespace:Baraka.Utils.UI"
+             mc:Ignorable="d">
+
+    <Grid>
+        <Grid.Background>
+            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionTextColorKey}}"/>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <local:BarakaMadinaPage x:Name="LeftPage" Grid.Column="0" Width="Auto" Side="LEFT" Margin="0" MouseDoubleClick="LeftPage_MouseDoubleClick"/>
+        <local:BarakaMadinaPage x:Name="RightPage" Grid.Column="2" Width="Auto" Side="RIGHT" Margin="0"/>
+    </Grid>
+
 </UserControl>

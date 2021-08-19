@@ -33,6 +33,11 @@ namespace Baraka.Data.Surah
             Translation3 = translation3;
         }
 
+        public bool ShowMushaf()
+        {
+            return DisplayArabic && !DisplayPhonetic && !DisplayTranslated;
+        }
+
         public object Clone()
         {
             return new SurahVersionConfig(DisplayArabic, DisplayPhonetic, DisplayTranslated, Translation1, Translation2, Translation3);

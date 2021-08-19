@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using Newtonsoft.Json;
 using System.Windows.Threading;
+using Baraka.Data.Quran;
+using Baraka.Theme.UserControls.Quran.Display;
+using Baraka.Forms;
 
 namespace Baraka
 {
@@ -204,42 +207,46 @@ namespace Baraka
             // // Loading
             //
             // Deserialize data
-            ProgressTB.Text = "chargement des ressources: quran.ser";
-            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
-            LoadedData.SurahList =
-                SerializationUtils.Deserialize<Dictionary<SurahDescription, Dictionary<string, SurahVersion>>>("data/quran.ser");
-            MainPB.Progress = 0.1;
-
             ProgressTB.Text = "chargement des ressources: cheikh.ser";
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
             LoadedData.CheikhList =
                 SerializationUtils.Deserialize<CheikhDescription[]>("data/cheikh.ser");     
-            MainPB.Progress = 0.3;
+            MainPB.Progress = 0.1;
 
-            ProgressTB.Text = "chargement des ressources: translations.ser";
+            ProgressTB.Text = "chargement des ressources: quran/translations_cache.ser";
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
+            LoadedData.SurahList =
+                SerializationUtils.Deserialize<Dictionary<SurahDescription, Dictionary<string, SurahVersion>>>("data/quran/translations_cache.ser");
+            MainPB.Progress = 0.25;
+
+            ProgressTB.Text = "chargement des ressources: quran/translations_info.ser";
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
             LoadedData.TranslationsList =
-                SerializationUtils.Deserialize<TranslationDescription[]>("data/translations.ser");
-            MainPB.Progress = 0.5;
+                SerializationUtils.Deserialize<TranslationDescription[]>("data/quran/translations_info.ser");
+            MainPB.Progress = 0.4;
 
-            ProgressTB.Text = "chargement des ressources: cache.ser";
+            ProgressTB.Text = "chargement du cache...";
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(50);
             var cacheContent =
                 SerializationUtils.Deserialize<Dictionary<string, byte[]>>("data/cache.ser");
             LoadedData.AudioCache = new AudioCacheManager(cacheContent);
             MainPB.Progress = 0.6;
 
+            ProgressTB.Text = "chargement du Mushaf...";
+            LoadedData.MushafDataManager = new MushafDataManager();
+
             // Deserialize settings
             ProgressTB.Text = "chargement des marque-pages...";
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(50);
             LoadedData.Bookmarks =
                 SerializationUtils.Deserialize<List<int>>("bookmarks.ser");
-
+            
             //  // Finish
             ProgressTB.Text = $"préparation de l'interface...";
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
 
             var window = new MainWindow();
+            window.Visibility = Visibility.Hidden;
             window.ContentRendered += Window_ContentRendered;
             window.LoadingProgressChanged += Window_LoadingProgressChanged;
 
@@ -258,9 +265,17 @@ namespace Baraka
             instance.Player.ChangeSelectedCheikh(defaultCheikh);
             await instance.Player.ChangeSelectedSurahAsync(defaultSurah, true, true, true);
 
-            await instance.TranslatedSurahDisplayer.LoadSurahAsync(instance.Player.SelectedSurah);
+            if (LoadedData.Settings.SurahVersionConfig.ShowMushaf())
+            {
+                await instance.ChangeDisplayModeAsync(QuranDisplayMode.MUSHAF);
+            }
+            else
+            {
+                await instance.ChangeDisplayModeAsync(QuranDisplayMode.TRANSLATED);
+            }
 
             // Other UI settings
+            instance.Player.PrepareItems();
             instance.TranslatedSurahDisplayer.SetSBVisible(LoadedData.Settings.DisplayScrollBar);
         }
 
@@ -325,7 +340,7 @@ namespace Baraka
 
                 foreach (DummySegmentClass entry in jsonContent)
                 {
-                    var verseDesc = (LoadedData.SurahList.ElementAt(entry.surah - 1).Key.SurahNumber, entry.ayah - 1);
+                    var verseDesc = (entry.surah, entry.ayah - 1);
                     var segments = new List<int>();
 
                     if (entry.segments != null)

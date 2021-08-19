@@ -167,7 +167,7 @@ namespace Baraka.Streaming
         #region Core
         private string GetCurrentCheikhBasmala()
         {
-            return StreamingUtils.GenerateVerseUrl(Cheikh, LoadedData.SurahList.ElementAt(0).Key, 1);
+            return StreamingUtils.GenerateVerseUrl(Cheikh, Utils.Quran.General.FindSurah(1), 1);
         }
 
         private void DownloadVerseAudio(bool next = true) // If not next, then actual

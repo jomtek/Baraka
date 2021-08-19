@@ -1,4 +1,5 @@
 ﻿using Baraka.Data.Descriptions;
+using Baraka.Data.Quran;
 using Baraka.Data.Surah;
 using System.Collections.Generic;
 
@@ -10,6 +11,7 @@ namespace Baraka.Data
         public static Dictionary<SurahDescription, Dictionary<string, SurahVersion>> SurahList;
         public static CheikhDescription[] CheikhList;
         public static TranslationDescription[] TranslationsList;
+        public static MushafDataManager MushafDataManager;
 
         // Settings
         public static MySettings Settings;

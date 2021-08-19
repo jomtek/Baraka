@@ -14,6 +14,8 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -38,6 +40,9 @@
     <ApplicationIcon>app-logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.90\lib\net461\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="DynamicExpresso.Core, Version=2.3.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DynamicExpresso.Core.2.3.1\lib\net461\DynamicExpresso.Core.dll</HintPath>
     </Reference>
@@ -75,7 +80,11 @@
       <HintPath>..\packages\QuickConverter.1.2.5\lib\net40\QuickConverter.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.114.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.114.0\lib\net46\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
@@ -130,13 +139,18 @@
     <Compile Include="Data\Descriptions\VerseDescription.cs" />
     <Compile Include="Data\LoadedData.cs" />
     <Compile Include="Data\MySettings.cs" />
+    <Compile Include="Data\Quran\MushafDataContainer.cs" />
+    <Compile Include="Data\Quran\MushafDataManager.cs" />
     <Compile Include="Data\SerializationUtils.cs" />
     <Compile Include="Data\Descriptions\SurahDescription.cs" />
     <Compile Include="Data\Descriptions\SurahRevelationType.cs" />
-    <Compile Include="Data\Surah\HizbDescription.cs" />
-    <Compile Include="Data\Surah\SurahVersion.cs" />
-    <Compile Include="Data\Surah\SurahVersionConfig.cs" />
+    <Compile Include="Data\Quran\HizbDescription.cs" />
+    <Compile Include="Data\Quran\SurahVersion.cs" />
+    <Compile Include="Data\Quran\SurahVersionConfig.cs" />
     <Compile Include="Data\TanzilTranslationParser.cs" />
+    <Compile Include="Forms\PlaygroundWindow.xaml.cs">
+      <DependentUpon>PlaygroundWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forms\QuranTranslationsManagerWindow.xaml.cs">
       <DependentUpon>QuranTranslationsManagerWindow.xaml</DependentUpon>
     </Compile>
@@ -175,9 +189,16 @@
     <Compile Include="Theme\UserControls\Dashboard\BarakaDashboardItem.xaml.cs">
       <DependentUpon>BarakaDashboardItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Theme\UserControls\Quran\Display\ISurahDisplayer.cs" />
+    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\BarakaMadinaPage.xaml.cs">
+      <DependentUpon>BarakaMadinaPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Theme\UserControls\Quran\Display\Mushaf\BarakaMushafSurahDisplayer.xaml.cs">
       <DependentUpon>BarakaMushafSurahDisplayer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\MadaniMushafLine.cs" />
+    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\MadaniMushafVerse.cs" />
+    <Compile Include="Theme\UserControls\Quran\Display\QuranDisplayMode.cs" />
     <Compile Include="Theme\UserControls\Quran\Display\Translated\BarakaBookmark.xaml.cs">
       <DependentUpon>BarakaBookmark.xaml</DependentUpon>
     </Compile>
@@ -210,6 +231,8 @@
     </Compile>
     <Compile Include="Utils\Audio.cs" />
     <Compile Include="Utils\Converters\RectangleConverter.cs" />
+    <Compile Include="Utils\Quran\DB.cs" />
+    <Compile Include="Utils\Quran\General.cs" />
     <Compile Include="Utils\UI\BorderClipConverter.cs" />
     <Compile Include="Utils\Emergency.cs" />
     <Compile Include="Utils\General.cs" />
@@ -241,6 +264,9 @@
       <DependentUpon>SurahBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Theme\UserControls\ScrollAccuracyMode.cs" />
+    <Page Include="Forms\PlaygroundWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Forms\QuranTranslationsManagerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -286,6 +312,9 @@
     </Page>
     <Page Include="Theme\UserControls\Dashboard\BarakaDashboardItem.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\UserControls\Quran\Display\Mushaf\BarakaMadinaPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Theme\UserControls\Quran\Display\Mushaf\BarakaMushafSurahDisplayer.xaml">
@@ -450,6 +479,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="Fonts\Al Qalam Quran.ttf" />
+    <Resource Include="Fonts\Mushaf\QCF_P054.TTF" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -472,5 +502,12 @@
       <MoveToLibFolder Include="$(OutputPath)*.dll ; $(OutputPath)*.pdb ; $(OutputPath)*.xml" />
     </ItemGroup>
     <Move SourceFiles="@(MoveToLibFolder)" DestinationFolder="$(OutputPath)lib" OverwriteReadOnlyFiles="true" />
+  </Target>
+  <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.114.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.114.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Ce projet fait référence à des packages NuGet qui sont manquants sur cet ordinateur. Utilisez l'option de restauration des packages NuGet pour les télécharger. Pour plus d'informations, consultez http://go.microsoft.com/fwlink/?LinkID=322105. Le fichier manquant est : {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.114.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.114.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets'))" />
   </Target>
 </Project>
