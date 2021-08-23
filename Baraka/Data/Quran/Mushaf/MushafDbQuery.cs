@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
+namespace Baraka.Data.Quran.Mushaf
 {
-    // TODO: think about moving this to Data/Quran
-    public class MadaniMushafLine
+    public class MushafDbQuery
     {
         public int page { get; set; }
-        public int line { get; set; }
         public int sura { get; set; }
         public int ayah { get; set; }
         public string text { get; set; }
+        public int line { get; set; } = -1; // Optional
     }
 }

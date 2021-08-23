@@ -12,6 +12,8 @@ using System.Windows.Threading;
 using Baraka.Data.Quran;
 using Baraka.Theme.UserControls.Quran.Display;
 using Baraka.Forms;
+using Baraka.Data.Quran.Mushaf;
+using Baraka.Theme.UserControls.Quran.Display.Mushaf;
 
 namespace Baraka
 {
@@ -179,8 +181,9 @@ namespace Baraka
                 TitleTB.Margin.Bottom
             );
 
-            LoadedData.Settings =
+            var c =
                 SerializationUtils.Deserialize<MySettings>("settings.ser");
+            LoadedData.Settings = c;
 
             if (!LoadedData.Settings.ShowWelcomeWindow)
             {
@@ -233,7 +236,9 @@ namespace Baraka
             MainPB.Progress = 0.6;
 
             ProgressTB.Text = "chargement du Mushaf...";
-            LoadedData.MushafDataManager = new MushafDataManager();
+            LoadedData.MushafFontManager = new MushafFontManager();
+            LoadedData.MushafGlyphProvider = new MushafGlyphProvider();
+            LoadedData.MushafGlyphProvider.LoadGlyphInfo(); // TEMPORARY
 
             // Deserialize settings
             ProgressTB.Text = "chargement des marque-pages...";

@@ -139,8 +139,8 @@
     <Compile Include="Data\Descriptions\VerseDescription.cs" />
     <Compile Include="Data\LoadedData.cs" />
     <Compile Include="Data\MySettings.cs" />
-    <Compile Include="Data\Quran\MushafDataContainer.cs" />
-    <Compile Include="Data\Quran\MushafDataManager.cs" />
+    <Compile Include="Data\Quran\Mushaf\MushafFontManager.cs" />
+    <Compile Include="Data\Quran\Mushaf\MushafDbQuery.cs" />
     <Compile Include="Data\SerializationUtils.cs" />
     <Compile Include="Data\Descriptions\SurahDescription.cs" />
     <Compile Include="Data\Descriptions\SurahRevelationType.cs" />
@@ -196,8 +196,9 @@
     <Compile Include="Theme\UserControls\Quran\Display\Mushaf\BarakaMushafSurahDisplayer.xaml.cs">
       <DependentUpon>BarakaMushafSurahDisplayer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\MadaniMushafLine.cs" />
-    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\MadaniMushafVerse.cs" />
+    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\MushafGlyphProvider.cs" />
+    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\MushafGlyphDescription.cs" />
+    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\MushafGlyphType.cs" />
     <Compile Include="Theme\UserControls\Quran\Display\QuranDisplayMode.cs" />
     <Compile Include="Theme\UserControls\Quran\Display\Translated\BarakaBookmark.xaml.cs">
       <DependentUpon>BarakaBookmark.xaml</DependentUpon>

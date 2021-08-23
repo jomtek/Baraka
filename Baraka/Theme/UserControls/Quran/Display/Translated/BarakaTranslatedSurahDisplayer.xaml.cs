@@ -211,8 +211,6 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
                 ScrollToTop();
                 VersesSP.Children.Clear();
 
-                var mushafData = LoadedData.MushafDataManager.VerseLookup($"sura={surah.SurahNumber}");
-
                 // Basmala
                 if (surah.HasBasmala())
                 {
@@ -225,7 +223,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
                     if (LoadedData.Settings.SurahVersionConfig.DisplayArabic)
                     {
                         verseBox.LoadArabicVersion(
-                            LoadedData.MushafDataManager.FindPageFontFamily(0),
+                            LoadedData.MushafFontManager.FindPageFontFamily(0),
                             WebUtility.HtmlDecode("&#64337;&#64338;&#64339;&#64340;&#64341;"), // Basmala glyphs from Al-Fatiha
                             1
                         );
@@ -241,6 +239,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
                     var verseBox = new BarakaVerse(surah, i, loadLastBookmark);
                     verseBox.Initialize();
 
+                    /*
                     // Fill in the Mushaf data (if necessary)
                     if (LoadedData.Settings.SurahVersionConfig.DisplayArabic)
                     {
@@ -252,6 +251,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
 
                         verseBox.LoadArabicVersion(family, glyphs, associatedMushafData.page);
                     }
+                    */
 
                     if (!(i == 0 && !Surah.HasBasmala())) // TODO: perhaps simplify this condition?
                     {
