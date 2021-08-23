@@ -8,6 +8,8 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.ComponentModel;
+using Baraka.Theme.UserControls.Quran.Display.Mushaf;
+using System.Windows.Input;
 
 namespace Baraka.Theme.UserControls.Quran.Display.Translated
 {
@@ -19,7 +21,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
         public SurahDescription Surah { get; private set; }
         public int Number { get; private set; }
 
-        private List<Run> _arabicInlines;
+        private List<Run> _wordInlines;
         private bool _loadLastBookmark;
 
         #region Events
@@ -37,32 +39,46 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
             Surah = surah;
             Number = number;
 
-            _arabicInlines = new List<Run>();
+            _wordInlines = new List<Run>();
             _loadLastBookmark = loadLastBookmark;
         }
 
-        public void LoadArabicVersion(FontFamily pageFamily, string glyphs, int page)
+        public void LoadArabicVersion(FontFamily pageFamily, List<MushafGlyphDescription> glyphs, int page)
         {
             ArabicTB.FontFamily = pageFamily;
 
-            foreach (char glyph in glyphs) // Works the same way as the Mushaf (one glyph = one word with p.s. font)
+            // Works the same way as the Mushaf (one glyph = one word/symbol with p.s. font)
+            foreach (MushafGlyphDescription glyph in glyphs)
             {
-                var run = new Run(glyph.ToString());
-                ArabicTB.Inlines.Add(run);
-
                 // TODO: do not let ayah number sit on a line by itself
-
-
-                // Do not add stopping signs to the inlines list
-                double measure = Utils.General.MeasureText(glyph.ToString(), ArabicTB);
-                if (measure > 10)
+                
+                var run = new Run(glyph.DecodedData.ToString());
+                switch (glyph.Type)
                 {
-                    _arabicInlines.Add(run);
+                    case MushafGlyphType.STOPPING_SIGN:
+                        run.Foreground = Brushes.CornflowerBlue;
+                        break;
+                    case MushafGlyphType.SUJOOD:
+                        //run.Background = Brushes.Gray;
+                        run.ToolTip = "Prosternez-vous (sajada) lorsque vous rencontrez ce symbôle";
+                        run.Cursor = Cursors.Hand;
+                        break;
+                    case MushafGlyphType.RUB_EL_HIZB:
+                        //run.Background = Brushes.Yellow;
+                        run.ToolTip = "Délimitation d'un quart de hizb";
+                        run.Cursor = Cursors.Hand;
+                        break;
+                    case MushafGlyphType.END_OF_AYAH:
+                        //run.Background = Brushes.CornflowerBlue;
+                        run.ToolTip = $"Verset {glyph.AssociatedVerse.Number}, page {page}";
+                        run.Cursor = Cursors.Hand;
+                        break;
+                    default: // Word
+                        _wordInlines.Add(run);
+                        break;
                 }
-                else
-                {
-                    run.Foreground = Brushes.DeepSkyBlue;
-                }
+
+                ArabicTB.Inlines.Add(run);
             }
 
             if (page == 1 || page == 2)
@@ -130,13 +146,13 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
 
             ClearHighlighting();
 
-            Run inline = _arabicInlines[index];
+            Run inline = _wordInlines[index];
             inline.Background = Brushes.LightGoldenrodYellow;
         }
 
         public void ClearHighlighting()
         {
-            foreach (Run inline in _arabicInlines)
+            foreach (Run inline in _wordInlines)
             {
                 inline.Background = Brushes.Transparent;
             }

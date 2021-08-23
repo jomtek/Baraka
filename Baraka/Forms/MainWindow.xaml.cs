@@ -108,13 +108,13 @@ namespace Baraka
         }
         #endregion
 
-        #region Events
+        #region Handlers
         #region Window events
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Player.Dispose();
 
-            // Serialize stuff that be serialized
+            // Serialize stuff that should be serialized
             //
             if (LoadedData.Settings.ClearAudioCache)
             {
@@ -130,6 +130,9 @@ namespace Baraka
             SerializationUtils.Serialize(LoadedData.Settings, "settings.ser");
             SerializationUtils.Serialize(LoadedData.Bookmarks, "bookmarks.ser");
             SerializationUtils.Serialize(LoadedData.AudioCache.Content, "data/cache.ser");
+
+            // DEBUG
+            //SerializationUtils.Serialize(LoadedData.MushafGlyphProvider.GlyphInfoDict, "glyph_info.ser");
 
             // Exit
             Environment.Exit(0);

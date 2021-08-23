@@ -2,6 +2,7 @@
 using Baraka.Data.Descriptions;
 using Baraka.Data.Quran.Mushaf;
 using Dapper;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
@@ -14,16 +15,14 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
     public class MushafGlyphProvider
     {
         // (page [seed=1], decoded glyph) >> glyph description
-        private Dictionary<(int, char), MushafGlyphDescription> _glyphInfoDict;
-
-        public MushafGlyphProvider()
-        {
-            _glyphInfoDict = new Dictionary<(int, char), MushafGlyphDescription>();
-        }
+        public Dictionary<(int, char), MushafGlyphDescription> GlyphInfoDict { get; set; }
 
         // `page` starts from 1
         public IEnumerable<List<MushafGlyphDescription>> RetrievePage(int page)
         {
+            if (GlyphInfoDict == null)
+                throw new ArgumentException();
+
             List<MushafDbQuery> lines;
             using (IDbConnection cnn = new SQLiteConnection(Utils.Quran.DB.LoadConnectionString("MadaniQuran")))
             {
@@ -36,7 +35,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
                 var glyphs = new List<MushafGlyphDescription>(); // Glyphs for current line
                 foreach (char glyph in WebUtility.HtmlDecode(line.text))
                 {
-                    glyphs.Add(_glyphInfoDict[(page, glyph)]);
+                    glyphs.Add(GlyphInfoDict[(page, glyph)]);
                 }
 
                 yield return glyphs;
@@ -44,8 +43,13 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
         }
 
         // `sura` starts from 1
-        public IEnumerable<List<MushafGlyphDescription>> RetrieveSurah(int sura)
+        public List<List<MushafGlyphDescription>> RetrieveSurah(int sura)
         {
+            if (GlyphInfoDict == null)
+                throw new ArgumentException();
+
+            var glyphs = new List<List<MushafGlyphDescription>>();
+
             List<MushafDbQuery> verses;
             using (IDbConnection cnn = new SQLiteConnection(Utils.Quran.DB.LoadConnectionString("MadaniQuran")))
             {
@@ -55,14 +59,16 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
 
             foreach (MushafDbQuery verse in verses)
             {
-                var glyphs = new List<MushafGlyphDescription>(); // Glyphs for current verse
+                var currentVerseGlyphs = new List<MushafGlyphDescription>(); // Glyphs for current verse
                 foreach (char glyph in WebUtility.HtmlDecode(verse.text))
                 {
-                    glyphs.Add(_glyphInfoDict[(verse.page, glyph)]);
+                    currentVerseGlyphs.Add(GlyphInfoDict[(verse.page, glyph)]);
                 }
 
-                yield return glyphs;
+                glyphs.Add(currentVerseGlyphs);
             }
+
+            return glyphs;
         }
 
         #region DEBUG
@@ -125,8 +131,8 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
                                 qres = cnn.Query<int>(query, new DynamicParameters()).ToList();
                             };
 
-                            // Current glyph is at position 0 and contains a rub-al-hizb mark
-                            if (qres.Count != 0 && glyphPos == 0 && verse.sura != 1)
+                            // Current glyph is at position 0, isn't 1:x nor x:1, and, by deduction, contains a rub-al-hizb mark
+                            if (qres.Count != 0 && glyphPos == 0 && verse.sura != 1 && verse.ayah != 1)
                             {
                                 glyphType = MushafGlyphType.RUB_EL_HIZB;
                             }
@@ -147,8 +153,8 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
                         }
 
                         // Fill dictionary
-                        var description = new MushafGlyphDescription(glyph, associatedVerse, glyphType);
-                        _glyphInfoDict.Add((verse.page, glyph), description);
+                        var description = new MushafGlyphDescription(glyph, associatedVerse, glyphType, page);
+                        GlyphInfoDict.Add((verse.page, glyph), description);
 
                         glyphPos++;
                     }

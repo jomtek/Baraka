@@ -222,9 +222,17 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
 
                     if (LoadedData.Settings.SurahVersionConfig.DisplayArabic)
                     {
+                        // Use the first verse from Al-Fatiha (i.e. basmala)
+                        List<MushafGlyphDescription> basmalaGlyphs = null;
+                        foreach (var verse in LoadedData.MushafGlyphProvider.RetrieveSurah(1))
+                        {
+                            basmalaGlyphs = verse;
+                            break;
+                        }
+
                         verseBox.LoadArabicVersion(
-                            LoadedData.MushafFontManager.FindPageFontFamily(0),
-                            WebUtility.HtmlDecode("&#64337;&#64338;&#64339;&#64340;&#64341;"), // Basmala glyphs from Al-Fatiha
+                            LoadedData.MushafFontManager.FindPageFontFamily(1),
+                            basmalaGlyphs,
                             1
                         );
                     }
@@ -233,25 +241,21 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
                 }
 
                 // Load verses
+                var mushafData = LoadedData.MushafGlyphProvider.RetrieveSurah(surah.SurahNumber);
                 for (int i = 0; i < surah.NumberOfVerses; i++)
                 {
                     // Verse box
                     var verseBox = new BarakaVerse(surah, i, loadLastBookmark);
                     verseBox.Initialize();
-
-                    /*
-                    // Fill in the Mushaf data (if necessary)
+                    
+                    // Fill in the Mushaf data for current verse (if necessary)
                     if (LoadedData.Settings.SurahVersionConfig.DisplayArabic)
                     {
-                        var description = new VerseDescription(verseBox.Surah, verseBox.Number + 1);
-                        var associatedMushafData = mushafData[description];
+                        List<MushafGlyphDescription> glyphs = mushafData.ElementAt(i);
 
-                        FontFamily family = LoadedData.MushafDataManager.FindPageFontFamily(associatedMushafData.page - 1);
-                        string glyphs = WebUtility.HtmlDecode(associatedMushafData.text);
-
-                        verseBox.LoadArabicVersion(family, glyphs, associatedMushafData.page);
+                        FontFamily family = LoadedData.MushafFontManager.FindPageFontFamily(glyphs[0].Page);
+                        verseBox.LoadArabicVersion(family, glyphs, glyphs[0].Page);
                     }
-                    */
 
                     if (!(i == 0 && !Surah.HasBasmala())) // TODO: perhaps simplify this condition?
                     {

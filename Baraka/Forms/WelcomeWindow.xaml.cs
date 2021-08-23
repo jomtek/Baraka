@@ -233,18 +233,21 @@ namespace Baraka
             var cacheContent =
                 SerializationUtils.Deserialize<Dictionary<string, byte[]>>("data/cache.ser");
             LoadedData.AudioCache = new AudioCacheManager(cacheContent);
+            // DEBUG -- LoadedData.AudioCache = new AudioCacheManager(new Dictionary<string, byte[]>());
             MainPB.Progress = 0.6;
 
             ProgressTB.Text = "chargement du Mushaf...";
             LoadedData.MushafFontManager = new MushafFontManager();
             LoadedData.MushafGlyphProvider = new MushafGlyphProvider();
-            LoadedData.MushafGlyphProvider.LoadGlyphInfo(); // TEMPORARY
+            //LoadedData.MushafGlyphProvider.LoadGlyphInfo(); // TEMPORARY
+            LoadedData.MushafGlyphProvider.GlyphInfoDict =
+                SerializationUtils.Deserialize<Dictionary<(int, char), MushafGlyphDescription>>("data/quran/mushaf/glyph_info.ser");
 
             // Deserialize settings
             ProgressTB.Text = "chargement des marque-pages...";
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(50);
-            LoadedData.Bookmarks =
-                SerializationUtils.Deserialize<List<int>>("bookmarks.ser");
+            // DEBUG -- LoadedData.Bookmarks = (new int[114]).ToList();
+            LoadedData.Bookmarks = SerializationUtils.Deserialize<List<int>>("bookmarks.ser");
             
             //  // Finish
             ProgressTB.Text = $"préparation de l'interface...";

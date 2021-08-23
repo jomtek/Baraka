@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Baraka.Data.Descriptions
 {
+    [Serializable]
     public class VerseDescription
     {
         public SurahDescription Surah { get; set; }
