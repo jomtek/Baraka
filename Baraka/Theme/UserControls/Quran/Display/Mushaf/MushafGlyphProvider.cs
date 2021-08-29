@@ -33,9 +33,34 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
             foreach (MushafDbQuery line in lines)
             {
                 var glyphs = new List<MushafGlyphDescription>(); // Glyphs for current line
-                foreach (char glyph in WebUtility.HtmlDecode(line.text))
+                string decodedLine = WebUtility.HtmlDecode(line.text);
+
+                if (line.ayah == 0)
                 {
-                    glyphs.Add(GlyphInfoDict[(page, glyph)]);
+                    // These are the sura transition glyphs
+                    // They are meant to be displayed using QCF_BSML.TTF
+
+                    if (decodedLine.Length == 2) // Sura name
+                    {
+                        foreach (char glyph in decodedLine)
+                        {
+                            glyphs.Add(new MushafGlyphDescription(glyph, null, MushafGlyphType.SURA_NAME, page));
+                        }
+                    }
+                    else if (decodedLine.Length == 3 || decodedLine.Length == 4) // Basmala
+                    {
+                        foreach (char glyph in decodedLine)
+                        {
+                            glyphs.Add(new MushafGlyphDescription(glyph, null, MushafGlyphType.BASMALA, page));
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (char glyph in decodedLine)
+                    {
+                        glyphs.Add(GlyphInfoDict[(page, glyph)]);
+                    }
                 }
 
                 yield return glyphs;
@@ -72,11 +97,11 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
         }
 
         #region DEBUG
-        // This method is TEMPORARY and will be wiped out soon
-        public void LoadGlyphInfo()
+        // This method is UNUSED and is kept here only for maintenance purposes
+        // This method generates a dictionary which contains information about the nature of each single glyph
+        // Information is deducted using various techniques, such as counting, measuring text or even using references
+        private void LoadGlyphInfo()
         {
-            // Load _glyphInfoDict
-
             for (int page = 1; page < 605; page++)
             {
                 List<MushafDbQuery> verses;
@@ -117,9 +142,9 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
                         {
                             glyphType = MushafGlyphType.END_OF_AYAH;
                         }
-                        // Associated verse is sujood and glyph is just before the last position
                         else if (LoadedData.SujoodVerses.Contains(associatedVerse) && glyphPos == glyphArray.Length - 2)
                         {
+                            // Associated verse is sujood and glyph is just before the last position
                             glyphType = MushafGlyphType.SUJOOD;
                         }
                         else
@@ -131,9 +156,9 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
                                 qres = cnn.Query<int>(query, new DynamicParameters()).ToList();
                             };
 
-                            // Current glyph is at position 0, isn't 1:x nor x:1, and, by deduction, contains a rub-al-hizb mark
                             if (qres.Count != 0 && glyphPos == 0 && verse.sura != 1 && verse.ayah != 1)
                             {
+                                // Current glyph is at position 0, isn't part of 1:x nor x:1, and, by deduction, is a rub-al-hizb mark
                                 glyphType = MushafGlyphType.RUB_EL_HIZB;
                             }
                             else
@@ -160,10 +185,8 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
                     }
                 }
 
-                System.Console.WriteLine($"Done with page {page}");
+                System.Console.WriteLine($"Done with page {page}"); // Log
             }
-
-            System.Console.WriteLine("done completely");
         }
         #endregion
     }

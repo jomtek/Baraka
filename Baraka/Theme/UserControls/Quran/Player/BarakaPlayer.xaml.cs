@@ -27,6 +27,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
     public partial class BarakaPlayer : UserControl
     {
         private bool _playing = false;
+        private bool _isOpened = false;
         private bool _loopMode = false;
 
         // UI relative
@@ -66,6 +67,12 @@ namespace Baraka.Theme.UserControls.Quran.Player
                     RefreshPlayPauseBtn();
                 }
             }
+        }
+
+        [Category("Baraka")]
+        public bool IsOpened
+        {
+            get { return _isOpened; }
         }
 
         [Category("Baraka")]
@@ -366,10 +373,11 @@ namespace Baraka.Theme.UserControls.Quran.Player
             SelectorGrid.Visibility = Visibility.Visible;
             SelectorGrid.Opacity = 0;
 
+            _isOpened = true;
+
             await SwitchTab(tab, false);
             await Task.Delay(10);
             ((Storyboard)this.Resources["PlayerOpenStory"]).Begin();
-
 
             PlayPauseBTN.IsEnabled = false;
             PlayPauseBTN.Opacity = 0.4;
@@ -377,6 +385,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
         private void ClosePlayer()
         {
+            _isOpened = false;
             _closing = true;
             ((Storyboard)this.Resources["PlayerCloseStory"]).Begin();
 

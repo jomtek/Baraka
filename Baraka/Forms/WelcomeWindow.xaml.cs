@@ -228,18 +228,19 @@ namespace Baraka
                 SerializationUtils.Deserialize<TranslationDescription[]>("data/quran/translations_info.ser");
             MainPB.Progress = 0.4;
 
-            ProgressTB.Text = "chargement du cache...";
+            ProgressTB.Text = "chargement du cache audio...";
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(50);
-            var cacheContent =
-                SerializationUtils.Deserialize<Dictionary<string, byte[]>>("data/cache.ser");
-            LoadedData.AudioCache = new AudioCacheManager(cacheContent);
-            // DEBUG -- LoadedData.AudioCache = new AudioCacheManager(new Dictionary<string, byte[]>());
+            //var cacheContent =
+            //    SerializationUtils.Deserialize<Dictionary<string, byte[]>>("data/cache.ser");
+            //LoadedData.AudioCache = new AudioCacheManager(cacheContent);
+            LoadedData.AudioCache = new AudioCacheManager(new Dictionary<string, byte[]>());
             MainPB.Progress = 0.6;
 
             ProgressTB.Text = "chargement du Mushaf...";
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
             LoadedData.MushafFontManager = new MushafFontManager();
             LoadedData.MushafGlyphProvider = new MushafGlyphProvider();
-            //LoadedData.MushafGlyphProvider.LoadGlyphInfo(); // TEMPORARY
+            //DEBUG -- LoadedData.MushafGlyphProvider.LoadGlyphInfo();
             LoadedData.MushafGlyphProvider.GlyphInfoDict =
                 SerializationUtils.Deserialize<Dictionary<(int, char), MushafGlyphDescription>>("data/quran/mushaf/glyph_info.ser");
 
@@ -272,10 +273,11 @@ namespace Baraka
 
             instance.Player.ChangeSelectedCheikh(defaultCheikh);
             await instance.Player.ChangeSelectedSurahAsync(defaultSurah, true, true, true);
-
+            
             if (LoadedData.Settings.SurahVersionConfig.ShowMushaf())
             {
                 await instance.ChangeDisplayModeAsync(QuranDisplayMode.MUSHAF);
+                instance.MushafSurahDisplayer.ActualPage = 603;
             }
             else
             {

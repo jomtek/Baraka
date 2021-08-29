@@ -1,24 +1,34 @@
 ﻿<UserControl x:Class="Baraka.Theme.UserControls.Quran.Display.Mushaf.BarakaMushafSurahDisplayer"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:qc="http://QuickConverter.CodePlex.com/"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Display.Mushaf"
              xmlns:ui="clr-namespace:Baraka.Utils.UI"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             d:DesignWidth="940" d:DesignHeight="800"
+             SizeChanged="UserControl_SizeChanged" KeyUp="UserControl_KeyUp">
 
-    <Grid>
-        <Grid.Background>
-            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionTextColorKey}}"/>
-        </Grid.Background>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="5" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+    <DockPanel>
+        <StackPanel x:Name="BookNavigationSP" DockPanel.Dock="Bottom" Height="25" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
+            <Button x:Name="NextPageBTN" Content="Page suivante" Padding="10,1" Click="NextPageBTN_Click" Focusable="False"/>
+            <TextBlock x:Name="CurrentPageTB" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10,0"><Run Text="Pag"/><Run Text="es"/><Run Text=" 1"/><Run Text="-"/><Run Text="2"/></TextBlock>
+            <Button x:Name="LastPageBTN" Content="Page précédente" Padding="10,1" IsEnabled="False" Click="LastPageBTN_Click" Focusable="False"/>
+        </StackPanel>
+        <Grid x:Name="BookGrid" DockPanel.Dock="Top" Margin="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="LeftGrid" Grid.Column="0" Margin="0,0,-2,0">
+                <local:BarakaMadinaPage x:Name="LeftPage" Height="Auto" Width="Auto" Side="LEFT" MouseDoubleClick="LeftPage_MouseDoubleClick" Margin="0" />
+            </Grid>
+            <Grid x:Name="RightGrid" Grid.Column="1" Margin="-2,0,0,0">
+                <local:BarakaMadinaPage x:Name="RightPage" Height="Auto" Width="Auto" Side="RIGHT" Margin="0" />
+            </Grid>
+        </Grid>
 
-        <local:BarakaMadinaPage x:Name="LeftPage" Grid.Column="0" Width="Auto" Side="LEFT" Margin="0" MouseDoubleClick="LeftPage_MouseDoubleClick"/>
-        <local:BarakaMadinaPage x:Name="RightPage" Grid.Column="2" Width="Auto" Side="RIGHT" Margin="0"/>
-    </Grid>
+    </DockPanel>
 
 </UserControl>

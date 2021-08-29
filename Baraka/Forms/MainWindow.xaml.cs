@@ -24,7 +24,7 @@ namespace Baraka
     /// </summary>
     public partial class MainWindow : Window
     {
-        private double _mainGridScale = 1.1;
+        private double _zoomScale = 1;
 
         #region Events
         [Category("Baraka")]
@@ -144,12 +144,28 @@ namespace Baraka
             ApplyScale(true);
         }
 
-        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             // Prevent tab navigation
             if (e.Key == Key.Tab)
             {
                 e.Handled = true;
+            }
+            // Manage book navigation
+            else if ((e.Key == Key.Left || e.Key == Key.Right) && !Player.IsOpened)
+            {
+                await Task.Delay(150);
+
+                if (Keyboard.IsKeyDown(e.Key))
+                {
+                    _intensity *= 1.01;
+                    await MushafSurahDisplayer.NaturalBrowse(CheckIfNext(e.Key), Convert.ToInt32(2 * _intensity));
+                }
+                else
+                {
+                    _intensity = 1;
+                    await MushafSurahDisplayer.NaturalBrowse(CheckIfNext(e.Key));
+                }
             }
         }
 
@@ -254,40 +270,57 @@ namespace Baraka
         #endregion
 
         #region Zoom
-        private double GetDisplayerWidth()
+        private double GetTranslatedDisplayerWidth()
         {
             return TranslatedSurahDisplayer.ActualWidth * ScaleTransformer.ScaleX;
         }
         private void SetMinWidth() // Set minimum width
         {
-            MinWidth = GetDisplayerWidth() + Dashboard.ActualWidth + 50;
+            MinWidth = GetTranslatedDisplayerWidth() + Dashboard.ActualWidth + 50;
         }
 
-        private void EditScale(double change)
+        private void EditScale(double change, bool mushaf)
         {
-            var final = _mainGridScale + change;
+            var final = _zoomScale + change;
 
             // Zoom limitations
-            if (final >= 1 && final < 1.7)
+            if (!mushaf && (final < 1 || final > 1.7))
             {
-                _mainGridScale += change;
+                return;
+            }
+            else
+            {
+                _zoomScale += change;
+            }
+
+            if (mushaf && _zoomScale < 1)
+            {
+                _zoomScale = 1;
             }
         }
 
         // TODO
-        private void ApplyScale(bool recursive = false)
+        private void ApplyScale(bool mushaf, bool recursive = false)
         {
-            if (GetDisplayerWidth() + 50 + Dashboard.ActualWidth < ActualWidth)
+            if (mushaf) // Mushaf displayer
             {
-                ScaleTransformer.ScaleX = _mainGridScale;
-                ScaleTransformer.ScaleY = _mainGridScale;
+                Console.WriteLine("yes");
+                MushafSurahDisplayer.ApplyScale(_zoomScale);
             }
-            else
+            else // Translated displayer
             {
-                EditScale(-0.025);
-                ScaleTransformer.ScaleX = _mainGridScale;
-                ScaleTransformer.ScaleY = _mainGridScale;
-                if (recursive) ApplyScale(true);
+                if (GetTranslatedDisplayerWidth() + 50 + Dashboard.ActualWidth < ActualWidth)
+                {
+                    ScaleTransformer.ScaleX = _zoomScale;
+                    ScaleTransformer.ScaleY = _zoomScale;
+                }
+                else
+                {
+                    EditScale(-0.025, mushaf);
+                    ScaleTransformer.ScaleX = _zoomScale;
+                    ScaleTransformer.ScaleY = _zoomScale;
+                    if (recursive) ApplyScale(true);
+                }
             }
         }
 
@@ -296,16 +329,18 @@ namespace Baraka
             if (Keyboard.Modifiers != ModifierKeys.Control)
                 return;
 
+            bool mushaf = LoadedData.Settings.SurahVersionConfig.ShowMushaf();
+
             if (e.Delta > 0)
             {
-                EditScale(0.025);
+                EditScale(0.025, mushaf);
             }
             else if (e.Delta < 0)
             {
-                EditScale(-0.025);
+                EditScale(-0.025, mushaf);
             }
 
-            ApplyScale();
+            ApplyScale(mushaf);
             SetMinWidth();
         }
         #endregion
@@ -315,18 +350,17 @@ namespace Baraka
         {
             if (mode == QuranDisplayMode.MUSHAF)
             {
-                MessageBox.Show("Nous sommes désolés: le mode Mus'haf n'est pas encore disponible.\n" +
+                /*MessageBox.Show("Nous sommes désolés: le mode Mus'haf n'est pas encore disponible.\n" +
                     "Cependant, nous affichons quand-même la version arabe pour servir vos ~petits yeux~\n\n",
-                    "Message du développeur");
-            /*    TranslatedSurahDisplayer.UnloadActualSurah();
+                    "Message du développeur");*/
+                //TranslatedSurahDisplayer.UnloadActualSurah();
                 await MushafSurahDisplayer.LoadSurahAsync(Player.SelectedSurah);
                 
                 TranslatedSurahDisplayer.Visibility = Visibility.Collapsed;
                 MushafSurahDisplayer.Visibility = Visibility.Visible;
-            */
+            
             }
-
-            //else if (mode == QuranDisplayMode.TRANSLATED)
+            else if (mode == QuranDisplayMode.TRANSLATED)
             {
                 MushafSurahDisplayer.UnloadActualSurah();
                 await TranslatedSurahDisplayer.LoadSurahAsync(Player.SelectedSurah);
@@ -349,5 +383,22 @@ namespace Baraka
             await TranslatedSurahDisplayer.ScrollToVerseAsync(verse.Number, searchRes);
         }
         #endregion
+
+        private async void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+            // TODO: maybe this part is temporary
+            
+        }
+
+        private bool CheckIfNext(Key key)
+        {
+            return key == Key.Left;
+        }
+
+        private double _intensity = 1;
+        private async void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+           
+        }
     }
 }

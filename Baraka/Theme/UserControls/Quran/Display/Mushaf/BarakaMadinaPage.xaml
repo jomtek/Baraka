@@ -1,25 +1,68 @@
 ﻿<UserControl x:Class="Baraka.Theme.UserControls.Quran.Display.Mushaf.BarakaMadinaPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:qc="http://QuickConverter.CodePlex.com/"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Display.Mushaf" xmlns:ui="clr-namespace:Baraka.Utils.UI"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             d:DesignWidth="480" d:DesignHeight="780" SizeChanged="UserControl_SizeChanged" ClipToBounds="True" Width="480" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave">
 
-    <UserControl.Resources>
-        
-    </UserControl.Resources>
+    <Grid x:Name="GridComponent">
+        <Image x:Name="ImageComponent" Source="/Baraka;component/Images/default_background.png" Stretch="Fill"/>
+        <Grid x:Name="AnnotationHelperGrid">
+            <!-- 15 lines -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+        </Grid>
+        <ScrollViewer x:Name="LinesContainerSV" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" PreviewMouseWheel="LinesContainerSV_PreviewMouseWheel">
+            <Grid x:Name="LinesContainerGrid">
+                <!-- 15 lines -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-    <Border x:Name="BorderComponent" Background="White" BorderThickness="5">
-        <Border.BorderBrush>
-            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuHighlightColorKey}}"/>
-        </Border.BorderBrush>
+                <Grid.LayoutTransform>
+                    <ScaleTransform x:Name="ScaleTransformer" ScaleX="1" ScaleY="1" />
+                </Grid.LayoutTransform>
+            </Grid>
+        </ScrollViewer>
 
-        <Viewbox Margin="10,20,10,-15">
-            <Viewbox.LayoutTransform>
-                <ScaleTransform x:Name="ScaleTransformer" ScaleX="2.5" ScaleY="1.6" />
-            </Viewbox.LayoutTransform>
-            <TextBlock x:Name="PageTB" TextWrapping="NoWrap" TextAlignment="Center" FlowDirection="RightToLeft" FontFamily="/Baraka;component/Fonts/Mushaf/#QCF_P054" Foreground="Black" Margin="0" TextDecorations="{x:Null}"><Run Text="ﭑﭒﭓﭔﭕﭖﭗﭘﭙﭚﭛ"/><LineBreak/><Run Text="ﭜﭝﭞﭟﭠﭡﭢﭣﭤﭥﭦ"/><LineBreak/><Run Text="ﭧﭨﭩﭪﭫﭬﭭﭮﭯﭰﭱﭲ"/><LineBreak/><Run Text="ﭳﭴﭵﭶﭷﭸﭹﭺﭻﭼ"/><LineBreak/><Run Text="ﭽﭾﭿﮀﮁﮂﮃﮄﮅﮆﮇﮈ"/><LineBreak/><Run Text="ﮉﮊﮋﮌﮍﮎﮏﮐﮑﮒ"/><LineBreak/><Run Text="ﮓﮔﮕﮖﮗﮘﮙﮚﮛﮜﮝ"/><LineBreak/><Run Text="ﮞﮟﮠﮡﮢﮣﮤﮥﮦﮧﮨ"/><LineBreak/><Run Text="ﮩﮪﮫﮬﮭﮮﮯﮰﮱﯓﯔﯕﯖ"/><LineBreak/><Run Text="ﯗﯘﯙﯚﯛﯜﯝﯞﯟﯠ"/><LineBreak/><Run Text="ﯡﯢﯣﯤﯥﯦﯧﯨﯩﯪ"/><LineBreak/><Run Text="ﯫﯬﯭﯮﯯﯰﯱﯲ"/><LineBreak/><Run Text="ﯳﯴﯵﯶﯷﯸﯹﯺﯻﯼ"/><LineBreak/><Run Text="ﯽﯾﯿﰀﰁﰂﰃﰄﰅﰆﰇﰈ"/><LineBreak/><Run Text="ﰉﰊﰋﰌﰍﰎﰏﰐﰑﰒﰓﰔﰕﰖ"/><LineBreak/><Run/></TextBlock>
-        </Viewbox>
-    </Border>
+        <!-- It is mainly used for adding the sura names in the first two pages -->
+
+        <Grid x:Name="Spine" HorizontalAlignment="Left" Width="50" Margin="-50,0,0,0" Background="#FFFFC400" Visibility="Collapsed">
+            <Grid.Effect>
+                <DropShadowEffect x:Name="SpineShadow" Direction="360" BlurRadius="100" ShadowDepth="10" RenderingBias="Quality"/>
+            </Grid.Effect>
+        </Grid>
+    </Grid>
 </UserControl>

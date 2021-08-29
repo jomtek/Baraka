@@ -196,6 +196,9 @@
     <Compile Include="Theme\UserControls\Quran\Display\Mushaf\BarakaMushafSurahDisplayer.xaml.cs">
       <DependentUpon>BarakaMushafSurahDisplayer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\BarakaMushafSurahTransition.xaml.cs">
+      <DependentUpon>BarakaMushafSurahTransition.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Theme\UserControls\Quran\Display\Mushaf\MushafGlyphProvider.cs" />
     <Compile Include="Theme\UserControls\Quran\Display\Mushaf\MushafGlyphDescription.cs" />
     <Compile Include="Theme\UserControls\Quran\Display\Mushaf\MushafGlyphType.cs" />
@@ -321,6 +324,9 @@
     <Page Include="Theme\UserControls\Quran\Display\Mushaf\BarakaMushafSurahDisplayer.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Theme\UserControls\Quran\Display\Mushaf\BarakaMushafSurahTransition.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Theme\UserControls\Quran\Display\Translated\BarakaBookmark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -411,6 +417,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Images\surah_transition.png" />
+    <Resource Include="Images\default_background.png" />
+    <Resource Include="Images\opening_background.png" />
+    <Resource Include="Images\ayah_num.png" />
+    <Resource Include="Image1.png" />
     <Resource Include="Images\Cheikh\hudhaify.png" />
     <Resource Include="Images\Cheikh\juhany.png" />
     <Resource Include="Images\Flags\af.png" />
@@ -481,6 +492,7 @@
     </Content>
     <Resource Include="Fonts\Al Qalam Quran.ttf" />
     <Resource Include="Fonts\Mushaf\QCF_P054.TTF" />
+    <Resource Include="Fonts\Mushaf\QCF_BSML.TTF" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

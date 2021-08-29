@@ -34,7 +34,10 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
     /// </summary>
     public partial class BarakaMadinaPage : UserControl, INotifyPropertyChanged
     {
+        private int _page = -1;
         private MadinaPageSide _side;
+
+        private List<Grid> _surahTransitionItems;
 
         #region PropertyChanged Notifier
         public event PropertyChangedEventHandler PropertyChanged;
@@ -46,9 +49,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
         #endregion
 
         #region Settings
-        private double _cornerIntensity = 25;
-
-        [Category("Custom")]
+        [Category("Baraka")]
         public MadinaPageSide Side
         {
             get { return _side; }
@@ -56,14 +57,19 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
             {
                 if (value == MadinaPageSide.LEFT)
                 {
-                    BorderComponent.CornerRadius = new CornerRadius(_cornerIntensity, 0, 0, _cornerIntensity);
+                    Spine.HorizontalAlignment = HorizontalAlignment.Right;
+                    Spine.Margin = new Thickness(0, Spine.Margin.Top, -50, Spine.Margin.Bottom);
+                    SpineShadow.Direction = 180;
                 }
                 else if (value == MadinaPageSide.RIGHT)
                 {
-                    BorderComponent.CornerRadius = new CornerRadius(0, _cornerIntensity, _cornerIntensity, 0);
+                    Spine.HorizontalAlignment = HorizontalAlignment.Left;
+                    Spine.Margin = new Thickness(-50, Spine.Margin.Top, 0, Spine.Margin.Bottom);
+                    SpineShadow.Direction = 360;
                 }
-                _side = value;
 
+                _side = value;
+                
                 RaisePropertyChanged("Side");
             }
         }
@@ -73,6 +79,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
         {
             InitializeComponent();
             //LoadPage(53);
+            _surahTransitionItems = new List<Grid>();
         }
 
         #region Utils
@@ -83,55 +90,277 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
         #endregion
 
         #region Core
-        public void LoadPage(int pageIdx) // pageIdx starts at 0
+        private void PrepareContainerGrid(int lines)
         {
-            /*
-            // Clear page text
-            PageTB.Text = "";
-
-            // Prepare page-specific font family
-            PageTB.FontFamily = LoadedData.MushafDataManager.FindPageFontFamily(pageIdx);
-
-            // Load all data from madani_quran.db
-            List<MadaniQueryRes> lines = LoadedData.MushafDataManager.RawLookup($"page={pageIdx + 1}");
-
-            // Iterate over the entries
-            //
-            int totalWordsForCurrentAyah = 0;
-
-            // We use a reference word count in order to identify the end-of-verse glyph 
-            var verseDesc = new VerseDescription(Utils.Quran.General.FindSurah(lines[0].sura), 1);
-            var referenceWordCount = GetReferenceAyahWordCount(verseDesc);
-
-            for (int i = 0; i < lines.Count; i++)
+            LinesContainerGrid.RowDefinitions.Clear();
+            for (int i = 0; i < lines; i++)
             {
-                MadaniQueryRes line = lines[i];
-
-                // Skip if the line is irrelevant        
-                if (line.ayah == 0)
+                var rd = new RowDefinition()
                 {
-                    continue;
-                }
-
-                // Iterate through the glyphs (one glyph shows one word)
-                string glyphs = WebUtility.HtmlDecode(line.text);
-                for (int j = 0; j < glyphs.Length; j++)
-                {
-                    PageTB.Text += glyphs[j];
-                    totalWordsForCurrentAyah++;
-
-                    if (totalWordsForCurrentAyah == referenceWordCount)
-                    {
-                        totalWordsForCurrentAyah = 0;
-                        var nextVerse = verseDesc.Next();
-                        referenceWordCount = GetReferenceAyahWordCount(nextVerse);
-                    }
-
-                }
-                PageTB.Text += "\n";
+                    Height = new GridLength(1, GridUnitType.Star),
+                };
+                LinesContainerGrid.RowDefinitions.Add(rd);
             }
-            */
-            System.Windows.Clipboard.SetText(PageTB.Text);
+        }
+
+        private void AddQuranicLine(List<MushafGlyphDescription> line, FontFamily family, int lineIndex, bool isAnnotation = false, bool allowHover = true)
+        {
+            var lineTB = new TextBlock();
+            lineTB.FontFamily = family;
+
+            // Build line
+            foreach (MushafGlyphDescription glyph in line)
+            {
+                var run = new Run(glyph.DecodedData.ToString());
+
+                switch (glyph.Type)
+                {
+                    case MushafGlyphType.STOPPING_SIGN:
+                        run.Foreground = Brushes.CornflowerBlue;
+                        break;
+                    case MushafGlyphType.SUJOOD:
+                    case MushafGlyphType.RUB_EL_HIZB:
+                        break;
+                    case MushafGlyphType.END_OF_AYAH:
+                        /*
+                        // TODO suggestion : Replace the end-of-ayah glyphs with a custom mark
+                        var mark = new Image();
+                        mark.Height = PageViewbox.ActualHeight / 25d;
+                        mark.Source = new BitmapImage(new Uri("pack://application:,,,/Baraka;component/Images/ayah_num.png"));
+                        PageTB.Inlines.Add(mark);
+                        continue;
+                        */
+                        run.Foreground = Brushes.DodgerBlue;
+                        break;
+                    default: // Word
+                        if (allowHover)
+                        {
+                            run.MouseEnter += (object sender, MouseEventArgs e) =>
+                            {
+                                run.Background = Brushes.LightGray;
+                            };
+
+                            run.MouseLeave += (object sender, MouseEventArgs e) =>
+                            {
+                                run.Background = Brushes.Transparent;
+                            };
+                        }
+                        //_wordInlines.Add(run);
+                        break;
+                }
+
+                lineTB.Inlines.Add(run);
+            }
+
+            // Pack line in a Viewbox and add it to the container grid
+            var vb = new Viewbox()
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch,
+                Width = double.NaN,
+                Height = double.NaN,
+
+            };
+
+            vb.Child = lineTB;
+            vb.SetValue(Grid.RowProperty, lineIndex);
+
+            if (isAnnotation)
+            {
+                AnnotationHelperGrid.Children.Add(vb);
+            }
+            else
+            {
+                LinesContainerGrid.Children.Add(vb);
+            }
+        }
+
+        // `page` starts at 1
+        public void LoadPage(int page)
+        {
+            // Clear all the currently displayed words, symbols, transitions and annotations
+            LinesContainerGrid.Children.Clear();
+            AnnotationHelperGrid.Children.Clear();
+            _surahTransitionItems.Clear();
+
+            // Reset scrollviewer
+            LinesContainerSV.ScrollToVerticalOffset(0);
+
+            // Set line container capacity
+            if (page == 1 || page == 2)
+            {
+                PrepareContainerGrid(7);
+            }
+            else
+            {
+                PrepareContainerGrid(15);
+            }
+
+            // Reset margin accordingly
+            _page = page;
+            UpdateTextMargin();
+
+            // Prepare required font families
+            FontFamily pageFamily = LoadedData.MushafFontManager.FindPageFontFamily(page);
+            FontFamily basmalaFamily = LoadedData.MushafFontManager.FindPageFontFamily(0);
+
+            // Prepare page-specific background
+            if (page == 1 || page == 2) // Opening
+            {
+                ImageComponent.Source = new BitmapImage(new Uri(@"/Images/opening_background.png", UriKind.Relative));
+            }
+            else
+            {
+                ImageComponent.Source = new BitmapImage(new Uri(@"/Baraka;component/Images/default_background.png", UriKind.Relative));
+            }
+
+            // Browse through each line of the specified page
+            // and fill the 15-rows (or 8-rows) grid
+            int count = 0;
+            foreach (List<MushafGlyphDescription> line in LoadedData.MushafGlyphProvider.RetrievePage(page))
+            {
+                // TODO: perhaps join the two following blocks ?
+                if (page == 1 || page == 2)
+                {
+                    switch (line[0].Type)
+                    {
+                        case MushafGlyphType.SURA_NAME:
+                            AddQuranicLine(line, basmalaFamily, 3, true, false);
+                            count--; // Compensate the count because line is added on another grid
+                            break;
+                        case MushafGlyphType.BASMALA:
+                            AddQuranicLine(line, basmalaFamily, count, false, false);
+                            break;
+                        default:
+                            AddQuranicLine(line, pageFamily, count);
+                            break;
+                    }
+                }
+                else // Normal pages
+                {
+                    switch (line[0].Type)
+                    {
+                        case MushafGlyphType.SURA_NAME:
+                            var transitionBar = new BarakaMushafSurahTransition()
+                            {
+                                HorizontalAlignment = HorizontalAlignment.Stretch,
+                                VerticalAlignment = VerticalAlignment.Stretch,
+                            };
+
+                            var containerGrid = new Grid();
+                            containerGrid.Children.Add(transitionBar);
+                            containerGrid.SetValue(Grid.RowProperty, count);
+                            
+                            LinesContainerGrid.Children.Add(containerGrid);
+                            _surahTransitionItems.Add(containerGrid);
+                            break;
+                        case MushafGlyphType.BASMALA:
+                            AddQuranicLine(line, basmalaFamily, count, false, false);
+                            break;
+                        default:
+                            AddQuranicLine(line, pageFamily, count);
+                            break;
+                    }
+                }
+
+                count++;
+            }
+
+            // Re-apply the scale
+            ApplyScale(ScaleTransformer.ScaleX, true);
+        }
+        #endregion
+
+        #region Align stuff
+        // This part defines the margin of the Viewbox in a mushaf page,
+        // according to a preset ratio associated with the mushaf background.
+
+        // At the moment, the values are hardcoded for one specific mushaf design.
+        // Long term, they should be stored in a future class describing the current mushaf style.
+
+        public double GetHorizontalBorderWidth()
+        {
+            if (_page == 1 || _page == 2)
+            {
+                return GridComponent.ActualWidth * (0.293); // 29.3% of container width
+            }
+            else
+            {
+                return GridComponent.ActualWidth * (0.054); // 5.4% of container width
+            }
+        }
+
+        public double GetHorizontalBorderHeight()
+        {
+            if (_page == 1 || _page == 2)
+            {
+                return GridComponent.ActualHeight * (0.3525); // 5.4% of container height
+            }
+            else
+            {
+                return GridComponent.ActualHeight * (0.054); // 5.4% of container height
+            }
+        }
+
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Spine.Margin = new Thickness(Spine.Margin.Left, GetHorizontalBorderHeight(), Spine.Margin.Right, GetHorizontalBorderWidth());
+            UpdateTextMargin();
+        }
+
+        private void UpdateTextMargin()
+        {
+            double horizontalMargin = GetHorizontalBorderWidth();
+            double topMargin = GetHorizontalBorderHeight();
+            double bottomMargin = GetHorizontalBorderHeight();
+
+            if (_page == 1 || _page == 2) // Opening
+            {
+                horizontalMargin += ImageComponent.ActualWidth * 0.05; // 5% horizontal offset
+                topMargin += ImageComponent.ActualHeight * 0.02; // 2% vertical offset
+            }
+
+            LinesContainerSV.Margin = new Thickness(horizontalMargin, topMargin, horizontalMargin, bottomMargin);
+        }
+        #endregion
+
+        #region Zoom
+
+        public void ApplyScale(double scale, bool artificial = false)
+        {
+            // I don't know why, but the mushaf seems to start zooming only at 1.75 scale
+            if (scale != 1 && !artificial)
+                scale += 0.75;
+            
+            ScaleTransformer.ScaleX = scale;
+            ScaleTransformer.ScaleY = scale;
+            
+            // Prevent the sura transition bars from growing too much
+            foreach (Grid item in _surahTransitionItems)
+            {
+                item.LayoutTransform = LinesContainerGrid.LayoutTransform.Inverse as Transform;
+            }
+        }
+        private void LinesContainerSV_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                e.Handled = true;
+                return;
+            }
+        }
+        #endregion
+
+        #region Effects
+        private void UserControl_MouseEnter(object sender, MouseEventArgs e)
+        {
+            LinesContainerSV.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            LinesContainerSV.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+        }
+        private void UserControl_MouseLeave(object sender, MouseEventArgs e)
+        {
+            LinesContainerSV.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            LinesContainerSV.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
         }
         #endregion
     }

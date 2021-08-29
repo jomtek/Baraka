@@ -20,7 +20,7 @@
         Closing="Window_Closing"
         SizeChanged="Window_SizeChanged"
         ContentRendered="Window_ContentRendered"
-        PreviewKeyDown="Window_PreviewKeyDown">
+        PreviewKeyDown="Window_PreviewKeyDown" KeyUp="Window_KeyUp" KeyDown="Window_KeyDown">
 
     <Window.Resources>
         <Storyboard x:Key="DashboardCloseStory">
@@ -127,13 +127,13 @@
                         Height="Auto"
                         Focusable="False"
                         VerseChanged="TranslatedSurahDisplayer_VerseChanged"
-                        DownloadRecitationRequested="TranslatedSurahDisplayer_DownloadRecitationRequested" Margin="0,0,70,0"/>
+                        DownloadRecitationRequested="TranslatedSurahDisplayer_DownloadRecitationRequested" Margin="0,0,70,0"
+                        Visibility="Collapsed"/>
 
                     <MushafDisplay:BarakaMushafSurahDisplayer x:Name="MushafSurahDisplayer"
-                        Height="Auto"
-                        Focusable="False" Margin="0,30,0,110"
-                        Width="{Binding ElementName=MainGrid, Path=ActualWidth, Converter={qc:QuickConverter '$P/1.35'}}"
-                        MinWidth="300" Visibility="Collapsed" />
+                        Focusable="False" Margin="0,20,0,110"
+                        Width="{Binding ElementName=MainGrid, Path=ActualWidth, Converter={qc:QuickConverter '$P/2'}}"
+                        MinWidth="300" Visibility="Visible" />
                 </Grid>
                 
                 <Player:BarakaPlayer x:Name="Player"
