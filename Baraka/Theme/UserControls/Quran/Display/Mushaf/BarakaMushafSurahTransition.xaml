@@ -11,8 +11,13 @@
         <Grid.Background>
             <ImageBrush ImageSource="/Baraka;component/Images/surah_transition.png"/>
         </Grid.Background>
-        <Viewbox HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,2,0,0">
-            <TextBlock HorizontalAlignment="Left" TextWrapping="NoWrap" VerticalAlignment="Top" Text="ﮌﮏ" FontFamily="/Baraka;component/Fonts/Mushaf/#QCF_BSML" FontSize="28"/>
+        <Viewbox x:Name="SuraNameVB" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,2,0,0" MouseEnter="Viewbox_MouseEnter" MouseLeave="Viewbox_MouseLeave" Cursor="Hand"
+                 ToolTipService.InitialShowDelay="0" ToolTipService.BetweenShowDelay="0">
+            <TextBlock x:Name="SuraNameTB" HorizontalAlignment="Left" TextWrapping="NoWrap" VerticalAlignment="Top" Text="ﮌﮏ" FontFamily="/Baraka;component/Fonts/Mushaf/#QCF_BSML" FontSize="28" Opacity="0.8">
+                <TextBlock.Foreground>
+                    <SolidColorBrush Color="Black"/>
+                </TextBlock.Foreground>
+            </TextBlock>
         </Viewbox>
     </Grid>
 </UserControl>

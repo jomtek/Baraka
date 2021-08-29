@@ -49,7 +49,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
             var sb = new StringBuilder();
             for (int i = Displayer.StartVerse; i <= Displayer.EndVerse; i++)
             {
-                sb.AppendLine(Utils.General.PrettyPrintVerse(i, Displayer.Surah));
+                sb.AppendLine(Utils.Quran.General.PrettyPrintVerse(i, Displayer.Surah));
             }
 
             Clipboard.SetText(sb.ToString());

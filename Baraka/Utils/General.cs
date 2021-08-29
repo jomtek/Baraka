@@ -61,56 +61,6 @@ namespace Baraka.Utils
         }
         #endregion
 
-        #region Quran
-        public static string GenerateSynopsis(SurahDescription surah)
-        {
-            string revelationType;
-
-            switch (surah.RevelationType)
-            {
-                case SurahRevelationType.M:
-                    revelationType = "mecquoise (La Mecque)";
-                    break;
-                case SurahRevelationType.H:
-                    revelationType = "médinoise (Médine)";
-                    break;
-                default:
-                    revelationType = "mecquoise ou médinoise";
-                    break;
-            }
-
-            return $"Contient {surah.NumberOfVerses} versets\nRévélation {revelationType}";
-        }
-
-        public static string PrettyPrintVerse(int verseNum, SurahDescription surah)
-        {
-            //if (verseNum == 0) verseNum = 1;
-
-            var firstTransId =
-                LoadedData.TranslationsList[LoadedData.Settings.SurahVersionConfig.Translation1].Identifier;
-            var surahVer = LoadedData.SurahList[surah][firstTransId];
-            string verse = surahVer.Verses[verseNum];
-
-            if (surah.HasBasmala())
-            {
-                if (verseNum == 0)
-                {
-                    verse = LoadedData.SurahList.ElementAt(0).Value[firstTransId].Verses[0];
-                }
-                else
-                {
-                    verse = surahVer.Verses[verseNum-1];
-                }
-            }
-            else
-            {
-                verseNum++;
-            }
-
-            return $"{surah.SurahNumber}:{verseNum} {verse}";
-        }
-        #endregion
-
         #region Security
         // SOF 132474/michael
         public static string CreateMD5(string input)

@@ -104,7 +104,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
             _selectedSurah = LoadedData.SurahList.ElementAt(0).Key;
             _selectedCheikh = LoadedData.CheikhList.ElementAt(0);
 
-            SurahTB.ToolTip = Utils.General.GenerateSynopsis(_selectedSurah);
+            SurahTB.ToolTip = Utils.Quran.General.GenerateSynopsis(_selectedSurah);
 
             // Selectors init
             _cheikhSelector = new CheikhSelectorPage();
@@ -526,7 +526,7 @@ namespace Baraka.Theme.UserControls.Quran.Player
 
                 _surahSelector.RefreshSelection(refreshSelectorScroll);
 
-                SurahTB.ToolTip = Utils.General.GenerateSynopsis(_selectedSurah);
+                SurahTB.ToolTip = Utils.Quran.General.GenerateSynopsis(_selectedSurah);
             }
         }
 

@@ -40,18 +40,19 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
                     // These are the sura transition glyphs
                     // They are meant to be displayed using QCF_BSML.TTF
 
+                    var verse = new VerseDescription(Utils.Quran.General.FindSurah(line.sura), 0);
                     if (decodedLine.Length == 2) // Sura name
                     {
                         foreach (char glyph in decodedLine)
                         {
-                            glyphs.Add(new MushafGlyphDescription(glyph, null, MushafGlyphType.SURA_NAME, page));
+                            glyphs.Add(new MushafGlyphDescription(glyph, verse, MushafGlyphType.SURA_NAME, page));
                         }
                     }
                     else if (decodedLine.Length == 3 || decodedLine.Length == 4) // Basmala
                     {
                         foreach (char glyph in decodedLine)
                         {
-                            glyphs.Add(new MushafGlyphDescription(glyph, null, MushafGlyphType.BASMALA, page));
+                            glyphs.Add(new MushafGlyphDescription(glyph, verse, MushafGlyphType.BASMALA, page));
                         }
                     }
                 }

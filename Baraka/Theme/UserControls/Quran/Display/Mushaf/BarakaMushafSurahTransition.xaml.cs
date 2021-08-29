@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Baraka.Data.Descriptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,24 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
     /// </summary>
     public partial class BarakaMushafSurahTransition : UserControl
     {
-        public BarakaMushafSurahTransition()
+        // `suraName` must be provided already decoded
+        public BarakaMushafSurahTransition(string suraName, VerseDescription associatedVerse)
         {
             InitializeComponent();
+            SuraNameTB.Text = suraName;
+            SuraNameVB.ToolTip = Utils.Quran.General.GenerateSynopsis(associatedVerse.Surah);
         }
+
+        #region Effects
+        private void Viewbox_MouseEnter(object sender, MouseEventArgs e)
+        {
+            SuraNameTB.Foreground = (SolidColorBrush)App.Current.Resources["MediumBrush"];
+        }
+        private void Viewbox_MouseLeave(object sender, MouseEventArgs e)
+        {
+            SuraNameTB.Foreground = Brushes.Black;
+        }
+        #endregion
+
     }
 }

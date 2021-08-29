@@ -22,8 +22,9 @@
         <TextBlock x:Name="SurahNumberTB" HorizontalAlignment="Left" TextWrapping="Wrap" FontFamily="Roboto" FontWeight="Bold" FontSize="22" VerticalAlignment="Center" Margin="5,0,0,0" Text="1."/>
 
         <StackPanel Orientation="Horizontal" Margin="65,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
-            <Canvas x:Name="InfoBTN" Width="20" Height="20" Margin="0" VerticalAlignment="Top" ToolTip="test" Cursor="Help" >
-                <Path x:Name="InfoPath" Style="{StaticResource Hint}" Stretch="Fill" Width="20" Height="20" Fill="#FFBFBFBF" ToolTip="" Margin="0" />
+            <Canvas x:Name="InfoBTN" Width="20" Height="20" VerticalAlignment="Top" Cursor="Help"
+                    ToolTipService.InitialShowDelay="0" ToolTipService.BetweenShowDelay="0" Background="White">
+                <Path x:Name="InfoPath" Style="{StaticResource Hint}" Stretch="Fill" Width="20" Height="20" Fill="#FFBFBFBF" Margin="0" />
             </Canvas>
             <TextBlock x:Name="SurahNameTB" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="5,0,0,0" FontFamily="Roboto" FontSize="20" VerticalAlignment="Top" TextDecorations="{x:Null}" Text="Al Fatiha" FontWeight="Bold"/>
             <TextBlock x:Name="TranslatedNameTB" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="7,2,0,0" FontFamily="Alef" VerticalAlignment="Top" TextDecorations="{x:Null}" FontSize="17" Foreground="#FF939393" Text="Prologue"/>

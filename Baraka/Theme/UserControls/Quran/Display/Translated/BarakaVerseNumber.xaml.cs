@@ -104,7 +104,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
 
         private void Menu_CopyVerse_Click(object sender, RoutedEventArgs e)
         {
-            string verse = Utils.General.PrettyPrintVerse(Number, _displayer.Surah);
+            string verse = Utils.Quran.General.PrettyPrintVerse(Number, _displayer.Surah);
             Clipboard.SetText(verse);
             SystemSounds.Exclamation.Play();
         }

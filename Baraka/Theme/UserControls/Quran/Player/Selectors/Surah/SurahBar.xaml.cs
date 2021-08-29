@@ -38,7 +38,7 @@ namespace Baraka.Theme.UserControls.Quran.Player.Selectors.Surah
             SurahNumberTB.Text = _surah.SurahNumber.ToString() + '.';
             SurahNameTB.Text = _surah.PhoneticName.ToString();
             TranslatedNameTB.Text = _surah.TranslatedName.ToString();
-            InfoPath.ToolTip = Utils.General.GenerateSynopsis(_surah);
+            InfoBTN.ToolTip = Utils.Quran.General.GenerateSynopsis(_surah);
 
             RefreshProgress();
         }

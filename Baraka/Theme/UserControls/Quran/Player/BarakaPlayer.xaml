@@ -130,13 +130,15 @@
         </Path>
         <Grid x:Name="PlayerControlsGrid" Margin="0" VerticalAlignment="Bottom" Height="109">
             <StackPanel Orientation="Horizontal" Margin="0,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Column="1">
-                <Grid x:Name="BackwardBTN" Cursor="Hand" ToolTip="Cliquez pour afficher la sourate précédente" IsEnabled="False" Height="30" Width="30" Background="White" Opacity="0.4" PreviewMouseLeftButtonUp="BackwardBTN_PreviewMouseLeftButtonUp">
+                <Grid x:Name="BackwardBTN" Cursor="Hand" IsEnabled="False" Height="30" Width="30" Background="White" Opacity="0.4" PreviewMouseLeftButtonUp="BackwardBTN_PreviewMouseLeftButtonUp"
+                        ToolTip="Cliquez pour afficher la sourate précédente"  ToolTipService.InitialShowDelay="500" ToolTipService.BetweenShowDelay="1000">
                     <Path Style="{StaticResource Backward}" Stretch="Fill" Fill="Black" ToolTip="" IsEnabled="False" />
                 </Grid>
                 <Grid x:Name="PlayPauseBTN" Background="White" Margin="20,0,0,0" Cursor="Hand" PreviewMouseLeftButtonUp="PlayPauseBTN_PreviewMouseLeftButtonUp" Height="30" Width="30">
                     <Path x:Name="PlayPauseBtnPath" Style="{StaticResource Play}" Stretch="Fill" IsEnabled="False" Fill="Black" />
                 </Grid>
-                <Grid x:Name="ForwardBTN" Background="White" Margin="20,0,0,0" Cursor="Hand" ToolTip="Cliquez pour afficher la prochaine sourate" Height="30" Width="30" PreviewMouseLeftButtonUp="ForwardBTN_PreviewMouseLeftButtonUp">
+                <Grid x:Name="ForwardBTN" Background="White" Margin="20,0,0,0" Cursor="Hand" Height="30" Width="30" PreviewMouseLeftButtonUp="ForwardBTN_PreviewMouseLeftButtonUp"
+                        ToolTip="Cliquez pour afficher la prochaine sourate" ToolTipService.InitialShowDelay="500" ToolTipService.BetweenShowDelay="1000">
                     <Path Style="{StaticResource Forward}" Stretch="Fill" Fill="Black" />
                 </Grid>
             </StackPanel>
@@ -149,12 +151,14 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock x:Name="CheikhTB" Grid.Column="0" Text="Saad Al-Ghamidi" HorizontalAlignment="Right" FontFamily="Montserrat" FontSize="22" FontWeight="ExtraBlack" Cursor="Hand" Margin="0" FlowDirection="RightToLeft" VerticalAlignment="Center" PreviewMouseLeftButtonUp="CheikhTB_PreviewMouseLeftButtonUp" />
-                <TextBlock x:Name="SurahTB" Grid.Column="2" HorizontalAlignment="Left" FontFamily="Montserrat" FontSize="22" FontWeight="ExtraBlack" TextDecorations="{x:Null}" Cursor="Hand" Text="Al-Fatiha" ToolTip="test" VerticalAlignment="Center" PreviewMouseLeftButtonUp="SurahTB_PreviewMouseLeftButtonUp" />
+                <TextBlock x:Name="SurahTB" Grid.Column="2" HorizontalAlignment="Left" FontFamily="Montserrat" FontSize="22" FontWeight="ExtraBlack" TextDecorations="{x:Null}" Cursor="Hand" Text="Al-Fatiha" VerticalAlignment="Center" PreviewMouseLeftButtonUp="SurahTB_PreviewMouseLeftButtonUp"
+                    ToolTipService.InitialShowDelay="0" ToolTipService.BetweenShowDelay="0" />
             </Grid>
 
             <Grid x:Name="LoopBTN"
                   HorizontalAlignment="Right" VerticalAlignment="Center"
                   ToolTip="Cliquez pour activer ou désactiver la lecture en boucle"
+                  ToolTipService.InitialShowDelay="500" ToolTipService.BetweenShowDelay="1000"
                   PreviewMouseLeftButtonDown="LoopBTN_PreviewMouseLeftButtonDown"
                   Cursor="Hand"
                   Grid.Column="1"

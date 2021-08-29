@@ -241,7 +241,10 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
                     switch (line[0].Type)
                     {
                         case MushafGlyphType.SURA_NAME:
-                            var transitionBar = new BarakaMushafSurahTransition()
+                            // If glyph 0 has transliteration "suura", glyph 1 is the sura name
+                            string fullName = new string(new char[] { line[0].DecodedData, line[1].DecodedData });
+                            
+                            var transitionBar = new BarakaMushafSurahTransition(fullName, line[0].AssociatedVerse)
                             {
                                 HorizontalAlignment = HorizontalAlignment.Stretch,
                                 VerticalAlignment = VerticalAlignment.Stretch,
