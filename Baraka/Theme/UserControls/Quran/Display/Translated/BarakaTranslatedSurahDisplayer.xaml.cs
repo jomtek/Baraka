@@ -15,6 +15,7 @@ using System.Windows.Media.Animation;
 using Baraka.Theme.UserControls.Quran.Display.Mushaf;
 using System.Net;
 using System.Diagnostics;
+using Baraka.Theme.UserControls.Quran.Display.Mushaf.Data;
 
 namespace Baraka.Theme.UserControls.Quran.Display.Translated
 {

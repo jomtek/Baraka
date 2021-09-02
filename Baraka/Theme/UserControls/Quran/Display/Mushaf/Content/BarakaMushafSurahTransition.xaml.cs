@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
+namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
 {
     /// <summary>
     /// Logique d'interaction pour BarakaMushafSurahTransition.xaml

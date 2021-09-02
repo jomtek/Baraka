@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.ComponentModel;
 using Baraka.Theme.UserControls.Quran.Display.Mushaf;
 using System.Windows.Input;
+using Baraka.Theme.UserControls.Quran.Display.Mushaf.Data;
 
 namespace Baraka.Theme.UserControls.Quran.Display.Translated
 {

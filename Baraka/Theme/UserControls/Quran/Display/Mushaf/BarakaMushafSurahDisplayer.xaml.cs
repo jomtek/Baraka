@@ -1,5 +1,6 @@
 ﻿using Baraka.Data;
 using Baraka.Data.Descriptions;
+using Baraka.Theme.UserControls.Quran.Display.Mushaf.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,33 +23,25 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
     /// </summary>
     public partial class BarakaMushafSurahDisplayer : UserControl, ISurahDisplayer
     {
-        private int _actualPage = -1;
+        private int _actualSheet = 302;
 
         #region Settings
-        public int ActualPage
+        public int ActualSheet
         {
-            get { return _actualPage; }
+            get { return _actualSheet; }
             set
             {
-                if (value > 604)
-                {
-                    value = 603;
-                }
-                else if (value < 1)
+                if (value < 1)
                 {
                     value = 1;
                 }
 
-                _actualPage = value;
+                _actualSheet = value;
 
                 // Update UI
-                CurrentPageTB.Text = $"Pages {value}-{value + 1}";
+                CurrentPageTB.Text = $"Pages {(value * 2) + 1}-{value * 2}";
                 LastPageBTN.IsEnabled = (value != 1);
-                NextPageBTN.IsEnabled = (value != 603);
-
-                // Apply
-                RightPage.LoadPage(value);
-                LeftPage.LoadPage(value + 1);
+                NextPageBTN.IsEnabled = (value != 302);
             }
         }
         #endregion
@@ -56,6 +49,22 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
         public BarakaMushafSurahDisplayer()
         {
             InitializeComponent();
+            LoadPages();
+        }
+
+        public void LoadPages()
+        {
+            for (int i = 604; i > 1; i--)
+            {
+                var page = new BarakaMadinaPage(i)
+                {
+                    Width = double.NaN,
+                    Background = Brushes.Transparent,//(SolidColorBrush)App.Current.FindResource("LightBrush"),
+                };
+                BookComponent.Items.Add(page);
+            }
+
+            //BookComponent.CurrentSheetIndex = 301; // Go to first page (Al-Fatiha)
         }
 
         private void Run_MouseEnter(object sender, MouseEventArgs e)
@@ -87,7 +96,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
         #region Navigation
         public async Task NaturalBrowse(bool next, int factor = 1)
         {
-            int actual = _actualPage;
+        /*    int actual = _actualPage;
 
             await Task.Delay(100);
 
@@ -101,18 +110,25 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
                 {
                     ActualPage -= 2 * factor;
                 }
-            }
+            }*/
         }
 
-        private void LastPageBTN_Click(object sender, RoutedEventArgs e)
+        private async void LastPageBTN_Click(object sender, RoutedEventArgs e)
         {
-            ActualPage -= 2;
+            ActualSheet -= 1;//303 - BookComponent.CurrentSheetIndex;
+            await Task.Run(() => {
+                App.Current.Dispatcher.Invoke(() =>
+                    BookComponent.AnimateToNextPage(false, 450));
+            });
         }
 
-        private void NextPageBTN_Click(object sender, RoutedEventArgs e)
+        private async void NextPageBTN_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine($"w: {this.ActualWidth}, h: {this.ActualHeight}");
-            ActualPage += 2;
+            ActualSheet += 1;
+            await Task.Run(() => {
+                App.Current.Dispatcher.Invoke(() =>
+                    BookComponent.AnimateToPreviousPage(false, 450));
+            });
         }
         #endregion
 
@@ -126,21 +142,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
 
         private void UserControl_KeyUp(object sender, KeyEventArgs e)
         {
-            
-        }
 
-        #region Focus and zoom
-        public void ApplyScale(double scale)
-        {
-            if (LeftPage.IsMouseOver)
-            {
-                LeftPage.ApplyScale(scale);
-            }
-            else if (RightPage.IsMouseOver)
-            {
-                RightPage.ApplyScale(scale);
-            }
         }
-        #endregion
     }
 }

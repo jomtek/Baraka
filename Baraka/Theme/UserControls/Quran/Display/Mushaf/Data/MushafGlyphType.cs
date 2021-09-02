@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
+namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Data
 {
     public enum MushafGlyphType
     {

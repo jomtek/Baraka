@@ -3,6 +3,7 @@ using Baraka.Data.Quran;
 using Baraka.Data.Quran.Mushaf;
 using Baraka.Data.Surah;
 using Baraka.Theme.UserControls.Quran.Display.Mushaf;
+using Baraka.Theme.UserControls.Quran.Display.Mushaf.Data;
 using System.Collections.Generic;
 
 namespace Baraka.Data

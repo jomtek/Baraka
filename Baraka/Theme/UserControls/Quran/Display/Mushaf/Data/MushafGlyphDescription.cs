@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
+namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Data
 {
     // This is the class describing each glyph from the Madani mushaf
     // The glyph is then displayed as a word or a mark according to the font of its associated page

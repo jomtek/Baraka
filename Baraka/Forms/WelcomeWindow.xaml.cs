@@ -14,6 +14,7 @@ using Baraka.Theme.UserControls.Quran.Display;
 using Baraka.Forms;
 using Baraka.Data.Quran.Mushaf;
 using Baraka.Theme.UserControls.Quran.Display.Mushaf;
+using Baraka.Theme.UserControls.Quran.Display.Mushaf.Data;
 
 namespace Baraka
 {
@@ -277,7 +278,6 @@ namespace Baraka
             if (LoadedData.Settings.SurahVersionConfig.ShowMushaf())
             {
                 await instance.ChangeDisplayModeAsync(QuranDisplayMode.MUSHAF);
-                instance.MushafSurahDisplayer.ActualPage = 603;
             }
             else
             {

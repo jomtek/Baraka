@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Baraka.Theme.UserControls.Quran.Display.Mushaf.BarakaMadinaPage"
+﻿<UserControl x:Class="Baraka.Theme.UserControls.Quran.Display.Mushaf.Content.BarakaMadinaPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:qc="http://QuickConverter.CodePlex.com/"

@@ -10,7 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Windows.Controls;
 
-namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
+namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Data
 {
     public class MushafGlyphProvider
     {
@@ -103,6 +103,8 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
         // Information is deducted using various techniques, such as counting, measuring text or even using references
         private void LoadGlyphInfo()
         {
+            GlyphInfoDict = new Dictionary<(int, char), MushafGlyphDescription>();
+
             for (int page = 1; page < 605; page++)
             {
                 List<MushafDbQuery> verses;

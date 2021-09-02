@@ -427,7 +427,6 @@ namespace Baraka.Theme.UserControls.Quran.Player
                 MainSB.ResetThumbY();
             }
 
-            //MessageBox.Show("now");
             switch (tab)
             {
                 case 0:

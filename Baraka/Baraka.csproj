@@ -190,18 +190,27 @@
       <DependentUpon>BarakaDashboardItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Theme\UserControls\Quran\Display\ISurahDisplayer.cs" />
-    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\BarakaMadinaPage.xaml.cs">
+    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Content\BarakaMadinaPage.xaml.cs">
       <DependentUpon>BarakaMadinaPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Theme\UserControls\Quran\Display\Mushaf\BarakaMushafSurahDisplayer.xaml.cs">
       <DependentUpon>BarakaMushafSurahDisplayer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\BarakaMushafSurahTransition.xaml.cs">
+    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Content\BarakaMushafSurahTransition.xaml.cs">
       <DependentUpon>BarakaMushafSurahTransition.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\MushafGlyphProvider.cs" />
-    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\MushafGlyphDescription.cs" />
-    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\MushafGlyphType.cs" />
+    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Legacy\Book.cs" />
+    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Legacy\BookPage.Compute.cs" />
+    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Legacy\BookPage.xaml.cs">
+      <DependentUpon>BookPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Data\MushafGlyphProvider.cs" />
+    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Data\MushafGlyphDescription.cs" />
+    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Data\MushafGlyphType.cs" />
+    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Legacy\CornerOrigin.cs" />
+    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Legacy\LinearGradientHelper.cs" />
+    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Legacy\PageParameters.cs" />
+    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Legacy\PageStatus.cs" />
     <Compile Include="Theme\UserControls\Quran\Display\QuranDisplayMode.cs" />
     <Compile Include="Theme\UserControls\Quran\Display\Translated\BarakaBookmark.xaml.cs">
       <DependentUpon>BarakaBookmark.xaml</DependentUpon>
@@ -318,13 +327,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Display\Mushaf\BarakaMadinaPage.xaml">
+    <Page Include="Theme\UserControls\Quran\Display\Mushaf\Content\BarakaMadinaPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Theme\UserControls\Quran\Display\Mushaf\BarakaMushafSurahDisplayer.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Display\Mushaf\BarakaMushafSurahTransition.xaml">
+    <Page Include="Theme\UserControls\Quran\Display\Mushaf\Content\BarakaMushafSurahTransition.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\UserControls\Quran\Display\Mushaf\Legacy\Book.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\UserControls\Quran\Display\Mushaf\Legacy\BookPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Theme\UserControls\Quran\Display\Translated\BarakaBookmark.xaml">

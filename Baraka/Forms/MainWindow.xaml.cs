@@ -305,7 +305,7 @@ namespace Baraka
             if (mushaf) // Mushaf displayer
             {
                 Console.WriteLine("yes");
-                MushafSurahDisplayer.ApplyScale(_zoomScale);
+                //MushafSurahDisplayer.ApplyScale(_zoomScale);
             }
             else // Translated displayer
             {

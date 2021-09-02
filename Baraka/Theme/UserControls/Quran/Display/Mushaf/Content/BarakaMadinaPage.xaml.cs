@@ -20,8 +20,10 @@ using Baraka.Data.Descriptions;
 using Baraka.Data;
 using System.Net;
 using System.IO;
+using Baraka.Theme.UserControls.Quran.Display.Mushaf.Data;
+using System.Diagnostics; // temporary
 
-namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
+namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
 {
     public enum MadinaPageSide
     {
@@ -75,19 +77,14 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
         }
         #endregion
 
-        public BarakaMadinaPage()
+        public BarakaMadinaPage(int page)
         {
             InitializeComponent();
-            //LoadPage(53);
             _surahTransitionItems = new List<Grid>();
-        }
 
-        #region Utils
-        private int GetReferenceAyahWordCount(VerseDescription verse)
-        {
-            return verse.ArabicText.Split(' ').Length;
+            Console.WriteLine($"load page {page}");
+            LoadPage(page);
         }
-        #endregion
 
         #region Core
         private void PrepareContainerGrid(int lines)
@@ -178,6 +175,9 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
         // `page` starts at 1
         public void LoadPage(int page)
         {
+            var sw = new Stopwatch();
+            sw.Start();
+
             // Clear all the currently displayed words, symbols, transitions and annotations
             LinesContainerGrid.Children.Clear();
             AnnotationHelperGrid.Children.Clear();
@@ -271,6 +271,9 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
 
             // Re-apply the scale
             ApplyScale(ScaleTransformer.ScaleX, true);
+
+            sw.Stop();
+      
         }
         #endregion
 
