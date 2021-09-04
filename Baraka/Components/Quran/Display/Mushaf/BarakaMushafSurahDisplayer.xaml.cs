@@ -47,19 +47,9 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
         }
         #endregion
 
-        #region Events
-        public event EventHandler<double> PagePreloaded;
-        #endregion
-
         public BarakaMushafSurahDisplayer()
         {
             InitializeComponent();
-
-            BookComponent.PagePreloaded += (object sender, double progress) =>
-            {
-                PagePreloaded?.Invoke(this, progress);
-            };
-
             LoadPages();
         }
 

@@ -439,7 +439,6 @@
     <Resource Include="Images\default_background.png" />
     <Resource Include="Images\opening_background.png" />
     <Resource Include="Images\ayah_num.png" />
-    <Resource Include="Image1.png" />
     <Resource Include="Images\Cheikh\hudhaify.png" />
     <Resource Include="Images\Cheikh\juhany.png" />
     <Resource Include="Images\Flags\af.png" />

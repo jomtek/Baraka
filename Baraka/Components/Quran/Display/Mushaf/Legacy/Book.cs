@@ -60,9 +60,6 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Legacy
             }
         }
         #endregion
-        #region Events
-        public event EventHandler<double> PagePreloaded;
-        #endregion
 
         public Book()
         {
@@ -295,8 +292,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Legacy
 
         private void PreloadPage(int index, Size expectedSize, double progress)
         {
-            PagePreloaded?.Invoke(this, progress);
-
+            // Load the page on the background UI thread
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 var page = GetPage(index);
