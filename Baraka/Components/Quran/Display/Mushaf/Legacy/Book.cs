@@ -9,11 +9,61 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Legacy
 {
+    public enum BookDisplayMode { Normal, ZoomOnPage }
+    public enum BookCurrentPage { LeftSheet, RightSheet }
+
     public partial class Book : ItemsControl
     {
+        #region Settings
+        private int _currentSheetIndex = 0;
+        public int CurrentSheetIndex
+        {
+            get { return _currentSheetIndex; }
+            set
+            {
+                if (_status != PageStatus.None) return;
+
+                if (_currentSheetIndex != value)
+                {
+                    if ((value >= 0) && (value <= GetItemsCount() / 2))
+                    {
+                        _currentSheetIndex = value;
+                        RefreshSheetsContent();
+                    }
+                    else
+                        throw new Exception("Index out of bounds");
+                }
+            }
+        }
+
+        public BookDisplayMode DisplayMode
+        {
+            get { return (BookDisplayMode)GetValue(Book.DisplayModeProperty); }
+            set
+            {
+                if (!GetValue(Book.DisplayModeProperty).Equals(value))
+                    SetValue(Book.DisplayModeProperty, value);
+            }
+        }
+
+        public BookCurrentPage CurrentPage
+        {
+            get { return (BookCurrentPage)GetValue(Book.CurrentPageProperty); }
+            set
+            {
+                if (!GetValue(Book.CurrentPageProperty).Equals(value))
+                    SetValue(Book.CurrentPageProperty, value);
+            }
+        }
+        #endregion
+        #region Events
+        public event EventHandler<double> PagePreloaded;
+        #endregion
+
         public Book()
         {
             InitializeComponent();
@@ -25,10 +75,8 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Legacy
             CurrentPageProperty = DependencyProperty.Register("CurrentPage", typeof(BookCurrentPage), typeof(Book), new PropertyMetadata(BookCurrentPage.RightSheet, new PropertyChangedCallback(OnCurrentPageChanged)));
         }
 
-        private void OnSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            Console.WriteLine("size changed lol");
-        }
+        #region Events
+        // Other events are hidden under the other regions
 
         private static void OnDisplayModeChanged(DependencyObject source, DependencyPropertyChangedEventArgs args)
         {
@@ -36,9 +84,6 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Legacy
             Book book = source as Book;
             if (mode == BookDisplayMode.Normal)
             {
-                //book.translate.X = 0;
-                //book.scale.ScaleX = 1;
-                //book.scale.ScaleY = 1;
                 book.translate.BeginAnimation(TranslateTransform.XProperty, null);
                 book.scale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
             }
@@ -103,59 +148,15 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Legacy
             else
                 RefreshSheetsContent();
         }
+        #endregion
 
-        internal object GetPage(int index)
+        #region Core
+        internal FrameworkElement GetPage(int index)
         {
             if ((index >= 0) && (index < Items.Count))
-                return Items[index];
+                return (FrameworkElement)Items[index];
 
             return new Canvas();
-        }
-
-        private int _currentSheetIndex = 0;
-
-        public void AnimateToNextPage(bool fromTop, int duration)
-        {
-            if (CurrentSheetIndex + 1 <= GetItemsCount() / 2)
-            {
-                BookPage bp0 = GetTemplateChild("sheet0") as BookPage;
-                BookPage bp1 = GetTemplateChild("sheet1") as BookPage;
-                Canvas.SetZIndex((bp0 as BookPage), 0);
-                Canvas.SetZIndex((bp1 as BookPage), 1);
-                bp1.AutoTurnPage(fromTop ? CornerOrigin.TopRight : CornerOrigin.BottomRight, duration);
-            }
-        }
-
-        public void AnimateToPreviousPage(bool fromTop, int duration)
-        {
-            if (CurrentSheetIndex > 0)
-            {
-                BookPage bp0 = GetTemplateChild("sheet0") as BookPage;
-                BookPage bp1 = GetTemplateChild("sheet1") as BookPage;
-                Canvas.SetZIndex((bp1 as BookPage), 0);
-                Canvas.SetZIndex((bp0 as BookPage), 1);
-                bp0.AutoTurnPage(fromTop ? CornerOrigin.TopLeft : CornerOrigin.BottomLeft, duration);
-            }
-        }
-
-        public int CurrentSheetIndex
-        {
-            get { return _currentSheetIndex; }
-            set
-            {
-                if (_status != PageStatus.None) return;
-
-                if (_currentSheetIndex != value)
-                {
-                    if ((value >= 0) && (value <= GetItemsCount() / 2))
-                    {
-                        _currentSheetIndex = value;
-                        RefreshSheetsContent();
-                    }
-                    else
-                        throw new Exception("Index out of bounds");
-                }
-            }
         }
 
         protected virtual bool CheckCurrentSheetIndex()
@@ -268,7 +269,9 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Legacy
             sheet1Page1Content.Visibility = sheet1Page1ContentVisibility;
             sheet1Page2Content.Visibility = sheet1Page2ContentVisibility;
         }
+        #endregion
 
+        #region Grip
         private void OnLeftMouseDown(object sender, MouseButtonEventArgs args)
         {
             BookPage bp0 = GetTemplateChild("sheet0") as BookPage;
@@ -283,32 +286,91 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Legacy
             Canvas.SetZIndex((bp0 as BookPage), 0);
             Canvas.SetZIndex((bp1 as BookPage), 1);
         }
+        #endregion
+
+        #region Turn
+        // The 2 next methods were not present in the original version of this class
+        // `TryPreloadPages` pre-arranges the next 20 pages to be displayed (tweak this value using `prudence`)
+        // and hence blocks the UI for a small period of time (which of course we clearly do not want!).
+
+        private void PreloadPage(int index, Size expectedSize, double progress)
+        {
+            PagePreloaded?.Invoke(this, progress);
+
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                var page = GetPage(index);
+                page.Measure(expectedSize);
+                page.Arrange(new Rect(expectedSize));
+            }));
+        }
+
+        // Note: `forward == true` means left to right, as in a european book
+        private void TryPreloadPages(int prudence, bool forward)
+        {
+            var expectedSize = new Size(ActualWidth / 2d, ActualHeight); // The expected size for a mushaf book page
+            int loadedPages = 1;
+            
+            if (forward)
+            {
+                int incomingPageIndex = CurrentSheetIndex * 2 + 3;
+                if (GetPage(incomingPageIndex).ActualWidth == 0) // Test to see if the incoming page is measured
+                {
+                    // Load incoming pages
+                    for (int i = incomingPageIndex; i < incomingPageIndex + prudence; i++)
+                    {
+                        PreloadPage(i, expectedSize, loadedPages / (double)prudence);
+                        loadedPages++;
+                    }
+                }
+            }
+            else
+            {
+                int incomingPageIndex = CurrentSheetIndex * 2 - 4;
+                if (GetPage(incomingPageIndex).ActualWidth == 0)
+                {
+                    for (int i = incomingPageIndex; i > incomingPageIndex - prudence; i--)
+                    {
+                        PreloadPage(i, expectedSize, loadedPages / (double)prudence);
+                        loadedPages++;
+                    }
+                }
+            }
+        }
+
         private void OnLeftPageTurned(object sender, RoutedEventArgs args)
         {
+            TryPreloadPages(10, false);
             CurrentSheetIndex--;
         }
         private void OnRightPageTurned(object sender, RoutedEventArgs args)
         {
+            TryPreloadPages(10, true);
             CurrentSheetIndex++;
         }
 
-        public BookDisplayMode DisplayMode
+        #region Animate
+        public void AnimateToNextPage(bool fromTop, int duration)
         {
-            get { return (BookDisplayMode)GetValue(Book.DisplayModeProperty); }
-            set
+            if (CurrentSheetIndex + 1 <= GetItemsCount() / 2)
             {
-                if (!GetValue(Book.DisplayModeProperty).Equals(value))
-                    SetValue(Book.DisplayModeProperty, value);
+                BookPage bp0 = GetTemplateChild("sheet0") as BookPage;
+                BookPage bp1 = GetTemplateChild("sheet1") as BookPage;
+                Canvas.SetZIndex(bp0, 0);
+                Canvas.SetZIndex(bp1, 1);
+                bp1.AutoTurnPage(fromTop ? CornerOrigin.TopRight : CornerOrigin.BottomRight, duration);
             }
         }
 
-        public BookCurrentPage CurrentPage
+        public void AnimateToPreviousPage(bool fromTop, int duration)
         {
-            get { return (BookCurrentPage)GetValue(Book.CurrentPageProperty); }
-            set
+            if (CurrentSheetIndex > 0)
             {
-                if (!GetValue(Book.CurrentPageProperty).Equals(value))
-                    SetValue(Book.CurrentPageProperty, value);
+                BookPage bp0 = GetTemplateChild("sheet0") as BookPage;
+                BookPage bp1 = GetTemplateChild("sheet1") as BookPage;
+                Canvas.SetZIndex((bp1 as BookPage), 0);
+                Canvas.SetZIndex((bp0 as BookPage), 1);
+                bp0.AutoTurnPage(fromTop ? CornerOrigin.TopLeft : CornerOrigin.BottomLeft, duration);
             }
         }
 
@@ -359,6 +421,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Legacy
             scale.BeginAnimation(ScaleTransform.ScaleXProperty, scaleAnimation);
             scale.BeginAnimation(ScaleTransform.ScaleYProperty, scaleAnimation);
         }
+        #endregion
 
         public void MoveToNextPage()
         {
@@ -377,7 +440,6 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Legacy
                 CurrentPage == BookCurrentPage.LeftSheet ?
                     BookCurrentPage.RightSheet : BookCurrentPage.LeftSheet;
         }
+        #endregion
     }
-    public enum BookDisplayMode { Normal, ZoomOnPage }
-    public enum BookCurrentPage { LeftSheet, RightSheet }
 }

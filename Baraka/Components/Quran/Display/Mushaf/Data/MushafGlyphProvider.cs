@@ -187,8 +187,6 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Data
                         glyphPos++;
                     }
                 }
-
-                System.Console.WriteLine($"Done with page {page}"); // Log
             }
         }
         #endregion

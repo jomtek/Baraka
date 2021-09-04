@@ -15,15 +15,16 @@ using Baraka.Forms;
 using Baraka.Data.Quran.Mushaf;
 using Baraka.Theme.UserControls.Quran.Display.Mushaf;
 using Baraka.Theme.UserControls.Quran.Display.Mushaf.Data;
+using System.Diagnostics; // temporary
 
-namespace Baraka
+namespace Baraka.Forms.Splashes
 {
     /// <summary>
     /// Logique d'interaction pour StartupForm.xaml
     /// </summary>
-    public partial class WelcomeWindow : Window
+    public partial class WelcomeSplashWindow : Window
     {
-        public WelcomeWindow()
+        public WelcomeSplashWindow()
         {
             InitializeComponent();
         }
@@ -191,7 +192,7 @@ namespace Baraka
                 Visibility = Visibility.Hidden;
             }
 
-            MainPB.Visibility = Visibility.Collapsed;
+            ProgressbarComponent.Visibility = Visibility.Collapsed;
             ProgressTB.Visibility = Visibility.Collapsed;
 
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(800);
@@ -203,40 +204,60 @@ namespace Baraka
                 TitleTB.Margin.Bottom
             );
 
-            MainPB.Visibility = Visibility.Visible;
+            ProgressbarComponent.Visibility = Visibility.Visible;
             ProgressTB.Visibility = Visibility.Visible;
 
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(10);
 
+            var sw = new Stopwatch();
+            sw.Start();
             // // Loading
             //
             // Deserialize data
+            var sw1 = new Stopwatch();
+            sw1.Start();
             ProgressTB.Text = "chargement des ressources: cheikh.ser";
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
             LoadedData.CheikhList =
                 SerializationUtils.Deserialize<CheikhDescription[]>("data/cheikh.ser");     
-            MainPB.Progress = 0.1;
+            ProgressbarComponent.Progress = 0.1;
+            sw1.Stop();
+            Console.WriteLine($"cheikh.ser: elapsed {sw1.ElapsedMilliseconds}ms");
 
+            var sw2 = new Stopwatch();
+            sw2.Start();
             ProgressTB.Text = "chargement des ressources: quran/translations_cache.ser";
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
             LoadedData.SurahList =
                 SerializationUtils.Deserialize<Dictionary<SurahDescription, Dictionary<string, SurahVersion>>>("data/quran/translations_cache.ser");
-            MainPB.Progress = 0.25;
+            ProgressbarComponent.Progress = 0.25;
+            sw2.Stop();
+            Console.WriteLine($"translations_cache.ser: elapsed {sw2.ElapsedMilliseconds}ms");
 
+            var sw3 = new Stopwatch();
+            sw3.Start();
             ProgressTB.Text = "chargement des ressources: quran/translations_info.ser";
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
             LoadedData.TranslationsList =
                 SerializationUtils.Deserialize<TranslationDescription[]>("data/quran/translations_info.ser");
-            MainPB.Progress = 0.4;
+            ProgressbarComponent.Progress = 0.4;
+            sw3.Stop();
+            Console.WriteLine($"translations_info.ser: elapsed {sw3.ElapsedMilliseconds}ms");
 
+            var sw4 = new Stopwatch();
+            sw4.Start();
             ProgressTB.Text = "chargement du cache audio...";
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(50);
             //var cacheContent =
             //    SerializationUtils.Deserialize<Dictionary<string, byte[]>>("data/cache.ser");
             //LoadedData.AudioCache = new AudioCacheManager(cacheContent);
             LoadedData.AudioCache = new AudioCacheManager(new Dictionary<string, byte[]>());
-            MainPB.Progress = 0.6;
+            ProgressbarComponent.Progress = 0.6;
+            sw4.Stop();
+            Console.WriteLine($"audio cache: elapsed {sw4.ElapsedMilliseconds}ms");
 
+            var sw5 = new Stopwatch();
+            sw5.Start();
             ProgressTB.Text = "chargement du Mushaf...";
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
             LoadedData.MushafFontManager = new MushafFontManager();
@@ -244,13 +265,26 @@ namespace Baraka
             //DEBUG -- LoadedData.MushafGlyphProvider.LoadGlyphInfo();
             LoadedData.MushafGlyphProvider.GlyphInfoDict =
                 SerializationUtils.Deserialize<Dictionary<(int, char), MushafGlyphDescription>>("data/quran/mushaf/glyph_info.ser");
+            sw5.Stop();
+            Console.WriteLine($"glyph_info.ser: elapsed {sw5.ElapsedMilliseconds}ms");
 
+            var sw6 = new Stopwatch();
+            sw6.Start();
             // Deserialize settings
             ProgressTB.Text = "chargement des marque-pages...";
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(50);
             // DEBUG -- LoadedData.Bookmarks = (new int[114]).ToList();
             LoadedData.Bookmarks = SerializationUtils.Deserialize<List<int>>("bookmarks.ser");
-            
+            sw6.Stop();
+            Console.WriteLine($"bookmarks.ser: elapsed {sw6.ElapsedMilliseconds}ms");
+
+            sw.Stop();
+            Console.WriteLine($"total time is {sw.ElapsedMilliseconds}ms");
+            //return;
+
+            // use netserializer
+
+
             //  // Finish
             ProgressTB.Text = $"préparation de l'interface...";
             if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
@@ -298,7 +332,7 @@ namespace Baraka
             Dispatcher.Invoke(new Action(() =>
             {
                 ProgressTB.Text = $"préparation de l'interface... {percentage}%";
-                MainPB.Progress = 0.6 + (0.4 * progress);
+                ProgressbarComponent.Progress = 0.6 + (0.4 * progress);
             }), DispatcherPriority.ContextIdle);
 
             if (percentage == 100)

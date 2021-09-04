@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Display.Mushaf.Legacy"
              mc:Ignorable="d" 
              ClipToBounds="False" Loaded="OnLoaded"
-             SizeChanged="OnSizeChanged"
              Width="Auto" Height="Auto">
     <ItemsControl.Resources>
         <DataTemplate x:Key="defaultDataTemplate">

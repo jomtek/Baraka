@@ -1,10 +1,19 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using NetSerializer;
 
 namespace Baraka.Data
 {
     public static class SerializationUtils
     {
+        private static IEnumerable<Type> GetSubclasses(Type type)
+        {
+            return type.Assembly.GetTypes().Where(t => t.IsSubclassOf(type));
+        }
+
         public static void Serialize(object sample, string path)
         {
             FileStream fileStream = new FileStream(path, FileMode.Create);

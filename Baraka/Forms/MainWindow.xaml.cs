@@ -3,6 +3,7 @@ using Baraka.Data.Descriptions;
 using Baraka.Data.Surah;
 using Baraka.Forms;
 using Baraka.Forms.Settings;
+using Baraka.Forms.Splashes;
 using Baraka.Theme.UserControls.Quran.Display;
 using Baraka.Theme.UserControls.Quran.Display.Translated;
 using System;
@@ -16,6 +17,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace Baraka
 {
@@ -43,7 +45,7 @@ namespace Baraka
             ((Storyboard)this.Resources["DashboardCloseStory"]).Begin();
             ((Storyboard)this.Resources["DashboardCloseStory"]).SkipToFill();
 
-            // Bind the displayer to the player
+            // Bind the translated displayer to the player
             Player.Displayer = TranslatedSurahDisplayer;
             Player.Displayer.EnabledChanged += (object sender, EventArgs e) =>
             {
@@ -172,6 +174,7 @@ namespace Baraka
         private void Window_ContentRendered(object sender, EventArgs e)
         {
             InitWindows();
+
         }
         #endregion
 
@@ -304,7 +307,6 @@ namespace Baraka
         {
             if (mushaf) // Mushaf displayer
             {
-                Console.WriteLine("yes");
                 //MushafSurahDisplayer.ApplyScale(_zoomScale);
             }
             else // Translated displayer
@@ -350,9 +352,6 @@ namespace Baraka
         {
             if (mode == QuranDisplayMode.MUSHAF)
             {
-                /*MessageBox.Show("Nous sommes désolés: le mode Mus'haf n'est pas encore disponible.\n" +
-                    "Cependant, nous affichons quand-même la version arabe pour servir vos ~petits yeux~\n\n",
-                    "Message du développeur");*/
                 //TranslatedSurahDisplayer.UnloadActualSurah();
                 await MushafSurahDisplayer.LoadSurahAsync(Player.SelectedSurah);
                 

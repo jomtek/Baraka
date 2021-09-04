@@ -73,6 +73,9 @@
     <Reference Include="NAudio.WinMM, Version=2.0.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
       <HintPath>..\packages\NAudio.WinMM.2.0.0\lib\netstandard2.0\NAudio.WinMM.dll</HintPath>
     </Reference>
+    <Reference Include="NetSerializer, Version=4.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetSerializer.4.1.1\lib\net45\NetSerializer.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -180,66 +183,66 @@
     <Compile Include="Streaming\QuranStreamer.cs" />
     <Compile Include="Streaming\StreamingUtils.cs" />
     <Compile Include="Streaming\VerseStreamer.cs" />
-    <Compile Include="Theme\UserControls\BarakaButton.xaml.cs">
+    <Compile Include="Components\BarakaButton.xaml.cs">
       <DependentUpon>BarakaButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\BarakaDashboard.xaml.cs">
+    <Compile Include="Components\BarakaDashboard.xaml.cs">
       <DependentUpon>BarakaDashboard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Dashboard\BarakaDashboardItem.xaml.cs">
+    <Compile Include="Components\Dashboard\BarakaDashboardItem.xaml.cs">
       <DependentUpon>BarakaDashboardItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Display\ISurahDisplayer.cs" />
-    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Content\BarakaMadinaPage.xaml.cs">
+    <Compile Include="Components\Quran\Display\ISurahDisplayer.cs" />
+    <Compile Include="Components\Quran\Display\Mushaf\Content\BarakaMadinaPage.xaml.cs">
       <DependentUpon>BarakaMadinaPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\BarakaMushafSurahDisplayer.xaml.cs">
+    <Compile Include="Components\Quran\Display\Mushaf\BarakaMushafSurahDisplayer.xaml.cs">
       <DependentUpon>BarakaMushafSurahDisplayer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Content\BarakaMushafSurahTransition.xaml.cs">
+    <Compile Include="Components\Quran\Display\Mushaf\Content\BarakaMushafSurahTransition.xaml.cs">
       <DependentUpon>BarakaMushafSurahTransition.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Legacy\Book.cs" />
-    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Legacy\BookPage.Compute.cs" />
-    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Legacy\BookPage.xaml.cs">
+    <Compile Include="Components\Quran\Display\Mushaf\Legacy\Book.cs" />
+    <Compile Include="Components\Quran\Display\Mushaf\Legacy\BookPage.Compute.cs" />
+    <Compile Include="Components\Quran\Display\Mushaf\Legacy\BookPage.xaml.cs">
       <DependentUpon>BookPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Data\MushafGlyphProvider.cs" />
-    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Data\MushafGlyphDescription.cs" />
-    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Data\MushafGlyphType.cs" />
-    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Legacy\CornerOrigin.cs" />
-    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Legacy\LinearGradientHelper.cs" />
-    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Legacy\PageParameters.cs" />
-    <Compile Include="Theme\UserControls\Quran\Display\Mushaf\Legacy\PageStatus.cs" />
-    <Compile Include="Theme\UserControls\Quran\Display\QuranDisplayMode.cs" />
-    <Compile Include="Theme\UserControls\Quran\Display\Translated\BarakaBookmark.xaml.cs">
+    <Compile Include="Components\Quran\Display\Mushaf\Data\MushafGlyphProvider.cs" />
+    <Compile Include="Components\Quran\Display\Mushaf\Data\MushafGlyphDescription.cs" />
+    <Compile Include="Components\Quran\Display\Mushaf\Data\MushafGlyphType.cs" />
+    <Compile Include="Components\Quran\Display\Mushaf\Legacy\CornerOrigin.cs" />
+    <Compile Include="Components\Quran\Display\Mushaf\Legacy\LinearGradientHelper.cs" />
+    <Compile Include="Components\Quran\Display\Mushaf\Legacy\PageParameters.cs" />
+    <Compile Include="Components\Quran\Display\Mushaf\Legacy\PageStatus.cs" />
+    <Compile Include="Components\Quran\Display\QuranDisplayMode.cs" />
+    <Compile Include="Components\Quran\Display\Translated\BarakaBookmark.xaml.cs">
       <DependentUpon>BarakaBookmark.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Display\Translated\BarakaTranslatedSurahDisplayer.xaml.cs">
+    <Compile Include="Components\Quran\Display\Translated\BarakaTranslatedSurahDisplayer.xaml.cs">
       <DependentUpon>BarakaTranslatedSurahDisplayer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Display\Translated\BarakaVerse.xaml.cs">
+    <Compile Include="Components\Quran\Display\Translated\BarakaVerse.xaml.cs">
       <DependentUpon>BarakaVerse.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Display\Translated\BarakaVerseNumber.xaml.cs">
+    <Compile Include="Components\Quran\Display\Translated\BarakaVerseNumber.xaml.cs">
       <DependentUpon>BarakaVerseNumber.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Player\Selectors\Surah\BarakaHizbSegment.xaml.cs">
+    <Compile Include="Components\Quran\Player\Selectors\Surah\BarakaHizbSegment.xaml.cs">
       <DependentUpon>BarakaHizbSegment.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Player\Selectors\Surah\BarakaHizbVisualizer.xaml.cs">
+    <Compile Include="Components\Quran\Player\Selectors\Surah\BarakaHizbVisualizer.xaml.cs">
       <DependentUpon>BarakaHizbVisualizer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Player\Selectors\Cheikh\CheikhSelectorPage.xaml.cs">
+    <Compile Include="Components\Quran\Player\Selectors\Cheikh\CheikhSelectorPage.xaml.cs">
       <DependentUpon>CheikhSelectorPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Player\Selectors\Surah\SurahSelectorPage.xaml.cs">
+    <Compile Include="Components\Quran\Player\Selectors\Surah\SurahSelectorPage.xaml.cs">
       <DependentUpon>SurahSelectorPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Searcher\BarakaSearchResult.xaml.cs">
+    <Compile Include="Components\Quran\Searcher\BarakaSearchResult.xaml.cs">
       <DependentUpon>BarakaSearchResult.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\TranslationsManager\TranslationBar.xaml.cs">
+    <Compile Include="Components\Quran\TranslationsManager\TranslationBar.xaml.cs">
       <DependentUpon>TranslationBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\Audio.cs" />
@@ -255,28 +258,28 @@
     <Compile Include="Utils\UI\ScrollAnimationBehavior.cs" />
     <Compile Include="Utils\UI\SelectableTextBlock.cs" />
     <Compile Include="Utils\WaitCursor.cs" />
-    <Compile Include="Forms\WelcomeWindow.xaml.cs">
-      <DependentUpon>WelcomeWindow.xaml</DependentUpon>
+    <Compile Include="Forms\Splashes\WelcomeSplashWindow.xaml.cs">
+      <DependentUpon>WelcomeSplashWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Player\BarakaPlayer.xaml.cs">
+    <Compile Include="Components\Quran\Player\BarakaPlayer.xaml.cs">
       <DependentUpon>BarakaPlayer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\BarakaMysteriousProgressBar.xaml.cs">
+    <Compile Include="Components\BarakaMysteriousProgressBar.xaml.cs">
       <DependentUpon>BarakaMysteriousProgressBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\BarakaScrollBar.xaml.cs">
+    <Compile Include="Components\BarakaScrollBar.xaml.cs">
       <DependentUpon>BarakaScrollBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\BarakaTextBox.xaml.cs">
+    <Compile Include="Components\BarakaTextBox.xaml.cs">
       <DependentUpon>BarakaTextBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Player\Selectors\Cheikh\CheikhCard.xaml.cs">
+    <Compile Include="Components\Quran\Player\Selectors\Cheikh\CheikhCard.xaml.cs">
       <DependentUpon>CheikhCard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\Quran\Player\Selectors\Surah\SurahBar.xaml.cs">
+    <Compile Include="Components\Quran\Player\Selectors\Surah\SurahBar.xaml.cs">
       <DependentUpon>SurahBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\UserControls\ScrollAccuracyMode.cs" />
+    <Compile Include="Components\ScrollAccuracyMode.cs" />
     <Page Include="Forms\PlaygroundWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -315,50 +318,50 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Theme\UserControls\BarakaButton.xaml">
+    <Page Include="Components\BarakaButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\BarakaDashboard.xaml">
+    <Page Include="Components\BarakaDashboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Dashboard\BarakaDashboardItem.xaml">
+    <Page Include="Components\Dashboard\BarakaDashboardItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Display\Mushaf\Content\BarakaMadinaPage.xaml">
+    <Page Include="Components\Quran\Display\Mushaf\Content\BarakaMadinaPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Display\Mushaf\BarakaMushafSurahDisplayer.xaml">
+    <Page Include="Components\Quran\Display\Mushaf\BarakaMushafSurahDisplayer.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Display\Mushaf\Content\BarakaMushafSurahTransition.xaml">
+    <Page Include="Components\Quran\Display\Mushaf\Content\BarakaMushafSurahTransition.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Display\Mushaf\Legacy\Book.xaml">
+    <Page Include="Components\Quran\Display\Mushaf\Legacy\Book.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Display\Mushaf\Legacy\BookPage.xaml">
+    <Page Include="Components\Quran\Display\Mushaf\Legacy\BookPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Display\Translated\BarakaBookmark.xaml">
+    <Page Include="Components\Quran\Display\Translated\BarakaBookmark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Display\Translated\BarakaTranslatedSurahDisplayer.xaml">
+    <Page Include="Components\Quran\Display\Translated\BarakaTranslatedSurahDisplayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Display\Translated\BarakaVerse.xaml">
+    <Page Include="Components\Quran\Display\Translated\BarakaVerse.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Display\Translated\BarakaVerseNumber.xaml">
+    <Page Include="Components\Quran\Display\Translated\BarakaVerseNumber.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\WelcomeWindow.xaml">
+    <Page Include="Forms\Splashes\WelcomeSplashWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -374,47 +377,47 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Theme\UserControls\Quran\Player\Selectors\Surah\BarakaHizbSegment.xaml">
+    <Page Include="Components\Quran\Player\Selectors\Surah\BarakaHizbSegment.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Player\Selectors\Surah\BarakaHizbVisualizer.xaml">
+    <Page Include="Components\Quran\Player\Selectors\Surah\BarakaHizbVisualizer.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Player\BarakaPlayer.xaml">
+    <Page Include="Components\Quran\Player\BarakaPlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\BarakaMysteriousProgressBar.xaml">
+    <Page Include="Components\BarakaMysteriousProgressBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Theme\UserControls\BarakaScrollBar.xaml">
+    <Page Include="Components\BarakaScrollBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\BarakaTextBox.xaml">
+    <Page Include="Components\BarakaTextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Player\Selectors\Cheikh\CheikhCard.xaml">
+    <Page Include="Components\Quran\Player\Selectors\Cheikh\CheikhCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Player\Selectors\Cheikh\CheikhSelectorPage.xaml">
+    <Page Include="Components\Quran\Player\Selectors\Cheikh\CheikhSelectorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Player\Selectors\Surah\SurahBar.xaml">
+    <Page Include="Components\Quran\Player\Selectors\Surah\SurahBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Player\Selectors\Surah\SurahSelectorPage.xaml">
+    <Page Include="Components\Quran\Player\Selectors\Surah\SurahSelectorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\Searcher\BarakaSearchResult.xaml">
+    <Page Include="Components\Quran\Searcher\BarakaSearchResult.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Theme\UserControls\Quran\TranslationsManager\TranslationBar.xaml">
+    <Page Include="Components\Quran\TranslationsManager\TranslationBar.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

@@ -82,7 +82,6 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
             InitializeComponent();
             _surahTransitionItems = new List<Grid>();
 
-            Console.WriteLine($"load page {page}");
             LoadPage(page);
         }
 
@@ -175,9 +174,6 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
         // `page` starts at 1
         public void LoadPage(int page)
         {
-            var sw = new Stopwatch();
-            sw.Start();
-
             // Clear all the currently displayed words, symbols, transitions and annotations
             LinesContainerGrid.Children.Clear();
             AnnotationHelperGrid.Children.Clear();
@@ -271,9 +267,6 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
 
             // Re-apply the scale
             ApplyScale(ScaleTransformer.ScaleX, true);
-
-            sw.Stop();
-      
         }
         #endregion
 

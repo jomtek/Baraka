@@ -10,6 +10,7 @@
 
     <Grid x:Name="GridComponent">
         <Image x:Name="ImageComponent" Source="/Baraka;component/Images/default_background.png" Stretch="Fill"/>
+        
         <Grid x:Name="AnnotationHelperGrid">
             <!-- 15 lines -->
             <Grid.RowDefinitions>
