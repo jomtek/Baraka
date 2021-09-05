@@ -267,7 +267,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
                 count++;
             }
 
-            // Re-apply the scale
+            // Reset the scale
             ApplyScale(ScaleTransformer.ScaleX, true);
         }
         #endregion

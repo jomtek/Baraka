@@ -60,7 +60,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
                 var page = new BarakaMadinaPage(i)
                 {
                     Width = double.NaN,
-                    Background = Brushes.Transparent,//(SolidColorBrush)App.Current.FindResource("LightBrush"),
+                    Background = Brushes.Transparent,
                 };
 
                 BookComponent.Items.Add(page);
@@ -137,6 +137,21 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
                 App.Current.Dispatcher.Invoke(() =>
                     BookComponent.AnimateToPreviousPage(false, 450));
             });
+        }
+        #endregion
+
+        #region Zoom
+        public void ApplyScale(double scale)
+        {
+            var c = Mouse.GetPosition(BookComponent);
+            if (c.X < BookComponent.ActualWidth / 2d) // Mouse is over left page
+            {
+                BookComponent.ApplyScaleOnPage(true, scale);
+            }
+            else // Mouse is over right page
+            {
+                BookComponent.ApplyScaleOnPage(false, scale);
+            }
         }
         #endregion
 

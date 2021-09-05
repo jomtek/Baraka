@@ -446,5 +446,23 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Legacy
                     BookCurrentPage.RightSheet : BookCurrentPage.LeftSheet;
         }
         #endregion
+
+        #region Zoom
+        public void ApplyScaleOnPage(bool left, double scale)
+        {
+            int i;
+            
+            if (left)
+            {
+                i = CurrentSheetIndex * 2 - 1;
+            }
+            else
+            {
+                i = CurrentSheetIndex * 2;
+            }
+
+            GetPage(i).ApplyScale(scale);
+        }
+        #endregion
     }
 }
