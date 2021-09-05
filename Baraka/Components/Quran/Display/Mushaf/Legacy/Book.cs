@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Baraka.Theme.UserControls.Quran.Display.Mushaf.Content;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,16 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Legacy
     public partial class Book : ItemsControl
     {
         #region Settings
+        private bool _initialized = false;
+        public bool IsInitialized
+        {
+            get { return _initialized; }
+            set
+            {
+                _initialized = value;
+            }
+        }
+
         private int _currentSheetIndex = 0;
         public int CurrentSheetIndex
         {
@@ -59,9 +70,14 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Legacy
                     SetValue(Book.CurrentPageProperty, value);
             }
         }
+
+        public Size ExpectedSize
+        {
+            get { return new Size(ActualWidth / 2d, ActualHeight); }
+        }
         #endregion
 
-        public Book()
+                public Book()
         {
             InitializeComponent();
         }
@@ -148,12 +164,12 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Legacy
         #endregion
 
         #region Core
-        internal FrameworkElement GetPage(int index)
+        internal BarakaMadinaPage GetPage(int index)
         {
             if ((index >= 0) && (index < Items.Count))
-                return (FrameworkElement)Items[index];
+                return (BarakaMadinaPage)Items[index];
 
-            return new Canvas();
+            return new BarakaMadinaPage(-1);
         }
 
         protected virtual bool CheckCurrentSheetIndex()
@@ -290,46 +306,39 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Legacy
         // `TryPreloadPages` pre-arranges the next 20 pages to be displayed (tweak this value using `prudence`)
         // and hence blocks the UI for a small period of time (which of course we clearly do not want!).
 
-        private void PreloadPage(int index, Size expectedSize, double progress)
+        private void PreloadPage(int index, Size expectedSize)
         {
             // Load the page on the background UI thread
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            var priority = _initialized ? DispatcherPriority.Background : DispatcherPriority.Normal;
+            Application.Current.Dispatcher.BeginInvoke(priority, new Action(() =>
             {
                 var page = GetPage(index);
+                page.LoadCurrentPage();
                 page.Measure(expectedSize);
                 page.Arrange(new Rect(expectedSize));
             }));
         }
 
-        // Note: `forward == true` means left to right, as in a european book
-        private void TryPreloadPages(int prudence, bool forward)
+        // Note: `forward` means left to right, as in a european book
+        public void TryPreloadPages(int prudence, bool forward)
         {
-            var expectedSize = new Size(ActualWidth / 2d, ActualHeight); // The expected size for a mushaf book page
-            int loadedPages = 1;
-            
             if (forward)
             {
-                int incomingPageIndex = CurrentSheetIndex * 2 + 3;
+                int incomingPageIndex = CurrentSheetIndex * 2 + (_initialized ? 3 : 0);
                 if (GetPage(incomingPageIndex).ActualWidth == 0) // Test to see if the incoming page is measured
                 {
                     // Load incoming pages
                     for (int i = incomingPageIndex; i < incomingPageIndex + prudence; i++)
-                    {
-                        PreloadPage(i, expectedSize, loadedPages / (double)prudence);
-                        loadedPages++;
-                    }
+                        PreloadPage(i, ExpectedSize);
                 }
             }
             else
             {
-                int incomingPageIndex = CurrentSheetIndex * 2 - 4;
+                int incomingPageIndex = CurrentSheetIndex * 2 - (_initialized ? 4 : 0);
                 if (GetPage(incomingPageIndex).ActualWidth == 0)
                 {
                     for (int i = incomingPageIndex; i > incomingPageIndex - prudence; i--)
-                    {
-                        PreloadPage(i, expectedSize, loadedPages / (double)prudence);
-                        loadedPages++;
-                    }
+                        PreloadPage(i, ExpectedSize);
                 }
             }
         }

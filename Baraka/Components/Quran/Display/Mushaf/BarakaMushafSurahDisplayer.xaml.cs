@@ -68,6 +68,11 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
 
             BookComponent.CurrentSheetIndex = TOTAL_SHEETS; // Navigate to the very first page (Al-Fatiha)
             ActualSheet = BookComponent.CurrentSheetIndex;
+
+            BookComponent.TryPreloadPages(10, false);
+            BookComponent.TryPreloadPages(10, true);
+
+            BookComponent.IsInitialized = true;
         }
 
         private void Run_MouseEnter(object sender, MouseEventArgs e)

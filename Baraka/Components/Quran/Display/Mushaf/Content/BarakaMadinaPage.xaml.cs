@@ -82,7 +82,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
             InitializeComponent();
             _surahTransitionItems = new List<Grid>();
 
-            LoadPage(page);
+            _page = page;
         }
 
         #region Core
@@ -172,8 +172,11 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
         }
 
         // `page` starts at 1
-        public void LoadPage(int page)
+        public void LoadCurrentPage()
         {
+            if (_page == -1)
+                return;
+
             // Clear all the currently displayed words, symbols, transitions and annotations
             LinesContainerGrid.Children.Clear();
             AnnotationHelperGrid.Children.Clear();
@@ -183,7 +186,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
             LinesContainerSV.ScrollToVerticalOffset(0);
 
             // Set line container capacity
-            if (page == 1 || page == 2)
+            if (_page == 1 || _page == 2)
             {
                 PrepareContainerGrid(7);
             }
@@ -193,15 +196,14 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
             }
 
             // Reset margin accordingly
-            _page = page;
             UpdateTextMargin();
 
             // Prepare required font families
-            FontFamily pageFamily = LoadedData.MushafFontManager.FindPageFontFamily(page);
+            FontFamily pageFamily = LoadedData.MushafFontManager.FindPageFontFamily(_page);
             FontFamily basmalaFamily = LoadedData.MushafFontManager.FindPageFontFamily(0);
 
             // Prepare page-specific background
-            if (page == 1 || page == 2) // Opening
+            if (_page == 1 || _page == 2) // Opening
             {
                 ImageComponent.Source = new BitmapImage(new Uri(@"/Images/opening_background.png", UriKind.Relative));
             }
@@ -213,10 +215,10 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
             // Browse through each line of the specified page
             // and fill the 15-rows (or 8-rows) grid
             int count = 0;
-            foreach (List<MushafGlyphDescription> line in LoadedData.MushafGlyphProvider.RetrievePage(page))
+            foreach (List<MushafGlyphDescription> line in LoadedData.MushafGlyphProvider.RetrievePage(_page))
             {
                 // TODO: perhaps join the two following blocks ?
-                if (page == 1 || page == 2)
+                if (_page == 1 || _page == 2)
                 {
                     switch (line[0].Type)
                     {
