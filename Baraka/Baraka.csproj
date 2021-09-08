@@ -135,6 +135,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Components\Quran\Display\Mushaf\Content\BarakaMushafEndOfAyah.xaml.cs">
+      <DependentUpon>BarakaMushafEndOfAyah.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Data\AudioCacheManager.cs" />
     <Compile Include="Data\Cheikh\WavSegmentationData.cs" />
     <Compile Include="Data\Descriptions\CheikhDescription.cs" />
@@ -280,6 +283,9 @@
       <DependentUpon>SurahBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\ScrollAccuracyMode.cs" />
+    <Page Include="Components\Quran\Display\Mushaf\Content\BarakaMushafEndOfAyah.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Forms\PlaygroundWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

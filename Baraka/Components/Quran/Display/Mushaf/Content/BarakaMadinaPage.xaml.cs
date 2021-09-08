@@ -22,6 +22,7 @@ using System.Net;
 using System.IO;
 using Baraka.Theme.UserControls.Quran.Display.Mushaf.Data;
 using System.Diagnostics; // temporary
+using Baraka.Components.Quran.Display.Mushaf.Content;
 
 namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
 {
@@ -37,7 +38,6 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
     public partial class BarakaMadinaPage : UserControl, INotifyPropertyChanged
     {
         private int _page = -1;
-        private MadinaPageSide _side;
 
         private List<Grid> _surahTransitionItems;
 
@@ -47,33 +47,6 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
         {
             if (this.PropertyChanged != null)
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
-
-        #region Settings
-        [Category("Baraka")]
-        public MadinaPageSide Side
-        {
-            get { return _side; }
-            set
-            {
-                if (value == MadinaPageSide.LEFT)
-                {
-                    Spine.HorizontalAlignment = HorizontalAlignment.Right;
-                    Spine.Margin = new Thickness(0, Spine.Margin.Top, -50, Spine.Margin.Bottom);
-                    SpineShadow.Direction = 180;
-                }
-                else if (value == MadinaPageSide.RIGHT)
-                {
-                    Spine.HorizontalAlignment = HorizontalAlignment.Left;
-                    Spine.Margin = new Thickness(-50, Spine.Margin.Top, 0, Spine.Margin.Bottom);
-                    SpineShadow.Direction = 360;
-                }
-
-                _side = value;
-                
-                RaisePropertyChanged("Side");
-            }
         }
         #endregion
 
@@ -126,6 +99,9 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
                         PageTB.Inlines.Add(mark);
                         continue;
                         */
+
+                        //run = new BarakaMushafEndOfAyah("a");
+
                         run.Foreground = Brushes.DodgerBlue;
                         break;
                     default: // Word
@@ -305,7 +281,6 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            Spine.Margin = new Thickness(Spine.Margin.Left, GetHorizontalBorderHeight(), Spine.Margin.Right, GetHorizontalBorderWidth());
             UpdateTextMargin();
         }
 
@@ -326,12 +301,11 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
         #endregion
 
         #region Zoom
-
         public void ApplyScale(double scale, bool artificial = false)
         {
             // I don't know why, but the mushaf seems to start zooming only at 1.75 scale
-            if (scale != 1 && !artificial)
-                scale += 0.75;
+            //if (scale != 1 && !artificial)
+            //    scale += 0.75;
             
             ScaleTransformer.ScaleX = scale;
             ScaleTransformer.ScaleY = scale;
@@ -359,6 +333,11 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
             LinesContainerSV.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
         }
         private void UserControl_MouseLeave(object sender, MouseEventArgs e)
+        {
+            LinesContainerSV.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            LinesContainerSV.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+        }
+        private void UserControl_LostFocus(object sender, RoutedEventArgs e)
         {
             LinesContainerSV.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
             LinesContainerSV.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;

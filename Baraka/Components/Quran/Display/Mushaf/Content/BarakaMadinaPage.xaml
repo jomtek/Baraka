@@ -6,11 +6,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Display.Mushaf" xmlns:ui="clr-namespace:Baraka.Utils.UI"
              mc:Ignorable="d"
-             d:DesignWidth="480" d:DesignHeight="780" SizeChanged="UserControl_SizeChanged" ClipToBounds="True" Width="480" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave">
+             d:DesignWidth="480" d:DesignHeight="780" SizeChanged="UserControl_SizeChanged" ClipToBounds="True" Width="480" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave" LostFocus="UserControl_LostFocus">
 
     <Grid x:Name="GridComponent">
-        <Image x:Name="ImageComponent" Source="/Baraka;component/Images/default_background.png" Stretch="Fill"/>
-        
+        <Image x:Name="ImageComponent" Source="/Baraka;component/Images/opening_background.png" Stretch="Fill"/>
+
+        <!-- The annotation Grid is mainly used for adding the sura names in the first two pages -->
         <Grid x:Name="AnnotationHelperGrid">
             <!-- 15 lines -->
             <Grid.RowDefinitions>
@@ -31,7 +32,8 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
         </Grid>
-        <ScrollViewer x:Name="LinesContainerSV" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" PreviewMouseWheel="LinesContainerSV_PreviewMouseWheel">
+
+        <ScrollViewer x:Name="LinesContainerSV" FocusVisualStyle="{x:Null}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" PreviewMouseWheel="LinesContainerSV_PreviewMouseWheel">
             <Grid x:Name="LinesContainerGrid">
                 <!-- 15 lines -->
                 <Grid.RowDefinitions>
@@ -57,13 +59,5 @@
                 </Grid.LayoutTransform>
             </Grid>
         </ScrollViewer>
-
-        <!-- It is mainly used for adding the sura names in the first two pages -->
-
-        <Grid x:Name="Spine" HorizontalAlignment="Left" Width="50" Margin="-50,0,0,0" Background="#FFFFC400" Visibility="Collapsed">
-            <Grid.Effect>
-                <DropShadowEffect x:Name="SpineShadow" Direction="360" BlurRadius="100" ShadowDepth="10" RenderingBias="Quality"/>
-            </Grid.Effect>
-        </Grid>
     </Grid>
 </UserControl>
