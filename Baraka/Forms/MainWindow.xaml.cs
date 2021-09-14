@@ -26,12 +26,11 @@ namespace Baraka
     /// </summary>
     public partial class MainWindow : Window
     {
-        private double _zoomScale = 1;
-
         #region Events
         [Category("Baraka")]
         public event EventHandler<double> LoadingProgressChanged;
         #endregion
+        private double _translatedDisplayerZoomScale = 1; // TODO: move this in TranslatedSurahDisplayer
 
         public void ReportLoadingProgress(double progress)
         {
@@ -57,6 +56,8 @@ namespace Baraka
                 Dashboard.IsEnabled = TranslatedSurahDisplayer.IsEnabled;
                 Player.IsEnabled = TranslatedSurahDisplayer.IsEnabled;
             };
+
+            
         }
 
         #region Serialize (temp)
@@ -142,8 +143,7 @@ namespace Baraka
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            SetMinWidth();
-            ApplyScale(true);
+            ApplyScale(_scale, true);
         }
 
         private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -273,6 +273,8 @@ namespace Baraka
         #endregion
 
         #region Zoom
+        private double _scale = 1;
+
         private double GetTranslatedDisplayerWidth()
         {
             return TranslatedSurahDisplayer.ActualWidth * ScaleTransformer.ScaleX;
@@ -282,48 +284,44 @@ namespace Baraka
             MinWidth = GetTranslatedDisplayerWidth() + Dashboard.ActualWidth + 50;
         }
 
-        private void EditScale(double change, bool mushaf)
+        private void ApplyScale(double scale, bool recursive = false)
         {
-            var final = _zoomScale + change;
-
-            // Zoom limitations
-            if (!mushaf && (final < 1 || final > 1.7))
+            if (LoadedData.Settings.SurahVersionConfig.ShowMushaf())
             {
-                return;
+                MushafSurahDisplayer.ApplyScale(scale);
             }
             else
             {
-                _zoomScale += change;
-            }
+                ScaleTransformer.ScaleX = scale;
+                ScaleTransformer.ScaleY = scale;
 
-            if (mushaf && _zoomScale < 1)
-            {
-                _zoomScale = 1;
+                // Make sure everything is visible in the layout
+                if (Dashboard.ActualWidth + GetTranslatedDisplayerWidth() + 50 > ActualWidth)
+                {
+                    _scale -= 0.025;
+                    ScaleTransformer.ScaleX = _scale;
+                    ScaleTransformer.ScaleY = _scale;
+                    if (recursive) ApplyScale(_scale, true);
+                }
+
+                SetMinWidth();
             }
         }
 
-        // TODO
-        private void ApplyScale(bool mushaf, bool recursive = false)
+        private void Zoom(bool zoomIn)
         {
-            if (mushaf) // Mushaf displayer
+            if (zoomIn)
             {
-                MushafSurahDisplayer.ApplyScale(_zoomScale);
+                if (_scale < 2)
+                    _scale += 0.025;
             }
-            else // Translated displayer
+            else
             {
-                if (GetTranslatedDisplayerWidth() + 50 + Dashboard.ActualWidth < ActualWidth)
-                {
-                    ScaleTransformer.ScaleX = _zoomScale;
-                    ScaleTransformer.ScaleY = _zoomScale;
-                }
-                else
-                {
-                    EditScale(-0.025, mushaf);
-                    ScaleTransformer.ScaleX = _zoomScale;
-                    ScaleTransformer.ScaleY = _zoomScale;
-                    if (recursive) ApplyScale(true);
-                }
+                if (_scale > 0.7)
+                    _scale -= 0.025;
             }
+
+            ApplyScale(_scale);
         }
 
         private void MainGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -331,19 +329,14 @@ namespace Baraka
             if (Keyboard.Modifiers != ModifierKeys.Control)
                 return;
 
-            bool mushaf = LoadedData.Settings.SurahVersionConfig.ShowMushaf();
-
             if (e.Delta > 0)
             {
-                EditScale(0.025, mushaf);
+                Zoom(true);
             }
             else if (e.Delta < 0)
             {
-                EditScale(-0.025, mushaf);
+                Zoom(false);
             }
-
-            ApplyScale(mushaf);
-            SetMinWidth();
         }
         #endregion
 

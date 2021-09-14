@@ -14,7 +14,7 @@
         mc:Ignorable="d"
         Title="Baraka - Le logiciel de savoir coranique"
         Height="800" Width="1300"
-        MinWidth="200" MinHeight="500"
+        MinWidth="500" MinHeight="500"
         WindowStartupLocation="CenterScreen"
         Initialized="Window_Initialized"
         Closing="Window_Closing"

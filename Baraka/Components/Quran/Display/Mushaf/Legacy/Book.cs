@@ -21,7 +21,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Legacy
     {
         #region Settings
         private bool _initialized = false;
-        public bool IsInitialized
+        public bool IsBookInitialized
         {
             get { return _initialized; }
             set
@@ -448,7 +448,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Legacy
         #endregion
 
         #region Zoom
-        public void ApplyScaleOnPage(bool left, double scale)
+        public void ApplyScale(bool left, double scale)
         {
             int i;
             

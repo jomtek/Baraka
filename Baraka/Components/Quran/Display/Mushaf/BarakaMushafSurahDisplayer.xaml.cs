@@ -72,7 +72,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
             BookComponent.TryPreloadPages(10, false);
             BookComponent.TryPreloadPages(10, true);
 
-            BookComponent.IsInitialized = true;
+            BookComponent.IsBookInitialized = true;
         }
 
         private void Run_MouseEnter(object sender, MouseEventArgs e)
@@ -146,17 +146,18 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
             var c = Mouse.GetPosition(BookComponent);
             if (c.X < BookComponent.ActualWidth / 2d) // Mouse is over left page
             {
-                BookComponent.ApplyScaleOnPage(true, scale);
+                BookComponent.ApplyScale(true, scale);
             }
             else // Mouse is over right page
             {
-                BookComponent.ApplyScaleOnPage(false, scale);
+                BookComponent.ApplyScale(false, scale);
             }
         }
         #endregion
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            Width = (ActualHeight * 0.6) * 2;
             /*
             LSpine.Width = LeftPage.GetHorizontalBorderWidth();
             RSpine.Width = RightPage.GetHorizontalBorderWidth();

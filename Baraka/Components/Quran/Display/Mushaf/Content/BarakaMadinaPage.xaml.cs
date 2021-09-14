@@ -244,7 +244,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
             }
 
             // Reset the scale
-            ApplyScale(ScaleTransformer.ScaleX, true);
+            ApplyScale(ScaleTransformer.ScaleX);
         }
         #endregion
 
@@ -301,21 +301,18 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
         #endregion
 
         #region Zoom
-        public void ApplyScale(double scale, bool artificial = false)
+        public void ApplyScale(double scale)
         {
-            // I don't know why, but the mushaf seems to start zooming only at 1.75 scale
-            //if (scale != 1 && !artificial)
-            //    scale += 0.75;
-            
             ScaleTransformer.ScaleX = scale;
             ScaleTransformer.ScaleY = scale;
-            
+
             // Prevent the sura transition bars from growing too much
             foreach (Grid item in _surahTransitionItems)
             {
                 item.LayoutTransform = LinesContainerGrid.LayoutTransform.Inverse as Transform;
             }
         }
+
         private void LinesContainerSV_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (Keyboard.Modifiers == ModifierKeys.Control)

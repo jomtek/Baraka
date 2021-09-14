@@ -191,6 +191,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
 
         public async Task LoadSurahAsync(SurahDescription surah, bool reload, bool loadLastBookmark)
         {
+
             if (surah == Surah && !reload)
             {
                 // The surah is already loaded
