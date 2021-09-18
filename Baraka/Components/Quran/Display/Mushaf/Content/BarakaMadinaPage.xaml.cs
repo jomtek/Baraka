@@ -179,7 +179,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
             }
 
             // Reset margin accordingly
-            UpdateTextMargin();
+            AlignTextAndAnnotations();
 
             // Prepare required font families
             FontFamily pageFamily = LoadedData.MushafFontManager.FindPageFontFamily(_page);
@@ -200,51 +200,44 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
             int count = 0;
             foreach (List<MushafGlyphDescription> line in LoadedData.MushafGlyphProvider.RetrievePage(_page))
             {
-                // TODO: perhaps join the two following blocks ?
-                if (_page == 1 || _page == 2)
+                switch (line[0].Type)
                 {
-                    switch (line[0].Type)
-                    {
-                        case MushafGlyphType.SURA_NAME:
-                            AddQuranicLine(line, basmalaFamily, 3, true, false);
-                            count--; // Compensate the count because line is added on another grid
-                            break;
-                        case MushafGlyphType.BASMALA:
-                            AddQuranicLine(line, basmalaFamily, count, false, false);
-                            break;
-                        default:
-                            AddQuranicLine(line, pageFamily, count);
-                            break;
-                    }
-                }
-                else // Normal pages
-                {
-                    switch (line[0].Type)
-                    {
-                        case MushafGlyphType.SURA_NAME:
-                            // If glyph 0 has transliteration "suura", glyph 1 is the sura name
-                            string fullName = new string(new char[] { line[0].DecodedData, line[1].DecodedData });
-                            
-                            var transitionBar = new BarakaMushafSurahTransition(fullName, line[0].AssociatedVerse)
-                            {
-                                HorizontalAlignment = HorizontalAlignment.Stretch,
-                                VerticalAlignment = VerticalAlignment.Stretch,
-                            };
+                    case MushafGlyphType.SURA_NAME:
+                        // If glyph 0 has transliteration "suura", glyph 1 is the sura name
+                        string fullName = new string(new char[] { line[0].DecodedData, line[1].DecodedData });
 
-                            var containerGrid = new Grid();
-                            containerGrid.Children.Add(transitionBar);
+                        var transitionBar = new BarakaMushafSurahTransition(fullName, line[0].AssociatedVerse)
+                        {
+                            HorizontalAlignment = HorizontalAlignment.Stretch,
+                            VerticalAlignment = VerticalAlignment.Stretch,
+                        };
+
+                        var containerGrid = new Grid();
+                        containerGrid.Children.Add(transitionBar);
+
+                        if (_page == 1 || _page == 2)
+                        {
+                            containerGrid.SetValue(Grid.RowProperty, 3);
+                            AnnotationHelperGrid.Children.Add(containerGrid);
+
+                            // Compensate the count because the line is added on another grid
+                            count--;
+                        }
+                        else
+                        {
                             containerGrid.SetValue(Grid.RowProperty, count);
-                            
                             LinesContainerGrid.Children.Add(containerGrid);
-                            _surahTransitionItems.Add(containerGrid);
-                            break;
-                        case MushafGlyphType.BASMALA:
-                            AddQuranicLine(line, basmalaFamily, count, false, false);
-                            break;
-                        default:
-                            AddQuranicLine(line, pageFamily, count);
-                            break;
-                    }
+                        }
+                            
+                        _surahTransitionItems.Add(containerGrid);
+                            
+                        break;
+                    case MushafGlyphType.BASMALA:
+                        AddQuranicLine(line, basmalaFamily, count, false, false);
+                        break;
+                    default:
+                        AddQuranicLine(line, pageFamily, count);
+                        break;
                 }
 
                 count++;
@@ -299,18 +292,20 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            UpdateTextMargin();
+            AlignTextAndAnnotations();
             if (_page == 1 || _page == 2)
             {
                 ApplyScale(GlobalScaleTransformer.ScaleX);
             }
         }
 
-        private void UpdateTextMargin()
+        private void AlignTextAndAnnotations()
         {
             double horizontalMargin = GetHorizontalBorderWidth();
             double topMargin = GetHorizontalBorderHeight();
             double bottomMargin = GetHorizontalBorderHeight();
+
+            AnnotationHelperGrid.Margin = new Thickness(horizontalMargin * 0.93, 0, horizontalMargin * 0.93, 0);
 
             if (_page == 1 || _page == 2) // Opening
             {
@@ -320,6 +315,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
 
             LinesContainerSV.Margin = new Thickness(horizontalMargin, topMargin, horizontalMargin, bottomMargin);
         }
+
         #endregion
 
         #region Zoom
