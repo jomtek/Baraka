@@ -181,7 +181,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Translated
             }
         }
 
-        // Set it to true, the verse displaying process stops
+        // If you set it to true, the verse displaying process stops
         private bool _cancellationToken = false;
 
         public async Task LoadSurahAsync(SurahDescription surah)

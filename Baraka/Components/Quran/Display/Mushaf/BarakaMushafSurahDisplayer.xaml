@@ -18,7 +18,7 @@
             <Button x:Name="LastPageBTN" Content="Page précédente" Padding="10,1" IsEnabled="True" Click="LastPageBTN_Click" Focusable="False"/>
         </StackPanel>
         <legacy:Book x:Name="BookComponent" DockPanel.Dock="Top" Background="White">
-            <!-- <legacy:Book.ItemTemplate /> -->
+        <!-- <legacy:Book.ItemTemplate /> -->
 
             
         </legacy:Book>

@@ -6,35 +6,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Baraka.Theme.UserControls.Quran.Display.Mushaf" xmlns:ui="clr-namespace:Baraka.Utils.UI"
              mc:Ignorable="d"
-             d:DesignWidth="480" d:DesignHeight="780" SizeChanged="UserControl_SizeChanged" ClipToBounds="True" Width="480" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave" LostFocus="UserControl_LostFocus">
+             d:DesignWidth="480" d:DesignHeight="780" SizeChanged="UserControl_SizeChanged" ClipToBounds="True" Width="480" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave" LostFocus="UserControl_LostFocus" PreviewMouseLeftButtonUp="UserControl_PreviewMouseLeftButtonUp">
 
-    <Grid x:Name="GridComponent">
-        <Image x:Name="ImageComponent" Source="/Baraka;component/Images/opening_background.png" Stretch="Fill"/>
+    <ScrollViewer x:Name="GlobalSV" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled" PreviewMouseWheel="GlobalSV_PreviewMouseWheel" Margin="0">
 
-        <!-- The annotation Grid is mainly used for adding the sura names in the first two pages -->
-        <Grid x:Name="AnnotationHelperGrid">
-            <!-- 15 lines -->
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-        </Grid>
+        <Grid x:Name="GridComponent" Width="Auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Image x:Name="ImageComponent" Source="/Baraka;component/Images/opening_background.png" Stretch="Fill"/>
 
-        <ScrollViewer x:Name="LinesContainerSV" FocusVisualStyle="{x:Null}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" PreviewMouseWheel="LinesContainerSV_PreviewMouseWheel">
-            <Grid x:Name="LinesContainerGrid">
+            <!-- The annotation Grid is mainly used for adding the sura names in the first two pages -->
+            <Grid x:Name="AnnotationHelperGrid">
                 <!-- 15 lines -->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -53,11 +33,38 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-
-                <Grid.LayoutTransform>
-                    <ScaleTransform x:Name="ScaleTransformer" ScaleX="1" ScaleY="1" />
-                </Grid.LayoutTransform>
             </Grid>
-        </ScrollViewer>
-    </Grid>
+
+            <ScrollViewer x:Name="LinesContainerSV" FocusVisualStyle="{x:Null}" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled" PreviewMouseWheel="LinesContainerSV_PreviewMouseWheel">
+                <Grid x:Name="LinesContainerGrid">
+                    <!-- 15 lines -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.LayoutTransform>
+                        <ScaleTransform x:Name="LinesScaleTransformer" ScaleX="1" ScaleY="1" />
+                    </Grid.LayoutTransform>
+                </Grid>
+            </ScrollViewer>
+
+            <Grid.LayoutTransform>
+                <ScaleTransform x:Name="GlobalScaleTransformer" ScaleX="1" ScaleY="1" />
+            </Grid.LayoutTransform>
+        </Grid>
+    </ScrollViewer>
 </UserControl>

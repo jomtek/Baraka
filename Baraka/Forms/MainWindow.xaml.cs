@@ -310,15 +310,32 @@ namespace Baraka
 
         private void Zoom(bool zoomIn)
         {
-            if (zoomIn)
+            if (LoadedData.Settings.SurahVersionConfig.ShowMushaf())
             {
-                if (_scale < 2)
-                    _scale += 0.025;
+                if (zoomIn)
+                {
+                    _scale += 0.15;
+                }
+                else
+                {
+                    if (_scale >= 1)
+                    {
+                        _scale -= 0.15;
+                    }
+                }
             }
             else
             {
-                if (_scale > 0.7)
-                    _scale -= 0.025;
+                if (zoomIn)
+                {
+                    if (_scale < 2)
+                        _scale += 0.025;
+                }
+                else
+                {
+                    if (_scale > 0.7)
+                        _scale -= 0.025;
+                }
             }
 
             ApplyScale(_scale);

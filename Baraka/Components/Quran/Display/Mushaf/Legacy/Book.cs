@@ -77,7 +77,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Legacy
         }
         #endregion
 
-                public Book()
+        public Book()
         {
             InitializeComponent();
         }

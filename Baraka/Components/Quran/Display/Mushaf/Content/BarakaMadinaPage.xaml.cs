@@ -161,6 +161,13 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
             // Reset scrollviewer
             LinesContainerSV.ScrollToVerticalOffset(0);
 
+            // Cancel and prevent any zoom on the first two pages
+            if (_page == 1 || _page == 2)
+            {
+                GridComponent.Width = GlobalSV.ActualWidth;
+                GridComponent.Height = GlobalSV.ActualHeight;
+            }
+
             // Set line container capacity
             if (_page == 1 || _page == 2)
             {
@@ -244,7 +251,18 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
             }
 
             // Reset the scale
-            ApplyScale(ScaleTransformer.ScaleX);
+            // and select a scrollviewer according to whether the page is part of the introduction of the mushaf or not
+            if (_page <= 2)
+            {
+                ApplyScale(GlobalScaleTransformer.ScaleX);
+                GlobalSV.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+                GlobalSV.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible;
+            }
+            else
+            {
+                ApplyScale(LinesScaleTransformer.ScaleX);
+                EnableDisableLinesContainerSV(true);
+            }
         }
         #endregion
 
@@ -271,7 +289,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
         {
             if (_page == 1 || _page == 2)
             {
-                return GridComponent.ActualHeight * (0.3525); // 5.4% of container height
+                return GridComponent.ActualHeight * (0.3525); // 35.25% of container height
             }
             else
             {
@@ -282,6 +300,10 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateTextMargin();
+            if (_page == 1 || _page == 2)
+            {
+                ApplyScale(GlobalScaleTransformer.ScaleX);
+            }
         }
 
         private void UpdateTextMargin()
@@ -303,8 +325,22 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
         #region Zoom
         public void ApplyScale(double scale)
         {
-            ScaleTransformer.ScaleX = scale;
-            ScaleTransformer.ScaleY = scale;
+            if (_page <= 2)
+            {
+                GlobalScaleTransformer.ScaleX = scale;
+                GlobalScaleTransformer.ScaleY = scale;
+
+                // Prevent the GridComponent from getting too small
+                if (GridComponent.ActualWidth * scale < GlobalSV.ActualWidth)
+                {
+                    ApplyScale(scale + 0.05);
+                }
+            }
+            else
+            {
+                LinesScaleTransformer.ScaleX = scale;
+                LinesScaleTransformer.ScaleY = scale;
+            }
 
             // Prevent the sura transition bars from growing too much
             foreach (Grid item in _surahTransitionItems)
@@ -321,24 +357,59 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
                 return;
             }
         }
+
+        private void GlobalSV_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                e.Handled = true;
+                return;
+            }
+        }
         #endregion
 
         #region Effects
+        private void EnableDisableLinesContainerSV(bool enable)
+        {
+            if (enable)
+            {
+                LinesContainerSV.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+                LinesContainerSV.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+            }
+            else
+            {
+                LinesContainerSV.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+                LinesContainerSV.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            }
+        }
+
         private void UserControl_MouseEnter(object sender, MouseEventArgs e)
         {
-            LinesContainerSV.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-            LinesContainerSV.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+            if (_page > 2)
+            {
+                EnableDisableLinesContainerSV(true);
+            }
         }
         private void UserControl_MouseLeave(object sender, MouseEventArgs e)
         {
-            LinesContainerSV.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
-            LinesContainerSV.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            if (_page > 2)
+            {
+                EnableDisableLinesContainerSV(false);
+            }
         }
         private void UserControl_LostFocus(object sender, RoutedEventArgs e)
         {
-            LinesContainerSV.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
-            LinesContainerSV.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            if (_page > 2)
+            {
+                EnableDisableLinesContainerSV(false);
+            }
         }
         #endregion
+
+        private void UserControl_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            //GridComponent.Width = GlobalSV.ActualWidth;
+            //GridComponent.Height = GlobalSV.ActualHeight;
+        }
     }
 }
