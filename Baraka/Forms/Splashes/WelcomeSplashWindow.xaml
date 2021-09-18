@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Baraka.Forms.Splashes"
         xmlns:usercontrols="clr-namespace:Baraka.Theme.UserControls" x:Class="Baraka.Forms.Splashes.WelcomeSplashWindow"
+        AllowsTransparency="True"    
         WindowStyle="None"
-        AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
-        Title="StartupForm" Height="390" Width="700" Loaded="Window_Loaded" ShowInTaskbar="False" Topmost="True">
+        Title="StartupForm" Height="390" Width="700" Loaded="Window_Loaded" ShowInTaskbar="False" Topmost="True" Cursor="SizeAll" MouseLeftButtonDown="Window_MouseLeftButtonDown">
     <StackPanel Background="{DynamicResource MediumBrush}">
         <TextBlock x:Name="TitleTB" TextWrapping="Wrap" Text="baraka" HorizontalAlignment="Center" Margin="0,10,0,0" FontSize="150" FontFamily="/Baraka;component/Fonts/#Al Qalam Quran" Foreground="White">
             <TextBlock.Effect>

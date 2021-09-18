@@ -29,6 +29,206 @@ namespace Baraka.Forms.Splashes
             InitializeComponent();
         }
 
+        #region Drag
+        private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+        #endregion
+
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            //SerializeQuran();
+            //return;
+
+            TitleTB.Margin = new Thickness(
+                TitleTB.Margin.Left,
+                50,
+                TitleTB.Margin.Right,
+                TitleTB.Margin.Bottom
+            );
+
+            var c =
+                SerializationUtils.Deserialize<MySettings>("settings.ser");
+            LoadedData.Settings = c;
+
+            if (!LoadedData.Settings.ShowWelcomeWindow)
+            {
+                Visibility = Visibility.Hidden;
+            }
+
+            ProgressbarComponent.Visibility = Visibility.Collapsed;
+            ProgressTB.Visibility = Visibility.Collapsed;
+
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(800);
+
+            TitleTB.Margin = new Thickness(
+                TitleTB.Margin.Left,
+                10,
+                TitleTB.Margin.Right,
+                TitleTB.Margin.Bottom
+            );
+
+            ProgressbarComponent.Visibility = Visibility.Visible;
+            ProgressTB.Visibility = Visibility.Visible;
+
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(10);
+
+            var sw = new Stopwatch();
+            sw.Start();
+            // // Loading
+            //
+            // Deserialize data
+            var sw1 = new Stopwatch();
+            sw1.Start();
+            ProgressTB.Text = "chargement des ressources: cheikh.ser";
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
+            await Task.Run(() =>
+            {
+                LoadedData.CheikhList =
+                    SerializationUtils.Deserialize<CheikhDescription[]>("data/cheikh.ser");
+            });
+
+            ProgressbarComponent.Progress = 0.1;
+            sw1.Stop();
+            Console.WriteLine($"cheikh.ser: elapsed {sw1.ElapsedMilliseconds}ms");
+
+            var sw2 = new Stopwatch();
+            sw2.Start();
+            ProgressTB.Text = "chargement des ressources: quran/translations_cache.ser";
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
+            await Task.Run(() =>
+            {
+                LoadedData.SurahList =
+                SerializationUtils.Deserialize<Dictionary<SurahDescription, Dictionary<string, SurahVersion>>>("data/quran/translations_cache.ser");
+            });
+            ProgressbarComponent.Progress = 0.25;
+            sw2.Stop();
+            Console.WriteLine($"translations_cache.ser: elapsed {sw2.ElapsedMilliseconds}ms");
+
+            var sw3 = new Stopwatch();
+            sw3.Start();
+            ProgressTB.Text = "chargement des ressources: quran/translations_info.ser";
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
+            await Task.Run(() =>
+            {
+                LoadedData.TranslationsList =
+                SerializationUtils.Deserialize<TranslationDescription[]>("data/quran/translations_info.ser");
+            });
+            ProgressbarComponent.Progress = 0.4;
+            sw3.Stop();
+            Console.WriteLine($"translations_info.ser: elapsed {sw3.ElapsedMilliseconds}ms");
+
+            var sw4 = new Stopwatch();
+            sw4.Start();
+            ProgressTB.Text = "chargement du cache audio...";
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(50);
+            //var cacheContent =
+            //    SerializationUtils.Deserialize<Dictionary<string, byte[]>>("data/cache.ser");
+            //LoadedData.AudioCache = new AudioCacheManager(cacheContent);
+            await Task.Run(() =>
+            {
+                LoadedData.AudioCache = new AudioCacheManager(new Dictionary<string, byte[]>());
+            });
+            ProgressbarComponent.Progress = 0.6;
+            sw4.Stop();
+            Console.WriteLine($"audio cache: elapsed {sw4.ElapsedMilliseconds}ms");
+
+            var sw5 = new Stopwatch();
+            sw5.Start();
+            ProgressTB.Text = "chargement du Mushaf...";
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
+            LoadedData.MushafFontManager = new MushafFontManager();
+            LoadedData.MushafGlyphProvider = new MushafGlyphProvider();
+            //DEBUG -- LoadedData.MushafGlyphProvider.LoadGlyphInfo();
+            await Task.Run(() =>
+            {
+                LoadedData.MushafGlyphProvider.GlyphInfoDict =
+                    SerializationUtils.Deserialize<Dictionary<(int, char), MushafGlyphDescription>>("data/quran/mushaf/glyph_info.ser");
+            });
+            sw5.Stop();
+            Console.WriteLine($"glyph_info.ser: elapsed {sw5.ElapsedMilliseconds}ms");
+
+            var sw6 = new Stopwatch();
+            sw6.Start();
+            // Deserialize settings
+            ProgressTB.Text = "chargement des marque-pages...";
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(50);
+            // DEBUG -- LoadedData.Bookmarks = (new int[114]).ToList();
+            await Task.Run(() =>
+            {
+                LoadedData.Bookmarks = SerializationUtils.Deserialize<List<int>>("bookmarks.ser");
+            });
+            sw6.Stop();
+            Console.WriteLine($"bookmarks.ser: elapsed {sw6.ElapsedMilliseconds}ms");
+
+            sw.Stop();
+            Console.WriteLine($"total time is {sw.ElapsedMilliseconds}ms");
+
+            // TODO : use netserializer
+
+            //  // Finish
+            ProgressTB.Text = $"préparation de l'interface...";
+            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
+
+            using (new Utils.WaitCursor())
+            {
+                var window = new MainWindow();
+                window.Visibility = Visibility.Hidden;
+                window.ContentRendered += Window_ContentRendered;
+                window.LoadingProgressChanged += Window_LoadingProgressChanged;
+
+                App.Current.MainWindow = window;
+                window.Show();
+            }
+        }
+
+        #region MainWindow load-specific events
+        private async void Window_ContentRendered(object sender, EventArgs e)
+        {
+            var instance = sender as MainWindow;
+
+            var defaultCheikh = LoadedData.CheikhList.ElementAt(LoadedData.Settings.DefaultCheikhIndex);
+            var defaultSurah = LoadedData.SurahList.ElementAt(LoadedData.Settings.DefaultSurahIndex).Key;
+
+            instance.Player.ChangeSelectedCheikh(defaultCheikh);
+            await instance.Player.ChangeSelectedSurahAsync(defaultSurah, true, true, true);
+            
+            if (LoadedData.Settings.SurahVersionConfig.ShowMushaf())
+            {
+                await instance.ChangeDisplayModeAsync(QuranDisplayMode.MUSHAF);
+            }
+            else
+            {
+                await instance.ChangeDisplayModeAsync(QuranDisplayMode.TRANSLATED);
+            }
+
+            // Other UI settings
+            instance.Player.PrepareItems();
+            instance.TranslatedSurahDisplayer.SetSBVisible(LoadedData.Settings.DisplayScrollBar);
+        }
+
+        private void Window_LoadingProgressChanged(object sender, double progress)
+        {
+            var instance = sender as MainWindow;
+
+            int percentage = (int)Math.Round(progress * 100);
+
+            Dispatcher.Invoke(new Action(() =>
+            {
+                ProgressTB.Text = $"préparation de l'interface... {percentage}%";
+                ProgressbarComponent.Progress = 0.6 + (0.4 * progress);
+            }), DispatcherPriority.ContextIdle);
+
+            if (percentage == 100)
+            {
+                instance.Show();
+                instance.Activate(); // Bring window to front
+                this.Close(); // Close welcome window
+            }
+        }
+        #endregion
+
         #region Serialization (debug purposes)
         private Dictionary<SurahDescription, Dictionary<string, SurahVersion>> SerializationData =
             new Dictionary<SurahDescription, Dictionary<string, SurahVersion>>();
@@ -154,7 +354,7 @@ namespace Baraka.Forms.Splashes
             };
 
             string translationPath = @"C:\Users\jomtek360\Documents\Baraka\quran-translated-main";
-            
+
             for (int i = 0; i < 114; i++)
             {
                 var desc = SurahList[i];
@@ -169,178 +369,6 @@ namespace Baraka.Forms.Splashes
                 });
             }
             Data.SerializationUtils.Serialize(SerializationData, "qurannew.ser");
-        }
-        #endregion
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            //SerializeQuran();
-            //return;
-
-            TitleTB.Margin = new Thickness(
-                TitleTB.Margin.Left,
-                50,
-                TitleTB.Margin.Right,
-                TitleTB.Margin.Bottom
-            );
-
-            var c =
-                SerializationUtils.Deserialize<MySettings>("settings.ser");
-            LoadedData.Settings = c;
-
-            if (!LoadedData.Settings.ShowWelcomeWindow)
-            {
-                Visibility = Visibility.Hidden;
-            }
-
-            ProgressbarComponent.Visibility = Visibility.Collapsed;
-            ProgressTB.Visibility = Visibility.Collapsed;
-
-            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(800);
-
-            TitleTB.Margin = new Thickness(
-                TitleTB.Margin.Left,
-                10,
-                TitleTB.Margin.Right,
-                TitleTB.Margin.Bottom
-            );
-
-            ProgressbarComponent.Visibility = Visibility.Visible;
-            ProgressTB.Visibility = Visibility.Visible;
-
-            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(10);
-
-            var sw = new Stopwatch();
-            sw.Start();
-            // // Loading
-            //
-            // Deserialize data
-            var sw1 = new Stopwatch();
-            sw1.Start();
-            ProgressTB.Text = "chargement des ressources: cheikh.ser";
-            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
-            LoadedData.CheikhList =
-                SerializationUtils.Deserialize<CheikhDescription[]>("data/cheikh.ser");     
-            ProgressbarComponent.Progress = 0.1;
-            sw1.Stop();
-            Console.WriteLine($"cheikh.ser: elapsed {sw1.ElapsedMilliseconds}ms");
-
-            var sw2 = new Stopwatch();
-            sw2.Start();
-            ProgressTB.Text = "chargement des ressources: quran/translations_cache.ser";
-            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
-            LoadedData.SurahList =
-                SerializationUtils.Deserialize<Dictionary<SurahDescription, Dictionary<string, SurahVersion>>>("data/quran/translations_cache.ser");
-            ProgressbarComponent.Progress = 0.25;
-            sw2.Stop();
-            Console.WriteLine($"translations_cache.ser: elapsed {sw2.ElapsedMilliseconds}ms");
-
-            var sw3 = new Stopwatch();
-            sw3.Start();
-            ProgressTB.Text = "chargement des ressources: quran/translations_info.ser";
-            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
-            LoadedData.TranslationsList =
-                SerializationUtils.Deserialize<TranslationDescription[]>("data/quran/translations_info.ser");
-            ProgressbarComponent.Progress = 0.4;
-            sw3.Stop();
-            Console.WriteLine($"translations_info.ser: elapsed {sw3.ElapsedMilliseconds}ms");
-
-            var sw4 = new Stopwatch();
-            sw4.Start();
-            ProgressTB.Text = "chargement du cache audio...";
-            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(50);
-            //var cacheContent =
-            //    SerializationUtils.Deserialize<Dictionary<string, byte[]>>("data/cache.ser");
-            //LoadedData.AudioCache = new AudioCacheManager(cacheContent);
-            LoadedData.AudioCache = new AudioCacheManager(new Dictionary<string, byte[]>());
-            ProgressbarComponent.Progress = 0.6;
-            sw4.Stop();
-            Console.WriteLine($"audio cache: elapsed {sw4.ElapsedMilliseconds}ms");
-
-            var sw5 = new Stopwatch();
-            sw5.Start();
-            ProgressTB.Text = "chargement du Mushaf...";
-            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
-            LoadedData.MushafFontManager = new MushafFontManager();
-            LoadedData.MushafGlyphProvider = new MushafGlyphProvider();
-            //DEBUG -- LoadedData.MushafGlyphProvider.LoadGlyphInfo();
-            LoadedData.MushafGlyphProvider.GlyphInfoDict =
-                SerializationUtils.Deserialize<Dictionary<(int, char), MushafGlyphDescription>>("data/quran/mushaf/glyph_info.ser");
-            sw5.Stop();
-            Console.WriteLine($"glyph_info.ser: elapsed {sw5.ElapsedMilliseconds}ms");
-
-            var sw6 = new Stopwatch();
-            sw6.Start();
-            // Deserialize settings
-            ProgressTB.Text = "chargement des marque-pages...";
-            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(50);
-            // DEBUG -- LoadedData.Bookmarks = (new int[114]).ToList();
-            LoadedData.Bookmarks = SerializationUtils.Deserialize<List<int>>("bookmarks.ser");
-            sw6.Stop();
-            Console.WriteLine($"bookmarks.ser: elapsed {sw6.ElapsedMilliseconds}ms");
-
-            sw.Stop();
-            Console.WriteLine($"total time is {sw.ElapsedMilliseconds}ms");
-            //return;
-
-            // use netserializer
-
-
-            //  // Finish
-            ProgressTB.Text = $"préparation de l'interface...";
-            if (LoadedData.Settings.ShowWelcomeWindow) await Task.Delay(25);
-
-            var window = new MainWindow();
-            window.Visibility = Visibility.Hidden;
-            window.ContentRendered += Window_ContentRendered;
-            window.LoadingProgressChanged += Window_LoadingProgressChanged;
-
-            App.Current.MainWindow = window;
-            window.Show();
-        }
-
-        #region MainWindow load-specific events
-        private async void Window_ContentRendered(object sender, EventArgs e)
-        {
-            var instance = sender as MainWindow;
-
-            var defaultCheikh = LoadedData.CheikhList.ElementAt(LoadedData.Settings.DefaultCheikhIndex);
-            var defaultSurah = LoadedData.SurahList.ElementAt(LoadedData.Settings.DefaultSurahIndex).Key;
-
-            instance.Player.ChangeSelectedCheikh(defaultCheikh);
-            await instance.Player.ChangeSelectedSurahAsync(defaultSurah, true, true, true);
-            
-            if (LoadedData.Settings.SurahVersionConfig.ShowMushaf())
-            {
-                await instance.ChangeDisplayModeAsync(QuranDisplayMode.MUSHAF);
-            }
-            else
-            {
-                await instance.ChangeDisplayModeAsync(QuranDisplayMode.TRANSLATED);
-            }
-
-            // Other UI settings
-            instance.Player.PrepareItems();
-            instance.TranslatedSurahDisplayer.SetSBVisible(LoadedData.Settings.DisplayScrollBar);
-        }
-
-        private void Window_LoadingProgressChanged(object sender, double progress)
-        {
-            var instance = sender as MainWindow;
-
-            int percentage = (int)Math.Round(progress * 100);
-
-            Dispatcher.Invoke(new Action(() =>
-            {
-                ProgressTB.Text = $"préparation de l'interface... {percentage}%";
-                ProgressbarComponent.Progress = 0.6 + (0.4 * progress);
-            }), DispatcherPriority.ContextIdle);
-
-            if (percentage == 100)
-            {
-                instance.Show();
-                instance.Activate(); // Bring window to front
-                this.Close(); // Close welcome window
-            }
         }
         #endregion
 

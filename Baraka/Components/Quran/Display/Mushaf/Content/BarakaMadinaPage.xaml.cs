@@ -333,7 +333,7 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf.Content
                 // Prevent the GridComponent from getting too small
                 if (GridComponent.ActualWidth * scale < GlobalSV.ActualWidth)
                 {
-                    ApplyScale(scale + 0.05);
+                    ApplyScale(scale + 0.005);
                 }
             }
             else

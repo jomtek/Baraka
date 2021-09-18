@@ -16,6 +16,7 @@
         Height="800" Width="1300"
         MinWidth="500" MinHeight="500"
         WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
         Initialized="Window_Initialized"
         Closing="Window_Closing"
         SizeChanged="Window_SizeChanged"
