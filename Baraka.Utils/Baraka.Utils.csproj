@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF> <!-- this adds support for the GUI stuff like MessageBox -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="UI\" />
+  </ItemGroup>
+
+</Project>

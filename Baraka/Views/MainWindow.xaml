@@ -1,0 +1,30 @@
+﻿<Window x:Class="Baraka.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Baraka"
+        xmlns:uc="clr-namespace:Baraka.Views.UserControls"
+        xmlns:ucmodels="clr-namespace:Baraka.Models.UserControls"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="MainWindow"
+        d:DesignHeight="600" d:DesignWidth="1020">
+    <Grid ClipToBounds="True">
+        <Grid Background="Beige">
+            <ScrollBar ViewportSize="5" Margin="50" Width="50" Value="10" Maximum="20" />
+        </Grid>
+
+        <uc:Dashboard Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Stretch">
+            <uc:Dashboard.Effect>
+                <DropShadowEffect Opacity="0.25" BlurRadius="50" />
+            </uc:Dashboard.Effect>
+
+            <uc:Dashboard.Items>
+                <ucmodels:DashboardItemModel Text="Rechercher" Icon="{StaticResource Search}" />
+                <ucmodels:DashboardItemModel Text="Catalogue" Icon="{StaticResource Library}" />
+                <ucmodels:DashboardItemModel Text="Paramètres" Icon="{StaticResource Cog}" />
+            </uc:Dashboard.Items>
+        </uc:Dashboard>
+    </Grid>
+</Window>

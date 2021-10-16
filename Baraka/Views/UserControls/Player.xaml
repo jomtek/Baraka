@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Baraka.Views.UserControls.Player"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Baraka.Views.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="350" d:DesignWidth="600"
+             x:Name="UC">
+    
+    <UserControl.Resources>
+        
+        <!-- Paths -->
+        <Style x:Key="Play" TargetType="{x:Type Path}">
+            <Setter Property="Data" Value="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" />
+        </Style>
+
+        <Style x:Key="Pause" TargetType="{x:Type Path}">
+            <Setter Property="Data" Value="M6.79,23.3H2.263A2.264,2.264,0,0,1,0,21.04V4.443A2.264,2.264,0,0,1,2.263,2.18H6.79A2.264,2.264,0,0,1,9.053,4.443v16.6A2.264,2.264,0,0,1,6.79,23.3ZM21.123,21.04V4.443A2.264,2.264,0,0,0,18.86,2.18H14.333A2.264,2.264,0,0,0,12.07,4.443v16.6A2.264,2.264,0,0,0,14.333,23.3H18.86A2.264,2.264,0,0,0,21.123,21.04Z" />
+        </Style>
+
+        <Style x:Key="Forward" TargetType="{x:Type Path}">
+            <Setter Property="Data" Value="M384 44v424c0 6.6-5.4 12-12 12h-48c-6.6 0-12-5.4-12-12V291.6l-195.5 181C95.9 489.7 64 475.4 64 448V64c0-27.4 31.9-41.7 52.5-24.6L312 219.3V44c0-6.6 5.4-12 12-12h48c6.6 0 12 5.4 12 12z" />
+        </Style>
+
+        <Style x:Key="Backward" TargetType="{x:Type Path}">
+            <Setter Property="Data" Value="M64 468V44c0-6.6 5.4-12 12-12h48c6.6 0 12 5.4 12 12v176.4l195.5-181C352.1 22.3 384 36.6 384 64v384c0 27.4-31.9 41.7-52.5 24.6L136 292.7V468c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12z" />
+        </Style>
+
+        <Style x:Key="Repeat" TargetType="{x:Type Path}">
+            <Setter Property="Data" Value="M 512 256 c 0 88.225 -71.775 160 -160 160 H 110.628 l 68.201 68.201 c 4.686 4.686 4.686 12.284 0 16.971 l -5.656 5.656 c -4.686 4.686 -12.284 4.686 -16.971 0 l -98.343 -98.343 c -4.686 -4.686 -4.686 -12.284 0 -16.971 l 98.343 -98.343 c 4.686 -4.686 12.284 -4.686 16.971 0 l 5.656 5.656 c 4.686 4.686 4.686 12.284 0 16.971 L 110.628 384 H 352 c 70.579 0 128 -57.421 128 -128 c 0 -28.555 -9.403 -54.952 -25.271 -76.268 c -3.567 -4.792 -3.118 -11.462 1.106 -15.686 l 5.705 -5.705 c 5.16 -5.16 13.678 -4.547 18.083 1.271 C 499.935 186.438 512 219.835 512 256 Z M 57.271 332.268 C 41.403 310.952 32 284.555 32 256 c 0 -70.579 57.421 -128 128 -128 h 241.372 l -68.201 68.201 c -4.686 4.686 -4.686 12.284 0 16.971 l 5.656 5.656 c 4.686 4.686 12.284 4.686 16.971 0 l 98.343 -98.343 c 4.686 -4.686 4.686 -12.284 0 -16.971 L 355.799 5.172 c -4.686 -4.686 -12.284 -4.686 -16.971 0 l -5.656 5.656 c -4.686 4.686 -4.686 12.284 0 16.971 L 401.372 96 H 160 C 71.775 96 0 167.775 0 256 c 0 36.165 12.065 69.562 32.376 96.387 c 4.405 5.818 12.923 6.432 18.083 1.271 l 5.705 -5.705 c 4.225 -4.224 4.674 -10.893 1.107 -15.685 Z" />
+        </Style>
+
+    </UserControl.Resources>
+    
+    <Grid>
+        <Border Background="White" CornerRadius="25 25 00 0" VerticalAlignment="Bottom" Height="350" />
+        <Grid>
+            
+        </Grid>
+    </Grid>
+</UserControl>

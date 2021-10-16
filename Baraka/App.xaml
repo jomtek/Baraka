@@ -1,0 +1,27 @@
+﻿<Application x:Class="Baraka.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Baraka">
+    <Application.Resources>
+        <ResourceDictionary>
+            
+            <!-- Basic colors and their brush -->
+            <Color x:Key="LightColor">#029550</Color>
+            <SolidColorBrush x:Key="LightColorBrush" Color="{StaticResource LightColor}" />
+
+            <Color x:Key="MediumColor">#008145</Color>
+            <SolidColorBrush x:Key="MediumColorBrush" Color="{StaticResource MediumColor}" />
+
+            <Color x:Key="DarkColor">#01743E</Color>
+            <SolidColorBrush x:Key="DarkColorBrush" Color="{StaticResource DarkColor}" />
+
+            <Color x:Key="GoldColor">#FFC400</Color>
+            <SolidColorBrush x:Key="GoldColorBrush" Color="{StaticResource GoldColor}" />
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,45 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ScrollBar style -->
+    <Style TargetType="Thumb">
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Background="White" CornerRadius="15" Cursor="Hand">
+                        <Grid Height="20" Margin="5 0 5 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Rectangle Grid.Row="0" RadiusX="2" RadiusY="2" Fill="#FFB4B2B2" />
+                            <Rectangle Grid.Row="2" RadiusX="2" RadiusY="2" Fill="#FFB4B2B2" />
+                            <Rectangle Grid.Row="4" RadiusX="2" RadiusY="2" Fill="#FFB4B2B2" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="ScrollBar">
+        <Setter Property="Stylus.IsFlicksEnabled" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ScrollBar">
+                    <Border Background="#FFB6B6B5" CornerRadius="15">
+                        <Track x:Name="PART_Track" Margin="0 5 0 5" IsDirectionReversed="True" Focusable="False">
+                            <Track.Thumb>
+                                <Thumb x:Name="Thumb" Margin="5 0 5 0" />
+                            </Track.Thumb>
+                        </Track>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+</ResourceDictionary>
