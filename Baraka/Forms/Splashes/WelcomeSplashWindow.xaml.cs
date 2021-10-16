@@ -16,6 +16,7 @@ using Baraka.Data.Quran.Mushaf;
 using Baraka.Theme.UserControls.Quran.Display.Mushaf;
 using Baraka.Theme.UserControls.Quran.Display.Mushaf.Data;
 using System.Diagnostics; // temporary
+using Baraka.Utils;
 
 namespace Baraka.Forms.Splashes
 {
@@ -197,6 +198,8 @@ namespace Baraka.Forms.Splashes
             if (LoadedData.Settings.SurahVersionConfig.ShowMushaf())
             {
                 await instance.ChangeDisplayModeAsync(QuranDisplayMode.MUSHAF);
+                using (new WaitCursor())
+                    instance.MushafSurahDisplayer.LoadPages();
             }
             else
             {

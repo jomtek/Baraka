@@ -50,7 +50,6 @@ namespace Baraka.Theme.UserControls.Quran.Display.Mushaf
         public BarakaMushafSurahDisplayer()
         {
             InitializeComponent();
-            LoadPages();
         }
 
         public void LoadPages()

@@ -265,8 +265,14 @@ namespace Baraka
 
             if (!LoadedData.Settings.SurahVersionConfig.Equals(oldSurahVerConfig))
             {
-                // Reload actual surah
-                await TranslatedSurahDisplayer.LoadSurahAsync(TranslatedSurahDisplayer.Surah, true, false);
+                if (LoadedData.Settings.SurahVersionConfig.ShowMushaf())
+                {
+                    await ChangeDisplayModeAsync(QuranDisplayMode.MUSHAF);
+                }
+                else
+                {
+                    await ChangeDisplayModeAsync(QuranDisplayMode.TRANSLATED);
+                }
             }
         }
         #endregion
@@ -367,7 +373,6 @@ namespace Baraka
                 
                 TranslatedSurahDisplayer.Visibility = Visibility.Collapsed;
                 MushafSurahDisplayer.Visibility = Visibility.Visible;
-            
             }
             else if (mode == QuranDisplayMode.TRANSLATED)
             {
