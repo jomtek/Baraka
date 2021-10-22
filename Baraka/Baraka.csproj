@@ -22,4 +22,8 @@
     <Resource Include="Assets\Images\logo.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Converters\" />
+  </ItemGroup>
+
 </Project>

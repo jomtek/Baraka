@@ -103,7 +103,7 @@
                                         
                                         <Style.Triggers>
                                             <Trigger Property="Grid.IsMouseOver" Value="True">
-                                                <Setter Property="TextBlock.Foreground" Value="LightGray" />
+                                                <Setter Property="TextBlock.Foreground" Value="Gray" />
                                             </Trigger>
                                         </Style.Triggers>
                                     </Style>

@@ -5,9 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Baraka.Views.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="350" d:DesignWidth="600"
              x:Name="UC">
-    
+
     <UserControl.Resources>
         
         <!-- Paths -->
@@ -32,11 +31,118 @@
         </Style>
 
     </UserControl.Resources>
-    
-    <Grid>
-        <Border Background="White" CornerRadius="25 25 00 0" VerticalAlignment="Bottom" Height="350" />
-        <Grid>
-            
+
+    <!-- Let's wrap all the layout in a Viewbox so that some important values can be hardcoded -->
+    <Viewbox>
+        <Grid Height="425" Width="650">
+            <Border Background="White" CornerRadius="25 25 0 0" VerticalAlignment="Bottom"
+                    Height="425" /> <!-- folded value is 93 I think -->
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15" /> <!-- Top margin    -->
+                    <RowDefinition Height="8*" /> <!-- Content       -->
+                    <RowDefinition Height="7" />  <!-- Separator     -->
+                    <RowDefinition Height="2*" /> <!-- Control panel -->
+                </Grid.RowDefinitions>
+
+                <!-- Content display -->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"   />  <!-- Left margin  -->
+                        <ColumnDefinition Width="25*" />  <!-- Content      -->
+                        <ColumnDefinition Width="15"  />  <!-- Margin       -->
+                        <ColumnDefinition Width="35"  />  <!-- Scrollbar    -->
+                        <ColumnDefinition Width="*"   />  <!-- Right margin -->
+                    </Grid.ColumnDefinitions>
+                    
+                    <Grid Grid.Column="1" Background="Orange" />
+                    <ScrollBar Grid.Column="3" Width="Auto" Margin="0 0 0 -25"
+                               Minimum="0" Maximum="10" ViewportSize="10" />
+                </Grid>
+                
+                <!-- Separator -->
+                <Rectangle Grid.Row="2" Fill="LightGray" RadiusX="3" RadiusY="3" HorizontalAlignment="Center"
+                           Width="450" />
+
+                <!-- Control panel -->
+                <Grid Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="5" /> <!-- Margin -->
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="3" /> <!-- Margin -->
+                    </Grid.RowDefinitions>
+
+                    <!-- Backward, play/pause, forward -->
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="8*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        
+                        <Grid Grid.Row="1" HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="15" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="15" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.Resources>
+                                <Style TargetType="Grid">
+                                    <Setter Property="Cursor" Value="Hand" />
+                                    <Setter Property="Background" Value="Transparent" />
+                                </Style>
+                            </Grid.Resources>
+                            
+                            <Grid Grid.Column="0" Width="25" Height="25">
+                                <Path Style="{StaticResource Backward}" Fill="Black" Stretch="Fill" />
+                            </Grid>
+                            <Grid Grid.Column="2" Width="25" Height="25">
+                                <Path Style="{StaticResource Play}" Fill="Black" Stretch="Fill" />
+                            </Grid>
+                            <Grid Grid.Column="4" Width="25" Height="25">
+                                <Path Style="{StaticResource Forward}" Fill="Black" Stretch="Fill" />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+
+                    <!-- Reciter and sura -->
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*" />
+                            <RowDefinition Height="7*" />
+                            <RowDefinition Height="2*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontFamily" Value="Montserrat" />
+                                <Setter Property="FontWeight" Value="ExtraBlack" />
+
+                                <Setter Property="Cursor" Value="Hand" />
+                            </Style>
+                        </Grid.Resources>
+
+                        <Viewbox Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" Stretch="Uniform">
+                            <TextBlock Text="Maher Al-Mueaqly" />
+                        </Viewbox>
+
+                        <Viewbox Grid.Column="2" Grid.Row="1"  HorizontalAlignment="Left" Stretch="Uniform">
+                            <TextBlock Text="Ad-Dhariyat" />
+                        </Viewbox>
+                    </Grid>
+                </Grid>
+            </Grid>
         </Grid>
-    </Grid>
+    </Viewbox>
 </UserControl>

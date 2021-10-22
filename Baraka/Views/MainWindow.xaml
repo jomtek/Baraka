@@ -9,15 +9,18 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="MainWindow"
-        d:DesignHeight="600" d:DesignWidth="1020">
+        d:DesignHeight="600" d:DesignWidth="1020"
+        MinHeight="250"
+        MinWidth="1000">
+
     <Grid ClipToBounds="True">
-        <Grid Background="Beige">
-            <ScrollBar ViewportSize="5" Margin="50" Width="50" Value="10" Maximum="20" />
+        <Grid Background="{StaticResource LightColorBrush}">
+            
         </Grid>
 
-        <uc:Dashboard Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Stretch">
+        <uc:Dashboard x:Name="Dashboard" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Stretch">
             <uc:Dashboard.Effect>
-                <DropShadowEffect Opacity="0.25" BlurRadius="50" />
+                <DropShadowEffect Opacity="0.3" BlurRadius="5" />
             </uc:Dashboard.Effect>
 
             <uc:Dashboard.Items>
@@ -26,5 +29,22 @@
                 <ucmodels:DashboardItemModel Text="Paramètres" Icon="{StaticResource Cog}" />
             </uc:Dashboard.Items>
         </uc:Dashboard>
+
+        <Grid Margin="57 0 0 0">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            
+            <uc:Player VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="1" >
+            
+            </uc:Player>
+        </Grid>
     </Grid>
 </Window>

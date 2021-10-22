@@ -6,19 +6,23 @@
         <Setter Property="Template" >
             <Setter.Value>
                 <ControlTemplate>
-                    <Border Background="White" CornerRadius="15" Cursor="Hand">
-                        <Grid Height="20" Margin="5 0 5 0">
+                    <Border Background="White" CornerRadius="10" Cursor="Hand">
+                        <Border.Effect>
+                            <DropShadowEffect Opacity="0.10" BlurRadius="3" ShadowDepth="3" />
+                        </Border.Effect>
+                        
+                        <Grid Height="15" Margin="5 0 5 0">
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="2"/>
                                 <RowDefinition Height="*"/>
+                                <RowDefinition Height="2"/>
                                 <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="2"/>
                             </Grid.RowDefinitions>
 
-                            <Rectangle Grid.Row="0" RadiusX="2" RadiusY="2" Fill="#FFB4B2B2" />
-                            <Rectangle Grid.Row="2" RadiusX="2" RadiusY="2" Fill="#FFB4B2B2" />
-                            <Rectangle Grid.Row="4" RadiusX="2" RadiusY="2" Fill="#FFB4B2B2" />
+                            <Rectangle Grid.Row="0" RadiusX="1" RadiusY="1" Fill="LightGray" />
+                            <Rectangle Grid.Row="2" RadiusX="1" RadiusY="1" Fill="LightGray" />
+                            <Rectangle Grid.Row="4" RadiusX="1" RadiusY="1" Fill="LightGray" />
                         </Grid>
                     </Border>
                 </ControlTemplate>
@@ -30,10 +34,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ScrollBar">
-                    <Border Background="#FFB6B6B5" CornerRadius="15">
-                        <Track x:Name="PART_Track" Margin="0 5 0 5" IsDirectionReversed="True" Focusable="False">
+                    <Border Background="#FFB6B6B5" CornerRadius="12">
+                        <Track x:Name="PART_Track" Margin="0 3 0 3" IsDirectionReversed="True" Focusable="False">
                             <Track.Thumb>
-                                <Thumb x:Name="Thumb" Margin="5 0 5 0" />
+                                <Thumb x:Name="Thumb" Margin="4 0 4 0" />
                             </Track.Thumb>
                         </Track>
                     </Border>
