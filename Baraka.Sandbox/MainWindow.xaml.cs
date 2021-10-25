@@ -13,15 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Baraka.Views.UserControls
+namespace Baraka.Sandbox
 {
     /// <summary>
-    /// Interaction logic for Player.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class Player : UserControl
+    public partial class MainWindow : Window
     {
-        public Player()
+        public MainWindow()
         {
+            DataContext = new MainViewModel();
             InitializeComponent();
         }
     }

@@ -13,15 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Baraka.Views
+namespace Baraka.Sandbox
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for TestView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class TestView : Page
     {
-        public MainWindow()
+        public TestView()
         {
+            DataContext = new TestViewModel();
             InitializeComponent();
         }
     }

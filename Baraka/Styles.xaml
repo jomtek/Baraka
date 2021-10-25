@@ -20,9 +20,9 @@
                                 <RowDefinition Height="2"/>
                             </Grid.RowDefinitions>
 
-                            <Rectangle Grid.Row="0" RadiusX="1" RadiusY="1" Fill="LightGray" />
-                            <Rectangle Grid.Row="2" RadiusX="1" RadiusY="1" Fill="LightGray" />
-                            <Rectangle Grid.Row="4" RadiusX="1" RadiusY="1" Fill="LightGray" />
+                            <Rectangle Grid.Row="0" RadiusX="1" RadiusY="1" Fill="Gray" />
+                            <Rectangle Grid.Row="2" RadiusX="1" RadiusY="1" Fill="Gray" />
+                            <Rectangle Grid.Row="4" RadiusX="1" RadiusY="1" Fill="Gray" />
                         </Grid>
                     </Border>
                 </ControlTemplate>
@@ -46,4 +46,41 @@
         </Setter>
     </Style>
     
+    
+    <!-- Placeholder TextBox style -->
+    <Style x:Key="PlaceholderStyle" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border CornerRadius="5" BorderThickness="0.5" BorderBrush="Gray" Background="White" >
+                        <Grid Margin="6 4 4 4">
+                            <TextBox Text="{Binding Path=Text,
+                                                RelativeSource={RelativeSource TemplatedParent}, 
+                                                Mode=TwoWay,
+                                                UpdateSourceTrigger=PropertyChanged}"
+                                 x:Name="TextSource" 
+                                 Background="Transparent"
+                                 VerticalContentAlignment="Center"
+                                 BorderThickness="0"
+                                 Panel.ZIndex="2" />
+                            <TextBox Text="{TemplateBinding Tag}" Background="{TemplateBinding Background}" Panel.ZIndex="1"
+                                     BorderThickness="0" VerticalContentAlignment="Center">
+                                <TextBox.Style>
+                                    <Style TargetType="{x:Type TextBox}">
+                                        <Setter Property="Foreground" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Text, Source={x:Reference TextSource}}" Value="">
+                                                <Setter Property="Foreground" Value="Black"/>
+                                                <Setter Property="Opacity" Value="0.4"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

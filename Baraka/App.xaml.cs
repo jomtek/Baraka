@@ -1,12 +1,6 @@
 ﻿using Baraka.ViewModels.Splashes;
 using Baraka.Views;
 using Baraka.Views.Splashes;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Baraka
@@ -22,14 +16,14 @@ namespace Baraka
 
             // Initialize the splash screen
             var splashVm = new WelcomeViewModel();
-            var splashView = new WelcomeWindow()
+            var splashView = new WelcomeView()
             {
                 DataContext = splashVm,
             };
 
             // Initialize the main window
             
-            MainWindow = new MainWindow()
+            MainWindow = new MainView()
             {
 
             };

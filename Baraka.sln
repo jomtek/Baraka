@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Baraka", "Baraka\Baraka.csproj", "{25F3E50B-D39C-4124-B8C0-5ED529BDA10A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baraka.Utils", "Baraka.Utils\Baraka.Utils.csproj", "{C6800F58-7AF2-450D-81D8-3297872615DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Baraka.Utils", "Baraka.Utils\Baraka.Utils.csproj", "{C6800F58-7AF2-450D-81D8-3297872615DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baraka.Sandbox", "Baraka.Sandbox\Baraka.Sandbox.csproj", "{C1E7CBDD-B539-4305-BC1F-36B880944778}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C6800F58-7AF2-450D-81D8-3297872615DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6800F58-7AF2-450D-81D8-3297872615DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6800F58-7AF2-450D-81D8-3297872615DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1E7CBDD-B539-4305-BC1F-36B880944778}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1E7CBDD-B539-4305-BC1F-36B880944778}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1E7CBDD-B539-4305-BC1F-36B880944778}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1E7CBDD-B539-4305-BC1F-36B880944778}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

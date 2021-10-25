@@ -12,7 +12,7 @@ namespace Baraka.Views.UserControls
     /// </summary>
     
     [ContentProperty("Items")]
-    public partial class Dashboard : UserControl
+    public partial class DashboardView : UserControl
     {
         public ObservableCollection<DashboardItemModel> Items
         {
@@ -21,9 +21,9 @@ namespace Baraka.Views.UserControls
         }
 
         public static readonly DependencyProperty ItemsProperty =
-            DependencyProperty.Register("Items", typeof(ObservableCollection<Object>), typeof(Dashboard), new UIPropertyMetadata(new ObservableCollection<object>()));
+            DependencyProperty.Register("Items", typeof(ObservableCollection<Object>), typeof(DashboardView), new UIPropertyMetadata(new ObservableCollection<object>()));
         
-        public Dashboard()
+        public DashboardView()
         {
             InitializeComponent();
         }

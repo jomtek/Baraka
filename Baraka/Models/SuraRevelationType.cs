@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Baraka.Services
+namespace Baraka.Models
 {
-    public static class QariService
+    public enum SuraRevelationType
     {
-
+        M, // Mecca
+        H, // Medina
+        MH // Unclear
     }
 }

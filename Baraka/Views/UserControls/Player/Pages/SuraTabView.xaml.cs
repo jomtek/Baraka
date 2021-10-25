@@ -1,4 +1,4 @@
-﻿using Baraka.ViewModels.Splashes;
+﻿using Baraka.ViewModels.UserControls.Player.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,24 +11,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Baraka.Views.Splashes
+namespace Baraka.Views.UserControls.Player.Pages
 {
     /// <summary>
-    /// Interaction logic for WelcomeWindow.xaml
+    /// Interaction logic for SuraTabView.xaml
     /// </summary>
-    public partial class WelcomeWindow : Window
+    public partial class SuraTabView : UserControl
     {
-        public WelcomeWindow()
+        public SuraTabView()
         {
             InitializeComponent();
-
-        }
-
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            this.DragMove();
         }
     }
 }

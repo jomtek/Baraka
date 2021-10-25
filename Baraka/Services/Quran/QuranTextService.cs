@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Baraka.Models
+namespace Baraka.Services.Quran
 {
-    public enum SurahRevelationType
+    public static class QuranTextService
     {
-        M, // Mecca
-        H, // Medina
-        MH // Unclear
     }
 }
