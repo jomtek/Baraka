@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Baraka.Views.UserControls"
              xmlns:pagev="clr-namespace:Baraka.Views.UserControls.Player.Pages"
              xmlns:pagevm="clr-namespace:Baraka.ViewModels.UserControls.Player.Pages"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              x:Name="UC">
 
@@ -59,7 +60,7 @@
                     </Grid.ColumnDefinitions>
 
 
-                    <ContentControl Grid.Column="1" Content="{Binding CurrentPage}">
+                    <ContentControl x:Name="CC" Grid.Column="1" Content="{Binding CurrentPage}">
                         <ContentControl.Resources>
                             <DataTemplate DataType="{x:Type pagevm:QariTabViewModel}">
                                 <pagev:QariTabView  />
@@ -72,8 +73,13 @@
 
 
                     <ScrollBar x:Name="ScrollBar" Grid.Column="3" Width="Auto" Margin="0 0 0 -25"
-                               Minimum="0" Maximum="10" ViewportSize="10"
-                               Scroll="ScrollBar_Scroll" />
+                               ViewportSize="1" Value="{Binding ScrollState}" Maximum="1">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Scroll">
+                                <i:InvokeCommandAction Command="{Binding ScrollCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ScrollBar>
                 </Grid>
                 
                 <!-- Separator -->

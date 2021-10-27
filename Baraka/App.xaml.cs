@@ -22,7 +22,6 @@ namespace Baraka
             };
 
             // Initialize the main window
-            
             MainWindow = new MainView()
             {
 

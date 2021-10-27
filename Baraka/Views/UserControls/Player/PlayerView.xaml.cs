@@ -1,4 +1,5 @@
 ﻿using Baraka.ViewModels.UserControls.Player;
+using Baraka.Views.UserControls.Player.Pages;
 using System.Windows.Controls;
 
 namespace Baraka.Views.UserControls.Player
@@ -12,11 +13,6 @@ namespace Baraka.Views.UserControls.Player
         {
             InitializeComponent();
             DataContext = new PlayerViewModel();
-        }
-
-        private void ScrollBar_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
-        {
-            
         }
     }
 }

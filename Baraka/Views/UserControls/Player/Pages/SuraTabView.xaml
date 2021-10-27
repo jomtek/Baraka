@@ -6,7 +6,8 @@
       xmlns:design="clr-namespace:Baraka.ViewModels.UserControls.Player.Pages.Design"
       d:DataContext="{d:DesignInstance Type={x:Type design:SuraTabDesignViewModel}, IsDesignTimeCreatable=True}"
       xmlns:local="clr-namespace:Baraka.Views.UserControls.Player.Pages"
-      xmlns:qc="http://QuickConverter.CodePlex.com/"
+      xmlns:behaviors="clr-namespace:Baraka.Behaviors"
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       mc:Ignorable="d"
       x:Name="UC"
       d:DesignHeight="320" d:DesignWidth="580"
@@ -28,7 +29,16 @@
 
         <TextBox Grid.Row="0" Style="{StaticResource PlaceholderStyle}" Tag="rechercher une sourate..." FontSize="18" />
 
-        <ScrollViewer Grid.Row="2" d:Background="White" VerticalScrollBarVisibility="Hidden">
+        <ScrollViewer Grid.Row="2" d:Background="White" VerticalScrollBarVisibility="Hidden"
+                      behaviors:ScrollViewerBehavior.ScrollState="{Binding ScrollState, Mode=TwoWay}"
+                      PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewMouseWheel">
+                    <i:InvokeCommandAction Command="{Binding ScrollCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            
             <ItemsControl ItemsSource="{Binding SuraList}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>

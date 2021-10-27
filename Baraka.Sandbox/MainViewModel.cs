@@ -9,16 +9,16 @@ namespace Baraka.Sandbox
 {
     public class MainViewModel : ViewModelBase
     {
-        private ViewModelBase _currentPage;
-        public ViewModelBase CurrentPage
+        private double _scrollValue = 0;
+        public double ScrollValue
         {
-            get { return _currentPage; }
-            set { _currentPage = value; OnPropertyChanged(nameof(CurrentPage)); }
-        }
-
-        public MainViewModel()
-        {
-            CurrentPage = new TestViewModel();
+            get { return _scrollValue; }
+            set
+            {
+                // This code is never reached 
+                _scrollValue = value;
+                OnPropertyChanged(nameof(ScrollValue));
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Baraka.ViewModels.UserControls.Player.Pages;
+﻿using Baraka.Behaviors;
+using Baraka.ViewModels.UserControls.Player.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,15 @@ namespace Baraka.Views.UserControls.Player.Pages
         public SuraTabView()
         {
             InitializeComponent();
+        }
+
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (sender is ScrollViewer scrollViewer)
+            {
+                double state = scrollViewer.VerticalOffset / scrollViewer.ScrollableHeight;
+                ScrollViewerBehavior.SetScrollState(scrollViewer, state);
+            }
         }
     }
 }

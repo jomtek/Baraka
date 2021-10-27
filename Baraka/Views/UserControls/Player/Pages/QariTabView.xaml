@@ -7,6 +7,8 @@
       xmlns:pages="clr-namespace:Baraka.ViewModels.UserControls.Player.Pages"
       xmlns:design="clr-namespace:Baraka.ViewModels.UserControls.Player.Pages.Design"
       xmlns:models="clr-namespace:Baraka.Models"
+      xmlns:behaviors="clr-namespace:Baraka.Behaviors"
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       mc:Ignorable="d" 
       d:DataContext="{d:DesignInstance Type=design:QariTabDesignViewModel, IsDesignTimeCreatable=True}"
       d:DesignHeight="320" d:DesignWidth="580"
@@ -22,7 +24,16 @@
         </Style>
     </UserControl.Resources>
     
-    <ScrollViewer VerticalScrollBarVisibility="Hidden" d:Background="White">
+    <ScrollViewer VerticalScrollBarVisibility="Hidden" d:Background="White"
+                  behaviors:ScrollViewerBehavior.ScrollState="{Binding ScrollState, Mode=TwoWay}"
+                  PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="PreviewMouseWheel">
+                <i:InvokeCommandAction Command="{Binding ScrollCommand}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+
         <ItemsControl ItemsSource="{Binding QariList}" HorizontalAlignment="Center">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

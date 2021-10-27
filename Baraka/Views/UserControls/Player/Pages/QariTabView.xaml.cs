@@ -1,5 +1,7 @@
-﻿using Baraka.ViewModels.UserControls.Player.Pages;
+﻿using Baraka.Behaviors;
+using Baraka.ViewModels.UserControls.Player.Pages;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Baraka.Views.UserControls.Player.Pages
 {
@@ -11,7 +13,15 @@ namespace Baraka.Views.UserControls.Player.Pages
         public QariTabView()
         {
             InitializeComponent();
+        }
 
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (sender is ScrollViewer scrollViewer)
+            {
+                double state = scrollViewer.VerticalOffset / scrollViewer.ScrollableHeight;
+                ScrollViewerBehavior.SetScrollState(scrollViewer, state);
+            }
         }
     }
 }

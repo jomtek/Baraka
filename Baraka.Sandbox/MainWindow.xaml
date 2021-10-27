@@ -7,7 +7,22 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
 
-    <Grid Background="White">
+    <Grid Height="200" Width="300">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
+        <ScrollViewer x:Name="SV" Grid.Row="0" Background="Gray" local:ScrollViewerBehavior.ScrollState="0.1" >
+            <StackPanel>
+                <Rectangle Width="50" Height="50" Fill="Green" Margin="5" />
+                <Rectangle Width="50" Height="50" Fill="Green" Margin="5" />
+                <Rectangle Width="50" Height="50" Fill="Green" Margin="5" />
+                <Rectangle Width="50" Height="50" Fill="Green" Margin="5" />
+                <Rectangle Width="50" Height="50" Fill="Green" Margin="5" />
+            </StackPanel>
+        </ScrollViewer>
+
+        <TextBlock Grid.Row="1" Text="{Binding ScrollValue}" />
     </Grid>
 </Window>
