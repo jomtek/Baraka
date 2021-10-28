@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace Baraka.Behaviors
 {
-    public class ScrollViewerBehavior
+    public static class ScrollViewerBehavior
     {
 
         /* This property allows you to directly bind a ScrollViewer to a double value representing its 

@@ -17,6 +17,48 @@ namespace Baraka.ViewModels.UserControls.Player
         private QariTabViewModel _qariTab;
         private SuraTabViewModel _suraTab;
 
+        private bool _qariTabSelected = false;
+        public bool QariTabSelected
+        {
+            get { return _qariTabSelected; }
+            set
+            {
+                _qariTabSelected = value;
+                OnPropertyChanged(nameof(QariTabSelected));
+                
+                if (value)
+                {
+                    SuraTabSelected = false;
+                    CurrentPage = _qariTab;
+                }
+                else if (!SuraTabSelected)
+                {
+                    ClosePlayer();
+                }
+            }
+        }
+
+        private bool _suraTabSelected = false;
+        public bool SuraTabSelected
+        {
+            get { return _suraTabSelected; }
+            set
+            {
+                _suraTabSelected = value;
+                OnPropertyChanged(nameof(SuraTabSelected));
+                
+                if (value)
+                {
+                    QariTabSelected = false;
+                    CurrentPage = _suraTab;
+                }
+                else if (!QariTabSelected)
+                {
+                    ClosePlayer();
+                }
+            }
+        }
+
         private ViewModelBase _currentPage;
         public ViewModelBase CurrentPage
         {
@@ -36,13 +78,13 @@ namespace Baraka.ViewModels.UserControls.Player
         }
 
         public ICommand ScrollCommand { get; }
-
-        public ScrollStateStore ScrollStateStore;
+        public ICommand QariTabSelectedCommand { get; }
+        public ICommand SuraTabSelectedCommand { get; }
         public PlayerViewModel()
         {
             // Stores
-            ScrollStateStore = new ScrollStateStore();
-            ScrollStateStore.ValueChanged += (newValue) =>
+            var scrollStateStore = new ScrollStateStore();
+            scrollStateStore.ValueChanged += (newValue) =>
             {
                 ScrollState = newValue;
             };
@@ -50,14 +92,28 @@ namespace Baraka.ViewModels.UserControls.Player
             // Commands
             ScrollCommand = new RelayCommand((param) =>
             {
-                ScrollStateStore.ChangeScrollState(ScrollState);
+                scrollStateStore.ChangeScrollState(ScrollState);
+            });
+
+            QariTabSelectedCommand = new RelayCommand((param) =>
+            {
+                QariTabSelected = !QariTabSelected;
+            });
+
+            SuraTabSelectedCommand = new RelayCommand((param) =>
+            {
+                SuraTabSelected = !SuraTabSelected;
             });
 
             // Tab
-            _qariTab = new QariTabViewModel(ScrollStateStore);
-            _suraTab = new SuraTabViewModel(ScrollStateStore);
+            _qariTab = new QariTabViewModel(scrollStateStore);
+            _suraTab = new SuraTabViewModel(scrollStateStore);
+        }
 
-            CurrentPage = _qariTab;
+        private void ClosePlayer()
+        {
+            CurrentPage = null;
+        
         }
     }
 }
