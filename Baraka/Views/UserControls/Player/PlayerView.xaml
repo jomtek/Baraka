@@ -12,7 +12,7 @@
              x:Name="UC">
 
     <UserControl.Resources>
-        
+
         <!-- Paths -->
         <Style x:Key="Play" TargetType="{x:Type Path}">
             <Setter Property="Data" Value="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" />
@@ -30,28 +30,39 @@
             <Setter Property="Data" Value="M64 468V44c0-6.6 5.4-12 12-12h48c6.6 0 12 5.4 12 12v176.4l195.5-181C352.1 22.3 384 36.6 384 64v384c0 27.4-31.9 41.7-52.5 24.6L136 292.7V468c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12z" />
         </Style>
 
-        <Style x:Key="Repeat" TargetType="{x:Type Path}">
-            <Setter Property="Data" Value="M 512 256 c 0 88.225 -71.775 160 -160 160 H 110.628 l 68.201 68.201 c 4.686 4.686 4.686 12.284 0 16.971 l -5.656 5.656 c -4.686 4.686 -12.284 4.686 -16.971 0 l -98.343 -98.343 c -4.686 -4.686 -4.686 -12.284 0 -16.971 l 98.343 -98.343 c 4.686 -4.686 12.284 -4.686 16.971 0 l 5.656 5.656 c 4.686 4.686 4.686 12.284 0 16.971 L 110.628 384 H 352 c 70.579 0 128 -57.421 128 -128 c 0 -28.555 -9.403 -54.952 -25.271 -76.268 c -3.567 -4.792 -3.118 -11.462 1.106 -15.686 l 5.705 -5.705 c 5.16 -5.16 13.678 -4.547 18.083 1.271 C 499.935 186.438 512 219.835 512 256 Z M 57.271 332.268 C 41.403 310.952 32 284.555 32 256 c 0 -70.579 57.421 -128 128 -128 h 241.372 l -68.201 68.201 c -4.686 4.686 -4.686 12.284 0 16.971 l 5.656 5.656 c 4.686 4.686 12.284 4.686 16.971 0 l 98.343 -98.343 c 4.686 -4.686 4.686 -12.284 0 -16.971 L 355.799 5.172 c -4.686 -4.686 -12.284 -4.686 -16.971 0 l -5.656 5.656 c -4.686 4.686 -4.686 12.284 0 16.971 L 401.372 96 H 160 C 71.775 96 0 167.775 0 256 c 0 36.165 12.065 69.562 32.376 96.387 c 4.405 5.818 12.923 6.432 18.083 1.271 l 5.705 -5.705 c 4.225 -4.224 4.674 -10.893 1.107 -15.685 Z" />
-        </Style>
+        
+        <!-- Storyboards -->
+        <Storyboard x:Key="OpenPlayerStory">
+            <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0.3" Duration="0:0:0.1" To="1" />
+            <ThicknessAnimation Storyboard.TargetName="BGBorder" Storyboard.TargetProperty="Margin" Duration="0:0:0.35" To="0" />
+            <DoubleAnimation Storyboard.TargetName="SeparatorRect" Storyboard.TargetProperty="Width" Duration="0:0:0.35" To="450" />
+        </Storyboard>
+        
+        <Storyboard x:Key="ClosePlayerStory">
+            <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="Opacity" Duration="0:0:0.05" To="0" />
+            <ThicknessAnimation Storyboard.TargetName="BGBorder" Storyboard.TargetProperty="Margin" Duration="0:0:0.35" To="0 0 0 -680" />
+            <DoubleAnimation Storyboard.TargetName="SeparatorRect" Storyboard.TargetProperty="Width" Duration="0:0:0.35" To="0" />
+        </Storyboard>
 
     </UserControl.Resources>
 
     <!-- Let's wrap all the layout in a Viewbox so that some important values can be hardcoded -->
     <Viewbox>
         <Grid Height="425" Width="650">
-            <Border Background="White" CornerRadius="25 25 0 0" VerticalAlignment="Bottom"
-                    Height="425" /> <!-- folded value is 93 I think -->
+            <Border x:Name="BGBorder" Margin="0 0 0 0" Background="White" CornerRadius="25 25 0 0"
+                    Height="425" />
 
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="15" /> <!-- Top margin    -->
                     <RowDefinition Height="8*" /> <!-- Content       -->
+                    <RowDefinition Height="2" />  <!-- Margin        -->
                     <RowDefinition Height="7"  /> <!-- Separator     -->
                     <RowDefinition Height="2*" /> <!-- Control panel -->
                 </Grid.RowDefinitions>
 
                 <!-- Content display -->
-                <Grid Grid.Row="1">
+                <Grid x:Name="ContentGrid" Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"   />  <!-- Left margin  -->
                         <ColumnDefinition Width="580" />  <!-- Content      -->
@@ -82,11 +93,11 @@
                 </Grid>
                 
                 <!-- Separator -->
-                <Rectangle Grid.Row="2" Fill="LightGray" RadiusX="3" RadiusY="3" HorizontalAlignment="Center"
+                <Rectangle x:Name="SeparatorRect" Grid.Row="3" Fill="LightGray" RadiusX="3" RadiusY="3" HorizontalAlignment="Center"
                            Width="450" />
 
                 <!-- Control panel -->
-                <Grid Grid.Row="3">
+                <Grid Grid.Row="4">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="5" /> <!-- Margin -->
                         <RowDefinition Height="*" />

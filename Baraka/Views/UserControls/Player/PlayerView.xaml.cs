@@ -1,6 +1,7 @@
 ﻿using Baraka.ViewModels.UserControls.Player;
 using Baraka.Views.UserControls.Player.Pages;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
 
 namespace Baraka.Views.UserControls.Player
 {
@@ -12,7 +13,21 @@ namespace Baraka.Views.UserControls.Player
         public PlayerView()
         {
             InitializeComponent();
-            DataContext = new PlayerViewModel();
+
+            var vm = new PlayerViewModel();
+            DataContext = vm;
+
+            vm.PlayerOpenChanged += (open) =>
+            {
+                if (open)
+                {
+                    ((Storyboard)FindResource("OpenPlayerStory")).Begin();
+                }
+                else
+                {
+                    ((Storyboard)FindResource("ClosePlayerStory")).Begin();
+                }
+            };
         }
     }
 }

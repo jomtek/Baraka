@@ -16,6 +16,14 @@ namespace Baraka.ViewModels.UserControls.Player
     {
         private QariTabViewModel _qariTab;
         private SuraTabViewModel _suraTab;
+        public Action<bool> PlayerOpenChanged;
+
+        private ViewModelBase _currentPage;
+        public ViewModelBase CurrentPage
+        {
+            get { return _currentPage; }
+            set { _currentPage = value; OnPropertyChanged(nameof(CurrentPage)); }
+        }
 
         private bool _qariTabSelected = false;
         public bool QariTabSelected
@@ -26,14 +34,15 @@ namespace Baraka.ViewModels.UserControls.Player
                 _qariTabSelected = value;
                 OnPropertyChanged(nameof(QariTabSelected));
                 
+                if (!SuraTabSelected)
+                {
+                    PlayerOpened = value;
+                }
+
                 if (value)
                 {
                     SuraTabSelected = false;
                     CurrentPage = _qariTab;
-                }
-                else if (!SuraTabSelected)
-                {
-                    ClosePlayer();
                 }
             }
         }
@@ -47,23 +56,34 @@ namespace Baraka.ViewModels.UserControls.Player
                 _suraTabSelected = value;
                 OnPropertyChanged(nameof(SuraTabSelected));
                 
+                if (!QariTabSelected)
+                {
+                    PlayerOpened = value;
+                }
+
                 if (value)
                 {
                     QariTabSelected = false;
                     CurrentPage = _suraTab;
                 }
-                else if (!QariTabSelected)
-                {
-                    ClosePlayer();
-                }
             }
         }
 
-        private ViewModelBase _currentPage;
-        public ViewModelBase CurrentPage
+        private bool _playerOpened = true; // TODO: change to false by default
+        public bool PlayerOpened
         {
-            get { return _currentPage; }
-            set { _currentPage = value; OnPropertyChanged(nameof(CurrentPage)); }
+            get { return _playerOpened; }
+            set
+            {
+                if (!value)
+                {
+                    CurrentPage = null;
+                }
+
+                _playerOpened = value;
+                PlayerOpenChanged?.Invoke(value);
+                OnPropertyChanged(nameof(PlayerOpened));
+            }
         }
 
         private double _scrollState;
@@ -108,12 +128,6 @@ namespace Baraka.ViewModels.UserControls.Player
             // Tab
             _qariTab = new QariTabViewModel(scrollStateStore);
             _suraTab = new SuraTabViewModel(scrollStateStore);
-        }
-
-        private void ClosePlayer()
-        {
-            CurrentPage = null;
-        
         }
     }
 }
