@@ -1,26 +1,23 @@
-﻿using Baraka.Models;
+﻿using Baraka.Commands.UserControls.Player;
+using Baraka.Models;
 using Baraka.Stores;
 using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Baraka.ViewModels.UserControls.Player.Pages
 {
-    public class SuraTabViewModel : ViewModelBase
+    public class SuraTabViewModel : ViewModelBase, IScrollablePage
     {
-        private ObservableCollection<SuraModel> _suraList;
-        public ObservableCollection<SuraModel> SuraList
+        private IEnumerable<SuraModel> _suraList;
+        public IEnumerable<SuraModel> SuraList
         {
             get { return _suraList; }
-            set { _suraList = value; }
+            set { _suraList = value; OnPropertyChanged(nameof(SuraList)); }
         }
 
         private double _scrollState = 0;
@@ -37,24 +34,41 @@ namespace Baraka.ViewModels.UserControls.Player.Pages
             }
         }
 
+        private string _searchQuery;
+        public string SearchQuery
+        {
+            get { return _searchQuery; }
+            set
+            {
+                _searchQuery = value;
+                OnPropertyChanged(nameof(SearchQuery));
+                
+                SearchCommand.Execute(value);
+            }
+        }
+
+        public ScrollStateStore ScrollStateStore { get; }
         public ICommand ScrollCommand { get; }
+        public ICommand SearchCommand { get; }
         public SuraTabViewModel(ScrollStateStore scrollStateStore)
         {
-            SuraList = new ObservableCollection<SuraModel>();
-            foreach (var sura in Services.Quran.SuraInfoService.GetAll())
-            {
-                SuraList.Add(sura);
-            }
+            // Init sura list
+            SuraList = Services.Quran.SuraInfoService.GetAll();
+           
+            // Stores and commands
+            ScrollStateStore = scrollStateStore;
 
-            scrollStateStore.ValueChanged += (newValue) =>
+            ScrollStateStore.ValueChanged += (newValue) =>
             {
                 ScrollState = newValue;
             };
 
             ScrollCommand = new RelayCommand((param) =>
             {
-                scrollStateStore.ChangeScrollState(ScrollState);
+                ScrollStateStore.ChangeScrollState(ScrollState);
             });
+
+            SearchCommand = new SearchCommand(this);
         }
     }
 }

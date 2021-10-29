@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -20,10 +21,34 @@ namespace Baraka.Services.Quran
             _models = JsonConvert.DeserializeObject<SuraModel[]>(json);
         }
 
-        public static SuraModel[] GetAll()
+        public static IEnumerable<SuraModel> GetAll()
         {
             if (_models == null) LoadAll();
             return _models;
+        }
+
+        public static IEnumerable<SuraModel> LookUp(string query)
+        {
+            if (int.TryParse(query, out int number))
+            {
+                foreach (var sura in _models)
+                    if (sura.Number == number)
+                        yield return sura;
+            }
+            else
+            {
+                foreach (var sura in _models)
+                {
+                    if (sura.PhoneticName.ToLower().Contains(query))
+                    {
+                        yield return sura;
+                    }
+                    else if (sura.TranslatedName.ToLower().Contains(query))
+                    {
+                        yield return sura;
+                    }
+                }
+            }
         }
     }
 }

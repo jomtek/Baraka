@@ -29,7 +29,7 @@ namespace Baraka.Views.UserControls.Player.Pages
 
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (sender is ScrollViewer scrollViewer)
+            if (sender is ScrollViewer scrollViewer && scrollViewer.ScrollableHeight > 0)
             {
                 double state = scrollViewer.VerticalOffset / scrollViewer.ScrollableHeight;
                 ScrollViewerBehavior.SetScrollState(scrollViewer, state);

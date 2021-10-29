@@ -27,7 +27,7 @@ namespace Baraka.Behaviors
             DependencyProperty.RegisterAttached("ScrollState", typeof(double), typeof(ScrollViewerBehavior), new PropertyMetadata(0.5, (o, e) =>
             {
                 var scrollViewer = o as ScrollViewer;
-                
+
                 if (scrollViewer != null)
                 {
                     double newVO = (double)e.NewValue * scrollViewer.ScrollableHeight;

@@ -2,17 +2,12 @@
 using Baraka.Stores;
 using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Baraka.ViewModels.UserControls.Player.Pages
 {
-    public class QariTabViewModel : ViewModelBase
+    public class QariTabViewModel : ViewModelBase, IScrollablePage
     {
         private ObservableCollection<QariModel> _qariList;
         public ObservableCollection<QariModel> QariList
