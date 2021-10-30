@@ -13,23 +13,9 @@
         d:DesignHeight="600" d:DesignWidth="1020"
         MinHeight="250"
         MinWidth="1000">
-
     <Grid ClipToBounds="True" Background="{StaticResource LightColorBrush}">
-        <uc:DashboardView x:Name="Dashboard" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Stretch">
-            <uc:DashboardView.Effect>
-                <DropShadowEffect Opacity="0.3" BlurRadius="5" />
-            </uc:DashboardView.Effect>
-
-            <uc:DashboardView.Items>
-                <ucmodels:DashboardItemModel Text="Rechercher" Icon="{StaticResource Search}" />
-                <ucmodels:DashboardItemModel Text="Catalogue" Icon="{StaticResource Library}" />
-                <ucmodels:DashboardItemModel Text="Paramètres" Icon="{StaticResource Cog}" />
-            </uc:DashboardView.Items>
-        </uc:DashboardView>
-
-        <Grid Margin="57 0 0 0">
-            
-            <Frame Margin="0 0 0 100">
+        <Grid Margin="0 0 0 0">
+            <Frame>
                 <Frame.Content>
                     <textdisplayer:TextDisplayerView />
                 </Frame.Content>
@@ -47,11 +33,24 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
-                <player:PlayerView x:Name="Player" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="1" >
-
+                <player:PlayerView x:Name="Player" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="1">
+                    <player:PlayerView.Effect>
+                        <DropShadowEffect Direction="45" Opacity="0.45" ShadowDepth="8" BlurRadius="40" RenderingBias="Quality" />
+                    </player:PlayerView.Effect>
                 </player:PlayerView>
             </Grid>
-            
         </Grid>
+
+        <uc:DashboardView x:Name="Dashboard" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Stretch">
+            <uc:DashboardView.Effect>
+                <DropShadowEffect Opacity="0.3" BlurRadius="5" />
+            </uc:DashboardView.Effect>
+
+            <uc:DashboardView.Items>
+                <ucmodels:DashboardItemModel Text="Rechercher" Icon="{StaticResource Search}" />
+                <ucmodels:DashboardItemModel Text="Catalogue" Icon="{StaticResource Library}" />
+                <ucmodels:DashboardItemModel Text="Paramètres" Icon="{StaticResource Cog}" />
+            </uc:DashboardView.Items>
+        </uc:DashboardView>
     </Grid>
 </Window>
