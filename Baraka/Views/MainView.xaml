@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Baraka"
         xmlns:uc="clr-namespace:Baraka.Views.UserControls"
         xmlns:ucmodels="clr-namespace:Baraka.Models.UserControls"
-        xmlns:player="clr-namespace:Baraka.Views.UserControls.Player"
+        xmlns:player="clr-namespace:Baraka.Views.UserControls.Player" xmlns:textdisplayer="clr-namespace:Baraka.Views.UserControls.Displayers.TextDisplayer"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="MainWindow"
@@ -14,11 +14,7 @@
         MinHeight="250"
         MinWidth="1000">
 
-    <Grid ClipToBounds="True">
-        <Grid Background="{StaticResource LightColorBrush}">
-            <TextBox Style="{StaticResource PlaceholderStyle}" Tag="Salut" Width="250" VerticalAlignment="Top" Margin="0 50 0 0" FontSize="22" />
-        </Grid>
-
+    <Grid ClipToBounds="True" Background="{StaticResource LightColorBrush}">
         <uc:DashboardView x:Name="Dashboard" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Stretch">
             <uc:DashboardView.Effect>
                 <DropShadowEffect Opacity="0.3" BlurRadius="5" />
@@ -32,20 +28,30 @@
         </uc:DashboardView>
 
         <Grid Margin="57 0 0 0">
-            <Grid.ColumnDefinitions >
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="4*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
             
-            <player:PlayerView VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="1" >
+            <Frame Margin="0 0 0 100">
+                <Frame.Content>
+                    <textdisplayer:TextDisplayerView />
+                </Frame.Content>
+            </Frame>
+            
+            <Grid>
+                <Grid.ColumnDefinitions >
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
 
-            </player:PlayerView>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <player:PlayerView x:Name="Player" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="1" >
+
+                </player:PlayerView>
+            </Grid>
+            
         </Grid>
     </Grid>
 </Window>

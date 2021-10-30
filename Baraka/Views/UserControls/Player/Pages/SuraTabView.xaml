@@ -27,15 +27,8 @@
             <RowDefinition Height="8*" />
         </Grid.RowDefinitions>
 
-        <TextBox Grid.Row="0" Style="{StaticResource PlaceholderStyle}" Tag="rechercher une sourate..." FontSize="19"
-                 Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <!--<i:Interaction.Triggers>
-                <i:EventTrigger EventName="TextChanged">
-                    <i:InvokeCommandAction Command="{Binding SearchCommand}"
-                                           CommandParameter="{Binding ElementName=Test, Path=Text}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>-->
-        </TextBox>
+        <TextBox Grid.Row="0" Style="{StaticResource PlaceholderStyle}" Tag="recherchez une sourate..." FontSize="19"
+                 Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <ScrollViewer Grid.Row="2" d:Background="White" VerticalScrollBarVisibility="Hidden"
                       behaviors:ScrollViewerBehavior.ScrollState="{Binding ScrollState, Mode=TwoWay}"

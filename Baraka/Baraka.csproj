@@ -25,7 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ViewModels\UserControls\Displayers\MushafDisplayer\" />
     <Folder Include="Views\Converters\" />
+    <Folder Include="Views\UserControls\Displayers\MushafDisplayer\" />
   </ItemGroup>
 
 </Project>

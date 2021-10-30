@@ -8,7 +8,7 @@ namespace Baraka.Models
 {
     public class SuraModel
     {
-        public int Number { get; }
+        public int Number { get; } // Starts from one
         public int Length { get; }
         public string PhoneticName { get; }
         public string TranslatedName { get; }

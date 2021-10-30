@@ -27,6 +27,14 @@ namespace Baraka.Services.Quran
             return _models;
         }
 
+        // The number is supposed to start from 1
+        public static SuraModel GetByNumber(int number)
+        {
+            if (number < 1) throw new ArgumentException();
+            if (_models == null) LoadAll();
+            return _models[number - 1];
+        }
+
         public static IEnumerable<SuraModel> LookUp(string query)
         {
             if (int.TryParse(query, out int number))
