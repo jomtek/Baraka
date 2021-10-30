@@ -33,6 +33,9 @@
         
         <!-- Storyboards -->
         <Storyboard x:Key="OpenPlayerStory">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ContentGrid">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
             <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0.3" Duration="0:0:0.1" To="1" />
             <ThicknessAnimation Storyboard.TargetName="BGBorder" Storyboard.TargetProperty="Margin" Duration="0:0:0.35" To="0" />
             <DoubleAnimation Storyboard.TargetName="SeparatorRect" Storyboard.TargetProperty="Width" Duration="0:0:0.35" To="450" />
@@ -40,6 +43,9 @@
         
         <Storyboard x:Key="ClosePlayerStory">
             <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="Opacity" Duration="0:0:0.05" To="0" />
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ContentGrid">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.05" Value="{x:Static Visibility.Hidden}"/>
+            </ObjectAnimationUsingKeyFrames>
             <ThicknessAnimation Storyboard.TargetName="BGBorder" Storyboard.TargetProperty="Margin" Duration="0:0:0.35" To="0 0 0 -680" />
             <DoubleAnimation Storyboard.TargetName="SeparatorRect" Storyboard.TargetProperty="Width" Duration="0:0:0.35" To="0" />
         </Storyboard>

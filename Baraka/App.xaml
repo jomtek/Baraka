@@ -21,6 +21,9 @@
             <Color x:Key="GoldColor">#FFC400</Color>
             <SolidColorBrush x:Key="GoldColorBrush" Color="{StaticResource GoldColor}" />
 
+            <!-- Fonts -->
+            <FontFamily x:Key="Al_Qalam_Quran">pack://application:,,,/Assets/Fonts/#Al Qalam Quran</FontFamily>
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>

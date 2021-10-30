@@ -8,7 +8,7 @@
       xmlns:converters="clr-namespace:Baraka.Converters"
       d:DataContext="{d:DesignInstance Type=design:TextDisplayerDesignViewModel, IsDesignTimeCreatable=True}"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="1200"
       Title="TextDisplayerView">
 
     <Page.Resources>
@@ -28,7 +28,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Hidden" CanContentScroll="True">
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Visible" CanContentScroll="True">
             <ItemsControl ItemsSource="{Binding Verses}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -38,7 +38,7 @@
                 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid Margin="0 0 0 3">
+                        <Grid Margin="0 0 0 3" Width="900">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="60" /> <!-- Hardcoded value, do not change -->
                                 <ColumnDefinition Width="10" />
@@ -57,7 +57,6 @@
                                     <Grid.Resources>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="TextWrapping" Value="Wrap" />
-                                            <Setter Property="Margin" Value="5 0 5 0" />
                                         </Style>
                                     </Grid.Resources>
 
@@ -71,11 +70,27 @@
                                         <RowDefinition Height="15"/>
                                     </Grid.RowDefinitions>
 
-                                    <TextBlock Grid.Row="1" FontSize="20" HorizontalAlignment="Right" Text="{Binding Arabic.Text}" />
-                                    <TextBlock Grid.Row="2" FontSize="20" Text="{Binding Transliteration.Text}" />
-                                    <TextBlock Grid.Row="3" FontSize="20" Text="{Binding Translation1.Text}" />
-                                    <TextBlock Grid.Row="4" FontSize="20" Text="{Binding Transliteration.Text}" />
-                                    <TextBlock Grid.Row="5" FontSize="20" Text="{Binding Transliteration.Text}" />
+                                    <TextBlock Grid.Row="1"
+                                               Text="{Binding Arabic.Text}"
+                                               FontSize="28" FontFamily="/Baraka;component/Assets/Fonts/#Al Qalam Quran"
+                                               Margin="12 5 13 0"
+                                               HorizontalAlignment="Right" />
+                                    
+                                    <TextBlock Grid.Row="2"
+                                               Text="{Binding Transliteration.Text}"
+                                               FontSize="17" Margin="12 15 12 5" />
+                                    
+                                    <TextBlock Grid.Row="3"
+                                               Text="{Binding Translation1.Text}"
+                                               FontSize="17.5" Margin="12 5 0 0"/>
+                                    
+                                    <TextBlock Grid.Row="4"
+                                               Text="{Binding Translation2.Text}"
+                                               FontSize="17.5" Margin="12 5 0 5"/>
+                                    
+                                    <TextBlock Grid.Row="5"
+                                               Text="{Binding Translation3.Text}"
+                                               FontSize="17.5" Margin="12 5 0 0" />
                                 </Grid>
                             </Border>
                         </Grid>

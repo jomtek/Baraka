@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Fonts\Al Qalam Quran.ttf" />
     <None Remove="Assets\Images\logo.png" />
   </ItemGroup>
 
@@ -22,6 +23,9 @@
 
   <ItemGroup>
     <Resource Include="Assets\Images\logo.png" />
+    <Resource Include="Assets\Fonts\Al Qalam Quran.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

@@ -16,7 +16,7 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer.Design
         {
             get
             {
-                var config = new EditionConfigModel(true, true, null, null, null);
+                var config = new EditionConfigModel(true, true, "en.ahmedali", null, null);
                 return QuranTextService.LoadSura(SuraInfoService.GetByNumber(1), config);
             }
         }
