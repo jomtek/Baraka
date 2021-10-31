@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:Baraka.Views"
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
              mc:Ignorable="d"
-             Height="650" Width="200"
+             d:Height="650" Width="200"
              Margin="{DynamicResource MinimizedMargin}">
 
     <!-- Dev note: Not a problem that most values are hardcoded, because the Width and Height
@@ -103,7 +103,7 @@
                                         
                                         <Style.Triggers>
                                             <Trigger Property="Grid.IsMouseOver" Value="True">
-                                                <Setter Property="TextBlock.Foreground" Value="Gray" />
+                                                <Setter Property="TextBlock.Foreground" Value="LightGray" />
                                             </Trigger>
                                         </Style.Triggers>
                                     </Style>

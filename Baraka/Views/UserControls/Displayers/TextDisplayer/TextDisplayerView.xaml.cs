@@ -1,4 +1,5 @@
-﻿using Baraka.ViewModels.UserControls.Displayers;
+﻿using Baraka.Behaviors;
+using Baraka.ViewModels.UserControls.Displayers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,15 @@ namespace Baraka.Views.UserControls.Displayers.TextDisplayer
         {
             InitializeComponent();
             DataContext = new TextDisplayerViewModel();
+        }
+
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (sender is ScrollViewer scrollViewer)
+            {
+                double state = scrollViewer.VerticalOffset / scrollViewer.ScrollableHeight;
+                ScrollViewerBehavior.SetScrollState(scrollViewer, state);
+            }
         }
     }
 }

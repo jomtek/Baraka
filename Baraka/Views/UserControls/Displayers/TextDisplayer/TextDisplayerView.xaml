@@ -6,9 +6,11 @@
       xmlns:local="clr-namespace:Baraka.Views.UserControls.Displayers.TextDisplayer"
       xmlns:design="clr-namespace:Baraka.ViewModels.UserControls.Displayers.TextDisplayer.Design"
       xmlns:converters="clr-namespace:Baraka.Converters"
+      xmlns:behaviors="clr-namespace:Baraka.Behaviors"
+       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       d:DataContext="{d:DesignInstance Type=design:TextDisplayerDesignViewModel, IsDesignTimeCreatable=True}"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="1200"
+      d:DesignHeight="600" d:DesignWidth="1100"
       Title="TextDisplayerView">
 
     <Page.Resources>
@@ -23,80 +25,115 @@
     
     <Grid d:Background="{StaticResource LightColorBrush}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="20*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
 
-        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Visible" CanContentScroll="True">
-            <ItemsControl ItemsSource="{Binding Verses}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel IsVirtualizing="True" VirtualizationMode="Standard" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="0 0 0 3" Width="900">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="60" /> <!-- Hardcoded value, do not change -->
-                                <ColumnDefinition Width="10" />
-                                <ColumnDefinition Width="9*" />
-                            </Grid.ColumnDefinitions>
+        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Right"
+                      behaviors:ScrollViewerBehavior.ScrollState="{Binding ScrollState, Mode=TwoWay}"
+                      PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-                            <Grid Grid.Row="0" Height="60" VerticalAlignment="Top">
-                                <Path Style="{StaticResource Polygon}" Stretch="Fill" StrokeThickness="5" Fill="White"  />
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                <local:BookmarkView Grid.Column="0" Height="200" Margin="0 40" VerticalAlignment="Top">
+                    <local:BookmarkView.Effect>
+                        <DropShadowEffect ShadowDepth="3" Opacity="0.15" BlurRadius="5" />
+                    </local:BookmarkView.Effect>
+                </local:BookmarkView>
+
+                <ItemsControl Grid.Column="2" ItemsSource="{Binding Verses}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel IsVirtualizing="True" VirtualizationMode="Recycling"
+                                                    Margin="0 40 0 140"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    
+                    <ItemsControl.ItemContainerStyle>
+                        <Style>
+                            <Setter Property="FrameworkElement.Margin" Value="0 0 0 3"/>
+                            <Setter Property="FrameworkElement.Width" Value="900"/>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="15" />
+                                    <ColumnDefinition Width="9*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Row="0" Height="60" VerticalAlignment="Top">
+                                    <Path Style="{StaticResource Polygon}" Stretch="Fill" StrokeThickness="5" Fill="White">
+                                        <Path.Effect>
+                                            <DropShadowEffect ShadowDepth="2" Opacity="0.2" BlurRadius="5" />
+                                        </Path.Effect>
+                                    </Path>
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
                                            FontFamily="Montserrat" FontWeight="Bold" FontSize="21"
                                            Text="{Binding Number}"/>
-                            </Grid>
-                            
-                            <Border Grid.Column="2" Background="White" CornerRadius="7">
-                                <Grid>
-                                    <Grid.Resources>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="TextWrapping" Value="Wrap" />
-                                        </Style>
-                                    </Grid.Resources>
+                                </Grid>
 
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="15"/>
-                                        <RowDefinition Height="{Binding Arabic.IsActive,          Converter={StaticResource BoolToGridLengthConverter}}" />
-                                        <RowDefinition Height="{Binding Transliteration.IsActive, Converter={StaticResource BoolToGridLengthConverter}}" />
-                                        <RowDefinition Height="{Binding Translation1.IsActive,    Converter={StaticResource BoolToGridLengthConverter}}" />
-                                        <RowDefinition Height="{Binding Translation2.IsActive,    Converter={StaticResource BoolToGridLengthConverter}}" />
-                                        <RowDefinition Height="{Binding Translation3.IsActive,    Converter={StaticResource BoolToGridLengthConverter}}" />
-                                        <RowDefinition Height="15"/>
-                                    </Grid.RowDefinitions>
+                                <Border Grid.Column="2" Background="White" CornerRadius="10">
+                                    <Grid>
+                                        <Grid.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="TextWrapping" Value="Wrap" />
+                                            </Style>
+                                        </Grid.Resources>
 
-                                    <TextBlock Grid.Row="1"
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="15"/>
+                                            <RowDefinition Height="{Binding Arabic.IsActive,          Converter={StaticResource BoolToGridLengthConverter}}" />
+                                            <RowDefinition Height="{Binding Transliteration.IsActive, Converter={StaticResource BoolToGridLengthConverter}}" />
+                                            <RowDefinition Height="{Binding Translation1.IsActive,    Converter={StaticResource BoolToGridLengthConverter}}" />
+                                            <RowDefinition Height="{Binding Translation2.IsActive,    Converter={StaticResource BoolToGridLengthConverter}}" />
+                                            <RowDefinition Height="{Binding Translation3.IsActive,    Converter={StaticResource BoolToGridLengthConverter}}" />
+                                            <RowDefinition Height="15"/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock Grid.Row="1"
                                                Text="{Binding Arabic.Text}"
                                                FontSize="28" FontFamily="/Baraka;component/Assets/Fonts/#Al Qalam Quran"
                                                Margin="12 5 13 0"
                                                HorizontalAlignment="Right" />
-                                    
-                                    <TextBlock Grid.Row="2"
+
+                                        <TextBlock Grid.Row="2"
                                                Text="{Binding Transliteration.Text}"
-                                               FontSize="17" Margin="12 15 12 5" />
-                                    
-                                    <TextBlock Grid.Row="3"
+                                               FontSize="17" Foreground="#FF6E6E6E"
+                                               Margin="12 15 12 5" />
+
+                                        <TextBlock Grid.Row="3"
                                                Text="{Binding Translation1.Text}"
-                                               FontSize="17.5" Margin="12 5 0 0"/>
-                                    
-                                    <TextBlock Grid.Row="4"
+                                               FontSize="17.5"
+                                               Margin="12 5 0 0"/>
+
+                                        <TextBlock Grid.Row="4"
                                                Text="{Binding Translation2.Text}"
-                                               FontSize="17.5" Margin="12 5 0 5"/>
-                                    
-                                    <TextBlock Grid.Row="5"
+                                               FontSize="17.5"
+                                               Margin="12 5 0 5"/>
+
+                                        <TextBlock Grid.Row="5"
                                                Text="{Binding Translation3.Text}"
-                                               FontSize="17.5" Margin="12 5 0 0" />
-                                </Grid>
-                            </Border>
-                        </Grid>
-                    </DataTemplate>    
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                                               FontSize="17.5"
+                                               Margin="12 5 0 0" />
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
         </ScrollViewer>
+
+        <ScrollBar Grid.Column="2" Margin="0 40 0 40" Width="40"
+                   ViewportSize="1" Maximum="1" Value="{Binding ScrollState}" />
     </Grid>
 </Page>

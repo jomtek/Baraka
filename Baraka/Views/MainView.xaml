@@ -10,12 +10,13 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="MainWindow"
-        d:DesignHeight="600" d:DesignWidth="1020"
+        d:DesignHeight="800" d:DesignWidth="1150"
         MinHeight="250"
-        MinWidth="1000">
+        MinWidth="1150">
+    
     <Grid ClipToBounds="True" Background="{StaticResource LightColorBrush}">
-        <Grid Margin="0 0 0 0">
-            <Frame>
+        <Grid Margin="57 0 0 0">
+            <Frame HorizontalAlignment="Center">
                 <Frame.Content>
                     <textdisplayer:TextDisplayerView />
                 </Frame.Content>
@@ -23,9 +24,9 @@
             
             <Grid>
                 <Grid.ColumnDefinitions >
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="4*"/>
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
@@ -33,7 +34,7 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
-                <player:PlayerView x:Name="Player" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="1">
+                <player:PlayerView x:Name="Player" Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom" MaxWidth="900">
                     <player:PlayerView.Effect>
                         <DropShadowEffect Direction="45" Opacity="0.45" ShadowDepth="8" BlurRadius="40" RenderingBias="Quality" />
                     </player:PlayerView.Effect>

@@ -20,9 +20,23 @@ namespace Baraka.ViewModels.UserControls.Displayers
             set { _verses = value; }
         }
 
+        private double _scrollState = 0;
+        public double ScrollState
+        {
+            get { return _scrollState; }
+            set
+            {
+                if (value != _scrollState)
+                {
+                    _scrollState = value;
+                    OnPropertyChanged(nameof(ScrollState));
+                }
+            }
+        }
+
         public TextDisplayerViewModel()
         {
-            var sura = SuraInfoService.GetByNumber(2);
+            var sura = SuraInfoService.GetByNumber(1);
             var config = new EditionConfigModel(true, true, "fr.hamidullah", null, null);
             Verses =
                 new ObservableCollection<TextualVerseModel>(QuranTextService.LoadSura(sura, config));
