@@ -3,26 +3,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Baraka.Sandbox" d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
+        xmlns:local="clr-namespace:Baraka.Sandbox"
+        d:DataContext="{d:DesignInstance Type=local:MainViewModel, IsDesignTimeCreatable=True}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
 
-    <Grid Height="200" Width="300">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="6*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <ScrollViewer x:Name="SV" Grid.Row="0" Background="Gray" local:ScrollViewerBehavior.ScrollState="0.1" >
-            <StackPanel>
-                <Rectangle Width="50" Height="50" Fill="Green" Margin="5" />
-                <Rectangle Width="50" Height="50" Fill="Green" Margin="5" />
-                <Rectangle Width="50" Height="50" Fill="Green" Margin="5" />
-                <Rectangle Width="50" Height="50" Fill="Green" Margin="5" />
-                <Rectangle Width="50" Height="50" Fill="Green" Margin="5" />
-            </StackPanel>
-        </ScrollViewer>
-
-        <TextBlock Grid.Row="1" Text="{Binding ScrollValue}" />
-    </Grid>
+<Grid>
+    <Frame HorizontalAlignment="Center">
+        <Frame.Content>
+            <ContentControl Content="{Binding TestViewContext}">
+                <ContentControl.Resources>
+                    <DataTemplate DataType="{x:Type local:TestViewModel}">
+                        <local:TestView />
+                    </DataTemplate>
+                </ContentControl.Resources>
+            </ContentControl>
+        </Frame.Content>
+    </Frame>
+</Grid>
 </Window>

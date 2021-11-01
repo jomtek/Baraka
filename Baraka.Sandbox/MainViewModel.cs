@@ -9,16 +9,16 @@ namespace Baraka.Sandbox
 {
     public class MainViewModel : ViewModelBase
     {
-        private double _scrollValue = 0;
-        public double ScrollValue
+        private TestViewModel _testViewContext;
+        public TestViewModel TestViewContext
         {
-            get { return _scrollValue; }
-            set
-            {
-                // This code is never reached 
-                _scrollValue = value;
-                OnPropertyChanged(nameof(ScrollValue));
-            }
+            get { return _testViewContext; }
+            set { _testViewContext = value; OnPropertyChanged(nameof(TestViewContext)); }
+        }
+
+        public MainViewModel()
+        {
+            TestViewContext = new TestViewModel();
         }
     }
 }

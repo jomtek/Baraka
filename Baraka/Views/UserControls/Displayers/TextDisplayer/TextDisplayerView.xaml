@@ -1,4 +1,4 @@
-﻿<Page x:Class="Baraka.Views.UserControls.Displayers.TextDisplayer.TextDisplayerView"
+﻿<UserControl x:Class="Baraka.Views.UserControls.Displayers.TextDisplayer.TextDisplayerView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -10,10 +10,9 @@
        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       d:DataContext="{d:DesignInstance Type=design:TextDisplayerDesignViewModel, IsDesignTimeCreatable=True}"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="1100"
-      Title="TextDisplayerView">
+      d:DesignHeight="600" d:DesignWidth="1100">
 
-    <Page.Resources>
+    <UserControl.Resources>
         <!-- Paths -->
         <Style x:Key="Polygon" TargetType="{x:Type Path}">
             <Setter Property="Data" Value="M28.6,9.9a14,14,0,0,1,19.8,0L67.1,28.6a14,14,0,0,1,0,19.8L48.4,67.1a14,14,0,0,1-19.8,0L9.9,48.4a14,14,0,0,1,0-19.8Z" />
@@ -21,7 +20,7 @@
         
         <!-- Converters-->
         <converters:BoolToGridLengthConverter x:Key="BoolToGridLengthConverter" />
-    </Page.Resources>
+    </UserControl.Resources>
     
     <Grid d:Background="{StaticResource LightColorBrush}">
         <Grid.ColumnDefinitions>
@@ -46,7 +45,7 @@
                     </local:BookmarkView.Effect>
                 </local:BookmarkView>
 
-                <ItemsControl Grid.Column="2" ItemsSource="{Binding Verses}">
+                <ItemsControl Grid.Column="2" ItemsSource="{Binding Verses, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel IsVirtualizing="True" VirtualizationMode="Recycling"
@@ -136,4 +135,4 @@
         <ScrollBar Grid.Column="2" Margin="0 40 0 40" Width="40"
                    ViewportSize="1" Maximum="1" Value="{Binding ScrollState}" />
     </Grid>
-</Page>
+</UserControl>

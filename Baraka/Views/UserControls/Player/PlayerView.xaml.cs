@@ -13,11 +13,11 @@ namespace Baraka.Views.UserControls.Player
         public PlayerView()
         {
             InitializeComponent();
+        }
 
-            var vm = new PlayerViewModel();
-            DataContext = vm;
-
-            vm.PlayerOpenChanged += (open) =>
+        private void UC_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+        {
+            ((PlayerViewModel)DataContext).PlayerOpenChanged += (open) =>
             {
                 if (open)
                 {

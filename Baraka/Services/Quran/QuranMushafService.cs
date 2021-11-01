@@ -8,5 +8,6 @@ namespace Baraka.Services.Quran
 {
     public static class QuranMushafService
     {
+
     }
 }

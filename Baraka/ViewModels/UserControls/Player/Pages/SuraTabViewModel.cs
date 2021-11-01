@@ -49,8 +49,9 @@ namespace Baraka.ViewModels.UserControls.Player.Pages
 
         public ScrollStateStore ScrollStateStore { get; }
         public ICommand ScrollCommand { get; }
+        public ICommand SuraSelectedCommand { get; }
         public ICommand SearchCommand { get; }
-        public SuraTabViewModel(ScrollStateStore scrollStateStore)
+        public SuraTabViewModel(ScrollStateStore scrollStateStore, SelectedSuraStore selectedSuraStore)
         {
             // Init sura list
             SuraList = Services.Quran.SuraInfoService.GetAll();
@@ -68,6 +69,11 @@ namespace Baraka.ViewModels.UserControls.Player.Pages
                 ScrollStateStore.ChangeScrollState(ScrollState);
             });
 
+            SuraSelectedCommand = new RelayCommand((sura) =>
+            {
+                selectedSuraStore.ChangeSelectedSura((SuraModel)sura);
+            });
+            
             SearchCommand = new SearchCommand(this);
         }
     }

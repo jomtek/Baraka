@@ -22,10 +22,8 @@ namespace Baraka.Sandbox
     {
         public MainWindow()
         {
-            DataContext = new MainViewModel();
             InitializeComponent();
-            ScrollViewerBehavior.SetScrollState(SV, 0.5);
-            
+            DataContext = new MainViewModel();
         }
     }
 }

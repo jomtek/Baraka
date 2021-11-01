@@ -9,7 +9,8 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:behaviors="clr-namespace:Baraka.Behaviors"
              mc:Ignorable="d" 
-             x:Name="UC">
+             x:Name="UC"
+             DataContextChanged="UC_DataContextChanged">
 
     <UserControl.Resources>
 

@@ -30,8 +30,11 @@ namespace Baraka.Behaviors
 
                 if (scrollViewer != null)
                 {
-                    double newVO = (double)e.NewValue * scrollViewer.ScrollableHeight;
-                    scrollViewer.ScrollToVerticalOffset(newVO);
+                    if (!Double.IsNaN((double)e.NewValue))
+                    {
+                        double newVO = (double)e.NewValue * scrollViewer.ScrollableHeight;
+                        scrollViewer.ScrollToVerticalOffset(newVO);
+                    }
                 }
             }));
 

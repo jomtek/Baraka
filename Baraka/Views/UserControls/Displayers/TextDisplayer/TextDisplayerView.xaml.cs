@@ -1,5 +1,6 @@
 ﻿using Baraka.Behaviors;
 using Baraka.ViewModels.UserControls.Displayers;
+using Baraka.ViewModels.UserControls.Displayers.TextDisplayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +21,11 @@ namespace Baraka.Views.UserControls.Displayers.TextDisplayer
     /// <summary>
     /// Interaction logic for TextDisplayerView.xaml
     /// </summary>
-    public partial class TextDisplayerView : Page
+    public partial class TextDisplayerView : UserControl
     {
         public TextDisplayerView()
         {
             InitializeComponent();
-            DataContext = new TextDisplayerViewModel();
         }
 
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)

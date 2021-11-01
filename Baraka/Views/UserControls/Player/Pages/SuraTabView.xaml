@@ -40,7 +40,7 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             
-            <ItemsControl ItemsSource="{Binding SuraList}">
+            <ItemsControl x:Name="SuraListIC" ItemsSource="{Binding SuraList}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel />
@@ -76,9 +76,16 @@
                                 <TextBlock Grid.Column="3" VerticalAlignment="Center"
                                        Text="{Binding TranslatedName}" FontFamily="Alef" FontSize="16" Foreground="Gray"  />
 
-                                <Grid Grid.Column="5" Height="21" Cursor="Hand">
+                                <Button Grid.Column="5" Height="21" Cursor="Hand"
+                                        Command="{Binding ElementName=SuraListIC, Path=DataContext.SuraSelectedCommand}" CommandParameter="{Binding}">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Background" Value="White" />
+                                            <Setter Property="BorderThickness" Value="0" />
+                                        </Style>
+                                    </Button.Style>
                                     <Path Style="{StaticResource Cloud}" Stretch="Fill" Fill="Black" />
-                                </Grid>
+                                </Button>
                             </Grid>
 
                             <Rectangle x:Name="Separator" Grid.Row="1" RadiusX="3" RadiusY="3">
