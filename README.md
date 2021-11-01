@@ -5,9 +5,9 @@
 Baraka is a free software made for reading or studying the quran. It allows you to stream recitations from more than 25 reciters and read among a hundred quran translations. Fast quran browser included.<br>
 We are building a digital and interactive Madani mus'haf, as well as multiple training modes or games
 
-[![Windows](https://badgen.net/badge/icon/windows?icon=windows&label)](https://microsoft.com/windows/)
-[![GitHub contributors](https://img.shields.io/github/contributors/Naereen/badges.svg)](https://GitHub.com/Naereen/badges/graphs/contributors/)
-[![Open Source Love svg3](https://badges.frapsoft.com/os/v3/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
+[![Windows](https://badgen.net/badge/icon/windows?icon=windows&label)]()
+[![GitHub contributors](https://img.shields.io/github/contributors/Naereen/badges.svg)]()
+[![Open Source Love svg3](https://badges.frapsoft.com/os/v3/open-source.svg?v=103)]()
 
 ## What does it look like ?
 
