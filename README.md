@@ -3,7 +3,8 @@
 
 ## A beautiful quran app
 Baraka is a free software made for reading or studying the quran. It allows you to stream recitations from more than 25 reciters and read among a hundred quran translations. Fast quran browser included.<br>
-We are building a digital and interactive Madani mus'haf, as well as multiple training modes or games
+We are working on a digital and interactive Madani mus'haf, as well as multiple training modes or games.<br><br>
+[**Download (experimental build)**](https://github.com/Jomtek/Baraka/releases/tag/test)<br>
 
 [![Windows](https://badgen.net/badge/icon/windows?icon=windows&label)]()
 [![Open Source? Yes!](https://badgen.net/badge/Open%20Source/Yes%21/blue?icon=github)](https://github.com/Jomtek/Baraka/)
