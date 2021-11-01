@@ -1,14 +1,14 @@
-![cover](https://i.imgur.com/STFrRcM.jpg)<br>
-[Click to try](https://github.com/Jomtek/Baraka/releases/tag/test)
+<h1>Baraka</h1>
+<img src="https://i.imgur.com/XXR0l4o.png" alt="Nihil icon" align=right width=200px />
 
-### What is it ?
-Baraka is a free and open-source software made for reading or studying the quran. It allows you to stream recitations from more than 25 reciters and read among a hundred quran translations. Fast quran browser included.
-
+<h2>A beautiful quran app</h2>
+Baraka is a free and open-source software made for reading or studying the quran. It allows you to stream recitations from more than 25 reciters and read among a hundred quran translations.<br>
+Fast quran browser included.<br>
 We are building a digital and interactive Madani mus'haf, as well as multiple training modes or games
 
-### How does it look like ?
-![Real app screenshot](https://i.imgur.com/QF84R4l.png)
+<h2>What does it look like ?</h2>
+<img src="https://i.imgur.com/QF84R4l.png" alt="Nihil icon" align=center />
 
-## How to contribute
-Hey... you! We are actively looking for contributors with design, programming or presentation skills. We need translators, webmasters, API developers, C# and MVVM WPF developers, and testers.
-We are grateful to God and we hope this project helps us seek His forgiveness إن شاء الله.
+<h2>Hey, you!</h2>
+We are actively looking for contributors. We need translators, webmasters, API developers, C# and MVVM WPF developers.<br>
+ <a href="mailto: baraka.support@protonmail.com">Please contact us !</a>
