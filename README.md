@@ -7,8 +7,8 @@ We are working on a digital and interactive Madani mus'haf, as well as multiple 
 [**Download (experimental build)**](https://github.com/Jomtek/Baraka/releases/tag/test)<br>
 
 [![Windows](https://badgen.net/badge/icon/windows?icon=windows&label)]()
-[![Open Source Love](https://badges.frapsoft.com/os/v3/open-source.png?v=103)](https://github.com/ellerbrock/open-source-badges/)
 [![GitHub contributors](https://img.shields.io/github/contributors/Jomtek/Baraka.svg)](https://github.com/Jomtek/Baraka/graphs/contributors/)
+[![Open Source Love](https://badges.frapsoft.com/os/v3/open-source.png?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
 ## What does it look like ?
 
