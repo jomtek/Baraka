@@ -6,6 +6,7 @@
       xmlns:local="clr-namespace:Baraka.Views.UserControls.Displayers.TextDisplayer"
       xmlns:design="clr-namespace:Baraka.ViewModels.UserControls.Displayers.TextDisplayer.Design"
       xmlns:converters="clr-namespace:Baraka.Converters"
+      xmlns:tdconverters="clr-namespace:Baraka.Converters.TextDisplayer"
       xmlns:behaviors="clr-namespace:Baraka.Behaviors"
        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       d:DataContext="{d:DesignInstance Type=design:TextDisplayerDesignViewModel, IsDesignTimeCreatable=True}"
@@ -20,6 +21,8 @@
         
         <!-- Converters-->
         <converters:BoolToGridLengthConverter x:Key="BoolToGridLengthConverter" />
+        <tdconverters:VerseToFontFamilyConverter x:Key="VerseToFontFamilyConverter" />
+        <tdconverters:VerseToGlyphInlinesConverter x:Key="VerseToGlyphInlinesConverter" />
     </UserControl.Resources>
     
     <Grid d:Background="{StaticResource LightColorBrush}">
@@ -27,7 +30,6 @@
             <ColumnDefinition Width="20*" />
             <ColumnDefinition Width="10" />
             <ColumnDefinition Width="auto" />
-            <!-- <ColumnDefinition Width="95" />  Extra margin in order to center the verses on the screen -->
         </Grid.ColumnDefinitions>
 
         <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Right"
@@ -46,7 +48,7 @@
                     </local:BookmarkView.Effect>
                 </local:BookmarkView>
 
-                <ItemsControl Grid.Column="2" ItemsSource="{Binding Verses, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                <ItemsControl x:Name="VersesIC" Grid.Column="2" ItemsSource="{Binding Verses, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel IsVirtualizing="True" VirtualizationMode="Recycling"
@@ -100,28 +102,29 @@
                                         </Grid.RowDefinitions>
 
                                         <TextBlock Grid.Row="1"
-                                               Text="{Binding Arabic.Text}"
-                                               FontSize="28" FontFamily="/Baraka;component/Assets/Fonts/#Al Qalam Quran"
+                                               HorizontalAlignment="Right" FlowDirection="RightToLeft"
+                                               FontSize="30"
                                                Margin="12 5 13 0"
-                                               HorizontalAlignment="Right" />
+                                               FontFamily="{Binding Converter={StaticResource VerseToFontFamilyConverter}}"
+                                               behaviors:BindableInlinesBehavior.BindableInlines="{Binding Converter={StaticResource VerseToGlyphInlinesConverter}}" />
 
                                         <TextBlock Grid.Row="2"
-                                               Text="{Binding Transliteration.Text}"
+                                               Text="{Binding Transliteration.Content}"
                                                FontSize="17" Foreground="#FF6E6E6E"
                                                Margin="12 15 12 5" />
 
                                         <TextBlock Grid.Row="3"
-                                               Text="{Binding Translation1.Text}"
+                                               Text="{Binding Translation1.Content}"
                                                FontSize="17.5"
                                                Margin="12 5 0 0"/>
 
                                         <TextBlock Grid.Row="4"
-                                               Text="{Binding Translation2.Text}"
+                                               Text="{Binding Translation2.Content}"
                                                FontSize="17.5"
                                                Margin="12 5 0 5"/>
 
                                         <TextBlock Grid.Row="5"
-                                               Text="{Binding Translation3.Text}"
+                                               Text="{Binding Translation3.Content}"
                                                FontSize="17.5"
                                                Margin="12 5 0 0" />
                                     </Grid>

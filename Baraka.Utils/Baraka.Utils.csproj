@@ -5,8 +5,4 @@
     <UseWPF>true</UseWPF> <!-- this adds support for the GUI stuff like MessageBox -->
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="UI\" />
-  </ItemGroup>
-
 </Project>

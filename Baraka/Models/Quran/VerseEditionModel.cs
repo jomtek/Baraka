@@ -4,19 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Baraka.Models
+namespace Baraka.Models.Quran
 {
-    public class VerseEditionModel
+    public class VerseEditionModel<T>
     {
         public bool IsActive { get; }
         public string Id { get; }
-        public string Text { get; }
+        public T Content { get; }
 
-        public VerseEditionModel(bool isActive, string id = null, string text = null)
+        public VerseEditionModel(bool isActive, T content, string id = null)
         {
             IsActive = isActive;
             Id = id;
-            Text = text;
+            Content = content;
         }
     }
 }

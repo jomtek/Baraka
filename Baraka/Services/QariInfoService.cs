@@ -1,4 +1,4 @@
-﻿using Baraka.Models;
+﻿using Baraka.Models.Quran;
 using Newtonsoft.Json;
 using System.IO;
 
@@ -7,6 +7,7 @@ namespace Baraka.Services
     public static class QariInfoService
     {
         private static QariModel[] _models;
+
         public static void LoadAll()
         {
             var api = (string)App.Current.FindResource("API_PATH");

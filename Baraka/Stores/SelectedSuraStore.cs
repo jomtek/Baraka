@@ -1,4 +1,5 @@
 ﻿using Baraka.Models;
+using Baraka.Models.Quran;
 using System;
 
 namespace Baraka.Stores

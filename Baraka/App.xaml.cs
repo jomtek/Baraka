@@ -14,6 +14,9 @@ namespace Baraka
         {
             base.OnStartup(e);
 
+            Services.Quran.Mushaf.MushafGlyphService.LoadGlyphsFromFile("glyph_info.bkser");
+            System.Diagnostics.Trace.WriteLine("Glyphs loaded from `glyph_info.bkser` !");
+
             // Initialize the splash screen
             var splashVm = new WelcomeViewModel();
             var splashView = new WelcomeView()

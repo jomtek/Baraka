@@ -1,5 +1,6 @@
 ﻿using Baraka.Models;
-using Baraka.Models.Configuration;
+using Baraka.Models.Quran;
+using Baraka.Models.Quran.Configuration;
 using Baraka.Services.Quran;
 using Baraka.Stores;
 using Baraka.Utils.MVVM.ViewModel;
@@ -10,12 +11,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
+using System.Windows.Media;
 
 namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
 {
     public class TextDisplayerViewModel : ViewModelBase
     {
-        private ObservableCollection<TextualVerseModel> _verses = new ObservableCollection<TextualVerseModel>();
+        private ObservableCollection<TextualVerseModel> _verses = new();
         public ObservableCollection<TextualVerseModel> Verses
         {
             get { return _verses; }
@@ -38,7 +41,7 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
 
         public TextDisplayerViewModel(SelectedSuraStore selectedSuraStore)
         {
-            LoadSura(SuraInfoService.GetByNumber(3));
+            LoadSura(SuraInfoService.GetByNumber(1));
             selectedSuraStore.ValueChanged += (newSura) =>
             {
                 LoadSura(newSura);

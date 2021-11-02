@@ -1,4 +1,5 @@
 ﻿using Baraka.Models;
+using Baraka.Models.Quran;
 using Baraka.Utils.MVVM.ViewModel;
 using System;
 using System.Collections.Generic;

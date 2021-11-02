@@ -1,5 +1,6 @@
 ﻿using Baraka.Commands.UserControls.Player;
 using Baraka.Models;
+using Baraka.Models.Quran;
 using Baraka.Stores;
 using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;

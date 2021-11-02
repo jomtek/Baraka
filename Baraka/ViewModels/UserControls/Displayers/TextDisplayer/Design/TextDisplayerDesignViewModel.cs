@@ -1,5 +1,6 @@
 ﻿using Baraka.Models;
-using Baraka.Models.Configuration;
+using Baraka.Models.Quran;
+using Baraka.Models.Quran.Configuration;
 using Baraka.Services.Quran;
 using Baraka.Utils.MVVM.ViewModel;
 using System;

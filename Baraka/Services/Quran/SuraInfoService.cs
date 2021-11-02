@@ -1,4 +1,5 @@
 ﻿using Baraka.Models;
+using Baraka.Models.Quran;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Baraka.Models
+namespace Baraka.Models.Quran
 {
     public class SuraModel
     {

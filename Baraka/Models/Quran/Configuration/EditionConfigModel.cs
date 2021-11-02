@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Baraka.Models.Configuration
+namespace Baraka.Models.Quran.Configuration
 {
     public class EditionConfigModel
     {

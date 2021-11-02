@@ -21,7 +21,7 @@ namespace Baraka.Commands.Welcome
 
         protected override async Task ExecuteAsync(object parameter)
         {
-            //await Task.Delay(500);
+            //await Task.Delay(1000);
             _welcomeViewModel.DoneLoading = true;
         }
     }

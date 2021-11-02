@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace Baraka.Models
+namespace Baraka.Models.Quran
 {
     public class QariModel
     {

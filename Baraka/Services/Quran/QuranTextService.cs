@@ -1,5 +1,8 @@
 ﻿using Baraka.Models;
-using Baraka.Models.Configuration;
+using Baraka.Models.Quran;
+using Baraka.Models.Quran.Configuration;
+using Baraka.Models.Quran.Mushaf;
+using Baraka.Services.Quran.Mushaf;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,13 +25,13 @@ namespace Baraka.Services.Quran
         {
             var verses = new List<TextualVerseModel>();
             
-            string[] arabic = null;
+            List<MushafGlyphModel[]> arabic = null;
             string[] transliteration = null;
             string[] translation1 = null, translation2 = null, translation3 = null;
 
             // Pre-load editions
             if (config.AllowArabic)
-                arabic = LoadEdition(sura.Number, "ar.uthmani");
+                arabic = MushafGlyphService.RetrieveSura(sura);
             if (config.AllowTransliteration)
                 transliteration = LoadEdition(sura.Number, "tr.transliteration");
             if (config.Translation1 != null)
@@ -43,19 +46,19 @@ namespace Baraka.Services.Quran
             {
                 var verse = new TextualVerseModel()
                 {
-                    Number = i + 1,
+                    Location = new VerseLocationModel(sura.Number, i + 1)
                 };
                 
                 if (config.AllowTransliteration)
-                    verse.Transliteration = new VerseEditionModel(true, "tr.transliteration", transliteration[i]);
+                    verse.Transliteration = new VerseEditionModel<string>(true, transliteration[i], "tr.transliteration");
                 if (config.AllowArabic)
-                    verse.Arabic = new VerseEditionModel(true, "ar.uthmani", arabic[i]);
+                    verse.Arabic = new VerseEditionModel<MushafGlyphModel[]>(true, arabic[i]);
                 if (config.Translation1 != null)
-                    verse.Translation1 = new VerseEditionModel(true, config.Translation1, translation1[i]);
+                    verse.Translation1 = new VerseEditionModel<string>(true, translation1[i], config.Translation1);
                 if (config.Translation2 != null)
-                    verse.Translation2 = new VerseEditionModel(true, config.Translation2, translation2[i]);
+                    verse.Translation2 = new VerseEditionModel<string>(true, translation2[i], config.Translation2);
                 if (config.Translation3 != null)
-                    verse.Translation3 = new VerseEditionModel(true, config.Translation3, translation3[i]);
+                    verse.Translation3 = new VerseEditionModel<string>(true, translation3[i], config.Translation3);
 
                 verses.Add(verse);    
             }
