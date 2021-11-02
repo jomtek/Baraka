@@ -11,27 +11,47 @@
         xmlns:textdisplayervms="clr-namespace:Baraka.ViewModels.UserControls.Displayers.TextDisplayer"
         xmlns:textdisplayerv="clr-namespace:Baraka.Views.UserControls.Displayers.TextDisplayer"
         xmlns:viewmodels="clr-namespace:Baraka.ViewModels"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel, IsDesignTimeCreatable=True}"
         WindowStartupLocation="CenterScreen"
         Title="MainWindow"
-        d:DesignHeight="800" d:DesignWidth="1150"
-        MinHeight="250"
-        MinWidth="1150">
+        d:DesignHeight="800" d:DesignWidth="1200"
+        MinHeight="250" MinWidth="1200">
 
     <Grid ClipToBounds="True" Background="{StaticResource LightColorBrush}">
         <Grid Margin="57 0 0 0">
-            <ContentControl Content="{Binding DisplayerContext}" HorizontalAlignment="Center">
-                <ContentControl.Resources>
-                    <DataTemplate DataType="{x:Type textdisplayervms:TextDisplayerViewModel}">
-                        <textdisplayerv:TextDisplayerView />
-                    </DataTemplate>
-                </ContentControl.Resources>
-            </ContentControl>
+            <Grid x:Name="DisplayerGrid" HorizontalAlignment="Center" Focusable="False"
+                  PreviewMouseWheel="DisplayerGrid_PreviewMouseWheel">
+                <Grid.LayoutTransform>
+                    <ScaleTransform x:Name="ScaleTransformer" ScaleX="{Binding DisplayerScale}" ScaleY="{Binding DisplayerScale}" />
+                </Grid.LayoutTransform>
+
+                <!-- How do I pass event args to my command?
+                     Unless someone has a solution to this problem, I will do
+                     it directly in the codebehind -->
+                <!--
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PreviewMouseWheel">
+                        <i:InvokeCommandAction Command="{Binding ZoomCommand}"
+                                               CommandParameter="{???}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                -->
+                
+                <ContentControl Content="{Binding DisplayerContext}">
+                    <ContentControl.Resources>
+                        <DataTemplate DataType="{x:Type textdisplayervms:TextDisplayerViewModel}">
+                            <textdisplayerv:TextDisplayerView />
+                        </DataTemplate>
+                    </ContentControl.Resources>
+                </ContentControl>
+            </Grid>
 
             <Grid>
                 <Grid.ColumnDefinitions >
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="95"/>
                     <ColumnDefinition Width="4*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
@@ -41,7 +61,7 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
-                <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding PlayerContext}"
+                <ContentControl Grid.Row="1" Grid.Column="2" Content="{Binding PlayerContext}"
                                 HorizontalAlignment="Center" VerticalAlignment="Bottom">
                     <ContentControl.Resources>
                         <DataTemplate DataType="{x:Type playervms:PlayerViewModel}">

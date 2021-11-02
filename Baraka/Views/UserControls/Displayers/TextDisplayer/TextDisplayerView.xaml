@@ -10,7 +10,7 @@
        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       d:DataContext="{d:DesignInstance Type=design:TextDisplayerDesignViewModel, IsDesignTimeCreatable=True}"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="1100">
+      d:DesignHeight="600">
 
     <UserControl.Resources>
         <!-- Paths -->
@@ -27,6 +27,7 @@
             <ColumnDefinition Width="20*" />
             <ColumnDefinition Width="10" />
             <ColumnDefinition Width="auto" />
+            <!-- <ColumnDefinition Width="95" />  Extra margin in order to center the verses on the screen -->
         </Grid.ColumnDefinitions>
 
         <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Right"

@@ -17,7 +17,7 @@ using System.Windows.Shapes;
 namespace Baraka.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainView.xaml
     /// </summary>
     public partial class MainView : Window
     {
@@ -25,6 +25,17 @@ namespace Baraka.Views
         {
             InitializeComponent();
             DataContext = new MainViewModel();
+        }
+
+        private void DisplayerGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (Keyboard.Modifiers != ModifierKeys.Control)
+                return;
+
+            if (DataContext is MainViewModel vm)
+            {
+                vm.ZoomCommand.Execute(e.Delta);
+            }
         }
     }
 }
