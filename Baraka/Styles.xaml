@@ -1,5 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=System.Runtime">
 
     <!-- ScrollBar style -->
     <Style TargetType="Thumb">
@@ -37,6 +37,14 @@
                 <ControlTemplate TargetType="ScrollBar">
                     <Border Background="#FFB6B6B5" CornerRadius="12">
                         <Track x:Name="PART_Track" Margin="0 3 0 3" IsDirectionReversed="True" Focusable="False">
+                            <Track.Resources>
+                                <!-- Thumb's minimum height is half of this metric -->
+                                <!-- Huge thanks to Neil Kronlage -->
+                                <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">
+                                    200
+                                </sys:Double>
+                            </Track.Resources>
+                            
                             <Track.Thumb>
                                 <Thumb x:Name="Thumb" Margin="4 0 4 0"  />
                             </Track.Thumb>

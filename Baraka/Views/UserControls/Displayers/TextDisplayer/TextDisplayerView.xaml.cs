@@ -3,6 +3,7 @@ using Baraka.ViewModels.UserControls.Displayers;
 using Baraka.ViewModels.UserControls.Displayers.TextDisplayer;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,11 +31,7 @@ namespace Baraka.Views.UserControls.Displayers.TextDisplayer
 
         private void ListBox_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            System.Diagnostics.Trace.WriteLine("scroll changed!");
-        }
-
-        private void ListBox_SourceUpdated(object sender, DataTransferEventArgs e)
-        {
+            BookmarkSV.ScrollToVerticalOffset(e.VerticalOffset);
         }
     }
 }
