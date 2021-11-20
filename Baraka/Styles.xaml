@@ -29,7 +29,8 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style TargetType="ScrollBar">
+    
+    <Style TargetType="ScrollBar" x:Key="BarakaSB">
         <Setter Property="Stylus.IsFlicksEnabled" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
@@ -37,7 +38,7 @@
                     <Border Background="#FFB6B6B5" CornerRadius="12">
                         <Track x:Name="PART_Track" Margin="0 3 0 3" IsDirectionReversed="True" Focusable="False">
                             <Track.Thumb>
-                                <Thumb x:Name="Thumb" Margin="4 0 4 0" />
+                                <Thumb x:Name="Thumb" Margin="4 0 4 0"  />
                             </Track.Thumb>
                         </Track>
                     </Border>
@@ -45,7 +46,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
     
     <!-- Placeholder TextBox style -->
     <Style x:Key="PlaceholderStyle" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">

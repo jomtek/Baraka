@@ -25,6 +25,13 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
             set { _verses = value; }
         }
 
+        private int _capacity;
+        public int Capacity
+        {
+            get { return _capacity; }
+            set { _capacity = value; OnPropertyChanged(nameof(Capacity)); }
+        }
+
         private double _scrollState = 0;
         public double ScrollState
         {
@@ -55,6 +62,8 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
             Verses.Clear();
             foreach (var verse in QuranTextService.LoadSura(sura, config))
                 Verses.Add(verse);
+
+            Capacity = sura.Length;
         }
     }
 }

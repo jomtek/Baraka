@@ -28,13 +28,13 @@ namespace Baraka.Views.UserControls.Displayers.TextDisplayer
             InitializeComponent();
         }
 
-        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        private void ListBox_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            if (sender is ScrollViewer scrollViewer)
-            {
-                double state = scrollViewer.VerticalOffset / scrollViewer.ScrollableHeight;
-                ScrollViewerBehavior.SetScrollState(scrollViewer, state);
-            }
+            System.Diagnostics.Trace.WriteLine("scroll changed!");
+        }
+
+        private void ListBox_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
         }
     }
 }
