@@ -29,8 +29,47 @@ namespace Baraka.Views.UserControls.Displayers.TextDisplayer
             InitializeComponent();
         }
 
+        public static DependencyObject GetScrollViewer(DependencyObject o)
+        {
+            // Return the DependencyObject if it is a ScrollViewer
+            if (o is ScrollViewer)
+            { return o; }
+
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(o); i++)
+            {
+                var child = VisualTreeHelper.GetChild(o, i);
+
+                var result = GetScrollViewer(child);
+                if (result == null)
+                {
+                    continue;
+                }
+                else
+                {
+                    return result;
+                }
+            }
+            return null;
+        }
+
+        private bool _blockNext = false;
         private void ListBox_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
+            if (_blockNext)
+            {
+                _blockNext = false;
+                e.Handled = true;
+                return;
+            }
+            else if (Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                var sv = GetScrollViewer(VersesLB) as ScrollViewer;
+                sv.ScrollToVerticalOffset(sv.VerticalOffset - e.VerticalChange);
+                _blockNext = true;
+                e.Handled = true;
+                return;
+            }
+            
             BookmarkSV.ScrollToVerticalOffset(e.VerticalOffset);
         }
     }
