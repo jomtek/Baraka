@@ -1,9 +1,12 @@
 ﻿using Baraka.Models;
 using Baraka.Models.Quran;
+using Baraka.Singletons;
 using Baraka.Stores;
 using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Baraka.ViewModels.UserControls.Player.Pages
@@ -32,6 +35,7 @@ namespace Baraka.ViewModels.UserControls.Player.Pages
         }
 
         public ICommand ScrollCommand { get; }
+        public ICommand QariSelectedCommand { get; }
         public QariTabViewModel(ScrollStateStore scrollStateStore)
         {
             QariList = new ObservableCollection<QariModel>();
@@ -49,6 +53,16 @@ namespace Baraka.ViewModels.UserControls.Player.Pages
             {
                 scrollStateStore.ChangeScrollState(ScrollState);
             });
+
+            QariSelectedCommand = new RelayCommand(
+                (qari) => {
+                    AppStateSingleton.Instance.SelectedQariStore.ChangeSelectedQari((QariModel)qari);
+                    CollectionViewSource.GetDefaultView(QariList).Refresh();
+                },
+                (qari) => {
+                    return AppStateSingleton.Instance.SelectedQari != (QariModel)qari;
+                }
+            );
         }
     }
 }

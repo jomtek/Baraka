@@ -1,4 +1,5 @@
-﻿using Baraka.Stores;
+﻿using Baraka.Singletons;
+using Baraka.Stores;
 using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;
 using Baraka.ViewModels.UserControls.Player.Pages;
@@ -103,7 +104,7 @@ namespace Baraka.ViewModels.UserControls.Player
         public ICommand ScrollCommand { get; }
         public ICommand QariTabSelectedCommand { get; }
         public ICommand SuraTabSelectedCommand { get; }
-        public PlayerViewModel(SelectedSuraStore selectedSuraStore)
+        public PlayerViewModel()
         {
             // Stores
             _scrollStateStore = new ScrollStateStore();
@@ -130,7 +131,7 @@ namespace Baraka.ViewModels.UserControls.Player
 
             // Tab
             _qariTab = new QariTabViewModel(_scrollStateStore);
-            _suraTab = new SuraTabViewModel(_scrollStateStore, selectedSuraStore);
+            _suraTab = new SuraTabViewModel(_scrollStateStore);
 
             SuraTabSelected = true; // The default tab on the player is the sura tab
         }

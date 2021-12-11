@@ -188,7 +188,9 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
 
-                            <TextBlock Text="Abderrahman Al-Sudais" behaviors:SelectableObjBehavior.Selected="{Binding QariTabSelected}" />
+                            <TextBlock Text="{Binding Source={x:Static singletons:AppStateSingleton.Instance},
+                                                      Path=SelectedQari.FullName}" 
+                                       behaviors:SelectableObjBehavior.Selected="{Binding QariTabSelected}" />
                         </Viewbox>
 
                         <Viewbox Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" Stretch="Uniform">
@@ -199,7 +201,7 @@
                             </i:Interaction.Triggers>
                             
                             <TextBlock Text="{Binding Source={x:Static singletons:AppStateSingleton.Instance},
-                                                      Path=CurrentlyDisplayedSura.PhoneticName}"
+                                                      Path=SelectedSura.PhoneticName}"
                                        behaviors:SelectableObjBehavior.Selected="{Binding SuraTabSelected}" />
                         </Viewbox>
                     </Grid>

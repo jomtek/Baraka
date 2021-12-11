@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Media;
 
 namespace Baraka.Models.Quran
 {
-    public class QariModel
+    public class QariModel : IEquatable<QariModel>
     {
         public string Id { get; set; } // The ID which identifies the Qari on the reciter API
         public string FirstName { get; set; }
-        public string LastName { get; set;  }
+        public string LastName { get; set; }
         //public readonly bool AcModelAvailable; // Acoustic model trained with sphinxtrain
         //public readonly bool TwoModes;
 
@@ -46,6 +39,11 @@ namespace Baraka.Models.Quran
             Id = id;
             FirstName = firstName;
             LastName = lastName;
+        }
+
+        public bool Equals(QariModel other)
+        {
+            return Id == other.Id;
         }
     }
 }

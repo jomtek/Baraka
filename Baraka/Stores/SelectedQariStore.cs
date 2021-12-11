@@ -6,13 +6,13 @@ using System;
 
 namespace Baraka.Stores
 {
-    public class SelectedSuraStore
+    public class SelectedQariStore
     {
-        public event Action<SuraModel> ValueChanged;
+        public event Action<QariModel> ValueChanged;
 
-        public void ChangeSelectedSura(SuraModel value)
+        public void ChangeSelectedQari(QariModel value)
         {
-            AppStateSingleton.Instance.SelectedSura = value;
+            AppStateSingleton.Instance.SelectedQari = value;
             ValueChanged?.Invoke(value);
         }
     }

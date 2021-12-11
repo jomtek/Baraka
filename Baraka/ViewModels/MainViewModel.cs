@@ -24,10 +24,10 @@ namespace Baraka.ViewModels
         public NotifiableBase DisplayerContext { get; }
         public NotifiableBase PlayerContext { get; }
         public ICommand ZoomCommand { get; }
-        public MainViewModel(SelectedSuraStore selectedSuraStore)
+        public MainViewModel()
         {
-            DisplayerContext = new TextDisplayerViewModel(selectedSuraStore);
-            PlayerContext = new PlayerViewModel(selectedSuraStore);
+            DisplayerContext = new TextDisplayerViewModel();
+            PlayerContext = new PlayerViewModel();
 
             ZoomCommand = new RelayCommand((param) =>
             {

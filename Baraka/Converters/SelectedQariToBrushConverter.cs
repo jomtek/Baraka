@@ -12,19 +12,19 @@ using System.Diagnostics;
 
 namespace Baraka.Converters
 {
-    public class SelectedSuraToBrushConverter : IValueConverter
+    public class SelectedQariToBrushConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is SuraModel sura)
+            if (value is QariModel qari)
             {
-                if (sura == AppStateSingleton.Instance.SelectedSura)
+                if (qari == AppStateSingleton.Instance.SelectedQari)
                 {
                     return Brushes.DarkGreen;
                 }
             }
 
-            return Brushes.Black;
+            return Brushes.LightGray;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
