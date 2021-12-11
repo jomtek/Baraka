@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Baraka.Utils.MVVM.ViewModel
 {
-    public class ViewModelBase : INotifyPropertyChanged
+    public class NotifiableBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
     

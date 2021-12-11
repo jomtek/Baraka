@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Baraka.Models.Quran
 {
-    public class SuraModel
+    public class SuraModel : IEquatable<SuraModel>
     {
         public int Number { get; } // Starts from one
         public int Length { get; }
@@ -26,6 +26,11 @@ namespace Baraka.Models.Quran
             PhoneticName = phoneticName;
             TranslatedName = translatedName;
             RevelationType = revelationType;
+        }
+
+        public bool Equals(SuraModel other)
+        {
+            return Number == other.Number;
         }
     }
 }

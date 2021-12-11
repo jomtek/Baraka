@@ -1,24 +1,38 @@
 ﻿using Baraka.Utils.MVVM.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Baraka.Sandbox
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : NotifiableBase
     {
-        private TestViewModel _testViewContext;
-        public TestViewModel TestViewContext
+        private ObservableCollection<string> _names;
+        public ObservableCollection<string> Names
         {
-            get { return _testViewContext; }
-            set { _testViewContext = value; OnPropertyChanged(nameof(TestViewContext)); }
+            get { return _names; }
+            set { _names = value; }
         }
+
+private string selectedName;
+
+public string SelectedName
+{
+    get { return selectedName; }
+    set { selectedName = value; OnPropertyChanged(nameof(SelectedName)); }
+}
 
         public MainViewModel()
         {
-            TestViewContext = new TestViewModel();
+            Names = new ObservableCollection<string>()
+            {
+                "John", "Mauricio", "Franklin", "Isabelle"
+            };
+
+            SelectedName = "Mauricio";
         }
     }
 }

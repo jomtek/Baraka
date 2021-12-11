@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Baraka.ViewModels.UserControls.Player.Pages.Design
 {
-    public class QariTabDesignViewModel : ViewModelBase
+    public class QariTabDesignViewModel : NotifiableBase
     {
         public ObservableCollection<QariModel> QariList
         {

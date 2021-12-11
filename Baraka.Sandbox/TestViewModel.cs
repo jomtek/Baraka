@@ -8,7 +8,7 @@ using Baraka.Utils.MVVM.ViewModel;
 
 namespace Baraka.Sandbox
 {
-    public class TestViewModel : ViewModelBase
+    public class TestViewModel : NotifiableBase
     {
 
     }

@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer.Design
 {
-    public class TextDisplayerDesignViewModel : ViewModelBase
+    public class TextDisplayerDesignViewModel : NotifiableBase
     {
         public TextualVerseModel[] Verses
         {
             get
             {
                 var config = new EditionConfigModel(true, true, "en.ahmedali", null, null);
-                return QuranTextService.LoadSura(SuraInfoService.GetByNumber(1), config);
+                return QuranTextService.LoadSura(SuraInfoService.FromNumber(1), config);
             }
         }
     }

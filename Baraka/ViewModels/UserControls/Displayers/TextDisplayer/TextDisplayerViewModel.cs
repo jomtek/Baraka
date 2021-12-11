@@ -16,7 +16,7 @@ using System.Windows.Media;
 
 namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
 {
-    public class TextDisplayerViewModel : ViewModelBase
+    public class TextDisplayerViewModel : NotifiableBase
     {
         private ObservableCollection<TextualVerseModel> _verses = new();
         public ObservableCollection<TextualVerseModel> Verses
@@ -48,7 +48,6 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
 
         public TextDisplayerViewModel(SelectedSuraStore selectedSuraStore)
         {
-            LoadSura(SuraInfoService.GetByNumber(1));
             selectedSuraStore.ValueChanged += (newSura) =>
             {
                 LoadSura(newSura);

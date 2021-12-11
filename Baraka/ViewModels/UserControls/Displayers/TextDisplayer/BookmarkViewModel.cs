@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
 {
-    public class BookmarkViewModel : ViewModelBase
+    public class BookmarkViewModel : NotifiableBase
     {
 
     }

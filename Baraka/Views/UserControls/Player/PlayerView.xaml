@@ -8,6 +8,7 @@
              xmlns:pagevm="clr-namespace:Baraka.ViewModels.UserControls.Player.Pages"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:behaviors="clr-namespace:Baraka.Behaviors"
+             xmlns:singletons="clr-namespace:Baraka.Singletons"
              mc:Ignorable="d" 
              x:Name="UC"
              DataContextChanged="UC_DataContextChanged">
@@ -197,7 +198,9 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             
-                            <TextBlock Text="Ad-Dhariyat" behaviors:SelectableObjBehavior.Selected="{Binding SuraTabSelected}" />
+                            <TextBlock Text="{Binding Source={x:Static singletons:AppStateSingleton.Instance},
+                                                      Path=CurrentlyDisplayedSura.PhoneticName}"
+                                       behaviors:SelectableObjBehavior.Selected="{Binding SuraTabSelected}" />
                         </Viewbox>
                     </Grid>
                 </Grid>

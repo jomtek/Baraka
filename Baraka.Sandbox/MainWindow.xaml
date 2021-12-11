@@ -8,17 +8,22 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
 
-<Grid>
-    <Frame HorizontalAlignment="Center">
-        <Frame.Content>
-            <ContentControl Content="{Binding TestViewContext}">
-                <ContentControl.Resources>
-                    <DataTemplate DataType="{x:Type local:TestViewModel}">
-                        <local:TestView />
-                    </DataTemplate>
-                </ContentControl.Resources>
-            </ContentControl>
-        </Frame.Content>
-    </Frame>
-</Grid>
+    <Grid>
+<ListBox ItemsSource="{Binding Names}">
+    <ListBox.ItemTemplate>
+        <DataTemplate>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                        
+                <Rectangle Grid.Column="0" Fill="Gray" Width="20" Height="20" />
+                <TextBlock Grid.Column="2" Text="{Binding}" FontSize="22" />
+            </Grid>
+        </DataTemplate>
+    </ListBox.ItemTemplate>
+</ListBox>
+    </Grid>
 </Window>

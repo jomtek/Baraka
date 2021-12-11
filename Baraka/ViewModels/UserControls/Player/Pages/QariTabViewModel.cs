@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace Baraka.ViewModels.UserControls.Player.Pages
 {
-    public class QariTabViewModel : ViewModelBase, IScrollablePage
+    public class QariTabViewModel : NotifiableBase, IScrollablePage
     {
         private ObservableCollection<QariModel> _qariList;
         public ObservableCollection<QariModel> QariList

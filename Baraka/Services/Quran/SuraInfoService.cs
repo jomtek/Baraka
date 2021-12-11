@@ -29,7 +29,7 @@ namespace Baraka.Services.Quran
         }
 
         // The number is supposed to start from 1
-        public static SuraModel GetByNumber(int number)
+        public static SuraModel FromNumber(int number)
         {
             if (number < 1) throw new ArgumentException();
             if (_models == null) LoadAll();

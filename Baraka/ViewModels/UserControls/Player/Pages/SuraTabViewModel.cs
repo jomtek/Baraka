@@ -8,11 +8,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Baraka.ViewModels.UserControls.Player.Pages
 {
-    public class SuraTabViewModel : ViewModelBase, IScrollablePage
+    public class SuraTabViewModel : NotifiableBase, IScrollablePage
     {
         private IEnumerable<SuraModel> _suraList;
         public IEnumerable<SuraModel> SuraList
@@ -49,6 +50,7 @@ namespace Baraka.ViewModels.UserControls.Player.Pages
         }
 
         public ScrollStateStore ScrollStateStore { get; }
+        public SelectedSuraStore SelectedSuraStore { get; }
         public ICommand ScrollCommand { get; }
         public ICommand SuraSelectedCommand { get; }
         public ICommand SearchCommand { get; }
@@ -59,21 +61,28 @@ namespace Baraka.ViewModels.UserControls.Player.Pages
            
             // Stores and commands
             ScrollStateStore = scrollStateStore;
-
             ScrollStateStore.ValueChanged += (newValue) =>
             {
                 ScrollState = newValue;
             };
+
+            SelectedSuraStore = selectedSuraStore;
 
             ScrollCommand = new RelayCommand((param) =>
             {
                 ScrollStateStore.ChangeScrollState(ScrollState);
             });
 
-            SuraSelectedCommand = new RelayCommand((sura) =>
-            {
-                selectedSuraStore.ChangeSelectedSura((SuraModel)sura);
-            });
+            SuraSelectedCommand = new RelayCommand(
+                (sura) =>
+                {
+                    selectedSuraStore.ChangeSelectedSura((SuraModel)sura);
+                    CollectionViewSource.GetDefaultView(SuraList).Refresh();
+                },
+                (sura) => {
+                    return selectedSuraStore.Value != (SuraModel)sura;
+                    }
+            );
             
             SearchCommand = new SearchCommand(this);
         }

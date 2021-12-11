@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace Baraka.ViewModels
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : NotifiableBase
     {
         private double _displayerScale = 1.1;
         public double DisplayerScale
@@ -21,12 +21,11 @@ namespace Baraka.ViewModels
             set { _displayerScale = value; OnPropertyChanged(nameof(DisplayerScale)); }
         }
 
-        public ViewModelBase DisplayerContext { get; }
-        public ViewModelBase PlayerContext { get; }
+        public NotifiableBase DisplayerContext { get; }
+        public NotifiableBase PlayerContext { get; }
         public ICommand ZoomCommand { get; }
-        public MainViewModel()
+        public MainViewModel(SelectedSuraStore selectedSuraStore)
         {
-            var selectedSuraStore = new SelectedSuraStore();
             DisplayerContext = new TextDisplayerViewModel(selectedSuraStore);
             PlayerContext = new PlayerViewModel(selectedSuraStore);
 

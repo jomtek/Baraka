@@ -12,7 +12,7 @@ using Baraka.Utils.UX.Interaction;
 
 namespace Baraka.ViewModels.Splashes
 {
-    public class WelcomeViewModel : ViewModelBase
+    public class WelcomeViewModel : NotifiableBase
     {
         public ICommand LoadDataCommand { get; set; }
 

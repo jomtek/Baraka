@@ -24,7 +24,6 @@ namespace Baraka.Views
         public MainView()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
         }
 
         private void DisplayerGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)

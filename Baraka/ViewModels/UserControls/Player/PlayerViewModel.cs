@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace Baraka.ViewModels.UserControls.Player
 {
-    public class PlayerViewModel : ViewModelBase
+    public class PlayerViewModel : NotifiableBase
     {
         private QariTabViewModel _qariTab;
         private SuraTabViewModel _suraTab;
@@ -20,8 +20,8 @@ namespace Baraka.ViewModels.UserControls.Player
 
         private ScrollStateStore _scrollStateStore;
 
-        private ViewModelBase _currentPage;
-        public ViewModelBase CurrentPage
+        private NotifiableBase _currentPage;
+        public NotifiableBase CurrentPage
         {
             get { return _currentPage; }
             set
