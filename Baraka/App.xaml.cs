@@ -44,7 +44,7 @@ namespace Baraka
                 DataContext = mainVm,
             };
 
-            AppStateSingleton.Instance.SelectedSuraStore.ChangeSelectedSura(SuraInfoService.FromNumber(1));
+            AppStateSingleton.Instance.SelectedSuraStore.ChangeSelectedSura(SuraInfoService.FromNumber(2));
             AppStateSingleton.Instance.SelectedQariStore.ChangeSelectedQari(QariInfoService.GetAll()[0]);
 
             // Pop-corn time !

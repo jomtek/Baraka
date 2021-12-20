@@ -33,6 +33,13 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
             set { _capacity = value; OnPropertyChanged(nameof(Capacity)); }
         }
 
+        private static List<double> _graphicalVersesOffsets = new();
+        public static List<double> GraphicalVersesOffsets
+        {
+            get { return _graphicalVersesOffsets; }
+            set { _graphicalVersesOffsets = value; }
+        }
+
         private double _scrollState = 0;
         public double ScrollState
         {

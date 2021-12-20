@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Baraka.Utils.UI;
 
 namespace Baraka.Views.UserControls.Displayers.TextDisplayer
 {
@@ -24,53 +25,52 @@ namespace Baraka.Views.UserControls.Displayers.TextDisplayer
     /// </summary>
     public partial class TextDisplayerView : UserControl
     {
+        private ListBoxItem _selectedItem;
+        private VirtualizingPanel _panel;
+
         public TextDisplayerView()
         {
             InitializeComponent();
         }
 
-        public static DependencyObject GetScrollViewer(DependencyObject o)
+        // Computes the height of the bookmark according to the layout
+        private void RefreshBookmarkHeight()
         {
-            // Return the DependencyObject if it is a ScrollViewer
-            if (o is ScrollViewer)
-            { return o; }
-
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(o); i++)
-            {
-                var child = VisualTreeHelper.GetChild(o, i);
-
-                var result = GetScrollViewer(child);
-                if (result == null)
-                {
-                    continue;
-                }
-                else
-                {
-                    return result;
-                }
-            }
-            return null;
+            Bookmark.Height = _panel.GetItemOffset(_selectedItem) + 60;
         }
 
-        private bool _blockNext = false;
         private void ListBox_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            if (_blockNext)
-            {
-                _blockNext = false;
-                e.Handled = true;
-                return;
-            }
-            else if (Keyboard.Modifiers == ModifierKeys.Control)
-            {
-                var sv = GetScrollViewer(VersesLB) as ScrollViewer;
-                sv.ScrollToVerticalOffset(sv.VerticalOffset - e.VerticalChange);
-                _blockNext = true;
-                e.Handled = true;
-                return;
-            }
-            
+            // Synchronize ListBox with the bookmark
             BookmarkSV.ScrollToVerticalOffset(e.VerticalOffset);
+        
+            if (_selectedItem != null)
+            {
+                RefreshBookmarkHeight();
+            }
+        }
+        
+        private void Grid_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var lbItem = Graphics.FindParent<ListBoxItem>((DependencyObject)sender);
+            _selectedItem = lbItem;
+
+            if (_panel == null)
+                _panel = Graphics.FindParent<VirtualizingPanel>(lbItem);
+            RefreshBookmarkHeight();
+        }
+
+        private void BookmarkSV_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            // Prevent mouse wheel from moving the bookmark annoyingly
+            e.Handled = true;
+        }
+
+        private void Verse_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e)
+        {
+            /* Cancel the event in order to prevent the list from annoyingly
+               scrolling whenever you change current verse */
+            e.Handled = true;
         }
     }
 }

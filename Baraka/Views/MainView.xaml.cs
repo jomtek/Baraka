@@ -28,12 +28,13 @@ namespace Baraka.Views
 
         private void DisplayerGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (Keyboard.Modifiers != ModifierKeys.Control)
-                return;
-
-            if (DataContext is MainViewModel vm)
+            if (Keyboard.Modifiers == ModifierKeys.Control)
             {
-                vm.ZoomCommand.Execute(e.Delta);
+                if (DataContext is MainViewModel vm)
+                {
+                    e.Handled = true;
+                    vm.ZoomCommand.Execute(e.Delta);
+                }
             }
         }
     }

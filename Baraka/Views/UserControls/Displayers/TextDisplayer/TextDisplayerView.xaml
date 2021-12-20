@@ -34,10 +34,11 @@
         </Grid.ColumnDefinitions>
 
         <ScrollViewer Grid.Column="0" x:Name="BookmarkSV"
-                        VerticalScrollBarVisibility="Hidden"
-                        HorizontalAlignment="Right">
-            <Grid Margin="0 40" Height="80000">
-                <local:BookmarkView VerticalAlignment="Top" Height="250">
+                      VerticalScrollBarVisibility="Hidden"
+                      HorizontalAlignment="Right"
+                      PreviewMouseWheel="BookmarkSV_MouseWheel">
+            <Grid x:Name="BookmarkGrid" Margin="0 40" Height="80000">
+                <local:BookmarkView x:Name="Bookmark" VerticalAlignment="Top" Height="250">
                     <local:BookmarkView.Effect>
                         <DropShadowEffect ShadowDepth="3" Opacity="0.15" BlurRadius="5" />
                     </local:BookmarkView.Effect>
@@ -48,11 +49,13 @@
         <ListBox Grid.Column="2" x:Name="VersesLB"
                  Background="Transparent" BorderThickness="0"
                  VirtualizingPanel.ScrollUnit="Pixel"
+                 VirtualizingPanel.VirtualizationMode="Recycling"
                  ItemsSource="{Binding Verses, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                  ScrollViewer.ScrollChanged="ListBox_ScrollChanged">
             <!-- This removes selection behavior -->
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
+                    <EventSetter Event="RequestBringIntoView" Handler="Verse_RequestBringIntoView" />
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ListBoxItem">
@@ -88,7 +91,8 @@
                             <ColumnDefinition Width="9*" />
                         </Grid.ColumnDefinitions>
 
-                        <Grid Grid.Row="0" Height="60" VerticalAlignment="Top">
+                        <Grid Grid.Row="0" Height="60" VerticalAlignment="Top"
+                              PreviewMouseLeftButtonUp="Grid_PreviewMouseLeftButtonUp">
                             <Path Style="{StaticResource Polygon}" Stretch="Fill" StrokeThickness="5" Fill="White">
                                 <Path.Effect>
                                     <DropShadowEffect ShadowDepth="2" Opacity="0.2" BlurRadius="5" />

@@ -26,5 +26,15 @@ namespace Baraka.Utils.UI
 
             return formattedText.Width;
         }
+
+        public static T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            var parent = VisualTreeHelper.GetParent(child);
+
+            if (parent is T)
+                return parent as T;
+            else
+                return FindParent<T>(parent);
+        }
     }
 }
