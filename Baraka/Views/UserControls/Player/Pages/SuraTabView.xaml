@@ -84,7 +84,7 @@
                                         Style="{StaticResource NoHoverButtonStyle}"
                                         Command="{Binding ElementName=SuraListIC, Path=DataContext.SuraSelectedCommand}"
                                         CommandParameter="{Binding}">
-                                   
+
                                     <Path Stretch="Fill"
                                           Fill="{Binding Converter={StaticResource SelectedSuraToBrushConverter}}">
                                         <Path.Style>

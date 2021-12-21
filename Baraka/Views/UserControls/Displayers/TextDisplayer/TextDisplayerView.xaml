@@ -21,8 +21,9 @@
 
         <!-- Converters-->
         <converters:BoolToGridLengthConverter x:Key="BoolToGridLengthConverter" />
-        <tdconverters:VerseToFontFamilyConverter x:Key="VerseToFontFamilyConverter" />
-        <tdconverters:VerseToGlyphInlinesConverter x:Key="VerseToGlyphInlinesConverter" />
+        <tdconverters:ArabicVerseToFontFamilyConverter x:Key="ArabicVerseToFontFamilyConverter" />
+        <tdconverters:ArabicVerseToGlyphInlinesConverter x:Key="ArabicVerseToGlyphInlinesConverter" />
+        <tdconverters:ArabicVerseToFontSizeConverter x:Key="ArabicVerseToFontSizeConverter" />
     </UserControl.Resources>
 
     <Grid d:Background="{StaticResource LightColorBrush}"
@@ -93,13 +94,27 @@
 
                         <Grid Grid.Row="0" Height="60" VerticalAlignment="Top"
                               PreviewMouseLeftButtonUp="Grid_PreviewMouseLeftButtonUp">
-                            <Path Style="{StaticResource Polygon}" Stretch="Fill" StrokeThickness="5" Fill="White">
+                            <Path Stretch="Fill" Fill="White" StrokeThickness="5"
+                                  Cursor="Hand">
+                                <Path.Style>
+                                    <Style TargetType="Path" BasedOn="{StaticResource Polygon}">
+                                        <Setter Property="Stroke" Value="White" />
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Stroke" Value="Goldenrod" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Path.Style>
+                                
                                 <Path.Effect>
                                     <DropShadowEffect ShadowDepth="2" Opacity="0.2" BlurRadius="5" />
                                 </Path.Effect>
                             </Path>
+                            
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
                                        FontFamily="Montserrat" FontWeight="Bold" FontSize="21"
+                                       IsHitTestVisible="False"
                                        Text="{Binding Number}"/>
                         </Grid>
 
@@ -122,31 +137,31 @@
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Grid.Row="1"
-                                                HorizontalAlignment="Right" FlowDirection="RightToLeft"
-                                                FontSize="30"
-                                                Margin="12 5 13 0"
-                                                FontFamily="{Binding Converter={StaticResource VerseToFontFamilyConverter}}"
-                                                behaviors:BindableInlinesBehavior.BindableInlines="{Binding Converter={StaticResource VerseToGlyphInlinesConverter}}" />
+                                           Margin="12 5 13 0"
+                                           HorizontalAlignment="Right" FlowDirection="RightToLeft"
+                                           FontSize="{Binding Converter={StaticResource ArabicVerseToFontSizeConverter}}"
+                                           FontFamily="{Binding Converter={StaticResource ArabicVerseToFontFamilyConverter}}"
+                                           behaviors:BindableInlinesBehavior.BindableInlines="{Binding Converter={StaticResource ArabicVerseToGlyphInlinesConverter}}" />
 
                                 <TextBlock Grid.Row="2"
-                                                Text="{Binding Transliteration.Content}"
-                                                FontSize="17" Foreground="#FF6E6E6E"
-                                                Margin="12 15 12 5" />
+                                           Text="{Binding Transliteration.Content}"
+                                           FontSize="17" Foreground="#FF6E6E6E"
+                                           Margin="12 15 12 5" />
 
                                 <TextBlock Grid.Row="3"
-                                                Text="{Binding Translation1.Content}"
-                                                FontSize="17.5"
-                                                Margin="12 5 12 0"/>
+                                           Text="{Binding Translation1.Content}"
+                                           FontSize="17.5"
+                                           Margin="12 5 12 0"/>
 
                                 <TextBlock Grid.Row="4"
-                                                Text="{Binding Translation2.Content}"
-                                                FontSize="17.5"
-                                                Margin="12 5 12 5"/>
+                                           Text="{Binding Translation2.Content}"
+                                           FontSize="17.5"
+                                           Margin="12 5 12 5"/>
 
                                 <TextBlock Grid.Row="5"
-                                                Text="{Binding Translation3.Content}"
-                                                FontSize="17.5"
-                                                Margin="12 5 12 0" />
+                                           Text="{Binding Translation3.Content}"
+                                           FontSize="17.5"
+                                           Margin="12 5 12 0" />
                             </Grid>
                         </Border>
                     </Grid>

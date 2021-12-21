@@ -14,13 +14,15 @@ using System.Windows.Media;
 
 namespace Baraka.Converters.TextDisplayer
 {
-    public class VerseToGlyphInlinesConverter : IValueConverter
+    public class ArabicVerseToGlyphInlinesConverter : IValueConverter
     {
+        // This class generates arabic word inlines from a TextualVerseModel
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var inlines = new List<Inline>();
             if (value is TextualVerseModel tvm && tvm.Arabic.IsActive)
             {
+                var inlines = new List<Inline>();
+                
                 foreach (MushafGlyphModel glyph in tvm.Arabic.Content)
                 {
                     var run = new Run(glyph.DecodedData.ToString());
@@ -31,17 +33,14 @@ namespace Baraka.Converters.TextDisplayer
                             run.Foreground = Brushes.Red;
                             break;
                         case MushafGlyphType.SUJOOD:
-                            //run.Background = Brushes.Gray;
                             run.ToolTip = "Prosternez-vous (sajada) lorsque vous rencontrez ce symbôle";
                             run.Cursor = Cursors.Hand;
                             break;
                         case MushafGlyphType.RUB_EL_HIZB:
-                            //run.Background = Brushes.Yellow;
                             run.ToolTip = "Délimitation d'un quart de hizb";
                             run.Cursor = Cursors.Hand;
                             break;
                         case MushafGlyphType.END_OF_AYAH:
-                            //run.Background = Brushes.CornflowerBlue;
                             run.ToolTip = $"Verset {glyph.AssociatedVerse.Number}, page n°{glyph.Page}";
                             run.Cursor = Cursors.Hand;
                             break;
@@ -51,9 +50,13 @@ namespace Baraka.Converters.TextDisplayer
 
                     inlines.Add(run);
                 }
+                
+                return inlines;
             }
-
-            return inlines;
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
