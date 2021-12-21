@@ -93,7 +93,9 @@
     </Style>
     
     <!-- Button styles -->
-    <Style x:Key="NoHoverButtonStyle" TargetType="{x:Type Button}">
+    <Style x:Key="MinimalisticButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Cursor" Value="Hand" />
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -108,25 +110,26 @@
                             </Style>
                         </Border.Style>
                         <Grid Background="Transparent">
-                            <ContentPresenter></ContentPresenter>
+                            <ContentPresenter />
                         </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+       
     </Style>
 
-    <!-- Path styles -->
-    <Style x:Key="ReactivePathStyle" TargetType="{x:Type Path}">
+    <!-- Other styles -->
+    <Style x:Key="ReactiveStyle">
         <Style.Triggers>
-            <EventTrigger RoutedEvent="MouseEnter">
+            <EventTrigger RoutedEvent="Control.MouseEnter">
                 <BeginStoryboard>
                     <Storyboard>
                         <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Opacity" To="0.6" />
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>
-            <EventTrigger RoutedEvent="MouseLeave">
+            <EventTrigger RoutedEvent="Control.MouseLeave">
                 <BeginStoryboard>
                     <Storyboard>
                         <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Opacity" To="1" />

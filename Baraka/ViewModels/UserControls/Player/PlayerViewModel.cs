@@ -1,4 +1,5 @@
-﻿using Baraka.Singletons;
+﻿using Baraka.Services.Quran;
+using Baraka.Singletons;
 using Baraka.Stores;
 using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;
@@ -104,6 +105,8 @@ namespace Baraka.ViewModels.UserControls.Player
         public ICommand ScrollCommand { get; }
         public ICommand QariTabSelectedCommand { get; }
         public ICommand SuraTabSelectedCommand { get; }
+        public ICommand NextSuraCommand { get; }
+        public ICommand PreviousSuraCommand { get; }
         public PlayerViewModel()
         {
             // Stores
@@ -128,6 +131,30 @@ namespace Baraka.ViewModels.UserControls.Player
             {
                 SuraTabSelected = !SuraTabSelected;
             });
+
+            NextSuraCommand = new RelayCommand(
+                (param) =>
+                {
+                    var sura = SuraInfoService.FromNumber(AppStateSingleton.Instance.SelectedSura.Number + 1);
+                    AppStateSingleton.Instance.SelectedSuraStore.ChangeSelectedSura(sura);
+                },
+                (param) =>
+                {
+                    return AppStateSingleton.Instance.SelectedSura.Number < 114;
+                }
+            );
+
+            PreviousSuraCommand = new RelayCommand(
+                (param) =>
+                {
+                    var sura = SuraInfoService.FromNumber(AppStateSingleton.Instance.SelectedSura.Number - 1);
+                    AppStateSingleton.Instance.SelectedSuraStore.ChangeSelectedSura(sura);
+                },
+                (param) =>
+                {
+                    return AppStateSingleton.Instance.SelectedSura.Number > 1;
+                }
+            );
 
             // Tab
             _qariTab = new QariTabViewModel(_scrollStateStore);

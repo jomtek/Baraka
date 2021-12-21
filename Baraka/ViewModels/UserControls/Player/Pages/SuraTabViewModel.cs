@@ -74,12 +74,16 @@ namespace Baraka.ViewModels.UserControls.Player.Pages
             SuraSelectedCommand = new RelayCommand(
                 (sura) => {
                     AppStateSingleton.Instance.SelectedSuraStore.ChangeSelectedSura((SuraModel)sura);
-                    CollectionViewSource.GetDefaultView(SuraList).Refresh();
                 },
                 (sura) => {
                     return AppStateSingleton.Instance.SelectedSura != (SuraModel)sura;
                 }
             );
+
+            AppStateSingleton.Instance.SelectedSuraStore.ValueChanged += (sura) =>
+            {
+                CollectionViewSource.GetDefaultView(SuraList).Refresh();
+            };
             
             SearchCommand = new SearchCommand(this);
         }
