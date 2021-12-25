@@ -9,21 +9,6 @@
         Title="MainWindow" Height="450" Width="800">
 
     <Grid>
-<ListBox ItemsSource="{Binding Names}">
-    <ListBox.ItemTemplate>
-        <DataTemplate>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="5" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                        
-                <Rectangle Grid.Column="0" Fill="Gray" Width="20" Height="20" />
-                <TextBlock Grid.Column="2" Text="{Binding}" FontSize="22" />
-            </Grid>
-        </DataTemplate>
-    </ListBox.ItemTemplate>
-</ListBox>
+        <Button Click="Button_Click" Height="500" Width="200" />
     </Grid>
 </Window>

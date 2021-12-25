@@ -1,5 +1,4 @@
-﻿using Baraka.Stores;
-using Baraka.Utils.MVVM.Command;
+﻿using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;
 using Baraka.ViewModels.UserControls.Displayers.TextDisplayer;
 using Baraka.ViewModels.UserControls.Player;

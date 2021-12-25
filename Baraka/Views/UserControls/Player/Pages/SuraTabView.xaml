@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:converters="clr-namespace:Baraka.Converters"
+      xmlns:converters="clr-namespace:Baraka.Converters.Player"
       xmlns:design="clr-namespace:Baraka.ViewModels.UserControls.Player.Pages.Design"
       d:DataContext="{d:DesignInstance Type={x:Type design:SuraTabDesignViewModel}, IsDesignTimeCreatable=True}"
       xmlns:local="clr-namespace:Baraka.Views.UserControls.Player.Pages"

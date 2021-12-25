@@ -2,7 +2,7 @@
 using Baraka.Models;
 using Baraka.Models.Quran;
 using Baraka.Singletons;
-using Baraka.Stores;
+using Baraka.Utils.MVVM;
 using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;
 using System.Collections.Generic;
@@ -50,37 +50,37 @@ namespace Baraka.ViewModels.UserControls.Player.Pages
             }
         }
 
-        public ScrollStateStore ScrollStateStore { get; }
+        public Store<double> ScrollStateStore { get; }
         public ICommand ScrollCommand { get; }
         public ICommand SuraSelectedCommand { get; }
         public ICommand SearchCommand { get; }
-        public SuraTabViewModel(ScrollStateStore scrollStateStore)
+        public SuraTabViewModel(Store<double> scrollStateStore)
         {
             // Init sura list
             SuraList = Services.Quran.SuraInfoService.GetAll();
            
             // Stores and commands
             ScrollStateStore = scrollStateStore;
-            ScrollStateStore.ValueChanged += (newValue) =>
+            ScrollStateStore.ValueChanged += () =>
             {
-                ScrollState = newValue;
+                ScrollState = ScrollStateStore.Value;
             };
 
             ScrollCommand = new RelayCommand((param) =>
             {
-                ScrollStateStore.ChangeScrollState(ScrollState);
+                ScrollStateStore.Value = ScrollState;
             });
 
             SuraSelectedCommand = new RelayCommand(
                 (sura) => {
-                    AppStateSingleton.Instance.SelectedSuraStore.ChangeSelectedSura((SuraModel)sura);
+                    AppStateSingleton.Instance.SelectedSuraStore.Value = (SuraModel)sura;
                 },
                 (sura) => {
-                    return AppStateSingleton.Instance.SelectedSura != (SuraModel)sura;
+                    return AppStateSingleton.Instance.SelectedSuraStore.Value != (SuraModel)sura;
                 }
             );
 
-            AppStateSingleton.Instance.SelectedSuraStore.ValueChanged += (sura) =>
+            AppStateSingleton.Instance.SelectedSuraStore.ValueChanged += () =>
             {
                 CollectionViewSource.GetDefaultView(SuraList).Refresh();
             };

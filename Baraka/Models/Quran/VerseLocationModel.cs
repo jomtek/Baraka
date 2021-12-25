@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Baraka.Models.Quran
 {
     [Serializable]
-    public struct VerseLocationModel
+    public struct VerseLocationModel : IEquatable<VerseLocationModel>
     {
         public int Sura { get; }
         public int Number { get; }
@@ -16,6 +16,21 @@ namespace Baraka.Models.Quran
         {
             Sura = sura;
             Number = number;
+        }
+
+        public VerseLocationModel Next()
+        {
+            return new VerseLocationModel(Sura, Number + 1);
+        }
+
+        public static VerseLocationModel From(SuraModel sura, int verse)
+        {
+            return new VerseLocationModel(sura.Number, verse);
+        }
+
+        public bool Equals(VerseLocationModel other)
+        {
+            return Sura == other.Sura && Number == other.Number;
         }
     }
 }

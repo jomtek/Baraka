@@ -1,13 +1,13 @@
 ﻿using Baraka.Services;
 using Baraka.Services.Quran;
 using Baraka.Singletons;
-using Baraka.Stores;
 using Baraka.ViewModels;
 using Baraka.ViewModels.Splashes;
 using Baraka.Views;
 using Baraka.Views.Splashes;
 using System.Globalization;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Baraka
@@ -28,7 +28,7 @@ namespace Baraka
             System.Diagnostics.Trace.WriteLine("Glyphs loaded from `glyph_info.bkser` !");
 
             // Initialize the singletons
-            AppStateSingleton.Instance.SelectedSura = SuraInfoService.FromNumber(1);
+            AppStateSingleton.Instance.SelectedSuraStore.Value = SuraInfoService.FromNumber(1);
 
             // Initialize the splash screen
             var splashVm = new WelcomeViewModel();
@@ -44,9 +44,10 @@ namespace Baraka
                 DataContext = mainVm,
             };
 
-            AppStateSingleton.Instance.SelectedSuraStore.ChangeSelectedSura(SuraInfoService.FromNumber(2));
-            AppStateSingleton.Instance.SelectedQariStore.ChangeSelectedQari(QariInfoService.GetAll()[0]);
+            AppStateSingleton.Instance.SelectedSuraStore.Value = SuraInfoService.FromNumber(2);
+            AppStateSingleton.Instance.SelectedQariStore.Value = QariInfoService.GetAll()[0];
 
+            System.Console.WriteLine();
             // Pop-corn time !
             splashVm.ClosingRequest += () =>
             {
@@ -56,6 +57,7 @@ namespace Baraka
 
             splashView.Show();
 
+            Task.Run(PlayMonitor.StartMonitoring).ConfigureAwait(false);
             
         }
     }

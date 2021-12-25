@@ -3,7 +3,6 @@ using Baraka.Models.Quran;
 using Baraka.Models.Quran.Configuration;
 using Baraka.Services.Quran;
 using Baraka.Singletons;
-using Baraka.Stores;
 using Baraka.Utils.MVVM.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -56,9 +55,9 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
 
         public TextDisplayerViewModel()
         {
-            AppStateSingleton.Instance.SelectedSuraStore.ValueChanged += (newSura) =>
+            AppStateSingleton.Instance.SelectedSuraStore.ValueChanged += () =>
             {
-                LoadSura(newSura);
+                LoadSura(AppStateSingleton.Instance.SelectedSuraStore.Value);
             };
         }
 

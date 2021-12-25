@@ -9,6 +9,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:behaviors="clr-namespace:Baraka.Behaviors"
              xmlns:singletons="clr-namespace:Baraka.Singletons"
+             xmlns:streaming="clr-namespace:Baraka.Singletons.Streaming"
              mc:Ignorable="d" 
              x:Name="UC"
              DataContextChanged="UC_DataContextChanged">
@@ -148,7 +149,7 @@
 
                             <ToggleButton Grid.Column="2"
                                           Cursor="Hand"
-                                          IsChecked="{Binding Source={x:Static singletons:StreamerStateSingleton.Instance},
+                                          IsChecked="{Binding Source={x:Static streaming:StreamerStateSingleton.Instance},
                                                               Path=IsPlaying, Mode=TwoWay}">
                                 <ToggleButton.Style>
                                     <Style TargetType="ToggleButton" BasedOn="{StaticResource ReactiveStyle}">
@@ -231,7 +232,7 @@
                             </i:Interaction.Triggers>
 
                             <TextBlock Text="{Binding Source={x:Static singletons:AppStateSingleton.Instance},
-                                                      Path=SelectedQari.FullName}" 
+                                                      Path=SelectedQariStore.Value.FullName}" 
                                        behaviors:SelectableObjBehavior.Selected="{Binding QariTabSelected}" />
                         </Viewbox>
 
@@ -243,7 +244,7 @@
                             </i:Interaction.Triggers>
                             
                             <TextBlock Text="{Binding Source={x:Static singletons:AppStateSingleton.Instance},
-                                                      Path=SelectedSura.PhoneticName}"
+                                                      Path=SelectedSuraStore.Value.PhoneticName}"
                                        behaviors:SelectableObjBehavior.Selected="{Binding SuraTabSelected}" />
                         </Viewbox>
                     </Grid>

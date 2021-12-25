@@ -1,7 +1,7 @@
 ﻿using Baraka.Models;
 using Baraka.Models.Quran;
 using Baraka.Singletons;
-using Baraka.Stores;
+using Baraka.Utils.MVVM;
 using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;
 using System.Collections.ObjectModel;
@@ -36,7 +36,7 @@ namespace Baraka.ViewModels.UserControls.Player.Pages
 
         public ICommand ScrollCommand { get; }
         public ICommand QariSelectedCommand { get; }
-        public QariTabViewModel(ScrollStateStore scrollStateStore)
+        public QariTabViewModel(Store<double> scrollStateStore)
         {
             QariList = new ObservableCollection<QariModel>();
             foreach (var qari in Services.QariInfoService.GetAll())
@@ -44,23 +44,23 @@ namespace Baraka.ViewModels.UserControls.Player.Pages
                 QariList.Add(qari);
             }
 
-            scrollStateStore.ValueChanged += (newValue) =>
+            scrollStateStore.ValueChanged += () =>
             {
-                ScrollState = newValue;
+                ScrollState = scrollStateStore.Value;
             };
 
             ScrollCommand = new RelayCommand((param) =>
             {
-                scrollStateStore.ChangeScrollState(ScrollState);
+                scrollStateStore.Value = ScrollState;
             });
 
             QariSelectedCommand = new RelayCommand(
                 (qari) => {
-                    AppStateSingleton.Instance.SelectedQariStore.ChangeSelectedQari((QariModel)qari);
+                    AppStateSingleton.Instance.SelectedQariStore.Value = (QariModel)qari;
                     CollectionViewSource.GetDefaultView(QariList).Refresh();
                 },
                 (qari) => {
-                    return AppStateSingleton.Instance.SelectedQari != (QariModel)qari;
+                    return AppStateSingleton.Instance.SelectedQariStore.Value != (QariModel)qari;
                 }
             );
         }

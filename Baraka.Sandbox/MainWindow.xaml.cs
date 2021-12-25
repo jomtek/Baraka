@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ManagedBass;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,14 @@ namespace Baraka.Sandbox
         {
             InitializeComponent();
             DataContext = new MainViewModel();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var stream = Bass.CreateStream(@"https://everyayah.com/data/Abdullah_Basfar_192kbps/001003.mp3");
+
+            if (stream != 0)
+                Bass.ChannelPlay(stream);
         }
     }
 }

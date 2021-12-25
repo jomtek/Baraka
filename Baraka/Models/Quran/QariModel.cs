@@ -7,6 +7,7 @@ namespace Baraka.Models.Quran
         public string Id { get; set; } // The ID which identifies the Qari on the reciter API
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Mode { get; set; } // empty string (unspecified mode) or "murattal" or "mujawwad"
         //public readonly bool AcModelAvailable; // Acoustic model trained with sphinxtrain
         //public readonly bool TwoModes;
 
@@ -34,11 +35,12 @@ namespace Baraka.Models.Quran
         {
             
         }
-        public QariModel(string id, string firstName, string lastName)
+        public QariModel(string id, string firstName, string lastName, string mode)
         {
             Id = id;
             FirstName = firstName;
             LastName = lastName;
+            Mode = mode;
         }
 
         public bool Equals(QariModel other)

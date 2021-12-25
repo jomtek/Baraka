@@ -5,10 +5,9 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Baraka.Views.UserControls.Displayers.TextDisplayer"
       xmlns:design="clr-namespace:Baraka.ViewModels.UserControls.Displayers.TextDisplayer.Design"
-      xmlns:converters="clr-namespace:Baraka.Converters"
-      xmlns:tdconverters="clr-namespace:Baraka.Converters.TextDisplayer"
+      xmlns:converters="clr-namespace:Baraka.Converters.TextDisplayer"
       xmlns:behaviors="clr-namespace:Baraka.Behaviors"
-       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       d:DataContext="{d:DesignInstance Type=design:TextDisplayerDesignViewModel, IsDesignTimeCreatable=True}"
       mc:Ignorable="d" 
       d:DesignHeight="600">
@@ -21,9 +20,9 @@
 
         <!-- Converters-->
         <converters:BoolToGridLengthConverter x:Key="BoolToGridLengthConverter" />
-        <tdconverters:ArabicVerseToFontFamilyConverter x:Key="ArabicVerseToFontFamilyConverter" />
-        <tdconverters:ArabicVerseToGlyphInlinesConverter x:Key="ArabicVerseToGlyphInlinesConverter" />
-        <tdconverters:ArabicVerseToFontSizeConverter x:Key="ArabicVerseToFontSizeConverter" />
+        <converters:ArabicVerseToFontFamilyConverter x:Key="ArabicVerseToFontFamilyConverter" />
+        <converters:ArabicVerseToGlyphInlinesConverter x:Key="ArabicVerseToGlyphInlinesConverter" />
+        <converters:ArabicVerseToFontSizeConverter x:Key="ArabicVerseToFontSizeConverter" />
     </UserControl.Resources>
 
     <Grid d:Background="{StaticResource LightColorBrush}"

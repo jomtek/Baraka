@@ -1,6 +1,6 @@
 ﻿using Baraka.Services.Quran;
 using Baraka.Singletons;
-using Baraka.Stores;
+using Baraka.Utils.MVVM;
 using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;
 using Baraka.ViewModels.UserControls.Player.Pages;
@@ -20,7 +20,7 @@ namespace Baraka.ViewModels.UserControls.Player
         private SuraTabViewModel _suraTab;
         public Action<bool> PlayerOpenChanged;
 
-        private ScrollStateStore _scrollStateStore;
+        private Store<double> _scrollStateStore;
 
         private NotifiableBase _currentPage;
         public NotifiableBase CurrentPage
@@ -31,7 +31,7 @@ namespace Baraka.ViewModels.UserControls.Player
                 _currentPage = value;
                 OnPropertyChanged(nameof(CurrentPage));
 
-                _scrollStateStore.ChangeScrollState(0);
+                _scrollStateStore.Value = 0;
             }
         }
 
@@ -110,16 +110,16 @@ namespace Baraka.ViewModels.UserControls.Player
         public PlayerViewModel()
         {
             // Stores
-            _scrollStateStore = new ScrollStateStore();
-            _scrollStateStore.ValueChanged += (newValue) =>
+            _scrollStateStore = new Store<double>();
+            _scrollStateStore.ValueChanged += () =>
             {
-                ScrollState = newValue;
+                ScrollState = _scrollStateStore.Value;
             };
 
             // Commands
             ScrollCommand = new RelayCommand((param) =>
             {
-                _scrollStateStore.ChangeScrollState(ScrollState);
+                _scrollStateStore.Value = ScrollState;
             });
 
             QariTabSelectedCommand = new RelayCommand((param) =>
@@ -135,24 +135,27 @@ namespace Baraka.ViewModels.UserControls.Player
             NextSuraCommand = new RelayCommand(
                 (param) =>
                 {
-                    var sura = SuraInfoService.FromNumber(AppStateSingleton.Instance.SelectedSura.Number + 1);
-                    AppStateSingleton.Instance.SelectedSuraStore.ChangeSelectedSura(sura);
+                    //var sound = new Singletons.Streaming.CachedSound(@"C:\Users\jomtek360\Music\Quran\cadeau pour morgan.mp3");
+                    //var sound = new Singletons.Streaming.CachedSound(@"https://everyayah.com/data/Abdurrahmaan_As-Sudais_192kbps/001006.mp3");
+                    //Singletons.Streaming.StreamerSingleton.Instance.PlayVerse(new Models.Quran.VerseLocationModel(10, 10));
+                    var sura = SuraInfoService.FromNumber(AppStateSingleton.Instance.SelectedSuraStore.Value.Number + 1);
+                    AppStateSingleton.Instance.SelectedSuraStore.Value = sura;
                 },
                 (param) =>
                 {
-                    return AppStateSingleton.Instance.SelectedSura.Number < 114;
+                    return AppStateSingleton.Instance.SelectedSuraStore.Value.Number < 114;
                 }
             );
 
             PreviousSuraCommand = new RelayCommand(
                 (param) =>
                 {
-                    var sura = SuraInfoService.FromNumber(AppStateSingleton.Instance.SelectedSura.Number - 1);
-                    AppStateSingleton.Instance.SelectedSuraStore.ChangeSelectedSura(sura);
+                    var sura = SuraInfoService.FromNumber(AppStateSingleton.Instance.SelectedSuraStore.Value.Number - 1);
+                    AppStateSingleton.Instance.SelectedSuraStore.Value = sura;
                 },
                 (param) =>
                 {
-                    return AppStateSingleton.Instance.SelectedSura.Number > 1;
+                    return AppStateSingleton.Instance.SelectedSuraStore.Value.Number > 1;
                 }
             );
 

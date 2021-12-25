@@ -5,8 +5,8 @@
              xmlns:local="clr-namespace:Baraka">
     <Application.Resources>
         <ResourceDictionary>
-            
-            <sys:String x:Key="API_PATH">C:\Users\jomtek360\Documents\Baraka\API</sys:String>
+
+            <sys:String x:Key="API_PATH">F:\Ali\Baraka\API</sys:String>
             
             <!-- Basic colors and their brush -->
             <Color x:Key="LightColor">#029550</Color>

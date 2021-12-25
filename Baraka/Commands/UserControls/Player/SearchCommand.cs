@@ -36,7 +36,7 @@ namespace Baraka.Commands.UserControls.Player
 
             rawQuery = SearchUtils.PrepareQuery(rawQuery);
 
-            _viewModel.ScrollStateStore.ChangeScrollState(0);
+            _viewModel.ScrollStateStore.Value = 0;
             _viewModel.SuraList = SuraInfoService.LookUp(rawQuery);
         }
     }

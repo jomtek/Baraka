@@ -1,5 +1,5 @@
 ﻿using Baraka.Models.Quran;
-using Baraka.Stores;
+using Baraka.Utils.MVVM;
 using Baraka.Utils.MVVM.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -26,35 +26,12 @@ namespace Baraka.Singletons
 
         public AppStateSingleton()
         {
-            SelectedSuraStore = new SelectedSuraStore();
-            SelectedQariStore = new SelectedQariStore();
-        }
-
-        // Values
-        private SuraModel _selectedSura;
-        public SuraModel SelectedSura
-        {
-            get { return _selectedSura; }
-            set
-            {
-                _selectedSura = value;
-                OnPropertyChanged(nameof(SelectedSura));
-            }
-        }
-
-        private QariModel _selectedQari;
-        public QariModel SelectedQari
-        {
-            get { return _selectedQari; }
-            set
-            {
-                _selectedQari = value;
-                OnPropertyChanged(nameof(SelectedQari));
-            }
+            SelectedSuraStore = new Store<SuraModel>();
+            SelectedQariStore = new Store<QariModel>();
         }
 
         // Stores
-        public SelectedSuraStore SelectedSuraStore;
-        public SelectedQariStore SelectedQariStore;
+        public Store<SuraModel> SelectedSuraStore { get; }
+        public Store<QariModel> SelectedQariStore { get; }
     }
 }

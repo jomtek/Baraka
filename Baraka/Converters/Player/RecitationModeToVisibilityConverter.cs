@@ -1,30 +1,30 @@
 ﻿using Baraka.Models.Quran;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media;
 using Baraka.Singletons;
-using System.Diagnostics;
+using System.Windows;
 
-namespace Baraka.Converters
+namespace Baraka.Converters.Player
 {
-    public class SelectedSuraToBrushConverter : IValueConverter
+    public class RecitationModeToVisbilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is SuraModel sura)
+            if (value is string mode)
             {
-                if (sura == AppStateSingleton.Instance.SelectedSura)
+                if (mode == "")
                 {
-                    return Brushes.DarkGreen;
+                    return Visibility.Collapsed;
+                }
+                else
+                {
+                    return Visibility.Visible;
                 }
             }
 
-            return Brushes.Black;
+            throw new NotImplementedException();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

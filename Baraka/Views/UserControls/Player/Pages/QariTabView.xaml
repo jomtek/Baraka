@@ -4,10 +4,9 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Baraka.Views.UserControls.Player.Pages"
-      xmlns:pages="clr-namespace:Baraka.ViewModels.UserControls.Player.Pages"
       xmlns:design="clr-namespace:Baraka.ViewModels.UserControls.Player.Pages.Design"
       xmlns:behaviors="clr-namespace:Baraka.Behaviors"
-      xmlns:converters="clr-namespace:Baraka.Converters"
+      xmlns:converters="clr-namespace:Baraka.Converters.Player"
       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       mc:Ignorable="d" 
       d:DataContext="{d:DesignInstance Type=design:QariTabDesignViewModel, IsDesignTimeCreatable=True}"
@@ -30,6 +29,8 @@
     <UserControl.Resources>
         <!-- Converters -->
         <converters:SelectedQariToBrushConverter x:Key="SelectedQariToBrushConverter" />
+        <converters:RecitationModeToVisbilityConverter x:Key="RecitationModeToVisibilityConverter" />
+        <converters:RecitationModeToTextConverter x:Key="RecitationModeToTextConverter" />
     </UserControl.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Hidden" d:Background="White"
@@ -51,7 +52,7 @@
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border Background="White" Height="190" Width="130" Margin="7 0 7 14"
+                    <Border Background="White" Height="Auto" Width="130" Margin="7 0 7 14"
                             CornerRadius="12">
 
                         <i:Interaction.Triggers>
@@ -68,25 +69,40 @@
 
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="3*" />
-                                <!-- Image     -->
-                                <RowDefinition Height="8" />
-                                <!-- Margin    -->
-                                <RowDefinition Height="4" />
-                                <!-- Separator -->
+                                <!-- Image -->
+                                <RowDefinition Height="125" />
+
+                                <!-- Margin -->
                                 <RowDefinition Height="5" />
-                                <!-- Margin    -->
+
+                                <!-- Mode -->
+                                <RowDefinition Height="auto" />
+
+                                <!-- Margin -->
+                                <RowDefinition Height="5" />
+
+                                <!-- Separator -->
+                                <RowDefinition Height="4" />
+
+                                <!-- Margin -->
+                                <RowDefinition Height="5" />
+
+                                <!-- Name -->
                                 <RowDefinition Height="*" />
-                                <!-- Name      -->
                             </Grid.RowDefinitions>
 
                             <!-- Image -->
                             <Grid Grid.Row="0" Cursor="Hand">
-                                <!--<Grid Width="25" Height="25" Panel.ZIndex="1"
-                                      Margin="2" VerticalAlignment="Top" HorizontalAlignment="Right"
-                                      Cursor="Hand">
-                                    <Path Style="{StaticResource RegularStar}" Fill="Goldenrod" Stroke="White" StrokeThickness="1" Stretch="Fill" />
-                                </Grid>-->
+                                <!--<Border Panel.ZIndex="1"
+                                        Margin="6" Padding="4"
+                                        HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                        Background="Black" CornerRadius="12"
+                                        Visibility="{Binding Mode, Converter={StaticResource RecitationModeToVisibilityConverter}}">
+                                    <TextBlock FontSize="20" Foreground="Goldenrod"
+                                               TextAlignment="Center"
+                                               FontWeight="ExtraBold"
+                                               Text="{Binding Mode, Converter={StaticResource RecitationModeToTextConverter}}" />
+                                </Border>-->
 
                                 <Rectangle RadiusY="12" RadiusX="12">
                                     <Rectangle.Fill>
@@ -132,18 +148,23 @@
                                 </Rectangle>
                             </Grid>
 
+                            <TextBlock Grid.Row="2" HorizontalAlignment="Center"
+                                       FontSize="12" Foreground="Gray"
+                                       Text="{Binding Mode, Converter={StaticResource RecitationModeToTextConverter}}"/>
+                            
                             <!-- Separator rectangle -->
-                            <Rectangle Grid.Row="2" Margin="20 0 20 0" RadiusX="3" RadiusY="3"
+                            <Rectangle Grid.Row="4" Margin="20 0 20 0" RadiusX="3" RadiusY="3"
                                        Fill="{Binding Converter={StaticResource SelectedQariToBrushConverter}}" />
 
                             <!-- Name -->
-                            <Grid Grid.Row="4">
+                            <Grid Grid.Row="6">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="15" />
-                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="5" />
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="{Binding FirstName}" FontSize="13" />
+                                <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="{Binding FirstName}" FontSize="12.5" />
                                 <TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="{Binding LastName}"  FontWeight="Bold" FontSize="17" />
                             </Grid>
                         </Grid>
