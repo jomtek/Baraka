@@ -3,30 +3,56 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:qc="http://QuickConverter.CodePlex.com/"
              xmlns:local="clr-namespace:Baraka.Views.UserControls.Displayers.TextDisplayer"
+             xmlns:converters="clr-namespace:Baraka.Converters.TextDisplayer.Bookmark"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="60">
+             d:DesignHeight="200" d:DesignWidth="60"
+             Height="Auto" Background="Pink"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
     
     <UserControl.Resources>
+        <!-- Brushes -->
         <SolidColorBrush x:Key="NormalMode_Fill_Brush" Color="#038B4B" />
+        
+        <!-- Converters -->
+        <converters:BoolToHeightConverter x:Key="BoolToHeightConverter" />
+        <converters:BoolToVerticalAlignmentConverter x:Key="BoolToVerticalAlignmentConverter" />
     </UserControl.Resources>
-    
-    <Grid>
-        <Grid.RowDefinitions>
+
+
+    <Grid Height="{Binding IsOutspread, Converter={StaticResource BoolToHeightConverter}}"
+          VerticalAlignment="{Binding IsOutspread, Converter={StaticResource BoolToVerticalAlignmentConverter}}">
+        <Grid.Style>
+            <Style TargetType="Grid">
+                <Setter Property="Visibility" Value="Visible" />
+                <Style.Triggers>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding Path=IsBeginning}" Value="False" />
+                            <Condition Binding="{Binding Path=IsEnding}" Value="False" />
+                            <Condition Binding="{Binding Path=IsOutspread}" Value="False" />
+                        </MultiDataTrigger.Conditions>
+
+                        <Setter Property="Visibility" Value="Hidden" />
+                    </MultiDataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
+        <Grid.RowDefinitions> 
+            <RowDefinition Height="{qc:Binding '$P ? 6 : 0', P={Binding IsBeginning}}" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="18" />
+            <RowDefinition Height="{qc:Binding '$P ? 18 : 0', P={Binding IsEnding}}" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Margin="0,0,0,12" Grid.RowSpan="2">
-            <Path x:Name="TopPath" Data="M 70,30 L 70,10 L 40,10 L 40,30" StrokeThickness="6" Stretch="Fill" Margin="0" Fill="{StaticResource NormalMode_Fill_Brush}">
-                <Path.Stroke>
-                    <SolidColorBrush Color="{StaticResource DarkColor}"/>
-                </Path.Stroke>
-            </Path>
-        </Grid>
+        <Rectangle Grid.Row="0" Fill="{StaticResource DarkColorBrush}" />
 
-        <Grid Grid.Row="1" HorizontalAlignment="Stretch" Margin="0">
-            <Path x:Name="DownPath" Data="M 40,10 L 40,30 L 60,10 L 80,30 L 80,10" StrokeThickness="6" Stretch="Fill" Margin="0" Fill="{StaticResource NormalMode_Fill_Brush}" >
+        <Border Grid.Row="1" Margin="0 0 0 -4" BorderThickness="6 0 6 0"
+                Background="{StaticResource NormalMode_Fill_Brush}" BorderBrush="{StaticResource DarkColorBrush}" />
+
+        <Grid Grid.Row="2" HorizontalAlignment="Stretch">
+            <Path x:Name="DownPath" Data="M 40,10 L 40,30 L 60,10 L 80,30 L 80,10"
+                  StrokeThickness="6" Stretch="Fill" Margin="0" Fill="{StaticResource NormalMode_Fill_Brush}" >
                 <Path.Stroke>
                     <SolidColorBrush Color="{StaticResource DarkColor}"/>
                 </Path.Stroke>

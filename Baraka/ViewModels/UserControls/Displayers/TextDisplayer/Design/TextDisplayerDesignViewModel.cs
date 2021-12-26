@@ -5,6 +5,7 @@ using Baraka.Services.Quran;
 using Baraka.Utils.MVVM.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,9 +18,14 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer.Design
         {
             get
             {
-                var config = new EditionConfigModel(true, true, "en.ahmedali", null, null);
+                var config = new EditionConfigModel(false, true, "en.ahmedali", null, null);
                 return QuranTextService.LoadSura(SuraInfoService.FromNumber(1), config);
             }
+        }
+
+        public TextDisplayerDesignViewModel()
+        {
+            
         }
     }
 }

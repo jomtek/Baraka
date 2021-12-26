@@ -25,147 +25,145 @@
         <converters:ArabicVerseToFontSizeConverter x:Key="ArabicVerseToFontSizeConverter" />
     </UserControl.Resources>
 
-    <Grid d:Background="{StaticResource LightColorBrush}"
-          HorizontalAlignment="Right">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="60" />
-            <ColumnDefinition Width="10" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+    <ListBox x:Name="VersesLB"
+                HorizontalAlignment="Right"
+                Background="Transparent" BorderThickness="0"
+                VirtualizingPanel.ScrollUnit="Pixel"
+                VirtualizingPanel.VirtualizationMode="Recycling"
+                ItemsSource="{Binding Verses, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                ScrollViewer.ScrollChanged="ListBox_ScrollChanged">
+        
+        <!-- This removes selection behavior -->
+        <ListBox.ItemContainerStyle>
+            <Style TargetType="ListBoxItem">
+                <EventSetter Event="RequestBringIntoView" Handler="Verse_RequestBringIntoView" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <ContentPresenter/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ListBox.ItemContainerStyle>
 
-        <ScrollViewer Grid.Column="0" x:Name="BookmarkSV"
-                      VerticalScrollBarVisibility="Hidden"
-                      HorizontalAlignment="Right"
-                      PreviewMouseWheel="BookmarkSV_MouseWheel">
-            <Grid x:Name="BookmarkGrid" Margin="0 40" Height="80000">
-                <local:BookmarkView x:Name="Bookmark" VerticalAlignment="Top" Height="250">
-                    <local:BookmarkView.Effect>
-                        <DropShadowEffect ShadowDepth="3" Opacity="0.15" BlurRadius="5" />
-                    </local:BookmarkView.Effect>
-                </local:BookmarkView>
-            </Grid>
-        </ScrollViewer>
+        <!-- This styles the ScrollBar -->
+        <ListBox.Resources>
+            <Style TargetType="ScrollBar" BasedOn="{StaticResource BarakaSB}">
+                <Setter Property="Margin" Value="10 40 0 40" />
+                <Setter Property="Width" Value="40" />
+                <Setter Property="ViewportSize" Value="1" />
+            </Style>
+        </ListBox.Resources>
 
-        <ListBox Grid.Column="2" x:Name="VersesLB"
-                 Background="Transparent" BorderThickness="0"
-                 VirtualizingPanel.ScrollUnit="Pixel"
-                 VirtualizingPanel.VirtualizationMode="Recycling"
-                 ItemsSource="{Binding Verses, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                 ScrollViewer.ScrollChanged="ListBox_ScrollChanged">
-            <!-- This removes selection behavior -->
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
-                    <EventSetter Event="RequestBringIntoView" Handler="Verse_RequestBringIntoView" />
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="ListBoxItem">
-                                <ContentPresenter/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListBox.ItemContainerStyle>
+        <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+                <VirtualizingStackPanel IsVirtualizing="True" VirtualizationMode="Recycling"
+                                        Margin="0 40 0 140"/>
+            </ItemsPanelTemplate>
+        </ListBox.ItemsPanel>
 
-            <!-- This styles the ScrollBar -->
-            <ListBox.Resources>
-                <Style TargetType="ScrollBar" BasedOn="{StaticResource BarakaSB}">
-                    <Setter Property="Margin" Value="10 40 0 40" />
-                    <Setter Property="Width" Value="40" />
-                    <Setter Property="ViewportSize" Value="1" />
-                </Style>
-            </ListBox.Resources>
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <Grid Width="900" Margin="0 0 0 3">
+                    <Grid.ColumnDefinitions>
+                        <!-- Bookmark -->
+                        <ColumnDefinition Width="60" />
+                        
+                        <!-- Margin -->
+                        <ColumnDefinition Width="15" />
+                        
+                        <!-- Number polygon -->
+                        <ColumnDefinition Width="60" />
+                        
+                        <!-- Margin -->
+                        <ColumnDefinition Width="15" />
+                        
+                        <!-- Verse -->
+                        <ColumnDefinition Width="9*" />
+                    </Grid.ColumnDefinitions>
 
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <VirtualizingStackPanel IsVirtualizing="True" VirtualizationMode="Recycling"
-                                            Margin="0 40 0 140"/>
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
+                    <local:BookmarkView Grid.Column="0"
+                                        Height="Auto"
+                                        IsBeginning="True"
+                                        IsEnding="False"
+                                        IsOutspread="False"/>
 
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid Width="900" Margin="0 0 0 3">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="60" />
-                            <ColumnDefinition Width="15" />
-                            <ColumnDefinition Width="9*" />
-                        </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="2"
+                          Height="60" VerticalAlignment="Top"
+                          PreviewMouseLeftButtonUp="Grid_PreviewMouseLeftButtonUp">
+                        <Path Stretch="Fill" Fill="White" StrokeThickness="5"
+                                Cursor="Hand">
+                            <Path.Style>
+                                <Style TargetType="Path" BasedOn="{StaticResource Polygon}">
+                                    <Setter Property="Stroke" Value="White" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Stroke" Value="Goldenrod" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Path.Style>
 
-                        <Grid Grid.Row="0" Height="60" VerticalAlignment="Top"
-                              PreviewMouseLeftButtonUp="Grid_PreviewMouseLeftButtonUp">
-                            <Path Stretch="Fill" Fill="White" StrokeThickness="5"
-                                  Cursor="Hand">
-                                <Path.Style>
-                                    <Style TargetType="Path" BasedOn="{StaticResource Polygon}">
-                                        <Setter Property="Stroke" Value="White" />
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Stroke" Value="Goldenrod" />
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Path.Style>
-                                
-                                <Path.Effect>
-                                    <DropShadowEffect ShadowDepth="2" Opacity="0.2" BlurRadius="5" />
-                                </Path.Effect>
-                            </Path>
-                            
-                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                                       FontFamily="Montserrat" FontWeight="Bold" FontSize="21"
-                                       IsHitTestVisible="False"
-                                       Text="{Binding Number}"/>
-                        </Grid>
+                            <Path.Effect>
+                                <DropShadowEffect ShadowDepth="2" Opacity="0.2" BlurRadius="5" />
+                            </Path.Effect>
+                        </Path>
 
-                        <Border Grid.Column="2" Background="White" CornerRadius="10">
-                            <Grid>
-                                <Grid.Resources>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="TextWrapping" Value="Wrap" />
-                                    </Style>
-                                </Grid.Resources>
-
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="15"/>
-                                    <RowDefinition Height="{Binding Arabic.IsActive,          Converter={StaticResource BoolToGridLengthConverter}}" />
-                                    <RowDefinition Height="{Binding Transliteration.IsActive, Converter={StaticResource BoolToGridLengthConverter}}" />
-                                    <RowDefinition Height="{Binding Translation1.IsActive,    Converter={StaticResource BoolToGridLengthConverter}}" />
-                                    <RowDefinition Height="{Binding Translation2.IsActive,    Converter={StaticResource BoolToGridLengthConverter}}" />
-                                    <RowDefinition Height="{Binding Translation3.IsActive,    Converter={StaticResource BoolToGridLengthConverter}}" />
-                                    <RowDefinition Height="15"/>
-                                </Grid.RowDefinitions>
-
-                                <TextBlock Grid.Row="1"
-                                           Margin="12 5 13 0"
-                                           HorizontalAlignment="Right" FlowDirection="RightToLeft"
-                                           FontSize="{Binding Converter={StaticResource ArabicVerseToFontSizeConverter}}"
-                                           FontFamily="{Binding Converter={StaticResource ArabicVerseToFontFamilyConverter}}"
-                                           behaviors:BindableInlinesBehavior.BindableInlines="{Binding Converter={StaticResource ArabicVerseToGlyphInlinesConverter}}" />
-
-                                <TextBlock Grid.Row="2"
-                                           Text="{Binding Transliteration.Content}"
-                                           FontSize="17" Foreground="#FF6E6E6E"
-                                           Margin="12 15 12 5" />
-
-                                <TextBlock Grid.Row="3"
-                                           Text="{Binding Translation1.Content}"
-                                           FontSize="17.5"
-                                           Margin="12 5 12 0"/>
-
-                                <TextBlock Grid.Row="4"
-                                           Text="{Binding Translation2.Content}"
-                                           FontSize="17.5"
-                                           Margin="12 5 12 5"/>
-
-                                <TextBlock Grid.Row="5"
-                                           Text="{Binding Translation3.Content}"
-                                           FontSize="17.5"
-                                           Margin="12 5 12 0" />
-                            </Grid>
-                        </Border>
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   FontFamily="Montserrat" FontWeight="Bold" FontSize="21"
+                                   IsHitTestVisible="False"
+                                   Text="{Binding Number}"/>
                     </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-    </Grid>
+
+                    <Border Grid.Column="4" Background="White" CornerRadius="10">
+                        <Grid>
+                            <Grid.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextWrapping" Value="Wrap" />
+                                </Style>
+                            </Grid.Resources>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="15"/>
+                                <RowDefinition Height="{Binding Arabic.IsActive,          Converter={StaticResource BoolToGridLengthConverter}}" />
+                                <RowDefinition Height="{Binding Transliteration.IsActive, Converter={StaticResource BoolToGridLengthConverter}}" />
+                                <RowDefinition Height="{Binding Translation1.IsActive,    Converter={StaticResource BoolToGridLengthConverter}}" />
+                                <RowDefinition Height="{Binding Translation2.IsActive,    Converter={StaticResource BoolToGridLengthConverter}}" />
+                                <RowDefinition Height="{Binding Translation3.IsActive,    Converter={StaticResource BoolToGridLengthConverter}}" />
+                                <RowDefinition Height="15"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="1"
+                                        Margin="12 5 13 0"
+                                        HorizontalAlignment="Right" FlowDirection="RightToLeft"
+                                        FontSize="{Binding Converter={StaticResource ArabicVerseToFontSizeConverter}}"
+                                        FontFamily="{Binding Converter={StaticResource ArabicVerseToFontFamilyConverter}}"
+                                        behaviors:BindableInlinesBehavior.BindableInlines="{Binding Converter={StaticResource ArabicVerseToGlyphInlinesConverter}}" />
+
+                            <TextBlock Grid.Row="2"
+                                        Text="{Binding Transliteration.Content}"
+                                        FontSize="17" Foreground="#FF6E6E6E"
+                                        Margin="12 15 12 5" />
+
+                            <TextBlock Grid.Row="3"
+                                        Text="{Binding Translation1.Content}"
+                                        FontSize="17.5"
+                                        Margin="12 5 12 0"/>
+
+                            <TextBlock Grid.Row="4"
+                                        Text="{Binding Translation2.Content}"
+                                        FontSize="17.5"
+                                        Margin="12 5 12 5"/>
+
+                            <TextBlock Grid.Row="5"
+                                        Text="{Binding Translation3.Content}"
+                                        FontSize="17.5"
+                                        Margin="12 5 12 0" />
+                        </Grid>
+                    </Border>
+                </Grid>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
 </UserControl>

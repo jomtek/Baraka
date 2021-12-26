@@ -19,10 +19,9 @@ namespace Baraka.Converters.TextDisplayer
         // This class generates arabic word inlines from a TextualVerseModel
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            var inlines = new List<Inline>();
             if (value is TextualVerseModel tvm && tvm.Arabic.IsActive)
             {
-                var inlines = new List<Inline>();
-                
                 foreach (MushafGlyphModel glyph in tvm.Arabic.Content)
                 {
                     var run = new Run(glyph.DecodedData.ToString());
@@ -50,13 +49,9 @@ namespace Baraka.Converters.TextDisplayer
 
                     inlines.Add(run);
                 }
-                
-                return inlines;
             }
-            else
-            {
-                throw new NotImplementedException();
-            }
+
+            return inlines;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

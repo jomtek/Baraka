@@ -3,6 +3,7 @@ using Baraka.Services.Quran.Mushaf;
 using System;
 using System.Globalization;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace Baraka.Converters.TextDisplayer
 {
@@ -20,7 +21,7 @@ namespace Baraka.Converters.TextDisplayer
             }
             else
             {
-                throw new NotImplementedException();
+                return new FontFamily("Arial");
             }
         }
 

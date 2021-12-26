@@ -33,7 +33,7 @@ namespace Baraka.Converters.TextDisplayer
             }
             else
             {
-                throw new NotImplementedException();
+                return 0;
             }
         }
 
