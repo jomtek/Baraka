@@ -1,4 +1,5 @@
 ﻿using Baraka.Models.Quran;
+using Baraka.Utils.MVVM;
 using Baraka.Utils.MVVM.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -27,15 +28,15 @@ namespace Baraka.Singletons.Streaming
         {
             IsPlaying = false;
             IsLooping = false;
-            CurrentVerse = VerseLocationModel.From(AppStateSingleton.Instance.SelectedSuraStore.Value, 1);
-            StartVerse = 1;
-            EndVerse = 2;
+            CurrentVerseStore = new UniqueStore<VerseLocationModel>(VerseLocationModel.From(AppStateSingleton.Instance.SelectedSuraStore.Value, 1));
+            StartVerseStore = new UniqueStore<int>(1);
+            EndVerseStore = new UniqueStore<int>(1);
         }
 
         private bool _isPlaying;
         public bool IsPlaying
         {
-            get { return _isPlaying;; }
+            get { return _isPlaying; }
             set { _isPlaying = value; OnPropertyChanged(nameof(IsPlaying)); }
         }
 
@@ -46,25 +47,8 @@ namespace Baraka.Singletons.Streaming
             set { _isLooping = value; OnPropertyChanged(nameof(IsLooping)); }
         }
 
-        private VerseLocationModel _currentVerse;
-        public VerseLocationModel CurrentVerse
-        {
-            get { return _currentVerse; }
-            set { _currentVerse = value; OnPropertyChanged(nameof(CurrentVerse)); }
-        }
-
-        private int _startVerse;
-        public int StartVerse
-        {
-            get { return _startVerse; }
-            set { _startVerse = value; OnPropertyChanged(nameof(StartVerse)); }
-        }
-
-        private int _endVerse;
-        public int EndVerse
-        {
-            get { return _endVerse; }
-            set { _endVerse = value; OnPropertyChanged(nameof(EndVerse)); }
-        }
+        public UniqueStore<int> StartVerseStore { get; }
+        public UniqueStore<int> EndVerseStore { get; }
+        public UniqueStore<VerseLocationModel> CurrentVerseStore { get; }
     }
 }

@@ -36,7 +36,7 @@ namespace Baraka.ViewModels.UserControls.Player.Pages
 
         public ICommand ScrollCommand { get; }
         public ICommand QariSelectedCommand { get; }
-        public QariTabViewModel(Store<double> scrollStateStore)
+        public QariTabViewModel(UniqueStore<double> scrollStateStore)
         {
             QariList = new ObservableCollection<QariModel>();
             foreach (var qari in Services.QariInfoService.GetAll())

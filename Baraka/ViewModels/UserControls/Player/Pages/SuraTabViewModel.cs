@@ -50,11 +50,11 @@ namespace Baraka.ViewModels.UserControls.Player.Pages
             }
         }
 
-        public Store<double> ScrollStateStore { get; }
+        public UniqueStore<double> ScrollStateStore { get; }
         public ICommand ScrollCommand { get; }
         public ICommand SuraSelectedCommand { get; }
         public ICommand SearchCommand { get; }
-        public SuraTabViewModel(Store<double> scrollStateStore)
+        public SuraTabViewModel(UniqueStore<double> scrollStateStore)
         {
             // Init sura list
             SuraList = Services.Quran.SuraInfoService.GetAll();

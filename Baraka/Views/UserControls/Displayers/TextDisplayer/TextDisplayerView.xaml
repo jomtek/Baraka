@@ -6,6 +6,9 @@
       xmlns:local="clr-namespace:Baraka.Views.UserControls.Displayers.TextDisplayer"
       xmlns:design="clr-namespace:Baraka.ViewModels.UserControls.Displayers.TextDisplayer.Design"
       xmlns:converters="clr-namespace:Baraka.Converters.TextDisplayer"
+      xmlns:bmconverters="clr-namespace:Baraka.Converters.TextDisplayer.Bookmark"
+      xmlns:singletons="clr-namespace:Baraka.Singletons"
+      xmlns:stsingletons="clr-namespace:Baraka.Singletons.Streaming"
       xmlns:behaviors="clr-namespace:Baraka.Behaviors"
       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       d:DataContext="{d:DesignInstance Type=design:TextDisplayerDesignViewModel, IsDesignTimeCreatable=True}"
@@ -23,6 +26,9 @@
         <converters:ArabicVerseToFontFamilyConverter x:Key="ArabicVerseToFontFamilyConverter" />
         <converters:ArabicVerseToGlyphInlinesConverter x:Key="ArabicVerseToGlyphInlinesConverter" />
         <converters:ArabicVerseToFontSizeConverter x:Key="ArabicVerseToFontSizeConverter" />
+        <bmconverters:IsBeginningVmToBoolConverter x:Key="IsBeginningVmToBoolConverter" />
+        <bmconverters:IsEndingVerseToBoolConverter x:Key="IsEndingVmToBoolConverter" />
+        <bmconverters:IsOutspreadVerseToBoolConverter x:Key="IsOutspreadVmToBoolConverter" />
     </UserControl.Resources>
 
     <ListBox x:Name="VersesLB"
@@ -30,9 +36,8 @@
                 Background="Transparent" BorderThickness="0"
                 VirtualizingPanel.ScrollUnit="Pixel"
                 VirtualizingPanel.VirtualizationMode="Recycling"
-                ItemsSource="{Binding Verses, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                ScrollViewer.ScrollChanged="ListBox_ScrollChanged">
-        
+                ItemsSource="{Binding Verses, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+
         <!-- This removes selection behavior -->
         <ListBox.ItemContainerStyle>
             <Style TargetType="ListBoxItem">
@@ -83,17 +88,33 @@
                         <ColumnDefinition Width="9*" />
                     </Grid.ColumnDefinitions>
 
-                    <local:BookmarkView Grid.Column="0"
-                                        Height="Auto"
-                                        IsBeginning="True"
-                                        IsEnding="False"
-                                        IsOutspread="False"/>
+                    <local:BookmarkView Grid.Column="0">
+                        <local:BookmarkView.IsBeginning>
+                            <MultiBinding Converter="{StaticResource IsBeginningVmToBoolConverter}">
+                                <Binding Source="{x:Static stsingletons:StreamerStateSingleton.Instance}" Path="StartVerseStore.Value" />
+                                <Binding />
+                            </MultiBinding>
+                        </local:BookmarkView.IsBeginning>
+
+                        <local:BookmarkView.IsEnding>
+                            <MultiBinding Converter="{StaticResource IsEndingVmToBoolConverter}">
+                                <Binding Source="{x:Static stsingletons:StreamerStateSingleton.Instance}" Path="EndVerseStore.Value" />
+                                <Binding />
+                            </MultiBinding>
+                        </local:BookmarkView.IsEnding>
+                        
+                        <local:BookmarkView.IsOutspread>
+                            <MultiBinding Converter="{StaticResource IsOutspreadVmToBoolConverter}">
+                                <Binding Source="{x:Static stsingletons:StreamerStateSingleton.Instance}" Path="StartVerseStore.Value" />
+                                <Binding Source="{x:Static stsingletons:StreamerStateSingleton.Instance}" Path="EndVerseStore.Value" />
+                                <Binding />
+                            </MultiBinding>
+                        </local:BookmarkView.IsOutspread>
+                    </local:BookmarkView>
 
                     <Grid Grid.Column="2"
-                          Height="60" VerticalAlignment="Top"
-                          PreviewMouseLeftButtonUp="Grid_PreviewMouseLeftButtonUp">
-                        <Path Stretch="Fill" Fill="White" StrokeThickness="5"
-                                Cursor="Hand">
+                          Height="60" VerticalAlignment="Top">
+                        <Path Stretch="Fill" Fill="White" StrokeThickness="5" Cursor="Hand">
                             <Path.Style>
                                 <Style TargetType="Path" BasedOn="{StaticResource Polygon}">
                                     <Setter Property="Stroke" Value="White" />
@@ -105,6 +126,13 @@
                                 </Style>
                             </Path.Style>
 
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                    <i:InvokeCommandAction Command="{Binding ElementName=VersesLB, Path=DataContext.SwitchVerseCommand}"
+                                                           CommandParameter="{Binding}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            
                             <Path.Effect>
                                 <DropShadowEffect ShadowDepth="2" Opacity="0.2" BlurRadius="5" />
                             </Path.Effect>

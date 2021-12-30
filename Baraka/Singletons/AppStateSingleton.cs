@@ -26,12 +26,12 @@ namespace Baraka.Singletons
 
         public AppStateSingleton()
         {
-            SelectedSuraStore = new Store<SuraModel>();
-            SelectedQariStore = new Store<QariModel>();
+            SelectedSuraStore = new UniqueStore<SuraModel>(null);
+            SelectedQariStore = new UniqueStore<QariModel>(null);
         }
 
         // Stores
-        public Store<SuraModel> SelectedSuraStore { get; }
-        public Store<QariModel> SelectedQariStore { get; }
+        public UniqueStore<SuraModel> SelectedSuraStore { get; }
+        public UniqueStore<QariModel> SelectedQariStore { get; }
     }
 }

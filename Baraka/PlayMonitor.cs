@@ -22,10 +22,10 @@ namespace Baraka
                     continue;
                 }
 
-                StreamerEngineSingleton.Instance.PlayVerse(StreamerStateSingleton.Instance.CurrentVerse);
+                StreamerEngineSingleton.Instance.PlayVerse(StreamerStateSingleton.Instance.CurrentVerseStore.Value);
 
-                StreamerStateSingleton.Instance.CurrentVerse = StreamerStateSingleton.Instance.CurrentVerse.Next();
-                StreamerStateSingleton.Instance.EndVerse++;
+                StreamerStateSingleton.Instance.CurrentVerseStore.Value = StreamerStateSingleton.Instance.CurrentVerseStore.Value.Next();
+                StreamerStateSingleton.Instance.EndVerseStore.Value++;
                 //System.Diagnostics.Trace.WriteLine("playing...");
             }
 

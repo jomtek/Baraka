@@ -3,6 +3,8 @@ using Baraka.Models.Quran;
 using Baraka.Models.Quran.Configuration;
 using Baraka.Services.Quran;
 using Baraka.Singletons;
+using Baraka.Singletons.Streaming;
+using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -11,7 +13,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
@@ -53,12 +57,24 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
             }
         }
 
+        public ICommand SwitchVerseCommand { get; }
         public TextDisplayerViewModel()
         {
             AppStateSingleton.Instance.SelectedSuraStore.ValueChanged += () =>
             {
                 LoadSura(AppStateSingleton.Instance.SelectedSuraStore.Value);
             };
+
+            SwitchVerseCommand = new RelayCommand((param) =>
+            {
+                if (param is TextualVerseModel verse)
+                {
+                    if (verse.Number < StreamerStateSingleton.Instance.StartVerseStore.Value)
+                        StreamerStateSingleton.Instance.StartVerseStore.Value = verse.Number;
+
+                    StreamerStateSingleton.Instance.EndVerseStore.Value = verse.Number;
+                }
+            });
         }
 
         private void LoadSura(SuraModel sura)

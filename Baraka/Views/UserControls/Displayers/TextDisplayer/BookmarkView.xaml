@@ -1,4 +1,5 @@
 ﻿<UserControl x:Class="Baraka.Views.UserControls.Displayers.TextDisplayer.BookmarkView"
+             x:Name="UC"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,8 +9,7 @@
              xmlns:converters="clr-namespace:Baraka.Converters.TextDisplayer.Bookmark"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="60"
-             Height="Auto" Background="Pink"
-             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+             Height="Auto">
     
     <UserControl.Resources>
         <!-- Brushes -->
@@ -21,17 +21,17 @@
     </UserControl.Resources>
 
 
-    <Grid Height="{Binding IsOutspread, Converter={StaticResource BoolToHeightConverter}}"
-          VerticalAlignment="{Binding IsOutspread, Converter={StaticResource BoolToVerticalAlignmentConverter}}">
+    <Grid Height="{Binding Path=IsOutspread, ElementName=UC, Converter={StaticResource BoolToHeightConverter}}"
+          VerticalAlignment="{Binding Path=IsOutspread, ElementName=UC, Converter={StaticResource BoolToVerticalAlignmentConverter}}">
         <Grid.Style>
             <Style TargetType="Grid">
                 <Setter Property="Visibility" Value="Visible" />
                 <Style.Triggers>
                     <MultiDataTrigger>
                         <MultiDataTrigger.Conditions>
-                            <Condition Binding="{Binding Path=IsBeginning}" Value="False" />
-                            <Condition Binding="{Binding Path=IsEnding}" Value="False" />
-                            <Condition Binding="{Binding Path=IsOutspread}" Value="False" />
+                            <Condition Binding="{Binding Path=IsBeginning, ElementName=UC}" Value="False" />
+                            <Condition Binding="{Binding Path=IsEnding, ElementName=UC}" Value="False" />
+                            <Condition Binding="{Binding Path=IsOutspread,ElementName=UC}" Value="False" />
                         </MultiDataTrigger.Conditions>
 
                         <Setter Property="Visibility" Value="Hidden" />
@@ -39,10 +39,10 @@
                 </Style.Triggers>
             </Style>
         </Grid.Style>
-        <Grid.RowDefinitions> 
-            <RowDefinition Height="{qc:Binding '$P ? 6 : 0', P={Binding IsBeginning}}" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{qc:Binding '$P ? 6 : 0', P={Binding Path=IsBeginning,ElementName=UC}}" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="{qc:Binding '$P ? 18 : 0', P={Binding IsEnding}}" />
+            <RowDefinition Height="{qc:Binding '$P ? 18 : 0', P={Binding Path=IsEnding, ElementName=UC}}" />
         </Grid.RowDefinitions>
 
         <Rectangle Grid.Row="0" Fill="{StaticResource DarkColorBrush}" />

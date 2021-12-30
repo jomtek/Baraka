@@ -20,7 +20,7 @@ namespace Baraka.ViewModels.UserControls.Player
         private SuraTabViewModel _suraTab;
         public Action<bool> PlayerOpenChanged;
 
-        private Store<double> _scrollStateStore;
+        private UniqueStore<double> _scrollStateStore;
 
         private NotifiableBase _currentPage;
         public NotifiableBase CurrentPage
@@ -110,7 +110,7 @@ namespace Baraka.ViewModels.UserControls.Player
         public PlayerViewModel()
         {
             // Stores
-            _scrollStateStore = new Store<double>();
+            _scrollStateStore = new UniqueStore<double>(0);
             _scrollStateStore.ValueChanged += () =>
             {
                 ScrollState = _scrollStateStore.Value;

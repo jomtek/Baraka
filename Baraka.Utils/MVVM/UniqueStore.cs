@@ -3,7 +3,7 @@ using Baraka.Utils.MVVM.ViewModel;
 
 namespace Baraka.Utils.MVVM
 {
-    public class Store<T> : NotifiableBase
+    public class UniqueStore<T> : NotifiableBase
     {
         public event Action ValueChanged;
 
@@ -17,6 +17,11 @@ namespace Baraka.Utils.MVVM
                 OnPropertyChanged(nameof(Value));
                 ValueChanged?.Invoke();
             }
+        }
+
+        public UniqueStore(T defaultValue)
+        {
+            Value = defaultValue;
         }
     }
 }
