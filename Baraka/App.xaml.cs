@@ -24,7 +24,11 @@ namespace Baraka
             // Debugging purposes
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-us");
 
-            Services.Quran.Mushaf.MushafGlyphService.LoadGlyphsFromFile("glyph_info.bkser");
+            // Uncomment these two lines to generate glyph info
+            //Services.Quran.Mushaf.MushafGlyphService.GenerateGlyphInfo();
+            //Services.Quran.Mushaf.MushafGlyphService.SaveGlyphsToPath("glyph_info.bks");
+
+            Services.Quran.Mushaf.MushafGlyphService.LoadGlyphsFromFile("glyph_info.bks");
             System.Diagnostics.Trace.WriteLine("Glyphs loaded from `glyph_info.bkser` !");
 
             // Initialize the singletons

@@ -6,7 +6,7 @@
     <Application.Resources>
         <ResourceDictionary>
 
-            <sys:String x:Key="API_PATH">F:\Ali\Baraka\API</sys:String>
+            <sys:String x:Key="API_PATH">E:\Ali\Baraka\API</sys:String>
             
             <!-- Basic colors and their brush -->
             <Color x:Key="LightColor">#029550</Color>
