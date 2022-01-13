@@ -1,18 +1,12 @@
 ﻿using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Baraka.Singletons.Streaming
+namespace Baraka.Services.Streaming.Core
 {
     /// <summary>
-    /// Assalam u alaykoum
-    /// This class is just a custom improval of the AudioFileReader NAudio class
-    /// It allows to generate samples directly from a stream instead of using a file path
+    /// This class is just a "custom improval" of the AudioFileReader NAudio class
+    /// It allows to generate samples directly from a stream instead of necessarily having to use a file path
     /// </summary>
     public class AudioStreamReader : WaveStream, ISampleProvider
     {

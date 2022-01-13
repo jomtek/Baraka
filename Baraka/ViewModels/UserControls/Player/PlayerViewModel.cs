@@ -1,9 +1,12 @@
 ﻿using Baraka.Services.Quran;
+using Baraka.Services.Streaming;
 using Baraka.Singletons;
 using Baraka.Utils.MVVM;
 using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;
 using Baraka.ViewModels.UserControls.Player.Pages;
+using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -137,9 +140,11 @@ namespace Baraka.ViewModels.UserControls.Player
                 {
                     //var sound = new Singletons.Streaming.CachedSound(@"C:\Users\jomtek360\Music\Quran\cadeau pour morgan.mp3");
                     //var sound = new Singletons.Streaming.CachedSound(@"https://everyayah.com/data/Abdurrahmaan_As-Sudais_192kbps/001006.mp3");
-                    //Singletons.Streaming.StreamerSingleton.Instance.PlayVerse(new Models.Quran.VerseLocationModel(10, 10));
-                    var sura = SuraInfoService.FromNumber(AppStateSingleton.Instance.SelectedSuraStore.Value.Number + 1);
-                    AppStateSingleton.Instance.SelectedSuraStore.Value = sura;
+
+                    QuranStreamingService.Instance.PlayVerse(new Models.Quran.VerseLocationModel(1, 1), 1);
+                 
+                    //var sura = SuraInfoService.FromNumber(AppStateSingleton.Instance.SelectedSuraStore.Value.Number + 1);
+                    //AppStateSingleton.Instance.SelectedSuraStore.Value = sura;
                 },
                 (param) =>
                 {

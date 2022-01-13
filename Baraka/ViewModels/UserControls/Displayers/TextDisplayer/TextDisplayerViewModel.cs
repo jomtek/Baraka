@@ -3,7 +3,7 @@ using Baraka.Models.Quran;
 using Baraka.Models.Quran.Configuration;
 using Baraka.Services.Quran;
 using Baraka.Singletons;
-using Baraka.Singletons.Streaming;
+using Baraka.Services.Streaming;
 using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;
 using System;
@@ -73,6 +73,7 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
                         StreamerStateSingleton.Instance.StartVerseStore.Value = verse.Number;
 
                     StreamerStateSingleton.Instance.EndVerseStore.Value = verse.Number;
+                    StreamerStateSingleton.Instance.CurrentVerseStore.Value = verse.Location;
                 }
             });
         }

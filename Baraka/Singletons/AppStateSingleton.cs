@@ -1,4 +1,5 @@
-﻿using Baraka.Models.Quran;
+﻿using Baraka.Models;
+using Baraka.Models.Quran;
 using Baraka.Utils.MVVM;
 using Baraka.Utils.MVVM.ViewModel;
 using System;
@@ -28,6 +29,18 @@ namespace Baraka.Singletons
         {
             SelectedSuraStore = new UniqueStore<SuraModel>(null);
             SelectedQariStore = new UniqueStore<QariModel>(null);
+            Settings = new AppSettingsModel()
+            {
+                CrossfadingValue = 15000,
+            };
+        }
+
+        // Properties
+        private AppSettingsModel _settings;
+        public AppSettingsModel Settings
+        {
+            get { return _settings; }
+            set { _settings = value; OnPropertyChanged(nameof(Settings)); }
         }
 
         // Stores

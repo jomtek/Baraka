@@ -1,5 +1,4 @@
 ﻿using Baraka.Models.Quran;
-using Baraka.Services.Streaming;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,23 +7,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace Baraka.Converters.TextDisplayer.Bookmark
+namespace Baraka.Converters.TextDisplayer
 {
-    public class IsOutspreadVerseToBoolConverter : IMultiValueConverter
+    public class VersesEqualityConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values.Length == 3 &&
-                values[0] is int startVerse &&
-                values[1] is int endVerse &&
-                values[2] is TextualVerseModel verse)
+            if (values[0] is TextualVerseModel verse && values[1] is VerseLocationModel location)
             {
-                if (verse.Number >= startVerse && verse.Number < endVerse)
-                {
-                    return true;
-                }
+                return verse.Location.Equals(location);
             }
-
             return false;
         }
 

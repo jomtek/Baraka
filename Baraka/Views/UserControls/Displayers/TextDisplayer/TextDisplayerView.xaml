@@ -8,7 +8,6 @@
       xmlns:converters="clr-namespace:Baraka.Converters.TextDisplayer"
       xmlns:bmconverters="clr-namespace:Baraka.Converters.TextDisplayer.Bookmark"
       xmlns:singletons="clr-namespace:Baraka.Singletons"
-      xmlns:stsingletons="clr-namespace:Baraka.Singletons.Streaming"
       xmlns:behaviors="clr-namespace:Baraka.Behaviors"
       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       d:DataContext="{d:DesignInstance Type=design:TextDisplayerDesignViewModel, IsDesignTimeCreatable=True}"
@@ -26,6 +25,7 @@
         <converters:ArabicVerseToFontFamilyConverter x:Key="ArabicVerseToFontFamilyConverter" />
         <converters:ArabicVerseToGlyphInlinesConverter x:Key="ArabicVerseToGlyphInlinesConverter" />
         <converters:ArabicVerseToFontSizeConverter x:Key="ArabicVerseToFontSizeConverter" />
+        <converters:VersesEqualityConverter x:Key="VersesEqualityConverter" />
         <bmconverters:IsBeginningVmToBoolConverter x:Key="IsBeginningVmToBoolConverter" />
         <bmconverters:IsEndingVerseToBoolConverter x:Key="IsEndingVmToBoolConverter" />
         <bmconverters:IsOutspreadVerseToBoolConverter x:Key="IsOutspreadVmToBoolConverter" />
@@ -91,22 +91,22 @@
                     <local:BookmarkView Grid.Column="0">
                         <local:BookmarkView.IsBeginning>
                             <MultiBinding Converter="{StaticResource IsBeginningVmToBoolConverter}">
-                                <Binding Source="{x:Static stsingletons:StreamerStateSingleton.Instance}" Path="StartVerseStore.Value" />
+                                <Binding Source="{x:Static singletons:StreamerStateSingleton.Instance}" Path="StartVerseStore.Value" />
                                 <Binding />
                             </MultiBinding>
                         </local:BookmarkView.IsBeginning>
 
                         <local:BookmarkView.IsEnding>
                             <MultiBinding Converter="{StaticResource IsEndingVmToBoolConverter}">
-                                <Binding Source="{x:Static stsingletons:StreamerStateSingleton.Instance}" Path="EndVerseStore.Value" />
+                                <Binding Source="{x:Static singletons:StreamerStateSingleton.Instance}" Path="EndVerseStore.Value" />
                                 <Binding />
                             </MultiBinding>
                         </local:BookmarkView.IsEnding>
                         
                         <local:BookmarkView.IsOutspread>
                             <MultiBinding Converter="{StaticResource IsOutspreadVmToBoolConverter}">
-                                <Binding Source="{x:Static stsingletons:StreamerStateSingleton.Instance}" Path="StartVerseStore.Value" />
-                                <Binding Source="{x:Static stsingletons:StreamerStateSingleton.Instance}" Path="EndVerseStore.Value" />
+                                <Binding Source="{x:Static singletons:StreamerStateSingleton.Instance}" Path="StartVerseStore.Value" />
+                                <Binding Source="{x:Static singletons:StreamerStateSingleton.Instance}" Path="EndVerseStore.Value" />
                                 <Binding />
                             </MultiBinding>
                         </local:BookmarkView.IsOutspread>
@@ -122,6 +122,15 @@
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter Property="Stroke" Value="Goldenrod" />
                                         </Trigger>
+                                        <DataTrigger Value="True">
+                                            <DataTrigger.Binding>
+                                                <MultiBinding Converter="{StaticResource VersesEqualityConverter}">
+                                                    <Binding Source="{x:Static singletons:StreamerStateSingleton.Instance}" Path="CurrentVerseStore.Value" />
+                                                    <Binding />
+                                                </MultiBinding>
+                                            </DataTrigger.Binding>
+                                            <Setter Property="StrokeThickness" Value="20" />
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Path.Style>

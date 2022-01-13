@@ -9,7 +9,6 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:behaviors="clr-namespace:Baraka.Behaviors"
              xmlns:singletons="clr-namespace:Baraka.Singletons"
-             xmlns:streaming="clr-namespace:Baraka.Singletons.Streaming"
              mc:Ignorable="d" 
              x:Name="UC"
              DataContextChanged="UC_DataContextChanged">
@@ -149,7 +148,7 @@
 
                             <ToggleButton Grid.Column="2"
                                           Cursor="Hand"
-                                          IsChecked="{Binding Source={x:Static streaming:StreamerStateSingleton.Instance},
+                                          IsChecked="{Binding Source={x:Static singletons:StreamerStateSingleton.Instance},
                                                               Path=IsPlaying, Mode=TwoWay}">
                                 <ToggleButton.Style>
                                     <Style TargetType="ToggleButton" BasedOn="{StaticResource ReactiveStyle}">

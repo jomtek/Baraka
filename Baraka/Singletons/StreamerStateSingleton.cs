@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Baraka.Singletons.Streaming
+namespace Baraka.Singletons
 {
     public class StreamerStateSingleton : NotifiableBase
     {
@@ -22,15 +22,6 @@ namespace Baraka.Singletons.Streaming
                 }
                 return _instance;
             }
-        }
-
-        public StreamerStateSingleton()
-        {
-            IsPlaying = false;
-            IsLooping = false;
-            CurrentVerseStore = new UniqueStore<VerseLocationModel>(VerseLocationModel.From(AppStateSingleton.Instance.SelectedSuraStore.Value, 1));
-            StartVerseStore = new UniqueStore<int>(1);
-            EndVerseStore = new UniqueStore<int>(1);
         }
 
         private bool _isPlaying;
@@ -50,5 +41,14 @@ namespace Baraka.Singletons.Streaming
         public UniqueStore<int> StartVerseStore { get; }
         public UniqueStore<int> EndVerseStore { get; }
         public UniqueStore<VerseLocationModel> CurrentVerseStore { get; }
+
+        public StreamerStateSingleton()
+        {
+            IsPlaying = false;
+            IsLooping = false;
+            CurrentVerseStore = new UniqueStore<VerseLocationModel>(VerseLocationModel.From(AppStateSingleton.Instance.SelectedSuraStore.Value, 1));
+            StartVerseStore = new UniqueStore<int>(1);
+            EndVerseStore = new UniqueStore<int>(1);
+        }
     }
 }

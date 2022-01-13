@@ -48,8 +48,8 @@ namespace Baraka
                 DataContext = mainVm,
             };
 
-            AppStateSingleton.Instance.SelectedSuraStore.Value = SuraInfoService.FromNumber(2);
-            AppStateSingleton.Instance.SelectedQariStore.Value = QariInfoService.GetAll()[0];
+            AppStateSingleton.Instance.SelectedSuraStore.Value = SuraInfoService.FromNumber(1);
+            AppStateSingleton.Instance.SelectedQariStore.Value = QariInfoService.GetAll()[1];
 
             System.Console.WriteLine();
             // Pop-corn time !
@@ -60,9 +60,6 @@ namespace Baraka
             };
 
             splashView.Show();
-
-            Task.Run(PlayMonitor.StartMonitoring).ConfigureAwait(false);
-            
         }
     }
 }

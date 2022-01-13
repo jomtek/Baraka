@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Baraka.Services.Quran;
+using System;
 
 namespace Baraka.Models.Quran
 {
@@ -20,7 +17,14 @@ namespace Baraka.Models.Quran
 
         public VerseLocationModel Next()
         {
-            return new VerseLocationModel(Sura, Number + 1);
+            if (Number >= SuraInfoService.FromNumber(Sura).Length)
+            {
+                return new VerseLocationModel(Sura + 1, 1);
+            }
+            else
+            {
+                return new VerseLocationModel(Sura, Number + 1);
+            }
         }
 
         public static VerseLocationModel From(SuraModel sura, int verse)

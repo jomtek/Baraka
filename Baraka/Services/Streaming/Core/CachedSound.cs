@@ -1,18 +1,20 @@
-﻿using NAudio.Wave;
+﻿using Baraka.Services.Streaming.Core;
+using NAudio.Wave;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 
-namespace Baraka.Singletons.Streaming
+namespace Baraka.Services.Streaming
 {
+    // https://markheath.net/post/fire-and-forget-audio-playback-with
     public class CachedSound
     {
         public float[] AudioData { get; private set; }
         public WaveFormat WaveFormat { get; private set; }
-        public CachedSound(string url)
+        public CachedSound(byte[] data)
         {
-            using (var ms = new MemoryStream(new WebClient().DownloadData(url)))
+            using (var ms = new MemoryStream(data))
             using (var audioFileReader = new AudioStreamReader(ms))
             {
                 WaveFormat = audioFileReader.WaveFormat;
