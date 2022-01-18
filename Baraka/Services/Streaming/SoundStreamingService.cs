@@ -1,39 +1,52 @@
 ﻿using Baraka.Models.Quran;
+using Baraka.Models.State;
 using Baraka.Services.Streaming.Core;
-using Baraka.Singletons;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 namespace Baraka.Services.Streaming
 {
-    public class QuranStreamingService : IDisposable
+    // Huge thanks to 'Mark Heath'
+    public class SoundStreamingService : IDisposable
     {
-        private static QuranStreamingService _instance;
-        public static QuranStreamingService Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new QuranStreamingService();
-                }
-                return _instance;
-            }
-        }
+        private BookmarkState _bookmark;
+        private AppState _app;
 
         private readonly WebClient _webClient = new();
         private Dictionary<VerseLocationModel, CachedSound> _cache = new();
-        private readonly QuranSoundProvider _soundProvider1;
-        private readonly QuranSoundProvider _soundProvider2;
-        public QuranStreamingService(int sampleRate = 44100, int channelCount = 2)
+        private readonly QuranSamplePlayer _soundProvider1;
+        private readonly QuranSamplePlayer _soundProvider2;
+        
+        public SoundStreamingService(
+            BookmarkState bookmark, AppState app,
+            int sampleRate = 44100, int channelCount = 2)
         {
+            _bookmark = bookmark;
+
             // We will use two Quran sound providers for crossfading - initialize both of them
-            _soundProvider1 = new QuranSoundProvider(sampleRate, channelCount, 1);
-            _soundProvider2 = new QuranSoundProvider(sampleRate, channelCount, 2);
+            _soundProvider1 = new QuranSamplePlayer(sampleRate, channelCount, 1, app);
+            _soundProvider2 = new QuranSamplePlayer(sampleRate, channelCount, 2, app);
+            _soundProvider1.PlayNextRequested += PlayNextRequested;
+            _soundProvider2.PlayNextRequested += PlayNextRequested;
         }
+
+        #region Core (crossfading logic)
+        private void SetCursorToNextVerse()
+        {
+            _bookmark.CurrentVerseStore.Value = _bookmark.CurrentVerseStore.Value.Next();
+        }
+
+        private void PlayNextRequested(int currentMixer)
+        {
+            SetCursorToNextVerse();
+            PlayVerse(_bookmark.CurrentVerseStore.Value, currentMixer);
+            DownloadAndCacheVerse(_bookmark.CurrentVerseStore.Value.Next());
+        }
+        #endregion
 
         #region Controls
         public void PlayVerse(VerseLocationModel verse, int currentMixer)
@@ -44,7 +57,7 @@ namespace Baraka.Services.Streaming
                 Alternate between mixer 1, then 2, then 1, with
                 short cuts, in order to create a crossfaded transition
                 */
-                if (currentMixer == 1)
+            if (currentMixer == 1)
                 {
                     _soundProvider2.PlaySound(_cache[verse]);
                 }
@@ -70,10 +83,17 @@ namespace Baraka.Services.Streaming
 
         public void DownloadAndCacheVerse(VerseLocationModel verse)
         {
+            if (_cache.ContainsKey(verse))
+                return;
+
+            // If cache gets too big, just remove the oldest element to save space
+            if (_cache.Keys.Count > _app.Settings.AudioCacheLength)
+                _cache.Remove(_cache.Keys.First());
+
             string api = (string)App.Current.FindResource("API_PATH");
             // TODO: adapt to the online api
 
-            string qari = AppStateSingleton.Instance.SelectedQariStore.Value.Id;
+            string qari = _app.SelectedQariStore.Value.Id;
             string fileName =
                 verse.Sura.ToString().PadLeft(3, '0') + verse.Number.ToString().PadLeft(3, '0');
 

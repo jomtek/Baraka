@@ -1,46 +1,36 @@
-﻿using Baraka.Models;
-using Baraka.Models.Quran;
+﻿using Baraka.Models.Quran;
 using Baraka.Models.Quran.Configuration;
 using Baraka.Services.Quran;
-using Baraka.Singletons;
-using Baraka.Services.Streaming;
 using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
+using Baraka.Models.State;
+using System;
 
 namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
 {
     public class TextDisplayerViewModel : NotifiableBase
     {
+        private BookmarkState _bookmark;
+        public BookmarkState Bookmark
+        {
+            get { return _bookmark; }
+            set { _bookmark = value; }
+        }
+
+        private AppState _app;
+        public AppState App
+        {
+            get { return _app; }
+            set { _app = value; }
+        }
+
         private ObservableCollection<TextualVerseModel> _verses = new();
         public ObservableCollection<TextualVerseModel> Verses
         {
             get { return _verses; }
             set { _verses = value; }
-        }
-
-        private int _capacity;
-        public int Capacity
-        {
-            get { return _capacity; }
-            set { _capacity = value; OnPropertyChanged(nameof(Capacity)); }
-        }
-
-        private static List<double> _graphicalVersesOffsets = new();
-        public static List<double> GraphicalVersesOffsets
-        {
-            get { return _graphicalVersesOffsets; }
-            set { _graphicalVersesOffsets = value; }
         }
 
         private double _scrollState = 0;
@@ -58,22 +48,29 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
         }
 
         public ICommand SwitchVerseCommand { get; }
-        public TextDisplayerViewModel()
+        public TextDisplayerViewModel(BookmarkState bookmark, AppState app)
         {
-            AppStateSingleton.Instance.SelectedSuraStore.ValueChanged += () =>
+            Bookmark = bookmark;
+            App = app;
+
+            // Load default sura on screen
+            LoadSura(App.SelectedSuraStore.Value);
+
+            // Events and commands
+            App.SelectedSuraStore.ValueChanged += () =>
             {
-                LoadSura(AppStateSingleton.Instance.SelectedSuraStore.Value);
+                LoadSura(App.SelectedSuraStore.Value);
             };
 
             SwitchVerseCommand = new RelayCommand((param) =>
             {
                 if (param is TextualVerseModel verse)
                 {
-                    if (verse.Number < StreamerStateSingleton.Instance.StartVerseStore.Value)
-                        StreamerStateSingleton.Instance.StartVerseStore.Value = verse.Number;
+                    if (verse.Number < Bookmark.StartVerseStore.Value)
+                        Bookmark.StartVerseStore.Value = verse.Number;
 
-                    StreamerStateSingleton.Instance.EndVerseStore.Value = verse.Number;
-                    StreamerStateSingleton.Instance.CurrentVerseStore.Value = verse.Location;
+                    Bookmark.EndVerseStore.Value = verse.Number;
+                    Bookmark.CurrentVerseStore.Value = verse.Location;
                 }
             });
         }
@@ -85,8 +82,12 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
             Verses.Clear();
             foreach (var verse in QuranTextService.LoadSura(sura, config))
                 Verses.Add(verse);
+        }
 
-            Capacity = sura.Length;
+        public static TextDisplayerViewModel Create(AppState app)
+        {
+            var bookmark = BookmarkState.Create();
+            return new TextDisplayerViewModel(bookmark, app);
         }
     }
 }

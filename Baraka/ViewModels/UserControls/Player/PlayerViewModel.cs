@@ -1,6 +1,6 @@
-﻿using Baraka.Services.Quran;
+﻿using Baraka.Models.State;
+using Baraka.Services.Quran;
 using Baraka.Services.Streaming;
-using Baraka.Singletons;
 using Baraka.Utils.MVVM;
 using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;
@@ -21,9 +21,15 @@ namespace Baraka.ViewModels.UserControls.Player
     {
         private QariTabViewModel _qariTab;
         private SuraTabViewModel _suraTab;
+        private UniqueStore<double> _scrollStateStore;
         public Action<bool> PlayerOpenChanged;
 
-        private UniqueStore<double> _scrollStateStore;
+        private AppState _app;
+        public AppState App
+        {
+            get { return _app; }
+            set { _app = value; }
+        }
 
         private NotifiableBase _currentPage;
         public NotifiableBase CurrentPage
@@ -110,8 +116,10 @@ namespace Baraka.ViewModels.UserControls.Player
         public ICommand SuraTabSelectedCommand { get; }
         public ICommand NextSuraCommand { get; }
         public ICommand PreviousSuraCommand { get; }
-        public PlayerViewModel()
+        public PlayerViewModel(AppState app)
         {
+            App = app;
+
             // Stores
             _scrollStateStore = new UniqueStore<double>(0);
             _scrollStateStore.ValueChanged += () =>
@@ -120,6 +128,7 @@ namespace Baraka.ViewModels.UserControls.Player
             };
 
             // Commands
+            // TODO: move all of these commands in separate classes to keep the workspace tidy
             ScrollCommand = new RelayCommand((param) =>
             {
                 _scrollStateStore.Value = ScrollState;
@@ -141,34 +150,39 @@ namespace Baraka.ViewModels.UserControls.Player
                     //var sound = new Singletons.Streaming.CachedSound(@"C:\Users\jomtek360\Music\Quran\cadeau pour morgan.mp3");
                     //var sound = new Singletons.Streaming.CachedSound(@"https://everyayah.com/data/Abdurrahmaan_As-Sudais_192kbps/001006.mp3");
 
-                    QuranStreamingService.Instance.PlayVerse(new Models.Quran.VerseLocationModel(1, 1), 1);
+                    //SoundStreamingService.Instance.PlayVerse(new Models.Quran.VerseLocationModel(1, 1), 1);
                  
-                    //var sura = SuraInfoService.FromNumber(AppStateSingleton.Instance.SelectedSuraStore.Value.Number + 1);
-                    //AppStateSingleton.Instance.SelectedSuraStore.Value = sura;
+                    var sura = SuraInfoService.FromNumber(App.SelectedSuraStore.Value.Number + 1);
+                    App.SelectedSuraStore.Value = sura;
                 },
                 (param) =>
                 {
-                    return AppStateSingleton.Instance.SelectedSuraStore.Value.Number < 114;
+                    return App.SelectedSuraStore.Value.Number < 114;
                 }
             );
 
             PreviousSuraCommand = new RelayCommand(
                 (param) =>
                 {
-                    var sura = SuraInfoService.FromNumber(AppStateSingleton.Instance.SelectedSuraStore.Value.Number - 1);
-                    AppStateSingleton.Instance.SelectedSuraStore.Value = sura;
+                    var sura = SuraInfoService.FromNumber(App.SelectedSuraStore.Value.Number - 1);
+                    App.SelectedSuraStore.Value = sura;
                 },
                 (param) =>
                 {
-                    return AppStateSingleton.Instance.SelectedSuraStore.Value.Number > 1;
+                    return App.SelectedSuraStore.Value.Number > 1;
                 }
             );
 
             // Tab
-            _qariTab = new QariTabViewModel(_scrollStateStore);
-            _suraTab = new SuraTabViewModel(_scrollStateStore);
+            _qariTab = new QariTabViewModel(_scrollStateStore, app);
+            _suraTab = new SuraTabViewModel(_scrollStateStore, app);
 
             SuraTabSelected = true; // The default tab on the player is the sura tab
+        }
+
+        public static PlayerViewModel Create(AppState app)
+        {
+            return new PlayerViewModel(app);
         }
     }
 }

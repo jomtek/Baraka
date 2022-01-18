@@ -3,7 +3,6 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
-using Baraka.Singletons;
 using System.Windows;
 
 namespace Baraka.Converters.Player

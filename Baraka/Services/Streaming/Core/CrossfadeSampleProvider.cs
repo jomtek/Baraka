@@ -1,4 +1,4 @@
-﻿using Baraka.Singletons;
+﻿using Baraka.Models.State;
 using NAudio.Utils;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
@@ -25,12 +25,16 @@ namespace Baraka.Services.Streaming
         private const int MaxInputs = 1024; // protect ourselves against doing something silly
         private bool wasPlayNextRequested = false;
 
+        private AppState _app;
+
         /// <summary>
         /// Creates a new MixingSampleProvider, with no inputs, but a specified WaveFormat
         /// </summary>
         /// <param name="waveFormat">The WaveFormat of this mixer. All inputs must be in this format</param>
-        public CrossfadeSampleProvider(WaveFormat waveFormat)
+        public CrossfadeSampleProvider(WaveFormat waveFormat, AppState app)
         {
+            _app = app;
+
             if (waveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
             {
                 throw new ArgumentException("Mixer wave format must be IEEE float");
@@ -124,7 +128,7 @@ namespace Baraka.Services.Streaming
                     
                     // Crossfading logic : trigger PlayNextRequested milliseconds before current sample has finished playing
                     if (source is CachedSoundSampleProvider sampleProvider &&
-                        sampleProvider.LengthOfUnplayedData < AppStateSingleton.Instance.Settings.CrossfadingValue &&
+                        sampleProvider.LengthOfUnplayedData < _app.Settings.CrossfadingValue &&
                         !wasPlayNextRequested)
                     {
                         PlayNextRequested?.Invoke();

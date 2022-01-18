@@ -1,7 +1,7 @@
 ﻿using Baraka.Commands.UserControls.Player;
 using Baraka.Models;
 using Baraka.Models.Quran;
-using Baraka.Singletons;
+using Baraka.Models.State;
 using Baraka.Utils.MVVM;
 using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;
@@ -16,6 +16,13 @@ namespace Baraka.ViewModels.UserControls.Player.Pages
 {
     public class SuraTabViewModel : NotifiableBase, IScrollablePage
     {
+        private AppState _app;
+        public AppState App
+        {
+            get { return _app; }
+            set { _app = value; }
+        }
+
         private IEnumerable<SuraModel> _suraList;
         public IEnumerable<SuraModel> SuraList
         {
@@ -54,8 +61,10 @@ namespace Baraka.ViewModels.UserControls.Player.Pages
         public ICommand ScrollCommand { get; }
         public ICommand SuraSelectedCommand { get; }
         public ICommand SearchCommand { get; }
-        public SuraTabViewModel(UniqueStore<double> scrollStateStore)
+        public SuraTabViewModel(UniqueStore<double> scrollStateStore, AppState app)
         {
+            App = app;
+
             // Init sura list
             SuraList = Services.Quran.SuraInfoService.GetAll();
            
@@ -73,14 +82,14 @@ namespace Baraka.ViewModels.UserControls.Player.Pages
 
             SuraSelectedCommand = new RelayCommand(
                 (sura) => {
-                    AppStateSingleton.Instance.SelectedSuraStore.Value = (SuraModel)sura;
+                    App.SelectedSuraStore.Value = (SuraModel)sura;
                 },
                 (sura) => {
-                    return AppStateSingleton.Instance.SelectedSuraStore.Value != (SuraModel)sura;
+                    return App.SelectedSuraStore.Value != (SuraModel)sura;
                 }
             );
 
-            AppStateSingleton.Instance.SelectedSuraStore.ValueChanged += () =>
+            App.SelectedSuraStore.ValueChanged += () =>
             {
                 CollectionViewSource.GetDefaultView(SuraList).Refresh();
             };

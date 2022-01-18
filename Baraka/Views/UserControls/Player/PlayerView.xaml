@@ -8,7 +8,6 @@
              xmlns:pagevm="clr-namespace:Baraka.ViewModels.UserControls.Player.Pages"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:behaviors="clr-namespace:Baraka.Behaviors"
-             xmlns:singletons="clr-namespace:Baraka.Singletons"
              mc:Ignorable="d" 
              x:Name="UC"
              DataContextChanged="UC_DataContextChanged">
@@ -147,9 +146,9 @@
                             </Button>
 
                             <ToggleButton Grid.Column="2"
-                                          Cursor="Hand"
-                                          IsChecked="{Binding Source={x:Static singletons:StreamerStateSingleton.Instance},
-                                                              Path=IsPlaying, Mode=TwoWay}">
+                                          Cursor="Hand" IsChecked="False">
+                                <!--IsChecked="{Binding Source={x:Static singletons:BookmarkStateSingleton.Instance},
+                                                              Path=IsPlaying, Mode=TwoWay}">-->
                                 <ToggleButton.Style>
                                     <Style TargetType="ToggleButton" BasedOn="{StaticResource ReactiveStyle}">
                                         <Setter Property="Template">
@@ -230,8 +229,7 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
 
-                            <TextBlock Text="{Binding Source={x:Static singletons:AppStateSingleton.Instance},
-                                                      Path=SelectedQariStore.Value.FullName}" 
+                            <TextBlock Text="{Binding App.SelectedQariStore.Value.FullName}" 
                                        behaviors:SelectableObjBehavior.Selected="{Binding QariTabSelected}" />
                         </Viewbox>
 
@@ -242,8 +240,7 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             
-                            <TextBlock Text="{Binding Source={x:Static singletons:AppStateSingleton.Instance},
-                                                      Path=SelectedSuraStore.Value.PhoneticName}"
+                            <TextBlock Text="{Binding App.SelectedSuraStore.Value.PhoneticName}"
                                        behaviors:SelectableObjBehavior.Selected="{Binding SuraTabSelected}" />
                         </Viewbox>
                     </Grid>

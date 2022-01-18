@@ -43,7 +43,7 @@
             </i:EventTrigger>
         </i:Interaction.Triggers>
 
-        <ItemsControl x:Name="QariIC" ItemsSource="{Binding QariList}" HorizontalAlignment="Center">
+        <ItemsControl x:Name="QariListIC" ItemsSource="{Binding QariList}" HorizontalAlignment="Center">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel />
@@ -57,7 +57,7 @@
 
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
-                                <i:InvokeCommandAction Command="{Binding ElementName=QariIC, Path=DataContext.QariSelectedCommand}"
+                                <i:InvokeCommandAction Command="{Binding ElementName=QariListIC, Path=DataContext.QariSelectedCommand}"
                                                        CommandParameter="{Binding}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
@@ -153,8 +153,15 @@
                                        Text="{Binding Mode, Converter={StaticResource RecitationModeToTextConverter}}"/>
                             
                             <!-- Separator rectangle -->
-                            <Rectangle Grid.Row="4" Margin="20 0 20 0" RadiusX="3" RadiusY="3"
-                                       Fill="{Binding Converter={StaticResource SelectedQariToBrushConverter}}" />
+                            <Rectangle Grid.Row="4" Margin="20 0 20 0" RadiusX="3" RadiusY="3">
+                                <!--           Fill="{Binding Converter={StaticResource SelectedQariToBrushConverter}}">-->
+                                <Rectangle.Fill>
+                                    <MultiBinding Converter="{StaticResource SelectedQariToBrushConverter}">
+                                        <Binding />
+                                        <Binding ElementName="QariListIC" Path="DataContext.App" />
+                                    </MultiBinding>
+                                </Rectangle.Fill>
+                            </Rectangle>
 
                             <!-- Name -->
                             <Grid Grid.Row="6">

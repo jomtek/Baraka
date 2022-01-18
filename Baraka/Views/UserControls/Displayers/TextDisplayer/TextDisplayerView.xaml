@@ -7,7 +7,6 @@
       xmlns:design="clr-namespace:Baraka.ViewModels.UserControls.Displayers.TextDisplayer.Design"
       xmlns:converters="clr-namespace:Baraka.Converters.TextDisplayer"
       xmlns:bmconverters="clr-namespace:Baraka.Converters.TextDisplayer.Bookmark"
-      xmlns:singletons="clr-namespace:Baraka.Singletons"
       xmlns:behaviors="clr-namespace:Baraka.Behaviors"
       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       d:DataContext="{d:DesignInstance Type=design:TextDisplayerDesignViewModel, IsDesignTimeCreatable=True}"
@@ -91,22 +90,22 @@
                     <local:BookmarkView Grid.Column="0">
                         <local:BookmarkView.IsBeginning>
                             <MultiBinding Converter="{StaticResource IsBeginningVmToBoolConverter}">
-                                <Binding Source="{x:Static singletons:StreamerStateSingleton.Instance}" Path="StartVerseStore.Value" />
+                                <Binding ElementName="VersesLB" Path="DataContext.Bookmark.StartVerseStore.Value" />
                                 <Binding />
                             </MultiBinding>
                         </local:BookmarkView.IsBeginning>
 
                         <local:BookmarkView.IsEnding>
                             <MultiBinding Converter="{StaticResource IsEndingVmToBoolConverter}">
-                                <Binding Source="{x:Static singletons:StreamerStateSingleton.Instance}" Path="EndVerseStore.Value" />
+                                <Binding ElementName="VersesLB" Path="DataContext.Bookmark.EndVerseStore.Value" />
                                 <Binding />
                             </MultiBinding>
                         </local:BookmarkView.IsEnding>
                         
                         <local:BookmarkView.IsOutspread>
                             <MultiBinding Converter="{StaticResource IsOutspreadVmToBoolConverter}">
-                                <Binding Source="{x:Static singletons:StreamerStateSingleton.Instance}" Path="StartVerseStore.Value" />
-                                <Binding Source="{x:Static singletons:StreamerStateSingleton.Instance}" Path="EndVerseStore.Value" />
+                                <Binding ElementName="VersesLB" Path="DataContext.Bookmark.StartVerseStore.Value" />
+                                <Binding ElementName="VersesLB" Path="DataContext.Bookmark.EndVerseStore.Value" />
                                 <Binding />
                             </MultiBinding>
                         </local:BookmarkView.IsOutspread>
@@ -125,7 +124,7 @@
                                         <DataTrigger Value="True">
                                             <DataTrigger.Binding>
                                                 <MultiBinding Converter="{StaticResource VersesEqualityConverter}">
-                                                    <Binding Source="{x:Static singletons:StreamerStateSingleton.Instance}" Path="CurrentVerseStore.Value" />
+                                                    <Binding ElementName="VersesLB"  Path="DataContext.Bookmark.CurrentVerseStore.Value" />
                                                     <Binding />
                                                 </MultiBinding>
                                             </DataTrigger.Binding>

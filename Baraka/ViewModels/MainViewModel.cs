@@ -1,4 +1,5 @@
-﻿using Baraka.Utils.MVVM.Command;
+﻿using Baraka.Models.State;
+using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;
 using Baraka.ViewModels.UserControls.Displayers.TextDisplayer;
 using Baraka.ViewModels.UserControls.Player;
@@ -23,10 +24,10 @@ namespace Baraka.ViewModels
         public NotifiableBase DisplayerContext { get; }
         public NotifiableBase PlayerContext { get; }
         public ICommand ZoomCommand { get; }
-        public MainViewModel()
+        public MainViewModel(TextDisplayerViewModel displayerVm, PlayerViewModel playerVm)
         {
-            DisplayerContext = new TextDisplayerViewModel();
-            PlayerContext = new PlayerViewModel();
+            DisplayerContext = displayerVm;
+            PlayerContext = playerVm;
 
             ZoomCommand = new RelayCommand((param) =>
             {
@@ -46,9 +47,15 @@ namespace Baraka.ViewModels
                             DisplayerScale -= 0.15;
                         }
                     }
-                    System.Diagnostics.Trace.WriteLine(DisplayerScale);
                 }
             });
+        }
+
+        public static MainViewModel Create(AppState app)
+        {
+            var displayerVm = TextDisplayerViewModel.Create(app);
+            var playerVm = PlayerViewModel.Create(app);
+            return new MainViewModel(displayerVm, playerVm);
         }
     }
 }

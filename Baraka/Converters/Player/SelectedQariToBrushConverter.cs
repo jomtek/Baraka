@@ -3,17 +3,18 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
-using Baraka.Singletons;
+using Baraka.Models.State;
 
 namespace Baraka.Converters.Player
 {
-    public class SelectedQariToBrushConverter : IValueConverter
+    public class SelectedQariToBrushConverter : IMultiValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is QariModel qari)
+            if (values.Length == 2 &&
+                values[0] is QariModel qari && values[1] is AppState app)
             {
-                if (qari == AppStateSingleton.Instance.SelectedQariStore.Value)
+                if (qari == app.SelectedQariStore.Value)
                 {
                     return Brushes.DarkGreen;
                 }
@@ -22,7 +23,7 @@ namespace Baraka.Converters.Player
             return Brushes.LightGray;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

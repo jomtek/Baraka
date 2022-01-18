@@ -7,13 +7,18 @@ using System.Threading.Tasks;
 
 namespace Baraka.Models
 {
-    public class AppSettingsModel : NotifiableBase
+    public class AppSettingsModel //: NotifiableBase
     {
-        private int _crossfadingValue;
-        public int CrossfadingValue
+        public int CrossfadingValue { get; set; }
+        public int AudioCacheLength { get; set; }
+
+        public static AppSettingsModel Create()
         {
-            get { return _crossfadingValue; }
-            set { _crossfadingValue = value; OnPropertyChanged(nameof(CrossfadingValue)); }
+            return new AppSettingsModel()
+            {
+                CrossfadingValue = 15000,
+                AudioCacheLength = 10,
+            };
         }
     }
 }

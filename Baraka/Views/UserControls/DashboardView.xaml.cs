@@ -1,5 +1,6 @@
 ﻿using Baraka.Models.UserControls;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,18 +15,19 @@ namespace Baraka.Views.UserControls
     [ContentProperty("Items")]
     public partial class DashboardView : UserControl
     {
-        public ObservableCollection<DashboardItemModel> Items
+        public List<DashboardItemModel> Items
         {
-            get { return (ObservableCollection<DashboardItemModel>)GetValue(ItemsProperty); }
+            get { return (List<DashboardItemModel>)GetValue(ItemsProperty); }
             set { SetValue(ItemsProperty, value); }
         }
 
         public static readonly DependencyProperty ItemsProperty =
-            DependencyProperty.Register("Items", typeof(ObservableCollection<Object>), typeof(DashboardView), new UIPropertyMetadata(new ObservableCollection<object>()));
+            DependencyProperty.Register("Items", typeof(List<DashboardItemModel>), typeof(DashboardView), new UIPropertyMetadata(null));
         
         public DashboardView()
         {
             InitializeComponent();
+            Items = new List<DashboardItemModel>();
         }
     }
 }

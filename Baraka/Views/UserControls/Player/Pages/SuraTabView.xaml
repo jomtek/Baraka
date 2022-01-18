@@ -86,8 +86,15 @@
                                         CommandParameter="{Binding}">
 
                                     <Path Stretch="Fill"
-                                          Style="{StaticResource Cloud}"
-                                          Fill="{Binding Converter={StaticResource SelectedSuraToBrushConverter}}" />
+                                          Style="{StaticResource Cloud}">
+                                        <Path.Fill>
+                                            <MultiBinding Converter="{StaticResource SelectedSuraToBrushConverter}">
+                                                <Binding />
+                                                <Binding ElementName="SuraListIC" Path="DataContext.App" />
+                                            </MultiBinding>
+                                        </Path.Fill>
+                                    </Path>
+                                          <!--="{Binding Converter={StaticResource SelectedSuraToBrushConverter}}" />-->
                                 </Button>
                             </Grid>
 

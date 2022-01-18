@@ -1,27 +1,25 @@
-﻿using Baraka.Singletons;
+﻿using Baraka.Models.State;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Baraka.Services.Streaming.Core
 {
-    class QuranSoundProvider : IDisposable
+    class QuranSamplePlayer : IDisposable
     {
+        public event Action<int> PlayNextRequested;
+
         private readonly IWavePlayer _outputDevice;
         private readonly CrossfadeSampleProvider _mixer;
-        private readonly int _number;
-
-        public QuranSoundProvider(int sampleRate, int channelCount, int number)
+        private readonly int _id;
+        public QuranSamplePlayer(int sampleRate, int channelCount, int id, AppState app)
         {
             // A number to identify the provider
-            _number = number;
+            _id = id;
 
             // Initialize crossfade mixer
-            _mixer = new CrossfadeSampleProvider(WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, channelCount));
+            _mixer = new CrossfadeSampleProvider(
+                WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, channelCount), app);
             _mixer.ReadFully = true;
             _mixer.PlayNextRequested += Mixer_PlayNextRequested;
 
@@ -31,7 +29,7 @@ namespace Baraka.Services.Streaming.Core
             _outputDevice.Play();
         }
 
-        #region Core
+        #region Control
         private ISampleProvider ConvertToRightChannelCount(ISampleProvider input)
         {
             if (input.WaveFormat.Channels == _mixer.WaveFormat.Channels)
@@ -48,14 +46,6 @@ namespace Baraka.Services.Streaming.Core
             }
         }
 
-        private void SetCursorToNextVerse()
-        {
-            StreamerStateSingleton.Instance.CurrentVerseStore.Value =
-                StreamerStateSingleton.Instance.CurrentVerseStore.Value.Next();
-        }
-        #endregion
-
-        #region Control
         public void PlaySound(CachedSound sound)
         {
             var input = new CachedSoundSampleProvider(sound);
@@ -66,10 +56,9 @@ namespace Baraka.Services.Streaming.Core
         #region Events (crossfading logic)
         private void Mixer_PlayNextRequested()
         {
-            // Play next
-            SetCursorToNextVerse();
-            QuranStreamingService.Instance.PlayVerse(StreamerStateSingleton.Instance.CurrentVerseStore.Value, _number);
-            QuranStreamingService.Instance.DownloadAndCacheVerse(StreamerStateSingleton.Instance.CurrentVerseStore.Value.Next());
+            // Simply pass the event to the service along with current mixer id
+            PlayNextRequested?.Invoke(_id);
+            
         }
         #endregion
 

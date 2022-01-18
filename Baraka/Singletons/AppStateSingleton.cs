@@ -12,19 +12,6 @@ namespace Baraka.Singletons
 {
     public class AppStateSingleton : NotifiableBase
     {
-        private static AppStateSingleton _instance;
-        public static AppStateSingleton Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new AppStateSingleton();
-                }
-                return _instance;
-            }
-        }
-
         public AppStateSingleton()
         {
             SelectedSuraStore = new UniqueStore<SuraModel>(null);
@@ -32,6 +19,7 @@ namespace Baraka.Singletons
             Settings = new AppSettingsModel()
             {
                 CrossfadingValue = 15000,
+                AudioCacheLength = 10,
             };
         }
 
