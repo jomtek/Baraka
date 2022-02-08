@@ -12,16 +12,20 @@ namespace Baraka.Services.Streaming.Core
         private readonly IWavePlayer _outputDevice;
         private readonly CrossfadeSampleProvider _mixer;
         private readonly int _id;
-        public QuranSamplePlayer(int sampleRate, int channelCount, int id, AppState app)
+
+        private SoundStreamingService _streamingService;
+
+        public QuranSamplePlayer(int sampleRate, int channelCount, int id, AppState app, SoundStreamingService streamingService)
         {
-            // A number to identify the provider
             _id = id;
+            _streamingService = streamingService;
 
             // Initialize crossfade mixer
             _mixer = new CrossfadeSampleProvider(
                 WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, channelCount), app);
             _mixer.ReadFully = true;
             _mixer.PlayNextRequested += Mixer_PlayNextRequested;
+            _mixer.MixerInputEnded += Mixer_MixerInputEnded;
 
             // Initialize output device with mixer
             _outputDevice = new WaveOutEvent();
@@ -50,15 +54,31 @@ namespace Baraka.Services.Streaming.Core
         {
             var input = new CachedSoundSampleProvider(sound);
             _mixer.AddMixerInput(ConvertToRightChannelCount(input));
+            _streamingService.SamplePlayStack.Add(sound.AudioData.Length);
+        }
+
+        public void Pause()
+        {
+            _outputDevice.Pause();
+        }
+
+        public void Resume()
+        {
+            _outputDevice.Play();
         }
         #endregion
 
-        #region Events (crossfading logic)
+        #region Events
         private void Mixer_PlayNextRequested()
         {
             // Simply pass the event to the service along with current mixer id
             PlayNextRequested?.Invoke(_id);
-            
+        }
+
+        private void Mixer_MixerInputEnded(object sender, SampleProviderEventArgs e)
+        {
+            // Pop last sample from play stack
+            _streamingService.SamplePlayStack.RemoveAt(_streamingService.SamplePlayStack.Count - 1);
         }
         #endregion
 

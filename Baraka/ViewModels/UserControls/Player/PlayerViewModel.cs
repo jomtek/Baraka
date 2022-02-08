@@ -117,7 +117,9 @@ namespace Baraka.ViewModels.UserControls.Player
         public ICommand SuraTabSelectedCommand { get; }
         public ICommand NextSuraCommand { get; }
         public ICommand PreviousSuraCommand { get; }
-        public PlayerViewModel(AppState app)
+        public ICommand PlayerPausedCommand { get; }
+        public ICommand PlayerResumedCommand { get; }
+        public PlayerViewModel(AppState app, SoundStreamingService streamingService)
         {
             App = app;
 
@@ -148,11 +150,6 @@ namespace Baraka.ViewModels.UserControls.Player
             NextSuraCommand = new RelayCommand(
                 (param) =>
                 {
-                    //var sound = new Singletons.Streaming.CachedSound(@"C:\Users\jomtek360\Music\Quran\cadeau pour morgan.mp3");
-                    //var sound = new Singletons.Streaming.CachedSound(@"https://everyayah.com/data/Abdurrahmaan_As-Sudais_192kbps/001006.mp3");
-
-                    //SoundStreamingService.Instance.PlayVerse(new Models.Quran.VerseLocationModel(1, 1), 1);
-                 
                     var sura = SuraInfoService.FromNumber(App.SelectedSuraStore.Value.Number + 1);
                     App.SelectedSuraStore.Value = sura;
                 },
@@ -174,6 +171,16 @@ namespace Baraka.ViewModels.UserControls.Player
                 }
             );
 
+            PlayerPausedCommand = new RelayCommand((param) =>
+            {
+                streamingService.Pause();
+            });
+
+            PlayerResumedCommand = new RelayCommand((param) =>
+            {
+                streamingService.Resume();
+            });
+
             // Tab
             _qariTab = new QariTabViewModel(_scrollStateStore, app);
             _suraTab = new SuraTabViewModel(_scrollStateStore, app);
@@ -181,9 +188,10 @@ namespace Baraka.ViewModels.UserControls.Player
             SuraTabSelected = true; // The default tab on the player is the sura tab
         }
 
-        public static PlayerViewModel Create(AppState app)
+        public static PlayerViewModel Create(AppState app, BookmarkState bookmark)
         {
-            return new PlayerViewModel(app);
+            var streamingService = new SoundStreamingService(bookmark, app);
+            return new PlayerViewModel(app, streamingService);
         }
     }
 }

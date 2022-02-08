@@ -84,9 +84,8 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
                 Verses.Add(verse);
         }
 
-        public static TextDisplayerViewModel Create(AppState app)
+        public static TextDisplayerViewModel Create(AppState app, BookmarkState bookmark)
         {
-            var bookmark = BookmarkState.Create();
             return new TextDisplayerViewModel(bookmark, app);
         }
     }

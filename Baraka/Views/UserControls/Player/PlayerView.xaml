@@ -156,9 +156,17 @@
                             </Button>
 
                             <ToggleButton Grid.Column="2"
-                                          Cursor="Hand" IsChecked="False">
-                                <!--IsChecked="{Binding Source={x:Static singletons:BookmarkStateSingleton.Instance},
-                                                              Path=IsPlaying, Mode=TwoWay}">-->
+                                          Cursor="Hand"
+                                          IsChecked="False">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Checked">
+                                        <i:InvokeCommandAction Command="{Binding PlayerResumedCommand}" />
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="Unchecked">
+                                        <i:InvokeCommandAction Command="{Binding PlayerPausedCommand}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                
                                 <ToggleButton.Style>
                                     <Style TargetType="ToggleButton" BasedOn="{StaticResource ReactiveStyle}">
                                         <Setter Property="Template">
@@ -174,8 +182,7 @@
                                         <!-- Paused -->
                                         <Setter Property="Content">
                                             <Setter.Value>
-                                                <Path Style="{StaticResource Play}"
-                                                      Fill="Black" Stretch="Fill" />
+                                                <Path Style="{StaticResource Play}" Fill="Black" Stretch="Fill" />
                                             </Setter.Value>
                                         </Setter>
     

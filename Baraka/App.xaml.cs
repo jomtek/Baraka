@@ -40,13 +40,14 @@ namespace Baraka
                 DataContext = splashVm,
             };
 
-            // Initialize app state
+            // Initialize fundamental states
             var app = AppState.Create();
+            var bookmark = BookmarkState.Create();
 
             // Initialize the main window
             MainWindow = new MainView()
             {
-                DataContext = MainViewModel.Create(app),
+                DataContext = MainViewModel.Create(app, bookmark),
             };
 
             // Pop-corn time !

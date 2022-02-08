@@ -5,6 +5,7 @@ using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 
@@ -20,16 +21,19 @@ namespace Baraka.Services.Streaming
         private Dictionary<VerseLocationModel, CachedSound> _cache = new();
         private readonly QuranSamplePlayer _soundProvider1;
         private readonly QuranSamplePlayer _soundProvider2;
-        
+
+        public List<int> SamplePlayStack = new();
+
         public SoundStreamingService(
             BookmarkState bookmark, AppState app,
             int sampleRate = 44100, int channelCount = 2)
         {
             _bookmark = bookmark;
+            _app = app;
 
             // We will use two Quran sound providers for crossfading - initialize both of them
-            _soundProvider1 = new QuranSamplePlayer(sampleRate, channelCount, 1, app);
-            _soundProvider2 = new QuranSamplePlayer(sampleRate, channelCount, 2, app);
+            _soundProvider1 = new QuranSamplePlayer(sampleRate, channelCount, 1, app, this);
+            _soundProvider2 = new QuranSamplePlayer(sampleRate, channelCount, 2, app, this);
             _soundProvider1.PlayNextRequested += PlayNextRequested;
             _soundProvider2.PlayNextRequested += PlayNextRequested;
         }
@@ -49,7 +53,28 @@ namespace Baraka.Services.Streaming
         #endregion
 
         #region Controls
-        public void PlayVerse(VerseLocationModel verse, int currentMixer)
+        public void Pause()
+        {
+            _soundProvider1.Pause();
+            _soundProvider2.Pause();
+            Trace.WriteLine("paused!");
+        }
+
+        public void Resume()
+        {
+            _soundProvider1.Resume();
+            _soundProvider2.Resume();
+
+            // If no verse is currently playing, start playing one
+            if (SamplePlayStack.Count == 0)
+            {
+                PlayVerse(_bookmark.CurrentVerseStore.Value);
+            }
+
+            Trace.WriteLine("resumed!");
+        }
+
+        public void PlayVerse(VerseLocationModel verse, int currentMixer = 1)
         {
             if (_cache.ContainsKey(verse))
             {
@@ -57,7 +82,7 @@ namespace Baraka.Services.Streaming
                 Alternate between mixer 1, then 2, then 1, with
                 short cuts, in order to create a crossfaded transition
                 */
-            if (currentMixer == 1)
+                if (currentMixer == 1)
                 {
                     _soundProvider2.PlaySound(_cache[verse]);
                 }
@@ -76,7 +101,9 @@ namespace Baraka.Services.Streaming
                 Manage the first verse by first downloading it in order
                 to start the play loop
                 */
+                Trace.WriteLine("downloading verse...");
                 DownloadAndCacheVerse(verse);
+                Trace.WriteLine("...done!");
                 PlayVerse(verse, currentMixer);
             }
         }

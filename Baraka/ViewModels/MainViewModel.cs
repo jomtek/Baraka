@@ -52,10 +52,10 @@ namespace Baraka.ViewModels
             });
         }
 
-        public static MainViewModel Create(AppState app)
+        public static MainViewModel Create(AppState app, BookmarkState bookmark)
         {
-            var displayerVm = TextDisplayerViewModel.Create(app);
-            var playerVm = PlayerViewModel.Create(app);
+            var displayerVm = TextDisplayerViewModel.Create(app, bookmark);
+            var playerVm = PlayerViewModel.Create(app, bookmark);
             return new MainViewModel(displayerVm, playerVm);
         }
     }
