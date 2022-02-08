@@ -3,6 +3,7 @@ using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;
 using Baraka.ViewModels.UserControls.Displayers.TextDisplayer;
 using Baraka.ViewModels.UserControls.Player;
+using Baraka.ViewModels.UserControls.Player.Design;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace Baraka.ViewModels
         }
 
         public NotifiableBase DisplayerContext { get; }
-        public NotifiableBase PlayerContext { get; }
+        public PlayerViewModel PlayerContext { get; }
         public ICommand ZoomCommand { get; }
         public MainViewModel(TextDisplayerViewModel displayerVm, PlayerViewModel playerVm)
         {

@@ -8,12 +8,14 @@
         xmlns:ucmodels="clr-namespace:Baraka.Models.UserControls"
         xmlns:playerv="clr-namespace:Baraka.Views.UserControls.Player"
         xmlns:playervms="clr-namespace:Baraka.ViewModels.UserControls.Player"
+        xmlns:playerdesignvms="clr-namespace:Baraka.ViewModels.UserControls.Player.Design"
         xmlns:textdisplayervms="clr-namespace:Baraka.ViewModels.UserControls.Displayers.TextDisplayer"
         xmlns:textdisplayerv="clr-namespace:Baraka.Views.UserControls.Displayers.TextDisplayer"
         xmlns:viewmodels="clr-namespace:Baraka.ViewModels"
+        xmlns:designviewmodels="clr-namespace:Baraka.ViewModels.Design"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel, IsDesignTimeCreatable=True}"
+        d:DataContext="{d:DesignInstance Type=designviewmodels:MainDesignViewModel, IsDesignTimeCreatable=True}"
         WindowStartupLocation="CenterScreen"
         Title="MainWindow"
         d:DesignHeight="800" d:DesignWidth="1200"
@@ -51,16 +53,10 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 -->
-                
-                <ContentControl Content="{Binding DisplayerContext}">
-                    <ContentControl.Resources>
-                        <DataTemplate DataType="{x:Type textdisplayervms:TextDisplayerViewModel}">
-                            <textdisplayerv:TextDisplayerView />
-                        </DataTemplate>
-                    </ContentControl.Resources>
-                </ContentControl>
-            </Grid>
 
+                <textdisplayerv:TextDisplayerView DataContext="{Binding DisplayerContext}" />
+            </Grid>
+            
             <Grid>
                 <Grid.ColumnDefinitions >
                     <ColumnDefinition Width="*"/>
@@ -74,19 +70,15 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
-                <ContentControl Grid.Row="1" Grid.Column="2" Content="{Binding PlayerContext}"
-                                HorizontalAlignment="Center" VerticalAlignment="Bottom">
-                    <ContentControl.Resources>
-                        <DataTemplate DataType="{x:Type playervms:PlayerViewModel}">
-                            <playerv:PlayerView MaxWidth="900">
-                                <playerv:PlayerView.Effect>
-                                    <DropShadowEffect Direction="45" Opacity="0.45"
-                                                      ShadowDepth="8" BlurRadius="40" RenderingBias="Quality" />
-                                </playerv:PlayerView.Effect>
-                            </playerv:PlayerView>
-                        </DataTemplate>
-                    </ContentControl.Resources>
-                </ContentControl>
+                <playerv:PlayerView Grid.Row="1" Grid.Column="2"
+                                    DataContext="{Binding PlayerContext}"
+                                    MaxWidth="900"
+                                    HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                    <playerv:PlayerView.Effect>
+                        <DropShadowEffect Direction="45" Opacity="0.45"
+                                          ShadowDepth="8" BlurRadius="40" RenderingBias="Quality" />
+                    </playerv:PlayerView.Effect>
+                </playerv:PlayerView>
             </Grid>
         </Grid>
 

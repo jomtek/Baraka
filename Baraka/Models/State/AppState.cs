@@ -34,5 +34,10 @@ namespace Baraka.Models.State
                 SelectedQariStore = new UniqueStore<QariModel>(QariInfoService.GetAll()[1]),   // Default qari
             };
         }
+
+        public static AppState CreateDesign()
+        {
+            return Create();
+        }
     }
 }

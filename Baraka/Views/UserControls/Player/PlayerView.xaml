@@ -6,9 +6,12 @@
              xmlns:local="clr-namespace:Baraka.Views.UserControls"
              xmlns:pagev="clr-namespace:Baraka.Views.UserControls.Player.Pages"
              xmlns:pagevm="clr-namespace:Baraka.ViewModels.UserControls.Player.Pages"
+             xmlns:pagedesignvm="clr-namespace:Baraka.ViewModels.UserControls.Player.Pages.Design"
+             xmlns:design="clr-namespace:Baraka.ViewModels.UserControls.Player.Design"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:behaviors="clr-namespace:Baraka.Behaviors"
              mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=design:PlayerDesignViewModel, IsDesignTimeCreatable=True}"
              x:Name="UC"
              DataContextChanged="UC_DataContextChanged">
 
@@ -81,9 +84,16 @@
                     <ContentControl x:Name="CC" Grid.Column="1" Content="{Binding CurrentPage}">
                         <ContentControl.Resources>
                             <DataTemplate DataType="{x:Type pagevm:QariTabViewModel}">
-                                <pagev:QariTabView  />
+                                <pagev:QariTabView />
                             </DataTemplate>
+                            <DataTemplate DataType="{x:Type pagedesignvm:QariTabDesignViewModel}">
+                                <pagev:QariTabView />
+                            </DataTemplate>
+                            
                             <DataTemplate DataType="{x:Type pagevm:SuraTabViewModel}">
+                                <pagev:SuraTabView />
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type pagedesignvm:SuraTabDesignViewModel}">
                                 <pagev:SuraTabView />
                             </DataTemplate>
                         </ContentControl.Resources>

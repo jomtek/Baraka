@@ -17,17 +17,20 @@ namespace Baraka.Views.UserControls.Player
 
         private void UC_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
         {
-            ((PlayerViewModel)DataContext).PlayerOpenChanged += (open) =>
+            if (DataContext is PlayerViewModel vm)
             {
-                if (open)
+                vm.PlayerOpenChanged += (open) =>
                 {
-                    ((Storyboard)FindResource("OpenPlayerStory")).Begin();
-                }
-                else
-                {
-                    ((Storyboard)FindResource("ClosePlayerStory")).Begin();
-                }
-            };
+                    if (open)
+                    {
+                        ((Storyboard)FindResource("OpenPlayerStory")).Begin();
+                    }
+                    else
+                    {
+                        ((Storyboard)FindResource("ClosePlayerStory")).Begin();
+                    }
+                };
+            }
         }
     }
 }

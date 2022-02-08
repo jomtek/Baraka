@@ -4,6 +4,7 @@ using Baraka.Services.Streaming;
 using Baraka.Utils.MVVM;
 using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;
+using Baraka.ViewModels.UserControls.Player.Design;
 using Baraka.ViewModels.UserControls.Player.Pages;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
