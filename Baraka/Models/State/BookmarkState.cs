@@ -24,6 +24,16 @@ namespace Baraka.Models.State
         public UniqueStore<int> EndVerseStore { get; set; }
         public UniqueStore<VerseLocationModel> CurrentVerseStore { get; set; }
 
+        public BookmarkState()
+        {}
+
+        public void GoToSura(SuraModel sura)
+        {
+            StartVerseStore.Value = 1;
+            EndVerseStore.Value = 1;
+            CurrentVerseStore.Value = new VerseLocationModel(sura.Number, 1);
+        }
+
         public static BookmarkState Create()
         {
             return new BookmarkState()
@@ -35,5 +45,6 @@ namespace Baraka.Models.State
                 CurrentVerseStore = new UniqueStore<VerseLocationModel>(new VerseLocationModel(1, 1)),
             };
         }
+
     }
 }

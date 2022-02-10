@@ -1,4 +1,5 @@
-﻿using Baraka.Models.State;
+﻿using Baraka.Models.Quran;
+using Baraka.Models.State;
 using Baraka.Services.Quran;
 using Baraka.Services.Streaming;
 using Baraka.Utils.MVVM;
@@ -119,7 +120,7 @@ namespace Baraka.ViewModels.UserControls.Player
         public ICommand PreviousSuraCommand { get; }
         public ICommand PlayerPausedCommand { get; }
         public ICommand PlayerResumedCommand { get; }
-        public PlayerViewModel(AppState app, SoundStreamingService streamingService)
+        public PlayerViewModel(AppState app, BookmarkState bookmark, SoundStreamingService streamingService)
         {
             App = app;
 
@@ -128,6 +129,12 @@ namespace Baraka.ViewModels.UserControls.Player
             _scrollStateStore.ValueChanged += () =>
             {
                 ScrollState = _scrollStateStore.Value;
+            };
+
+            App.SelectedQariStore.ValueChanged += () =>
+            {
+                streamingService.ClearCache();
+                streamingService.RefreshCursor();
             };
 
             // Commands
@@ -150,8 +157,11 @@ namespace Baraka.ViewModels.UserControls.Player
             NextSuraCommand = new RelayCommand(
                 (param) =>
                 {
-                    var sura = SuraInfoService.FromNumber(App.SelectedSuraStore.Value.Number + 1);
+                    var sura = App.SelectedSuraStore.Value.Next();
                     App.SelectedSuraStore.Value = sura;
+
+                    bookmark.GoToSura(sura);
+                    streamingService.RefreshCursor();
                 },
                 (param) =>
                 {
@@ -188,9 +198,9 @@ namespace Baraka.ViewModels.UserControls.Player
             SuraTabSelected = true; // The default tab on the player is the sura tab
         }
 
-        public static PlayerViewModel Create(AppState app, SoundStreamingService streamingService)
+        public static PlayerViewModel Create(AppState app, BookmarkState bookmark, SoundStreamingService streamingService)
         {
-            return new PlayerViewModel(app, streamingService);
+            return new PlayerViewModel(app, bookmark, streamingService);
         }
     }
 }

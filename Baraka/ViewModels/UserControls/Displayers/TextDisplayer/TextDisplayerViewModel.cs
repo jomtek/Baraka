@@ -10,6 +10,7 @@ using System;
 using Baraka.Services.Streaming;
 using System.Threading;
 using System.Windows;
+using Baraka.Utils.MVVM;
 
 namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
 {
@@ -59,7 +60,22 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
             // Load default sura on screen
             LoadSura(App.SelectedSuraStore.Value);
 
-            // Events and commands
+            // Commands
+            SwitchVerseCommand = new RelayCommand((param) =>
+            {
+                if (param is TextualVerseModel verse)
+                {
+                    if (verse.Number < Bookmark.StartVerseStore.Value)
+                        Bookmark.StartVerseStore.Value = verse.Number;
+
+                    Bookmark.EndVerseStore.Value = verse.Number;
+                    Bookmark.CurrentVerseStore.Value = verse.Location;
+
+                    streamingService.RefreshCursor();
+                }
+            });
+
+            // Events
             App.SelectedSuraStore.ValueChanged += () =>
             {
                 LoadSura(App.SelectedSuraStore.Value);
@@ -84,20 +100,6 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
                     streamingService.Pause();
                 }
             };
-
-            SwitchVerseCommand = new RelayCommand((param) =>
-            {
-                if (param is TextualVerseModel verse)
-                {
-                    if (verse.Number < Bookmark.StartVerseStore.Value)
-                        Bookmark.StartVerseStore.Value = verse.Number;
-
-                    Bookmark.EndVerseStore.Value = verse.Number;
-                    Bookmark.CurrentVerseStore.Value = verse.Location;
-
-                    streamingService.RefreshCursor();
-                }
-            });
         }
 
         private void LoadSura(SuraModel sura)

@@ -15,7 +15,6 @@ namespace Baraka.Services.Streaming
         public WaveFormat WaveFormat { get; private set; }
         public CachedSound(byte[] data)
         {
-
             using (var ms = new MemoryStream(data))
             using (var audioFileReader = new AudioStreamReader(ms))
             {

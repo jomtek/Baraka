@@ -25,6 +25,7 @@ namespace Baraka.Services.Streaming
         private readonly QuranSamplePlayer _soundPlayer2;
 
         public List<int> SamplePlayStack = new();
+        public bool IsPlaying { get; private set; } = false;
 
         public SoundStreamingService(
             BookmarkState bookmark, AppState app,
@@ -45,7 +46,8 @@ namespace Baraka.Services.Streaming
         {
             CursorIncrementRequested?.Invoke();
             PlayVerse(_bookmark.CurrentVerseStore.Value, currentMixer);
-            DownloadAndCacheVerse(_bookmark.CurrentVerseStore.Value.Next());
+            if (!_bookmark.CurrentVerseStore.Value.IsLast())
+                DownloadAndCacheVerse(_bookmark.CurrentVerseStore.Value.Next());
         }
         #endregion
 
@@ -54,7 +56,7 @@ namespace Baraka.Services.Streaming
         {
             _soundPlayer1.Pause();
             _soundPlayer2.Pause();
-            Trace.WriteLine("paused!");
+            IsPlaying = false;
         }
 
         public void Resume()
@@ -62,13 +64,13 @@ namespace Baraka.Services.Streaming
             _soundPlayer1.Resume();
             _soundPlayer2.Resume();
 
+            IsPlaying = true;
+
             // If no verse is currently playing, start playing one
             if (SamplePlayStack.Count == 0)
             {
                 PlayVerse(_bookmark.CurrentVerseStore.Value);
             }
-
-            Trace.WriteLine("resumed!");
         }
 
         public void RefreshCursor()
@@ -76,7 +78,12 @@ namespace Baraka.Services.Streaming
             _soundPlayer1.ClearAudioSources();
             _soundPlayer2.ClearAudioSources();
             SamplePlayStack.Clear();
-            Resume();
+            if (IsPlaying) Resume();
+        }
+
+        public void ClearCache()
+        {
+            _cache.Clear();
         }
 
         public void PlayVerse(VerseLocationModel verse, int currentMixer = 1)
@@ -106,9 +113,7 @@ namespace Baraka.Services.Streaming
                 Manage the first verse by first downloading it in order
                 to start the play loop
                 */
-                Trace.WriteLine("downloading verse...");
                 DownloadAndCacheVerse(verse);
-                Trace.WriteLine("...done!");
                 PlayVerse(verse, currentMixer);
             }
         }
@@ -122,8 +127,8 @@ namespace Baraka.Services.Streaming
             if (_cache.Keys.Count > _app.Settings.AudioCacheLength)
                 _cache.Remove(_cache.Keys.First());
 
-            string api = (string)App.Current.FindResource("API_PATH");
             // TODO: adapt to the online api
+            string api = (string)App.Current.FindResource("API_PATH");
 
             string qari = _app.SelectedQariStore.Value.Id;
             string fileName =

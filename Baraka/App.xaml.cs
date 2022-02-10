@@ -3,6 +3,7 @@ using Baraka.Models.State;
 using Baraka.Services;
 using Baraka.Services.Quran;
 using Baraka.Services.Streaming;
+using Baraka.Utils.MVVM;
 using Baraka.ViewModels;
 using Baraka.ViewModels.Splashes;
 using Baraka.ViewModels.UserControls.Displayers.TextDisplayer;

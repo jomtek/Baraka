@@ -1,5 +1,6 @@
 ﻿using Baraka.Models.State;
 using Baraka.Services.Streaming;
+using Baraka.Utils.MVVM;
 using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;
 using Baraka.ViewModels.UserControls.Displayers.TextDisplayer;
@@ -56,7 +57,7 @@ namespace Baraka.ViewModels
         public static MainViewModel Create(AppState app, BookmarkState bookmark, SoundStreamingService streamingService)
         {
             var displayerVm = TextDisplayerViewModel.Create(app, bookmark, streamingService);
-            var playerVm = PlayerViewModel.Create(app, streamingService);
+            var playerVm = PlayerViewModel.Create(app, bookmark, streamingService);
             return new MainViewModel(displayerVm, playerVm);
         }
     }

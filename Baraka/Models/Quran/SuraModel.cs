@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Baraka.Services.Quran;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,12 @@ namespace Baraka.Models.Quran
             PhoneticName = phoneticName;
             TranslatedName = translatedName;
             RevelationType = revelationType;
+        }
+
+        public SuraModel Next()
+        {
+            if (Number < 1 || Number > 114) throw new InvalidOperationException();
+            return SuraInfoService.FromNumber(Number + 1);
         }
 
         public bool Equals(SuraModel other)
