@@ -52,6 +52,11 @@ namespace Baraka.Services.Streaming
         /// </summary>
         public bool ReadFully { get; set; }
 
+        public void ClearAudioSources()
+        {
+            sources.Clear();
+        }
+
         public void AddMixerInput(ISampleProvider mixerInput)
         {
             // we'll just call the lock around add since we are protecting against an AddMixerInput at
@@ -110,6 +115,7 @@ namespace Baraka.Services.Streaming
                 int index = sources.Count - 1;
                 while (index >= 0)
                 {
+                    System.Diagnostics.Trace.WriteLine("boucle ---");
                     var source = sources[index];
                     int samplesRead = source.Read(sourceBuffer, 0, count);
                     int outIndex = offset;
@@ -144,6 +150,7 @@ namespace Baraka.Services.Streaming
                     index--;
                 }
             }
+
             // optionally ensure we return a full buffer
             if (ReadFully && outputSamples < count)
             {

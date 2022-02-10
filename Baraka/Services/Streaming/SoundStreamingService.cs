@@ -17,10 +17,12 @@ namespace Baraka.Services.Streaming
         private BookmarkState _bookmark;
         private AppState _app;
 
+        public event Action CursorIncrementRequested;
+
         private readonly WebClient _webClient = new();
         private Dictionary<VerseLocationModel, CachedSound> _cache = new();
-        private readonly QuranSamplePlayer _soundProvider1;
-        private readonly QuranSamplePlayer _soundProvider2;
+        private readonly QuranSamplePlayer _soundPlayer1;
+        private readonly QuranSamplePlayer _soundPlayer2;
 
         public List<int> SamplePlayStack = new();
 
@@ -32,21 +34,16 @@ namespace Baraka.Services.Streaming
             _app = app;
 
             // We will use two Quran sound providers for crossfading - initialize both of them
-            _soundProvider1 = new QuranSamplePlayer(sampleRate, channelCount, 1, app, this);
-            _soundProvider2 = new QuranSamplePlayer(sampleRate, channelCount, 2, app, this);
-            _soundProvider1.PlayNextRequested += PlayNextRequested;
-            _soundProvider2.PlayNextRequested += PlayNextRequested;
+            _soundPlayer1 = new QuranSamplePlayer(sampleRate, channelCount, 1, app, this);
+            _soundPlayer2 = new QuranSamplePlayer(sampleRate, channelCount, 2, app, this);
+            _soundPlayer1.PlayNextRequested += PlayNextRequested;
+            _soundPlayer2.PlayNextRequested += PlayNextRequested;
         }
 
         #region Core (crossfading logic)
-        private void SetCursorToNextVerse()
-        {
-            _bookmark.CurrentVerseStore.Value = _bookmark.CurrentVerseStore.Value.Next();
-        }
-
         private void PlayNextRequested(int currentMixer)
         {
-            SetCursorToNextVerse();
+            CursorIncrementRequested?.Invoke();
             PlayVerse(_bookmark.CurrentVerseStore.Value, currentMixer);
             DownloadAndCacheVerse(_bookmark.CurrentVerseStore.Value.Next());
         }
@@ -55,15 +52,15 @@ namespace Baraka.Services.Streaming
         #region Controls
         public void Pause()
         {
-            _soundProvider1.Pause();
-            _soundProvider2.Pause();
+            _soundPlayer1.Pause();
+            _soundPlayer2.Pause();
             Trace.WriteLine("paused!");
         }
 
         public void Resume()
         {
-            _soundProvider1.Resume();
-            _soundProvider2.Resume();
+            _soundPlayer1.Resume();
+            _soundPlayer2.Resume();
 
             // If no verse is currently playing, start playing one
             if (SamplePlayStack.Count == 0)
@@ -72,6 +69,14 @@ namespace Baraka.Services.Streaming
             }
 
             Trace.WriteLine("resumed!");
+        }
+
+        public void RefreshCursor()
+        {
+            _soundPlayer1.ClearAudioSources();
+            _soundPlayer2.ClearAudioSources();
+            SamplePlayStack.Clear();
+            Resume();
         }
 
         public void PlayVerse(VerseLocationModel verse, int currentMixer = 1)
@@ -84,11 +89,11 @@ namespace Baraka.Services.Streaming
                 */
                 if (currentMixer == 1)
                 {
-                    _soundProvider2.PlaySound(_cache[verse]);
+                    _soundPlayer2.PlaySound(_cache[verse]);
                 }
                 else if (currentMixer == 2)
                 {
-                    _soundProvider1.PlaySound(_cache[verse]);
+                    _soundPlayer1.PlaySound(_cache[verse]);
                 }
                 else
                 {
@@ -132,8 +137,8 @@ namespace Baraka.Services.Streaming
 
         public void Dispose()
         {
-            _soundProvider1.Dispose();
-            _soundProvider2.Dispose();
+            _soundPlayer1.Dispose();
+            _soundPlayer2.Dispose();
         }
     }
 }

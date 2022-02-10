@@ -188,9 +188,8 @@ namespace Baraka.ViewModels.UserControls.Player
             SuraTabSelected = true; // The default tab on the player is the sura tab
         }
 
-        public static PlayerViewModel Create(AppState app, BookmarkState bookmark)
+        public static PlayerViewModel Create(AppState app, SoundStreamingService streamingService)
         {
-            var streamingService = new SoundStreamingService(bookmark, app);
             return new PlayerViewModel(app, streamingService);
         }
     }

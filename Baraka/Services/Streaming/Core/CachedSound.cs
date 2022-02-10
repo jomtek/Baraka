@@ -1,5 +1,6 @@
 ﻿using Baraka.Services.Streaming.Core;
 using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,14 +15,18 @@ namespace Baraka.Services.Streaming
         public WaveFormat WaveFormat { get; private set; }
         public CachedSound(byte[] data)
         {
+
             using (var ms = new MemoryStream(data))
             using (var audioFileReader = new AudioStreamReader(ms))
             {
-                WaveFormat = audioFileReader.WaveFormat;
+                var resampler = new WdlResamplingSampleProvider(audioFileReader, 44100);
+
+                WaveFormat = resampler.WaveFormat;
+
                 var wholeFile = new List<float>((int)(audioFileReader.Length / 4));
-                var readBuffer = new float[audioFileReader.WaveFormat.SampleRate * audioFileReader.WaveFormat.Channels];
+                var readBuffer = new float[WaveFormat.SampleRate * WaveFormat.Channels];
                 int samplesRead;
-                while ((samplesRead = audioFileReader.Read(readBuffer, 0, readBuffer.Length)) > 0)
+                while ((samplesRead = resampler.Read(readBuffer, 0, readBuffer.Length)) > 0)
                 {
                     wholeFile.AddRange(readBuffer.Take(samplesRead));
                 }

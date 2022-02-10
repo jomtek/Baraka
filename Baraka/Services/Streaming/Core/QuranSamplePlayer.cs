@@ -66,6 +66,11 @@ namespace Baraka.Services.Streaming.Core
         {
             _outputDevice.Play();
         }
+
+        public void ClearAudioSources()
+        {
+            _mixer.ClearAudioSources();
+        }
         #endregion
 
         #region Events

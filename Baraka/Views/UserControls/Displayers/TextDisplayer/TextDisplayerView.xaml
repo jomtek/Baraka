@@ -121,14 +121,16 @@
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter Property="Stroke" Value="Goldenrod" />
                                         </Trigger>
+                                        
                                         <DataTrigger Value="True">
                                             <DataTrigger.Binding>
                                                 <MultiBinding Converter="{StaticResource VersesEqualityConverter}">
-                                                    <Binding ElementName="VersesLB"  Path="DataContext.Bookmark.CurrentVerseStore.Value" />
                                                     <Binding />
+                                                    <Binding ElementName="VersesLB" Path="DataContext.Bookmark.CurrentVerseStore.Value" />
                                                 </MultiBinding>
                                             </DataTrigger.Binding>
-                                            <Setter Property="StrokeThickness" Value="20" />
+                                            
+                                            <Setter Property="Stroke" Value="Goldenrod" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>

@@ -2,6 +2,7 @@
 using Baraka.Models.State;
 using Baraka.Services;
 using Baraka.Services.Quran;
+using Baraka.Services.Streaming;
 using Baraka.ViewModels;
 using Baraka.ViewModels.Splashes;
 using Baraka.ViewModels.UserControls.Displayers.TextDisplayer;
@@ -44,17 +45,20 @@ namespace Baraka
             var app = AppState.Create();
             var bookmark = BookmarkState.Create();
 
+            // Initialize fundamental services
+            var streamingService = new SoundStreamingService(bookmark, app);
+
             // Initialize the main window
             MainWindow = new MainView()
             {
-                DataContext = MainViewModel.Create(app, bookmark),
+                DataContext = MainViewModel.Create(app, bookmark, streamingService),
             };
 
             // Pop-corn time !
             splashVm.ClosingRequest += () =>
             {
                 splashView.Close();
-                MainWindow.Show();
+               MainWindow.Show();
             };
 
             splashView.Show();

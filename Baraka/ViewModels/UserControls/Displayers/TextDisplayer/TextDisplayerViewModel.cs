@@ -7,6 +7,9 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Baraka.Models.State;
 using System;
+using Baraka.Services.Streaming;
+using System.Threading;
+using System.Windows;
 
 namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
 {
@@ -48,7 +51,7 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
         }
 
         public ICommand SwitchVerseCommand { get; }
-        public TextDisplayerViewModel(BookmarkState bookmark, AppState app)
+        public TextDisplayerViewModel(BookmarkState bookmark, AppState app, SoundStreamingService streamingService)
         {
             Bookmark = bookmark;
             App = app;
@@ -62,6 +65,26 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
                 LoadSura(App.SelectedSuraStore.Value);
             };
 
+            streamingService.CursorIncrementRequested += () =>
+            {
+                if (!_bookmark.CurrentVerseStore.Value.IsLast())
+                {
+                    // The case in which the sura has to change
+                    if (_bookmark.CurrentVerseStore.Value.Next().Sura > _bookmark.CurrentVerseStore.Value.Sura)
+                    {
+                        var sura = SuraInfoService.FromNumber(_bookmark.CurrentVerseStore.Value.Next().Sura);
+                        App.SelectedSuraStore.Value = sura;
+                    }
+
+                    _bookmark.CurrentVerseStore.Value = _bookmark.CurrentVerseStore.Value.Next();
+                    _bookmark.EndVerseStore.Value = _bookmark.CurrentVerseStore.Value.Number;
+                }
+                else
+                {
+                    streamingService.Pause();
+                }
+            };
+
             SwitchVerseCommand = new RelayCommand((param) =>
             {
                 if (param is TextualVerseModel verse)
@@ -71,6 +94,8 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
 
                     Bookmark.EndVerseStore.Value = verse.Number;
                     Bookmark.CurrentVerseStore.Value = verse.Location;
+
+                    streamingService.RefreshCursor();
                 }
             });
         }
@@ -78,15 +103,19 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
         private void LoadSura(SuraModel sura)
         {
             var config = new EditionConfigModel(true, true, "fr.hamidullah", null, null);
-         
-            Verses.Clear();
-            foreach (var verse in QuranTextService.LoadSura(sura, config))
-                Verses.Add(verse);
+
+            // TODO: find a way to stop blindly using the dispatcher here (NotSupportedException is thrown)
+            Application.Current.Dispatcher.Invoke((Action)delegate
+            {
+                Verses.Clear();
+                foreach (var verse in QuranTextService.LoadSura(sura, config))
+                    Verses.Add(verse);
+            });
         }
 
-        public static TextDisplayerViewModel Create(AppState app, BookmarkState bookmark)
+        public static TextDisplayerViewModel Create(AppState app, BookmarkState bookmark, SoundStreamingService streamingService)
         {
-            return new TextDisplayerViewModel(bookmark, app);
+            return new TextDisplayerViewModel(bookmark, app, streamingService);
         }
     }
 }

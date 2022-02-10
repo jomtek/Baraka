@@ -32,6 +32,11 @@ namespace Baraka.Models.Quran
             return new VerseLocationModel(sura.Number, verse);
         }
 
+        public bool IsLast()
+        {
+            return Sura == 114 && Number == 6;
+        }
+
         public bool Equals(VerseLocationModel other)
         {
             return Sura == other.Sura && Number == other.Number;
