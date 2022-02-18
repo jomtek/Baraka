@@ -19,7 +19,6 @@ namespace Baraka.Services.Streaming
             using (var audioFileReader = new AudioStreamReader(ms))
             {
                 var resampler = new WdlResamplingSampleProvider(audioFileReader, 44100);
-
                 WaveFormat = resampler.WaveFormat;
 
                 var wholeFile = new List<float>((int)(audioFileReader.Length / 4));

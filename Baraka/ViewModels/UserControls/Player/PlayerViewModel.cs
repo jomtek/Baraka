@@ -172,8 +172,11 @@ namespace Baraka.ViewModels.UserControls.Player
             PreviousSuraCommand = new RelayCommand(
                 (param) =>
                 {
-                    var sura = SuraInfoService.FromNumber(App.SelectedSuraStore.Value.Number - 1);
+                    var sura = App.SelectedSuraStore.Value.Last();
                     App.SelectedSuraStore.Value = sura;
+
+                    bookmark.GoToSura(sura);
+                    streamingService.RefreshCursor();
                 },
                 (param) =>
                 {
@@ -193,7 +196,7 @@ namespace Baraka.ViewModels.UserControls.Player
 
             // Tab
             _qariTab = new QariTabViewModel(_scrollStateStore, app);
-            _suraTab = new SuraTabViewModel(_scrollStateStore, app);
+            _suraTab = new SuraTabViewModel(_scrollStateStore, app, bookmark, streamingService);
 
             SuraTabSelected = true; // The default tab on the player is the sura tab
         }

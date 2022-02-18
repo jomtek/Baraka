@@ -2,6 +2,7 @@
 using Baraka.Models;
 using Baraka.Models.Quran;
 using Baraka.Models.State;
+using Baraka.Services.Streaming;
 using Baraka.Utils.MVVM;
 using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;
@@ -61,7 +62,7 @@ namespace Baraka.ViewModels.UserControls.Player.Pages
         public ICommand ScrollCommand { get; }
         public ICommand SuraSelectedCommand { get; }
         public ICommand SearchCommand { get; }
-        public SuraTabViewModel(UniqueStore<double> scrollStateStore, AppState app)
+        public SuraTabViewModel(UniqueStore<double> scrollStateStore, AppState app, BookmarkState bookmark, SoundStreamingService streamingService)
         {
             App = app;
 
@@ -81,10 +82,18 @@ namespace Baraka.ViewModels.UserControls.Player.Pages
             });
 
             SuraSelectedCommand = new RelayCommand(
-                (sura) => {
-                    App.SelectedSuraStore.Value = (SuraModel)sura;
+                (param) =>
+                {
+                    if (param is SuraModel sura)
+                    {
+                        App.SelectedSuraStore.Value = sura;
+
+                        bookmark.GoToSura(sura);
+                        streamingService.RefreshCursor();
+                    }
                 },
-                (sura) => {
+                (sura) =>
+                {
                     return App.SelectedSuraStore.Value != (SuraModel)sura;
                 }
             );

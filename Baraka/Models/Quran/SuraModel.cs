@@ -31,8 +31,14 @@ namespace Baraka.Models.Quran
 
         public SuraModel Next()
         {
-            if (Number < 1 || Number > 114) throw new InvalidOperationException();
+            if (Number < 1 || Number > 113) throw new InvalidOperationException();
             return SuraInfoService.FromNumber(Number + 1);
+        }
+
+        public SuraModel Last()
+        {
+            if (Number < 2 || Number > 114) throw new InvalidOperationException();
+            return SuraInfoService.FromNumber(Number - 1);
         }
 
         public bool Equals(SuraModel other)

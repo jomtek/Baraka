@@ -4,6 +4,7 @@ using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Baraka.Services.Streaming
 {
@@ -73,13 +74,14 @@ namespace Baraka.Services.Streaming
             {
                 WaveFormat = mixerInput.WaveFormat;
             }
-            else
+            /*else if (WaveFormat.Channels != mixerInput.WaveFormat.Channels)
             {
-                if (WaveFormat.SampleRate != mixerInput.WaveFormat.SampleRate ||
-                    WaveFormat.Channels != mixerInput.WaveFormat.Channels)
-                {
-                    throw new ArgumentException("All mixer inputs must have the same WaveFormat");
-                }
+
+            }*/
+            else if (WaveFormat.SampleRate != mixerInput.WaveFormat.SampleRate ||
+                     WaveFormat.Channels != mixerInput.WaveFormat.Channels)
+            {
+                throw new ArgumentException("All mixer inputs must have the same WaveFormat");
             }
         }
 
@@ -115,7 +117,6 @@ namespace Baraka.Services.Streaming
                 int index = sources.Count - 1;
                 while (index >= 0)
                 {
-                    System.Diagnostics.Trace.WriteLine("boucle ---");
                     var source = sources[index];
                     int samplesRead = source.Read(sourceBuffer, 0, count);
                     int outIndex = offset;
@@ -131,7 +132,7 @@ namespace Baraka.Services.Streaming
                         }
                     }
                     outputSamples = Math.Max(samplesRead, outputSamples);
-                    
+
                     // Crossfading logic : trigger PlayNextRequested milliseconds before current sample has finished playing
                     if (source is CachedSoundSampleProvider sampleProvider &&
                         sampleProvider.LengthOfUnplayedData < _app.Settings.CrossfadingValue &&
@@ -140,7 +141,7 @@ namespace Baraka.Services.Streaming
                         PlayNextRequested?.Invoke();
                         wasPlayNextRequested = true;
                     } 
-                    
+
                     if (samplesRead < count)
                     {
                         MixerInputEnded?.Invoke(this, new SampleProviderEventArgs(source));
@@ -161,6 +162,7 @@ namespace Baraka.Services.Streaming
                 }
                 outputSamples = count;
             }
+
             return outputSamples;
         }
     }
