@@ -8,7 +8,7 @@
              xmlns:pagevm="clr-namespace:Baraka.ViewModels.UserControls.Player.Pages"
              xmlns:pagedesignvm="clr-namespace:Baraka.ViewModels.UserControls.Player.Pages.Design"
              xmlns:design="clr-namespace:Baraka.ViewModels.UserControls.Player.Design"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:behaviors="clr-namespace:Baraka.Behaviors"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=design:PlayerDesignViewModel, IsDesignTimeCreatable=True}"

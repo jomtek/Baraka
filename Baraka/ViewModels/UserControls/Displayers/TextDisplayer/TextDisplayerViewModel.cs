@@ -11,6 +11,7 @@ using Baraka.Services.Streaming;
 using System.Threading;
 using System.Windows;
 using Baraka.Utils.MVVM;
+using Baraka.Commands.UserControls.Displayers.TextDisplayer;
 
 namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
 {
@@ -52,6 +53,7 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
         }
 
         public ICommand SwitchVerseCommand { get; }
+        private ICommand _cursorIncrementCommand { get; }
         public TextDisplayerViewModel(BookmarkState bookmark, AppState app, SoundStreamingService streamingService)
         {
             Bookmark = bookmark;
@@ -75,6 +77,8 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
                 }
             });
 
+            _cursorIncrementCommand = new CursorIncrementCommand(bookmark, app, streamingService);
+
             // Events
             App.SelectedSuraStore.ValueChanged += () =>
             {
@@ -83,41 +87,7 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
 
             streamingService.CursorIncrementRequested += () =>
             {
-                if (!_bookmark.CurrentVerseStore.Value.IsLast())
-                {
-                    // The case in which the sura has to change
-                    if (_bookmark.CurrentVerseStore.Value.Next().Sura > _bookmark.CurrentVerseStore.Value.Sura)
-                    {
-                        var sura = SuraInfoService.FromNumber(_bookmark.CurrentVerseStore.Value.Next().Sura);
-                        App.SelectedSuraStore.Value = sura;
-                    }
-
-                    if (_bookmark.IsLooping)
-                    {
-                        // Check if the loop has finished its cycle
-                        if (_bookmark.CurrentVerseStore.Value.Number == _bookmark.EndVerseStore.Value)
-                        {
-                            // Re-start the cycle once it's finished
-                            _bookmark.CurrentVerseStore.Value = new VerseLocationModel(
-                                _bookmark.CurrentVerseStore.Value.Sura,
-                                _bookmark.StartVerseStore.Value
-                            );
-                        }
-                        else
-                        {
-                            _bookmark.CurrentVerseStore.Value = _bookmark.CurrentVerseStore.Value.Next();
-                        }
-                    }
-                    else
-                    {
-                        _bookmark.CurrentVerseStore.Value = _bookmark.CurrentVerseStore.Value.Next();
-                        _bookmark.EndVerseStore.Value = _bookmark.CurrentVerseStore.Value.Number;
-                    }
-                }
-                else
-                {
-                    streamingService.Pause();
-                }
+                _cursorIncrementCommand.Execute(null);
             };
         }
 

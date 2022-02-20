@@ -8,7 +8,7 @@
       d:DataContext="{d:DesignInstance Type={x:Type design:SuraTabDesignViewModel}, IsDesignTimeCreatable=True}"
       xmlns:local="clr-namespace:Baraka.Views.UserControls.Player.Pages"
       xmlns:behaviors="clr-namespace:Baraka.Behaviors"
-      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       mc:Ignorable="d"
       x:Name="UC"
       d:DesignHeight="320" d:DesignWidth="580"

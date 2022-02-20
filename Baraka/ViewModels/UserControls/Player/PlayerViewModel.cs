@@ -146,21 +146,14 @@ namespace Baraka.ViewModels.UserControls.Player
             };
 
             // Commands
-            // TODO: move all of these commands in separate classes to keep the workspace tidy
             ScrollCommand = new RelayCommand((param) =>
-            {
-                _scrollStateStore.Value = ScrollState;
-            });
+                { _scrollStateStore.Value = ScrollState; });
 
             QariTabSelectedCommand = new RelayCommand((param) =>
-            {
-                QariTabSelected = !QariTabSelected;
-            });
+                { QariTabSelected = !QariTabSelected; });
 
             SuraTabSelectedCommand = new RelayCommand((param) =>
-            {
-                SuraTabSelected = !SuraTabSelected;
-            });
+                { SuraTabSelected = !SuraTabSelected; });
 
             NextSuraCommand = new RelayCommand(
                 (param) =>

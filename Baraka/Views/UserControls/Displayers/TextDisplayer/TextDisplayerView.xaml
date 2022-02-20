@@ -8,7 +8,7 @@
       xmlns:converters="clr-namespace:Baraka.Converters.TextDisplayer"
       xmlns:bmconverters="clr-namespace:Baraka.Converters.TextDisplayer.Bookmark"
       xmlns:behaviors="clr-namespace:Baraka.Behaviors"
-      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       d:DataContext="{d:DesignInstance Type=design:TextDisplayerDesignViewModel, IsDesignTimeCreatable=True}"
       mc:Ignorable="d" 
       d:DesignHeight="600">
