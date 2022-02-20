@@ -113,6 +113,13 @@ namespace Baraka.ViewModels.UserControls.Player
             }
         }
 
+        private bool _loopMode = false;
+        public bool Loopmode
+        {
+            get { return _loopMode; }
+            set { _loopMode = value; OnPropertyChanged(nameof(Loopmode)); }
+        }
+
         public ICommand ScrollCommand { get; }
         public ICommand QariTabSelectedCommand { get; }
         public ICommand SuraTabSelectedCommand { get; }
@@ -120,6 +127,7 @@ namespace Baraka.ViewModels.UserControls.Player
         public ICommand PreviousSuraCommand { get; }
         public ICommand PlayerPausedCommand { get; }
         public ICommand PlayerResumedCommand { get; }
+        public ICommand LoopmodeToggledCommand { get; }
         public PlayerViewModel(AppState app, BookmarkState bookmark, SoundStreamingService streamingService)
         {
             App = app;
@@ -192,6 +200,12 @@ namespace Baraka.ViewModels.UserControls.Player
             PlayerResumedCommand = new RelayCommand((param) =>
             {
                 streamingService.Resume();
+            });
+
+            LoopmodeToggledCommand = new RelayCommand((param) =>
+            {
+                Loopmode = !Loopmode;
+                bookmark.IsLooping = !bookmark.IsLooping;
             });
 
             // Tab

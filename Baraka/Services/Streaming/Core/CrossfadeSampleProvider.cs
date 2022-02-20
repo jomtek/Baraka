@@ -74,10 +74,6 @@ namespace Baraka.Services.Streaming
             {
                 WaveFormat = mixerInput.WaveFormat;
             }
-            /*else if (WaveFormat.Channels != mixerInput.WaveFormat.Channels)
-            {
-
-            }*/
             else if (WaveFormat.SampleRate != mixerInput.WaveFormat.SampleRate ||
                      WaveFormat.Channels != mixerInput.WaveFormat.Channels)
             {

@@ -38,6 +38,12 @@ namespace Baraka.Views.UserControls.Displayers.TextDisplayer
             set { SetValue(IsOutspreadProperty, value); }
         }
 
+        public bool IsLooping
+        {
+            get { return (bool)GetValue(IsLoopingProperty); }
+            set { SetValue(IsLoopingProperty, value); }
+        }
+
         public static readonly DependencyProperty IsBeginningProperty =
             DependencyProperty.Register("IsBeginning", typeof(bool), typeof(BookmarkView), new PropertyMetadata(false));
 
@@ -46,6 +52,9 @@ namespace Baraka.Views.UserControls.Displayers.TextDisplayer
 
         public static readonly DependencyProperty IsOutspreadProperty =
             DependencyProperty.Register("IsOutspread", typeof(bool), typeof(BookmarkView), new PropertyMetadata(false));
+
+        public static readonly DependencyProperty IsLoopingProperty =
+            DependencyProperty.Register("IsLooping", typeof(bool), typeof(BookmarkView), new PropertyMetadata(false));
 
         public BookmarkView()
         {

@@ -13,7 +13,7 @@ namespace Baraka.Models.State
             set { _isPlaying = value; OnPropertyChanged(nameof(IsPlaying)); }
         }
 
-        private bool _isLooping;
+        private bool _isLooping = false;
         public bool IsLooping
         {
             get { return _isLooping; }

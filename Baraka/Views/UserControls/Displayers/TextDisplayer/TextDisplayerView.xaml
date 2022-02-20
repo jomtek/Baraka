@@ -88,6 +88,10 @@
                     </Grid.ColumnDefinitions>
 
                     <local:BookmarkView Grid.Column="0">
+                        <local:BookmarkView.IsLooping>
+                            <Binding ElementName="VersesLB" Path="DataContext.Bookmark.IsLooping" />
+                        </local:BookmarkView.IsLooping>
+                        
                         <local:BookmarkView.IsBeginning>
                             <MultiBinding Converter="{StaticResource IsBeginningVmToBoolConverter}">
                                 <Binding ElementName="VersesLB" Path="DataContext.Bookmark.StartVerseStore.Value" />

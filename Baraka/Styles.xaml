@@ -91,9 +91,29 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!-- Other styles -->
+    <Style x:Key="ReactiveStyle">
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="Control.MouseEnter">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Opacity" To="0.6" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="Control.MouseLeave">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Opacity" To="1" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
     
     <!-- Button styles -->
-    <Style x:Key="MinimalisticButtonStyle" TargetType="{x:Type Button}">
+    <Style x:Key="MinimalisticButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ReactiveStyle}">
         <Setter Property="Cursor" Value="Hand" />
         
         <Setter Property="Template">
@@ -116,26 +136,5 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-       
-    </Style>
-
-    <!-- Other styles -->
-    <Style x:Key="ReactiveStyle">
-        <Style.Triggers>
-            <EventTrigger RoutedEvent="Control.MouseEnter">
-                <BeginStoryboard>
-                    <Storyboard>
-                        <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Opacity" To="0.6" />
-                    </Storyboard>
-                </BeginStoryboard>
-            </EventTrigger>
-            <EventTrigger RoutedEvent="Control.MouseLeave">
-                <BeginStoryboard>
-                    <Storyboard>
-                        <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetProperty="Opacity" To="1" />
-                    </Storyboard>
-                </BeginStoryboard>
-            </EventTrigger>
-        </Style.Triggers>
     </Style>
 </ResourceDictionary>

@@ -14,6 +14,8 @@
     <UserControl.Resources>
         <!-- Brushes -->
         <SolidColorBrush x:Key="NormalMode_Fill_Brush" Color="#038B4B" />
+        <SolidColorBrush x:Key="LoopMode_Stroke_Brush" Color="#D9D544" />
+        <SolidColorBrush x:Key="LoopMode_Fill_Brush" Color="#EBE651" />
         
         <!-- Converters -->
         <converters:BoolToHeightConverter x:Key="BoolToHeightConverter" />
@@ -40,22 +42,54 @@
             </Style>
         </Grid.Style>
         <Grid.RowDefinitions>
-            <RowDefinition Height="{qc:Binding '$P ? 6 : 0', P={Binding Path=IsBeginning,ElementName=UC}}" />
+            <RowDefinition Height="{qc:Binding '$P ? 7 : 0', P={Binding Path=IsBeginning,ElementName=UC}}" />
             <RowDefinition Height="*" />
             <RowDefinition Height="{qc:Binding '$P ? 18 : 0', P={Binding Path=IsEnding, ElementName=UC}}" />
         </Grid.RowDefinitions>
 
-        <Rectangle Grid.Row="0" Fill="{StaticResource DarkColorBrush}" />
+        <Rectangle Grid.Row="0">
+            <Rectangle.Style>
+                <Style TargetType="Rectangle">
+                    <Setter Property="Fill" Value="{StaticResource DarkColorBrush}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsLooping, ElementName=UC}" Value="True">
+                            <Setter Property="Fill" Value="{StaticResource LoopMode_Stroke_Brush}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Rectangle.Style>
+        </Rectangle>
 
-        <Border Grid.Row="1" Margin="0 0 0 -4" BorderThickness="6 0 6 0"
-                Background="{StaticResource NormalMode_Fill_Brush}" BorderBrush="{StaticResource DarkColorBrush}" />
+        <Border Grid.Row="1" Margin="0 0 0 -4" BorderThickness="7 0 7 0">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Background" Value="{StaticResource NormalMode_Fill_Brush}" />
+                    <Setter Property="BorderBrush" Value="{StaticResource DarkColorBrush}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsLooping, ElementName=UC}" Value="True">
+                            <Setter Property="Background" Value="{StaticResource LoopMode_Fill_Brush}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource LoopMode_Stroke_Brush}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
 
         <Grid Grid.Row="2" HorizontalAlignment="Stretch">
-            <Path x:Name="DownPath" Data="M 40,10 L 40,30 L 60,10 L 80,30 L 80,10"
-                  StrokeThickness="6" Stretch="Fill" Margin="0" Fill="{StaticResource NormalMode_Fill_Brush}" >
-                <Path.Stroke>
-                    <SolidColorBrush Color="{StaticResource DarkColor}"/>
-                </Path.Stroke>
+            <Path x:Name="DownPath"
+                  Data="M 40,10 L 40,30 L 60,10 L 80,30 L 80,10" StrokeThickness="7" Stretch="Fill">
+                <Path.Style>
+                    <Style TargetType="Path">
+                        <Setter Property="Fill" Value="{StaticResource NormalMode_Fill_Brush}" />
+                        <Setter Property="Stroke" Value="{StaticResource DarkColorBrush}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsLooping, ElementName=UC}" Value="True">
+                                <Setter Property="Fill" Value="{StaticResource LoopMode_Fill_Brush}" />
+                                <Setter Property="Stroke" Value="{StaticResource LoopMode_Stroke_Brush}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Path.Style>
             </Path>
         </Grid>
     </Grid>

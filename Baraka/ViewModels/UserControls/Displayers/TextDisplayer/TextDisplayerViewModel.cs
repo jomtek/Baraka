@@ -92,8 +92,27 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
                         App.SelectedSuraStore.Value = sura;
                     }
 
-                    _bookmark.CurrentVerseStore.Value = _bookmark.CurrentVerseStore.Value.Next();
-                    _bookmark.EndVerseStore.Value = _bookmark.CurrentVerseStore.Value.Number;
+                    if (_bookmark.IsLooping)
+                    {
+                        // Check if the loop has finished its cycle
+                        if (_bookmark.CurrentVerseStore.Value.Number == _bookmark.EndVerseStore.Value)
+                        {
+                            // Re-start the cycle once it's finished
+                            _bookmark.CurrentVerseStore.Value = new VerseLocationModel(
+                                _bookmark.CurrentVerseStore.Value.Sura,
+                                _bookmark.StartVerseStore.Value
+                            );
+                        }
+                        else
+                        {
+                            _bookmark.CurrentVerseStore.Value = _bookmark.CurrentVerseStore.Value.Next();
+                        }
+                    }
+                    else
+                    {
+                        _bookmark.CurrentVerseStore.Value = _bookmark.CurrentVerseStore.Value.Next();
+                        _bookmark.EndVerseStore.Value = _bookmark.CurrentVerseStore.Value.Number;
+                    }
                 }
                 else
                 {

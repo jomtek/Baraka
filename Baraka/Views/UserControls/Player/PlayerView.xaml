@@ -26,14 +26,17 @@
             <Setter Property="Data" Value="M6.79,23.3H2.263A2.264,2.264,0,0,1,0,21.04V4.443A2.264,2.264,0,0,1,2.263,2.18H6.79A2.264,2.264,0,0,1,9.053,4.443v16.6A2.264,2.264,0,0,1,6.79,23.3ZM21.123,21.04V4.443A2.264,2.264,0,0,0,18.86,2.18H14.333A2.264,2.264,0,0,0,12.07,4.443v16.6A2.264,2.264,0,0,0,14.333,23.3H18.86A2.264,2.264,0,0,0,21.123,21.04Z" />
         </Style>
 
-        <Style x:Key="Forward" TargetType="{x:Type Path}" BasedOn="{StaticResource ReactiveStyle}">
+        <Style x:Key="Forward" TargetType="{x:Type Path}">
             <Setter Property="Data" Value="M384 44v424c0 6.6-5.4 12-12 12h-48c-6.6 0-12-5.4-12-12V291.6l-195.5 181C95.9 489.7 64 475.4 64 448V64c0-27.4 31.9-41.7 52.5-24.6L312 219.3V44c0-6.6 5.4-12 12-12h48c6.6 0 12 5.4 12 12z" />
         </Style>
 
-        <Style x:Key="Backward" TargetType="{x:Type Path}" BasedOn="{StaticResource ReactiveStyle}">
+        <Style x:Key="Backward" TargetType="{x:Type Path}">
             <Setter Property="Data" Value="M64 468V44c0-6.6 5.4-12 12-12h48c6.6 0 12 5.4 12 12v176.4l195.5-181C352.1 22.3 384 36.6 384 64v384c0 27.4-31.9 41.7-52.5 24.6L136 292.7V468c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12z" />
         </Style>
-        
+
+        <Style x:Key="Repeat" TargetType="{x:Type Path}">
+            <Setter Property="Data" Value="M480 256c-17.67 0-32 14.31-32 32c0 52.94-43.06 96-96 96H192L192 344c0-9.469-5.578-18.06-14.23-21.94C169.1 318.3 159 319.8 151.9 326.2l-80 72C66.89 402.7 64 409.2 64 416s2.891 13.28 7.938 17.84l80 72C156.4 509.9 162.2 512 168 512c3.312 0 6.615-.6875 9.756-2.062C186.4 506.1 192 497.5 192 488L192 448h160c88.22 0 160-71.78 160-160C512 270.3 497.7 256 480 256zM160 128h159.1L320 168c0 9.469 5.578 18.06 14.23 21.94C337.4 191.3 340.7 192 343.1 192c5.812 0 11.57-2.125 16.07-6.156l80-72C445.1 109.3 448 102.8 448 95.1s-2.891-13.28-7.938-17.84l-80-72c-7.047-6.312-17.19-7.875-25.83-4.094C325.6 5.938 319.1 14.53 319.1 24L320 64H160C71.78 64 0 135.8 0 224c0 17.69 14.33 32 32 32s32-14.31 32-32C64 171.1 107.1 128 160 128z" />
+        </Style>
 
         <!-- Storyboards -->
         <Storyboard x:Key="OpenPlayerStory">
@@ -44,7 +47,7 @@
             <ThicknessAnimation Storyboard.TargetName="BGBorder" Storyboard.TargetProperty="Margin" Duration="0:0:0.35" To="0" />
             <DoubleAnimation Storyboard.TargetName="SeparatorRect" Storyboard.TargetProperty="Width" Duration="0:0:0.35" To="450" />
         </Storyboard>
-        
+
         <Storyboard x:Key="ClosePlayerStory">
             <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="Opacity" Duration="0:0:0.05" To="0" />
             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ContentGrid">
@@ -53,7 +56,6 @@
             <ThicknessAnimation Storyboard.TargetName="BGBorder" Storyboard.TargetProperty="Margin" Duration="0:0:0.35" To="0 0 0 -680" />
             <DoubleAnimation Storyboard.TargetName="SeparatorRect" Storyboard.TargetProperty="Width" Duration="0:0:0.35" To="0" />
         </Storyboard>
-
     </UserControl.Resources>
 
     <!-- Let's wrap all the layout in a Viewbox so that some important values can be hardcoded -->
@@ -64,21 +66,39 @@
 
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="15" /> <!-- Top margin    -->
-                    <RowDefinition Height="8*" /> <!-- Content       -->
-                    <RowDefinition Height="2" />  <!-- Margin        -->
-                    <RowDefinition Height="7"  /> <!-- Separator     -->
-                    <RowDefinition Height="2*" /> <!-- Control panel -->
+                    <!-- Top margin    -->
+                    <RowDefinition Height="15" />
+                    
+                    <!-- Content       -->
+                    <RowDefinition Height="8*" />
+                    
+                    <!-- Margin        -->
+                    <RowDefinition Height="2" />
+                    
+                    <!-- Separator     -->
+                    <RowDefinition Height="7"  />
+                    
+                    <!-- Control panel -->
+                    <RowDefinition Height="2*" />
                 </Grid.RowDefinitions>
 
                 <!-- Content display -->
                 <Grid x:Name="ContentGrid" Grid.Row="1">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"   />  <!-- Left margin  -->
-                        <ColumnDefinition Width="580" />  <!-- Content      -->
-                        <ColumnDefinition Width="*"   />  <!-- Margin       -->
-                        <ColumnDefinition Width="35"  />  <!-- Scrollbar    -->
-                        <ColumnDefinition Width="*"   />  <!-- Right margin -->
+                        <!-- Left margin  -->
+                        <ColumnDefinition Width="*"   />
+                        
+                        <!-- Content      -->
+                        <ColumnDefinition Width="580" />
+                        
+                        <!-- Margin       -->
+                        <ColumnDefinition Width="*"   />
+                        
+                        <!-- Scrollbar    -->
+                        <ColumnDefinition Width="35"  />
+                        
+                        <!-- Right margin -->
+                        <ColumnDefinition Width="*"   />
                     </Grid.ColumnDefinitions>
 
                     <ContentControl x:Name="CC" Grid.Column="1" Content="{Binding CurrentPage}">
@@ -89,7 +109,7 @@
                             <DataTemplate DataType="{x:Type pagedesignvm:QariTabDesignViewModel}">
                                 <pagev:QariTabView />
                             </DataTemplate>
-                            
+
                             <DataTemplate DataType="{x:Type pagevm:SuraTabViewModel}">
                                 <pagev:SuraTabView />
                             </DataTemplate>
@@ -109,7 +129,7 @@
                         </i:Interaction.Triggers>
                     </ScrollBar>
                 </Grid>
-                
+
                 <!-- Separator -->
                 <Rectangle x:Name="SeparatorRect" Grid.Row="3" Fill="LightGray" RadiusX="3" RadiusY="3" HorizontalAlignment="Center"
                            Width="450" />
@@ -117,10 +137,14 @@
                 <!-- Control panel -->
                 <Grid Grid.Row="4">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="5" /> <!-- Margin -->
+                        <!-- Margin -->
+                        <RowDefinition Height="5" />
+                        
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
-                        <RowDefinition Height="3" /> <!-- Margin -->
+                        
+                        <!-- Margin -->
+                        <RowDefinition Height="3" />
                     </Grid.RowDefinitions>
 
                     <!-- Backward, play/pause, forward -->
@@ -130,9 +154,11 @@
                             <RowDefinition Height="25" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        
-                        <Grid Grid.Row="1" HorizontalAlignment="Center">
+
+                        <Grid Grid.Row="1" HorizontalAlignment="Center" Margin="40 0 0 0">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="25" />
+                                <ColumnDefinition Width="15" />
                                 <ColumnDefinition Width="25" />
                                 <ColumnDefinition Width="15" />
                                 <ColumnDefinition Width="25" />
@@ -149,7 +175,7 @@
                                     </Style.Triggers>
                                 </Style>
                             </Grid.Resources>
-                            
+
                             <Button Grid.Column="0"
                                     Command="{Binding PreviousSuraCommand}">
                                 <Path Style="{StaticResource Backward}" Fill="Black" Stretch="Fill" />
@@ -166,7 +192,7 @@
                                         <i:InvokeCommandAction Command="{Binding PlayerPausedCommand}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-                                
+
                                 <ToggleButton.Style>
                                     <Style TargetType="ToggleButton" BasedOn="{StaticResource ReactiveStyle}">
                                         <Setter Property="Template">
@@ -178,14 +204,14 @@
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
-                                        
+
                                         <!-- Paused -->
                                         <Setter Property="Content">
                                             <Setter.Value>
                                                 <Path Style="{StaticResource Play}" Fill="Black" Stretch="Fill" />
                                             </Setter.Value>
                                         </Setter>
-    
+
                                         <Style.Triggers>
                                             <Trigger Property="IsChecked" Value="True">
                                                 <!-- Playing -->
@@ -200,10 +226,33 @@
                                     </Style>
                                 </ToggleButton.Style>
                             </ToggleButton>
-                            
+
                             <Button Grid.Column="4"
                                     Command="{Binding NextSuraCommand}">
                                 <Path Style="{StaticResource Forward}" Fill="Black" Stretch="Fill" />
+                            </Button>
+
+                            <Button Grid.Column="6"
+                                    Command="{Binding LoopmodeToggledCommand}">
+                                <Path Stretch="Fill">
+                                    <Path.Style>
+                                        <Style TargetType="Path" BasedOn="{StaticResource Repeat}">
+                                            <Setter Property="Fill" Value="Gray" />
+                                            <Setter Property="Stroke" Value="Gray" />
+                                            
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Loopmode}" Value="True">
+                                                    <Setter Property="Fill" Value="Goldenrod" />
+                                                    <Setter Property="Stroke" Value="Goldenrod" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Loopmode}" Value="False">
+                                                    <Setter Property="Fill" Value="Gray" />
+                                                    <Setter Property="Stroke" Value="Gray" />
+                                                </DataTrigger>
+                                            </Style.Triggers>      
+                                        </Style>
+                                    </Path.Style>
+                                </Path>
                             </Button>
                         </Grid>
                     </Grid>
@@ -228,7 +277,7 @@
                                 <Setter Property="FontWeight" Value="ExtraBlack" />
 
                                 <Setter Property="Cursor" Value="Hand" />
-                                
+
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=(behaviors:SelectableObjBehavior.Selected),
                                                                    RelativeSource={x:Static RelativeSource.Self}}"
@@ -256,7 +305,7 @@
                                     <i:InvokeCommandAction Command="{Binding SuraTabSelectedCommand}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-                            
+
                             <TextBlock Text="{Binding App.SelectedSuraStore.Value.PhoneticName}"
                                        behaviors:SelectableObjBehavior.Selected="{Binding SuraTabSelected}" />
                         </Viewbox>
