@@ -97,11 +97,6 @@ namespace Baraka.ViewModels.UserControls.Player.Pages
                     return App.SelectedSuraStore.Value != (SuraModel)sura;
                 }
             );
-
-            App.SelectedSuraStore.ValueChanged += () =>
-            {
-                CollectionViewSource.GetDefaultView(SuraList).Refresh();
-            };
             
             SearchCommand = new SearchCommand(this);
         }

@@ -37,19 +37,6 @@ namespace Baraka.Commands.UserControls.Displayers.TextDisplayer
 
         public void Execute(object parameter)
         {
-            if (!_bookmark.CurrentVerseStore.Value.IsLast())
-            {
-                _streamingService.Pause();
-                return;
-            }
-
-            // The case in which the sura has to change
-            if (_bookmark.CurrentVerseStore.Value.Next().Sura > _bookmark.CurrentVerseStore.Value.Sura)
-            {
-                var sura = SuraInfoService.FromNumber(_bookmark.CurrentVerseStore.Value.Next().Sura);
-                _appState.SelectedSuraStore.Value = sura;
-            }
-
             if (_bookmark.IsLooping)
             {
                 // Check if the loop has finished its cycle
@@ -68,8 +55,24 @@ namespace Baraka.Commands.UserControls.Displayers.TextDisplayer
             }
             else
             {
-                _bookmark.CurrentVerseStore.Value = _bookmark.CurrentVerseStore.Value.Next();
-                _bookmark.EndVerseStore.Value = _bookmark.CurrentVerseStore.Value.Number;
+                if (_bookmark.CurrentVerseStore.Value.IsLast())
+                {
+                    _streamingService.Pause();
+                }
+                else if (_bookmark.CurrentVerseStore.Value.Next().Sura > _appState.SelectedSuraStore.Value.Number)
+                {
+                    // The case in which the sura has to change
+                    var sura = SuraInfoService.FromNumber(_bookmark.CurrentVerseStore.Value.Next().Sura);
+                    _appState.SelectedSuraStore.Value = sura;
+
+                    _bookmark.GoToSura(sura);
+                    _streamingService.RefreshCursor();
+                }
+                else
+                {
+                    _bookmark.CurrentVerseStore.Value = _bookmark.CurrentVerseStore.Value.Next();
+                    _bookmark.EndVerseStore.Value = _bookmark.CurrentVerseStore.Value.Number;
+                }
             }
         }
     }

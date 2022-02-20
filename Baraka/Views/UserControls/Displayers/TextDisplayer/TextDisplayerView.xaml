@@ -7,6 +7,7 @@
       xmlns:design="clr-namespace:Baraka.ViewModels.UserControls.Displayers.TextDisplayer.Design"
       xmlns:converters="clr-namespace:Baraka.Converters.TextDisplayer"
       xmlns:bmconverters="clr-namespace:Baraka.Converters.TextDisplayer.Bookmark"
+      xmlns:utils="clr-namespace:Baraka.Utils.MVVM;assembly=Baraka.Utils"
       xmlns:behaviors="clr-namespace:Baraka.Behaviors"
       xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       d:DataContext="{d:DesignInstance Type=design:TextDisplayerDesignViewModel, IsDesignTimeCreatable=True}"
@@ -14,6 +15,8 @@
       d:DesignHeight="600">
 
     <UserControl.Resources>
+        <utils:BindingProxy x:Key="Proxy" Data="{Binding}" />
+        
         <!-- Paths -->
         <Style x:Key="Polygon" TargetType="{x:Type Path}">
             <Setter Property="Data" Value="M28.6,9.9a14,14,0,0,1,19.8,0L67.1,28.6a14,14,0,0,1,0,19.8L48.4,67.1a14,14,0,0,1-19.8,0L9.9,48.4a14,14,0,0,1,0-19.8Z" />
@@ -150,6 +153,32 @@
                             <Path.Effect>
                                 <DropShadowEffect ShadowDepth="2" Opacity="0.2" BlurRadius="5" />
                             </Path.Effect>
+
+                            <Path.ContextMenu>
+                                <ContextMenu StaysOpen="True" FontFamily="Segoe UI" FontWeight="DemiBold" FontSize="17">
+                                    <ContextMenu.Style>
+                                        <Style TargetType="{x:Type ContextMenu}">
+                                            <Setter Property="ItemsPanel">
+                                                <Setter.Value>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Margin="-25,0,0,0" Background="White" />
+                                                    </ItemsPanelTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ContextMenu.Style>
+
+                                    <MenuItem Header="Se déplacer ici"                       Command="{Binding Source={StaticResource Proxy}, Path=Data.SwitchVerseCommand}"
+                                                                                             CommandParameter="{Binding}" />
+                                    <MenuItem Header="Commencer à partir d'ici"              Command="{Binding Source={StaticResource Proxy}, Path=Data.StartHereCmCommand}"
+                                                                                             CommandParameter="{Binding}" />
+                                    <Separator />
+                                    <MenuItem Header="Télécharger l'audio du verset"         Command="{Binding Source={StaticResource Proxy}, Path=Data.DownloadAudioCmCommand}"
+                                                                                             CommandParameter="{Binding}" />
+                                    <MenuItem Header="Copier le verset sur le presse-papier" Command="{Binding Source={StaticResource Proxy}, Path=Data.CopyTextCmCommand}"
+                                                                                             CommandParameter="{Binding}" />
+                                </ContextMenu>
+                            </Path.ContextMenu>
                         </Path>
 
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -161,7 +190,10 @@
                     <Border Grid.Column="4" Background="White" CornerRadius="10">
                         <Grid>
                             <Grid.Resources>
-                                <Style TargetType="TextBlock">
+                                <Style TargetType="TextBox">
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="BorderThickness" Value="0" />
+                                    <Setter Property="IsReadOnly" Value="True" />
                                     <Setter Property="TextWrapping" Value="Wrap" />
                                 </Style>
                             </Grid.Resources>
@@ -177,31 +209,32 @@
                             </Grid.RowDefinitions>
 
                             <TextBlock Grid.Row="1"
-                                        Margin="12 5 13 0"
-                                        HorizontalAlignment="Right" FlowDirection="RightToLeft"
-                                        FontSize="{Binding Converter={StaticResource ArabicVerseToFontSizeConverter}}"
-                                        FontFamily="{Binding Converter={StaticResource ArabicVerseToFontFamilyConverter}}"
-                                        behaviors:BindableInlinesBehavior.BindableInlines="{Binding Converter={StaticResource ArabicVerseToGlyphInlinesConverter}}" />
+                                       Margin="12 5 13 0"
+                                       HorizontalAlignment="Right" FlowDirection="RightToLeft"
+                                       TextWrapping="Wrap"
+                                       FontSize="{Binding Converter={StaticResource ArabicVerseToFontSizeConverter}}"
+                                       FontFamily="{Binding Converter={StaticResource ArabicVerseToFontFamilyConverter}}"
+                                       behaviors:BindableInlinesBehavior.BindableInlines="{Binding Converter={StaticResource ArabicVerseToGlyphInlinesConverter}}" />
 
-                            <TextBlock Grid.Row="2"
-                                        Text="{Binding Transliteration.Content}"
-                                        FontSize="17" Foreground="#FF6E6E6E"
-                                        Margin="12 15 12 5" />
+                            <TextBox Grid.Row="2"
+                                     Text="{Binding Transliteration.Content, Mode=OneWay}"
+                                     FontSize="17" Foreground="#FF6E6E6E"
+                                     Margin="12 15 12 5" />
 
-                            <TextBlock Grid.Row="3"
-                                        Text="{Binding Translation1.Content}"
-                                        FontSize="17.5"
-                                        Margin="12 5 12 0"/>
+                            <TextBox Grid.Row="3"
+                                     Text="{Binding Translation1.Content, Mode=OneWay}"
+                                     FontSize="17.5"
+                                     Margin="12 5 12 0"/>
 
-                            <TextBlock Grid.Row="4"
-                                        Text="{Binding Translation2.Content}"
-                                        FontSize="17.5"
-                                        Margin="12 5 12 5"/>
+                            <TextBox Grid.Row="4"
+                                     Text="{Binding Translation2.Content, Mode=OneWay}"
+                                     FontSize="17.5"
+                                     Margin="12 5 12 5"/>
 
-                            <TextBlock Grid.Row="5"
-                                        Text="{Binding Translation3.Content}"
-                                        FontSize="17.5"
-                                        Margin="12 5 12 0" />
+                            <TextBox Grid.Row="5"
+                                     Text="{Binding Translation3.Content, Mode=OneWay}"
+                                     FontSize="17.5"
+                                     Margin="12 5 12 0" />
                         </Grid>
                     </Border>
                 </Grid>

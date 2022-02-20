@@ -21,7 +21,7 @@
         </Style>
 
         <!-- Converters -->
-        <converters:SelectedSuraToBrushConverter x:Key="SelectedSuraToBrushConverter" />
+        <converters:BoolToBrushConverter x:Key="BoolToBrushConverter" />
     </UserControl.Resources>
 
     <Grid>
@@ -80,21 +80,17 @@
                                 <TextBlock Grid.Column="3" VerticalAlignment="Center"
                                        Text="{Binding TranslatedName}" FontFamily="Alef" FontSize="16" Foreground="Gray"  />
 
-                                <Button Grid.Column="5" Height="21" Cursor="Hand"
+                                <Button x:Name="CloudBTN" Grid.Column="5"
+                                        Height="21" Cursor="Hand"
                                         Style="{StaticResource MinimalisticButtonStyle}"
                                         Command="{Binding ElementName=SuraListIC, Path=DataContext.SuraSelectedCommand}"
                                         CommandParameter="{Binding}">
 
-                                    <Path Stretch="Fill"
-                                          Style="{StaticResource Cloud}">
-                                        <Path.Fill>
-                                            <MultiBinding Converter="{StaticResource SelectedSuraToBrushConverter}">
-                                                <Binding />
-                                                <Binding ElementName="SuraListIC" Path="DataContext.App" />
-                                            </MultiBinding>
-                                        </Path.Fill>
+                                    <Path Stretch="Fill" Style="{StaticResource Cloud}"
+                                          Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}},
+                                                         Path=IsEnabled,
+                                                         Converter={StaticResource BoolToBrushConverter}}">
                                     </Path>
-                                          <!--="{Binding Converter={StaticResource SelectedSuraToBrushConverter}}" />-->
                                 </Button>
                             </Grid>
 

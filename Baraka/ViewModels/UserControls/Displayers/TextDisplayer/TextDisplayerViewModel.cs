@@ -52,8 +52,13 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
             }
         }
 
-        public ICommand SwitchVerseCommand { get; }
         private ICommand _cursorIncrementCommand { get; }
+
+        public ICommand SwitchVerseCommand { get; }
+        public ICommand MoveHereCmCommand { get; }
+        public ICommand StartHereCmCommand { get; }
+        public ICommand DownloadAudioCmCommand { get; }
+        public ICommand CopyTextCmCommand { get; }
         public TextDisplayerViewModel(BookmarkState bookmark, AppState app, SoundStreamingService streamingService)
         {
             Bookmark = bookmark;
@@ -63,6 +68,10 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
             LoadSura(App.SelectedSuraStore.Value);
 
             // Commands
+
+            _cursorIncrementCommand = new CursorIncrementCommand(Bookmark, App, streamingService);
+
+            // Verse polygon context-menu commands
             SwitchVerseCommand = new RelayCommand((param) =>
             {
                 if (param is TextualVerseModel verse)
@@ -77,7 +86,23 @@ namespace Baraka.ViewModels.UserControls.Displayers.TextDisplayer
                 }
             });
 
-            _cursorIncrementCommand = new CursorIncrementCommand(bookmark, app, streamingService);
+            StartHereCmCommand = new RelayCommand((param) =>
+            {
+                if (param is TextualVerseModel verse)
+                {
+                    Bookmark.StartVerseStore.Value = verse.Location.Number;
+                    if (verse.Location.Number > Bookmark.EndVerseStore.Value ||
+                        verse.Location.Number > Bookmark.CurrentVerseStore.Value.Number)
+                    {
+                        if (verse.Location.Number > Bookmark.EndVerseStore.Value)
+                        {
+                            Bookmark.EndVerseStore.Value = verse.Location.Number;
+                        }
+                        Bookmark.CurrentVerseStore.Value = verse.Location;
+                        streamingService.RefreshCursor();
+                    }
+                }
+            });
 
             // Events
             App.SelectedSuraStore.ValueChanged += () =>
