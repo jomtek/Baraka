@@ -11,6 +11,7 @@
         xmlns:playerdesignvms="clr-namespace:Baraka.ViewModels.UserControls.Player.Design"
         xmlns:textdisplayervms="clr-namespace:Baraka.ViewModels.UserControls.Displayers.TextDisplayer"
         xmlns:textdisplayerv="clr-namespace:Baraka.Views.UserControls.Displayers.TextDisplayer"
+        xmlns:mushafdisplayerv="clr-namespace:Baraka.Views.UserControls.Displayers.MushafDisplayer"
         xmlns:viewmodels="clr-namespace:Baraka.ViewModels"
         xmlns:designviewmodels="clr-namespace:Baraka.ViewModels.Design"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
@@ -19,7 +20,7 @@
         WindowStartupLocation="CenterScreen"
         Title="MainWindow"
         d:DesignHeight="800" d:DesignWidth="1200"
-        MinHeight="250" MinWidth="1200">
+        MinHeight="250" MinWidth="650">
 
     <Window.Resources>
         <!-- Paths -->
@@ -35,12 +36,12 @@
     </Window.Resources>
     
     <Grid ClipToBounds="True" Background="{StaticResource LightColorBrush}">
-        <Grid Margin="57 0 0 0">
+        <Grid Margin="60 0 0 0">
             <Grid x:Name="DisplayerGrid" HorizontalAlignment="Center" Focusable="False"
                   PreviewMouseWheel="DisplayerGrid_PreviewMouseWheel">
-                <Grid.LayoutTransform>
+                <!--<Grid.LayoutTransform>
                     <ScaleTransform x:Name="ScaleTransformer" ScaleX="{Binding DisplayerScale}" ScaleY="{Binding DisplayerScale}" />
-                </Grid.LayoutTransform>
+                </Grid.LayoutTransform>-->
 
                 <!-- How do I pass event args to my command?
                      Unless someone has a solution to this problem, I will do
@@ -54,14 +55,15 @@
                 </i:Interaction.Triggers>
                 -->
 
-                <textdisplayerv:TextDisplayerView DataContext="{Binding DisplayerContext}" />
+                <!--<textdisplayerv:TextDisplayerView DataContext="{Binding DisplayerContext}" />-->
+                <mushafdisplayerv:MushafDisplayerView Background="White" DataContext="{Binding DisplayerContext}"  />
             </Grid>
             
             <Grid>
                 <Grid.ColumnDefinitions >
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="95"/>
-                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="10"/> <!-- Aesthetical offset -->
+                    <ColumnDefinition Width="4*" MinWidth="500"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 

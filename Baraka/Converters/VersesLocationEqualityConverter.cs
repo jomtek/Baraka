@@ -7,17 +7,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace Baraka.Converters.TextDisplayer
+namespace Baraka.Converters
 {
-    public class VersesEqualityConverter : IMultiValueConverter
+    public class VersesLocationEqualityConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0] is TextualVerseModel verse && values[1] is VerseLocationModel location)
+            if (values[0] is VerseLocationModel location1 && values[1] is VerseLocationModel location2)
             {
-                return verse.Location.Equals(location);
+                return location1.Equals(location2);
             }
-            return false;
+
+            throw new NotImplementedException();
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

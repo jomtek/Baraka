@@ -16,7 +16,7 @@ namespace Baraka.Models
         {
             return new AppSettingsModel()
             {
-                CrossfadingValue = 15000,
+                CrossfadingValue = 5000,
                 AudioCacheLength = 10,
             };
         }

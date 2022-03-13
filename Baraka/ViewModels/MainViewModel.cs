@@ -3,11 +3,13 @@ using Baraka.Services.Streaming;
 using Baraka.Utils.MVVM;
 using Baraka.Utils.MVVM.Command;
 using Baraka.Utils.MVVM.ViewModel;
+using Baraka.ViewModels.UserControls.Displayers.MushafDisplayer;
 using Baraka.ViewModels.UserControls.Displayers.TextDisplayer;
 using Baraka.ViewModels.UserControls.Player;
 using Baraka.ViewModels.UserControls.Player.Design;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +19,9 @@ namespace Baraka.ViewModels
 {
     public class MainViewModel : NotifiableBase
     {
-        private double _displayerScale = 1.1;
+        public bool IsMushafSelected = true;
+
+        private double _displayerScale = 1.2;
         public double DisplayerScale
         {
             get { return _displayerScale; }
@@ -29,7 +33,14 @@ namespace Baraka.ViewModels
         public ICommand ZoomCommand { get; }
         public MainViewModel(TextDisplayerViewModel displayerVm, PlayerViewModel playerVm)
         {
-            DisplayerContext = displayerVm;
+            if (!IsMushafSelected)
+            {
+                DisplayerContext = displayerVm;
+            }
+            else
+            {
+                DisplayerContext = new MushafDisplayerViewModel();
+            }
             PlayerContext = playerVm;
 
             ZoomCommand = new RelayCommand((param) =>
@@ -38,18 +49,25 @@ namespace Baraka.ViewModels
                 {
                     if (delta > 0)
                     {
-                        if (DisplayerScale < 1.65)
+                        if (DisplayerScale < 2)
                         {
                             DisplayerScale += 0.15;
                         }
                     }
                     else
                     {
-                        if (DisplayerScale > 1.1)
+                        if (DisplayerScale >= 1.2 + 0.15)
                         {
                             DisplayerScale -= 0.15;
                         }
                     }
+
+                    // Apply zoom scale to the mushaf displayer
+                    // Our goal is to convert a scale to a mushaf font size
+                    // We will achieve this by using the rule of three
+                    // 1.2 scale     13.5 font size
+                    // x   scale     ?    font size 
+                    (DisplayerContext as MushafDisplayerViewModel).FontSize = (DisplayerScale * 13.5) / 1.2;
                 }
             });
         }

@@ -1,0 +1,100 @@
+﻿<ContentControl x:Class="Baraka.Views.UserControls.Displayers.MushafDisplayer.MushafPageView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:converters="clr-namespace:Baraka.Converters.MushafDisplayer"
+      xmlns:local="clr-namespace:Baraka.Views.UserControls.Displayers.MushafDisplayer"
+      mc:Ignorable="d" 
+      Height="400" d:Background="White"
+      DataContextChanged="UserControl_DataContextChanged">
+
+    <ContentControl.Resources>
+        <converters:MushafGlyphTypeToFontUriConverter x:Key="MushafGlyphTypeToFontUriConverter" />
+        <converters:MushafLineToSuraTransitionVisibilityConverter x:Key="MushafLineToSuraTransitionVisibilityConverter" />
+        <converters:VerseLocationsToVisibilityConverter x:Key="VerseLocationsToVisibilityConverter" />
+    </ContentControl.Resources>
+
+    <StackPanel>
+        <ScrollViewer>
+            <StackPanel x:Name="LinesSP" Margin="18 0 18 0"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                
+            </StackPanel>
+        </ScrollViewer>
+
+        <!--
+        <ScrollViewer x:Name="SV" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" >
+            <ListBox x:Name="LinesIC" ItemsSource="{Binding Lines}"
+                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                     VirtualizingPanel.IsVirtualizing="True">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Margin="18 0 18 0" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Rectangle Stroke="Black" StrokeThickness="1" RadiusX="7" RadiusY="7" Fill="LightGray"
+                                       Visibility="{Binding Glyphs, Converter={StaticResource MushafLineToSuraTransitionVisibilityConverter}}"
+                                       Width="250" />
+                            
+                            <Image Source="/Assets/Images/sura_transition.png" Width="250"
+                                   Visibility="{Binding Glyphs, Converter={StaticResource MushafLineToSuraTransitionVisibilityConverter}}"
+                                   Margin="0 -3 0 0" />
+
+                            <ItemsControl ItemsSource="{Binding Glyphs}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Glyphs FontRenderingEmSize = "{Binding ElementName=LinesIC, Path=DataContext.FontSize}"
+                                                    UnicodeString       = "{Binding DecodedData}"
+                                                    Fill                = "Black">
+
+                                                <Glyphs.FontUri>
+                                                    <MultiBinding Converter="{StaticResource MushafGlyphTypeToFontUriConverter}">
+                                                        <Binding Path="Type" />
+                                                        <Binding ElementName="LinesIC" Path="DataContext.Page" />
+                                                    </MultiBinding>
+                                                </Glyphs.FontUri>
+
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="MouseEnter">
+                                                        <i:InvokeCommandAction Command="{Binding ElementName=LinesIC, Path=DataContext.GlyphHoveredCommand}"
+                                                                               CommandParameter="{Binding}" />
+                                                    </i:EventTrigger>
+                                                    <i:EventTrigger EventName="MouseLeave">
+                                                        <i:InvokeCommandAction Command="{Binding ElementName=LinesIC, Path=DataContext.GlyphUnhoveredCommand}"
+                                                                               CommandParameter="{Binding}" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Glyphs>
+
+                                            <Rectangle Fill="Black" Opacity="0.15" IsHitTestVisible="False">
+                                                <Rectangle.Visibility>
+                                                    <MultiBinding Converter="{StaticResource VerseLocationsToVisibilityConverter}">
+                                                        <Binding ElementName="LinesIC" Path="DataContext.HoveredVerse" />
+                                                        <Binding Path="AssociatedVerse" />
+                                                    </MultiBinding>
+                                                </Rectangle.Visibility>
+                                            </Rectangle>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ScrollViewer>-->
+    </StackPanel>
+</ContentControl>

@@ -8,19 +8,10 @@
     ".NETCoreApp,Version=v5.0": {
       "Baraka.Sandbox/1.0.0": {
         "dependencies": {
-          "Baraka.Utils": "1.0.0",
-          "ManagedBass": "3.1.0"
+          "Baraka.Utils": "1.0.0"
         },
         "runtime": {
           "Baraka.Sandbox.dll": {}
-        }
-      },
-      "ManagedBass/3.1.0": {
-        "runtime": {
-          "lib/netstandard1.4/ManagedBass.dll": {
-            "assemblyVersion": "3.1.0.0",
-            "fileVersion": "3.1.0.0"
-          }
         }
       },
       "Baraka.Utils/1.0.0": {
@@ -35,13 +26,6 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
-    },
-    "ManagedBass/3.1.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-K5Zuo0SGvG1SWG18PCG60mJhZBhDb28Ih3w0qotCClomOdPDTMi7UEafEv+brKopUtMXo8vG+OoGlqMEWJ6i7g==",
-      "path": "managedbass/3.1.0",
-      "hashPath": "managedbass.3.1.0.nupkg.sha512"
     },
     "Baraka.Utils/1.0.0": {
       "type": "project",

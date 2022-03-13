@@ -48,9 +48,55 @@ namespace Baraka.Services.Quran.Mushaf
         }
 
         // `page` starts from 1
-        public static List<MushafGlyphModel[]> RetrievePage(int page)
+        public static IEnumerable<MushafPageLine> RetrievePage(int page)
         {
-            throw new NotImplementedException();
+            if (_glyphInfoDict == null)
+                throw new ArgumentException();
+
+            List<MushafDbEntry> lines;
+            using (IDbConnection cnn = new SQLiteConnection(_dbConnectionString))
+            {
+                string query = $"select page, sura, ayah, text, line from madani_page_text where page={page}";
+                lines = cnn.Query<MushafDbEntry>(query, new DynamicParameters()).ToList();
+            };
+
+            foreach (MushafDbEntry line in lines)
+            {
+                var glyphs = new List<MushafGlyphModel>(); // Glyphs for current line
+                string decodedLine = WebUtility.HtmlDecode(line.text);
+
+                if (line.ayah == 0)
+                {
+                    // These are the sura transition glyphs
+                    // They are meant to be displayed using QCF_BSML.TTF
+
+                    var location = new VerseLocationModel(line.sura, 0);
+                    if (decodedLine.Length == 2) // Sura name
+                    {
+                        foreach (char glyph in decodedLine)
+                        {
+                            glyphs.Add(new MushafGlyphModel(glyph, location, MushafGlyphType.SURA_NAME, page));
+                        }
+                    }
+                    else if (decodedLine.Length == 3 || decodedLine.Length == 4) // Basmala
+                    {
+                        foreach (char glyph in decodedLine)
+                        {
+                            glyphs.Add(new MushafGlyphModel(glyph, location, MushafGlyphType.BASMALA, page));
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (char glyph in decodedLine)
+                    {
+                        glyphs.Add(_glyphInfoDict[(page, glyph)]);
+                    }
+                }
+
+                glyphs.Reverse();
+                yield return new MushafPageLine(glyphs.ToArray());
+            }
         }
 
         // `sura` starts from 1
