@@ -68,6 +68,12 @@ namespace Baraka.ViewModels
                     // 1.2 scale     13.5 font size
                     // x   scale     ?    font size 
                     (DisplayerContext as MushafDisplayerViewModel).FontSize = (DisplayerScale * 13.5) / 1.2;
+
+                    // Our next goal is to convert a scale to a mushaf page width
+                    // We will again achieve this by using the rule of three
+                    // 1.2 scale   250 page width
+                    // x   scale   ?   page width
+                    (DisplayerContext as MushafDisplayerViewModel).PageWidth = (DisplayerScale * 250) / 1.2;
                 }
             });
         }

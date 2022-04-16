@@ -16,15 +16,15 @@
         <converters:VerseLocationsToVisibilityConverter x:Key="VerseLocationsToVisibilityConverter" />
     </ContentControl.Resources>
 
-    <StackPanel>
-        <ScrollViewer>
+    <Grid x:Name="ContainerGrid">
+        <Label x:Name="LoadingLBL" FontSize="34" Visibility="Hidden" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <ScrollViewer x:Name="SV">
             <StackPanel x:Name="LinesSP" Margin="18 0 18 0"
-                        HorizontalAlignment="Center" VerticalAlignment="Center">
-                
-            </StackPanel>
+                        HorizontalAlignment="Center" VerticalAlignment="Center" />
         </ScrollViewer>
-
-        <!--
+    </Grid>
+        
+    <!--
         <ScrollViewer x:Name="SV" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" >
             <ListBox x:Name="LinesIC" ItemsSource="{Binding Lines}"
                             HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -96,5 +96,4 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </ScrollViewer>-->
-    </StackPanel>
 </ContentControl>

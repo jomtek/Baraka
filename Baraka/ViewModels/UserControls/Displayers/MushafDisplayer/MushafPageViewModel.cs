@@ -17,10 +17,8 @@ namespace Baraka.ViewModels.UserControls.Displayers.MushafDisplayer
 {
     public class MushafPageViewModel : NotifiableBase
     {
-        public event Action<List<StackPanel>> DisplayRequested;
-        private MushafPreloadedPageCache _cache;
-
-        public int Page { get; private set; }
+        public event Action<int> DisplayRequested;
+        public event Action<double> PageWidthChanged;
 
         private double _fontSize;
         public double FontSize
@@ -28,6 +26,8 @@ namespace Baraka.ViewModels.UserControls.Displayers.MushafDisplayer
             get { return _fontSize; }
             set { _fontSize = value; OnPropertyChanged(nameof(FontSize)); }
         }
+
+        public int Page { get; private set; }
 
         private VerseLocationModel? _hoveredVerse;
         public VerseLocationModel? HoveredVerse
@@ -38,10 +38,8 @@ namespace Baraka.ViewModels.UserControls.Displayers.MushafDisplayer
 
         public ICommand GlyphHoveredCommand { get; set; }
         public ICommand GlyphUnhoveredCommand { get; set; }
-        public MushafPageViewModel(int page, MushafPreloadedPageCache cache)
+        public MushafPageViewModel(int page)
         {
-            _cache = cache;
-
             SetPage(page);
 
             GlyphHoveredCommand = new RelayCommand((param) =>
@@ -58,14 +56,20 @@ namespace Baraka.ViewModels.UserControls.Displayers.MushafDisplayer
             });
         }
 
+        public void SetPageWidth(double value)
+        {
+            PageWidthChanged?.Invoke(value);
+        }
+
         public void SetPage(int page)
         {
             try
             {
-                DisplayRequested?.Invoke(_cache.GetPage(page).Items);
+                DisplayRequested?.Invoke(page);
                 Page = page;
             } catch (Exception ex)
             {
+                Console.WriteLine();
                 Console.WriteLine();
             }
         }

@@ -25,8 +25,7 @@ namespace Baraka.Views.UserControls.Displayers.MushafDisplayer
     public partial class MushafPageView : ContentControl
     {
         private MushafPageViewModel _vm;
-        private List<StackPanel> _stackPanels;
-        
+
         public MushafPageView()
         {
             InitializeComponent();
@@ -37,19 +36,99 @@ namespace Baraka.Views.UserControls.Displayers.MushafDisplayer
             if (DataContext is MushafPageViewModel vm)
             {
                 _vm = vm;
-                _vm.DisplayRequested += MushafPageView_DisplayRequested;
+                _vm.DisplayRequested += (page) => MushafPageViewModel_DisplayRequested(page);
+                _vm.PageWidthChanged += (width) =>
+                {
+                    ContainerGrid.Width = width;
+                };
             }
         }
 
-        private void MushafPageView_DisplayRequested(List<StackPanel> controls)
+        private int _currentPage;
+        private async void MushafPageViewModel_DisplayRequested(int page, bool fastMode = false)
         {
+            Trace.WriteLine($"page width: {ContainerGrid.ActualWidth}");
             if (_vm == null)
                 throw new ArgumentException();
 
+            // Make sure the pages don't mix each other
+            _currentPage = page;
+
             LinesSP.Children.Clear();
 
-            foreach (var sp in controls)
-                LinesSP.Children.Add(sp);
+            if (!fastMode)
+            {
+                SV.Visibility = Visibility.Collapsed;
+                LoadingLBL.Visibility = Visibility.Visible;
+                LoadingLBL.Content = $"page {page}";
+            }
+
+            await Task.Delay(5); // Invalidate layout
+            var lines = await BuildLines(page);
+            if (!fastMode) await Task.Delay(100); // Invalidate layout
+
+            if (_currentPage == page)
+            {
+                if (!fastMode)
+                {
+                    SV.Visibility = Visibility.Visible;
+                    LoadingLBL.Visibility = Visibility.Hidden;
+                }
+
+                foreach (StackPanel line in lines)
+                    LinesSP.Children.Add(line);
+            }
+        }
+
+        private Task<List<StackPanel>> BuildLines(int page)
+        {
+            var stackpanels = new List<StackPanel>();
+
+            if (page < 0)
+            {
+                Trace.WriteLine("returning empty list");
+                return Task.FromResult(stackpanels);
+            }
+
+            var glyphs = MushafGlyphService.RetrievePage(page).ToList();
+            foreach (var line in glyphs)
+            {
+                var childSP = new StackPanel()
+                {
+                    Orientation = Orientation.Horizontal,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                };
+
+                foreach (var glyph in line.Glyphs)
+                {
+                    var control = new Glyphs()
+                    {
+                        Fill = Brushes.Black,
+                        FontRenderingEmSize = _vm.FontSize,
+                        UnicodeString = glyph.DecodedData.ToString(),
+                    };
+
+                    control.DataContext = _vm;
+                    control.SetBinding(
+                        Glyphs.FontRenderingEmSizeProperty,
+                        new Binding("FontSize")
+                    );
+
+                    if (glyph.Type == MushafGlyphType.BASMALA || glyph.Type == MushafGlyphType.SURA_NAME)
+                        control.FontUri = new Uri(MushafFontService.FindPageFontName(0, true));
+                    else
+                        control.FontUri = new Uri(MushafFontService.FindPageFontName(glyph.Page, true));
+
+                    childSP.Children.Add(control);
+                }
+
+                childSP.Measure(new Size(200, 25));
+                childSP.Arrange(new Rect(new Size(200, 25)));
+
+                stackpanels.Add(childSP);
+            }
+
+            return Task.FromResult(stackpanels);
         }
 
         private void ChildSP_SizeChanged(object sender, SizeChangedEventArgs e)
