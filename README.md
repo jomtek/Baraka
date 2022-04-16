@@ -11,8 +11,12 @@ We are working on a digital and interactive Madani mus'haf, as well as multiple 
 [![Open Source Love](https://badges.frapsoft.com/os/v3/open-source.png?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
 ## What does it look like ?
-
-![Nihil icon](https://i.imgur.com/QF84R4l.png)
+<table border="0">
+ <tr>
+    <td><img src="https://i.imgur.com/QF84R4l.png"></td>
+    <td><img src="https://i.imgur.com/eL57wFe.png"></td>
+ </tr>
+</table>
 
 ## Contribute
 We are actively looking for contributors. We need translators, webmasters, API developers, C# and MVVM WPF developers.<br>
