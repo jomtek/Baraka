@@ -1,8 +1,10 @@
 # Baraka
 <img src="https://i.imgur.com/XXR0l4o.png" alt="Nihil icon" align=right width=200px />
 
-## God decided to take over this project
-The project was permanently suspended because of an internal WPF bug concerning the FontFamily class. More specifically, this class leaks 32 bytes `UnmanagedMemoryStream` objects when it is used from a relative font path. As a result, the RAM keeps growing each time a new mushaf page is displayed, without the garbage collector making its job. A more recent technology needs to be used, and I personally refuse to push Baraka further as its main goal was to display an interactive mushaf.
+## Is this project over ?
+The project was permanently suspended because of an internal WPF bug concerning the FontFamily class. More specifically, this class leaks 32 bytes `UnmanagedMemoryStream` objects when it is used from a relative font path. As a result, the RAM keeps growing each time a new mushaf page is displayed, without the garbage collector making its job. A more recent technology needs to be used, and I personally refuse to push Baraka further as its main goal was to display an interactive mushaf.<br><br>
+However, a workaround might still be available, for whoever wills to spend time on trying to fix the memory leak :
+https://github.com/quicoli/MaterialDesignThemes.CustomResources
 
 ## A beautiful quran app
 Baraka is a free software made for reading or studying the quran. It allows you to stream recitations from more than 25 reciters and read among a hundred quran translations. Fast quran browser included.<br>
